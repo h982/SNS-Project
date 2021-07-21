@@ -34,7 +34,7 @@
           <span class="blue--text">Up</span>
         </h2>
 
-        <form method="POST">
+        <form>
           <!--<v-text-field
             name="member.memberid"
             color="green"
@@ -50,21 +50,19 @@
             name="member.name"
             color="green"
             background-color="transparent"
-            v-model="name"
+            v-model="member.name"
             :error-messages="nameErrors"
             label="이름"
             required
-            @blur="$v.name.$touch()"
           ></v-text-field>
           <v-text-field
             type="email"
             color="green"
             background-color="transparent"
             name="member.email"
-            v-model="email"
+            v-model="member.email"
             :error-messages="emailErrors"
             label="E-mail"
-            @blur="$v.email.$touch()"
           ></v-text-field>
 
           <v-text-field
@@ -101,15 +99,15 @@
           ></v-text-field>
 
           <v-text-field
-            name="member.address_detail"
+            name="member.addressDetail"
             color="green"
             background-color="transparent"
-            v-model="member.address_detail"
+            v-model="member.addressDetail"
             label="상세주소"
           ></v-text-field>
 
           <v-select
-            v-model="member.sex"
+            v-model="sex"
             :items="sexList"
             label="성별"
             item-text="name"
@@ -118,7 +116,7 @@
           ></v-select>
 
           <v-select
-            v-model="member.mbti"
+            v-model="mbti"
             :items="mbtiList"
             label="MBTI"
             item-text="name"
@@ -138,8 +136,13 @@
           ></v-textarea> -->
 
           <v-btn @click="submit" type="submit" color="green" class="white--text"
-            >회원가입</v-btn
-          >
+            >회원가입</v-btn>
+            <b-button
+            type="button"
+            color="green"
+            class="white--text"
+            @click="submit"
+          >SEND MESSAGE</b-button>
           <v-btn @click="clear">clear</v-btn>
         </form>
       </v-flex>
@@ -157,32 +160,6 @@ import {
   minLength,
 } from "vuelidate/lib/validators";
 export default {
-  metaInfo: {
-    title: "Contact",
-    titleTemplate: "%s ← Eldin's Space",
-    meta: [
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-      {
-        name: "description",
-        content:
-          "Eldin Zaimovic's Contact Doboj Bosnia and Herzegovina Freelance Get in Touch ContactMe",
-      },
-      { charset: "utf-8" },
-      { property: "og:title", content: "Eldin' Space" },
-      { property: "og:site_name", content: "Eldin' Space" },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://eldin.space" },
-      {
-        property: "og:image",
-        content: "https://i.imgur.com/Dcz2PGx.jpg",
-      },
-      {
-        property: "og:description",
-        content:
-          "Eldin Zaimovic's Contact Doboj Bosnia and Herzegovina Freelance Get in Touch ContactMe",
-      },
-    ],
-  },
   mixins: [validationMixin],
   validations: {
     name: { required, maxLength: maxLength(20) },
@@ -212,42 +189,53 @@ export default {
         { name: "enfj", value: "enfj" },
         { name: "entj", value: "entj" },
       ],
-      selected: { id: 1, stock_count: 5, quantity: 5, name: "Product 1" },
       name: "",
       email: "",
       body: "",
+      sex: "",
+      mbti: "",
       member: {
         name: "",
         email: "",
         phone: "",
         password: "",
         address: "",
-        address_detail: "",
+        addressDetail: "",
         zonecode: "",
         sex: "",
         point: 0,
         mbti: "",
         createdate: "",
-        authentification: "",
+        authentication: "",
       },
     };
   },
   methods: {
     submit() {
+      this.member.sex = this.sex.value;
+      this.member.mbti = this.mbti.value;
       const instance = createInstance();
       instance
-        .post("/member/signup", JSON.stringify(this.member))
-        .then((response) => {
-          if (response.data.message === "success") {
-            alert("회원가입 완료");
-            this.$router.push("/");
-          } else {
-            alert("회원가입 실패");
-            this.$router.push("/");
+        .post("http://localhost:8080/member/signup", JSON.stringify(this.member))
+        .then(
+          (response) => {
+            if (response.data.message === "success") {
+              alert("회원가입 완료");
+              this.$router.push("/");
+            } else {
+              alert("회원가입 실패");
+            }
           }
-        })
-        .catch();
+        )
+        .catch(() => {
+          alert("에러발생!");
+          this.$router.push("/");
+        });
+      alert("회원가입이 완료되었습니다.");
+      this.$router.push("/");
+
     },
+    
     clear() {
       this.$v.$reset();
       this.member.name = "";
