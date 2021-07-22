@@ -21,6 +21,18 @@ export default new Router({
         import( /* webpackChunkName: "about" */ "./views/Contact.vue")
     },
     {
+      path: "/team",
+      name: "team",
+      component: () =>
+        import( /* webpackChunkName: "about" */ "./views/Team.vue")
+    },
+    {
+      path: "/teamlist",
+      name: "teamlist",
+      component: () =>
+        import( /* webpackChunkName: "about" */ "./views/Teamlist.vue")
+    },
+    {
       path: "/resume",
       name: "resume",
       component: () =>

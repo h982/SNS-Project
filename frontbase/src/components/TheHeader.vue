@@ -32,6 +32,16 @@
             <v-list-tile-title>CONTACT</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
+        <v-list-tile active-class="green--text" to="/team">
+          <v-list-tile-content>
+            <v-list-tile-title>TEAM</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-list-tile active-class="green--text" to="/teamlist">
+          <v-list-tile-content>
+            <v-list-tile-title>TEAMLIST</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
       </v-list>
     </v-navigation-drawer>
     <v-toolbar flat dense color="transparent" scroll-off-screen>
@@ -52,6 +62,8 @@
         <v-btn flat to="/portfolio" active-class="green--text headline">Portfolio</v-btn>
         <v-btn flat to="/blog" active-class="green--text headline">Blog</v-btn>
         <v-btn flat to="/contact" active-class="green--text headline">Contact</v-btn>
+        <v-btn flat to="/team" active-class="green--text headline">Team</v-btn>
+        <v-btn flat to="/teamlist" active-class="green--text headline">Teamlist</v-btn>
         <v-btn @click="changeTheme" depressed small icon>
           <v-icon v-if="goDark==true">fas fa-sun</v-icon>
           <v-icon v-else>fas fa-moon</v-icon>
