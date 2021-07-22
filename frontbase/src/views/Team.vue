@@ -13,8 +13,7 @@
             name="team.name"
             color="green"
             background-color="transparent"
-            v-model="teamname"
-            :error-messages="teamnameErrors"
+            v-model="team.name"
             label="팀이름"
             required
             @blur="$v.teamname.$touch()"
@@ -52,7 +51,6 @@
             color="green"
             background-color="transparent"
             v-model="team.introduction"
-            :error-messages="teamintroductionErrors"
             label="팀소개"
             required
           ></v-text-field>
@@ -72,7 +70,7 @@
             prepend-icon="mdi-camera"
           ></v-file-input>
 
-          <v-btn @click="submit" type="submit" color="green" class="white--text"
+          <v-btn @click="submit" type="button" color="green" class="white--text"
             >생성하기</v-btn
           >
           <v-btn @click="clear">clear</v-btn>
@@ -109,6 +107,7 @@ export default {
       name: "",
       email: "",
       body: "",
+      sport: "",
       team: {
         teamname: "",
         sportId: "",
@@ -124,7 +123,7 @@ export default {
       this.team.sport = this.sport.value;
       const instance = createInstance();
       instance
-        .post("http://localhost:8080/team/", JSON.stringify(this.team))
+        .post("team/", JSON.stringify(this.team))
         .then((response) => {
           if (response.data.message === "success") {
             alert("팀생성완료 완료");
@@ -134,7 +133,12 @@ export default {
             this.$router.push("/");
           }
         })
-        .catch();
+        .catch(() => {
+          alert("에러발생!");
+          this.$router.push("/");
+        });
+      alert("팀생성이 완료되었습니다.");
+      this.$router.push("/");
     },
     clear() {
       this.$v.$reset();
