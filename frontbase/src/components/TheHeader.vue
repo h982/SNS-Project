@@ -44,6 +44,11 @@
             <v-list-tile-title>GROUP</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
+        <v-list-tile active-class="green--text" to="/feed">
+          <v-list-tile-content>
+            <v-list-tile-title>FEED</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
       </v-list>
     </v-navigation-drawer>
     <v-toolbar flat dense color="transparent" scroll-off-screen>
@@ -78,6 +83,7 @@
         <v-btn flat to="/group" active-class="green--text headline"
           >Group</v-btn
         >
+        <v-btn flat to="/feed" active-class="green--text headline">Feed</v-btn>
         <v-btn @click="changeTheme" depressed small icon>
           <v-icon v-if="goDark == true">fas fa-sun</v-icon>
           <v-icon v-else>fas fa-moon</v-icon>

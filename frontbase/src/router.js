@@ -81,7 +81,13 @@ export default new Router({
       path: "/writefeed",
       name: "writefeed",
       component: () =>
-        import(/* webpackChunkName: "about" */ "./views/WriteFeed.vue")
+        import(/* webpackChunkName: "about" */ "./views/Feed/WriteFeed.vue")
+    },
+    {
+      path: "/feed",
+      name: "feed",
+      component: () =>
+        import(/* webpackChunkName: "about" */ "./views/Feed/Feed.vue")
     },
     {
       path: "*",

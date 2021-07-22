@@ -21,12 +21,6 @@
         accept="image/*"
         @change="loadf"
       />
-      <!-- <v-file-input
-        label="File input"
-        v-model="image"
-        accept="image/*"
-        @change="selectFile"
-      ></v-file-input> -->
       <img src="" class="preview" />
     </div>
     <div>
@@ -37,13 +31,14 @@
 </template>
 
 <script>
-// import http from '@/util/http-common';
+import http from "@/util/http-common";
 
 export default {
   data: () => {
     return {
       contents: "",
-      challenges: ["aaaaaa", "bbbbbb", "cccccc"],
+      //challenges: ["aaaaaa", "bbbbbb", "cccccc"],
+      challenges: [],
       challenge: ""
     };
   },
@@ -64,17 +59,17 @@ export default {
       preview.style.width = "60%";
       preview.style.height = "60%";
     }
+  },
+  created() {
+    // http
+    //   .get("challenge/list")
+    //   .then(({ data }) => {
+    //     this.challenges = data;
+    //   })
+    //   .catch(() => {
+    //     alert("챌린지 받아오기 실패");
+    //   });
   }
-  // created() {
-  //   http
-  //     .get("/???/??")
-  //     .then(({ data }) => {
-  //       this.challenges = data;
-  //     })
-  //     .catch(() => {
-  //       alert("챌린지 받아오기 실패");
-  //     });
-  // }
 };
 </script>
 <style scoped>
