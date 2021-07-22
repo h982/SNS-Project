@@ -67,9 +67,8 @@ public class MemberController {
     public ResponseEntity<Map<String, Object>> login(@RequestParam String email, @RequestParam String password) {
     	Map<String, Object> resultMap = new HashMap<>();
     	HttpStatus status = null;
-    	
+        System.out.println("확인");
     	Optional<Member> responseMember = memberservice.getUser(email, password);
-    	
     	if(responseMember.isPresent()) {
     		resultMap.put("message", "success");
         	status = HttpStatus.OK;

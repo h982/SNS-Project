@@ -135,11 +135,12 @@
             @blur="$v.body.$touch()"
           ></v-textarea> -->
 
-          <v-btn @click="submit" type="submit" color="green" class="white--text"
+        
+        </form>
+        <v-btn @click="submit" type="submit" color="green" class="white--text"
             >회원가입</v-btn>
             
           <v-btn @click="clear">clear</v-btn>
-        </form>
       </v-flex>
     </v-layout>
   </v-container>
@@ -210,13 +211,11 @@ export default {
       this.member.sex = this.sex.value;
       this.member.mbti = this.mbti.value;
       const instance = createInstance();
-      instance
-        .post("http://localhost:8080/member/signup", JSON.stringify(this.member))
+      instance.post("/member/signup", JSON.stringify(this.member))
         .then(
           (response) => {
-            alert(response);
             console.log(response);
-            if (response.data === "success") {
+            if (response.data.message === "success") {
               alert("회원가입 완료");
               this.$router.push("/");
             } else {
@@ -228,9 +227,6 @@ export default {
           alert("에러발생!");
           this.$router.push("/");
         });
-      //alert("회원가입이 완료되었습니다.");
-      //this.$router.push("/");
-
     },
     
     clear() {
