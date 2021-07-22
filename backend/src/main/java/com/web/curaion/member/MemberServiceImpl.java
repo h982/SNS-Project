@@ -1,12 +1,9 @@
-package com.web.curation.service;
+package com.web.curaion.member;
 
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.web.curation.dao.user.MemberDao;
-import com.web.curation.model.Member;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -21,6 +18,11 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public Member registMember(Member member) {
 		return memberDao.save(member);
+	}
+
+	@Override
+	public Optional<Member> getUser(String email, String password) {
+		return memberDao.getMemberByEmailAndPassword(email, password);
 	}
 
 }
