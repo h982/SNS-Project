@@ -45,7 +45,7 @@ export default {
       {
         property: "og:description",
         content: "Eldin Zaimovic's Blog"
-      },
+      }
     ]
   },
   data() {

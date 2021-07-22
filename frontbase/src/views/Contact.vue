@@ -30,96 +30,103 @@
 
       <v-flex xs12 sm12 md6 lg6 xl6>
         <h2 class="pb-4 mb-4">
-          <span>Team</span>
-          <span class="green--text">Create</span>
+          <span>Sign</span>
+          <span class="blue--text">Up</span>
         </h2>
 
-        <form>
-          <v-text-field
-            name="team.name"
+        <form method="POST">
+          <!--<v-text-field
+            name="member.memberid"
             color="green"
             background-color="transparent"
-            v-model="team.name"
-            :error-messages="teamnameErrors"
-            label="팀이름"
+            v-model="id"
+            :error-messages="idErrors"
+            label="Id"
             required
-            @blur="$v.teamname.$touch()"
+            @blur="$v.id.$touch()"
+          ></v-text-field>-->
+
+          <v-text-field
+            name="member.name"
+            color="green"
+            background-color="transparent"
+            v-model="name"
+            :error-messages="nameErrors"
+            label="이름"
+            required
+            @blur="$v.name.$touch()"
+          ></v-text-field>
+          <v-text-field
+            type="email"
+            color="green"
+            background-color="transparent"
+            name="member.email"
+            v-model="email"
+            :error-messages="emailErrors"
+            label="E-mail"
+            @blur="$v.email.$touch()"
           ></v-text-field>
 
           <v-text-field
-            name="team.leaderId"
+            name="member.phone"
             color="green"
             background-color="transparent"
-            v-model="team.leaderId"
-            label="리더ID"
-            required
+            v-model="member.phone"
+            label="전화번호"
           ></v-text-field>
 
           <v-text-field
-            name="team.leader"
+            name="member.password"
             color="green"
             background-color="transparent"
-            v-model="team.leader"
-            label="리더이름"
-            required
+            v-model="member.password"
+            label="비밀번호"
+          ></v-text-field>
+
+          <v-text-field
+            name="member.zonecode"
+            color="green"
+            background-color="transparent"
+            v-model="member.zonecode"
+            label="우편번호"
+            @click="showApi"
+          ></v-text-field>
+
+          <v-text-field
+            name="member.address"
+            color="green"
+            background-color="transparent"
+            v-model="member.address"
+            label="주소"
+          ></v-text-field>
+
+          <v-text-field
+            name="member.address_detail"
+            color="green"
+            background-color="transparent"
+            v-model="member.address_detail"
+            label="상세주소"
           ></v-text-field>
 
           <v-select
-            v-model="team.sport"
-            :items="sportList"
-            label="종목"
+            v-model="member.sex"
+            :items="sexList"
+            label="성별"
             item-text="name"
             item-value="value"
             return-object
           ></v-select>
 
-          <v-text-field
-            name="team.introduction"
-            color="green"
-            background-color="transparent"
-            v-model="team.introduction"
-            :error-messages="teamintroductionErrors"
-            label="팀소개"
-            required
-          ></v-text-field>
+          <v-select
+            v-model="member.mbti"
+            :items="mbtiList"
+            label="MBTI"
+            item-text="name"
+            item-value="value"
+            return-object
+          ></v-select>
 
-          <v-text-field
-            name="team.imgPath"
-            color="green"
-            background-color="transparent"
-            v-model="team.imgPath"
-            label="이미지"
-            required
-          ></v-text-field>
-
-          <!-- <v-file-input
-            accept=".img"
-            label="Click here to select a .img file"
-            outlined
-            v-model="chosenFile"
-          ></v-file-input> -->
-
-          <!-- <v-text-field
-            name="teamimg"
-            color="green"
-            background-color="transparent"
-            v-model="team.img_path"
-            label="썸네일"
-            required
-          ></v-text-field> -->
-
-          <!-- <v-text-field
-            type="email"
-            color="green"
-            background-color="transparent"
-            name="email"
-            v-model="email"
-            :error-messages="emailErrors"
-            label="E-mail"
-            required
-            @blur="$v.email.$touch()"
-          ></v-text-field>
-          <v-textarea
+          <!-- <v-textarea
             color="green"
             background-color="transparent"
             :counter="200"
@@ -128,17 +135,10 @@
             label="Textarea"
             name="body"
             @blur="$v.body.$touch()"
-          ></v-textarea>
-          <v-btn
-            @click="submit"
-            type="submit"
-            color="green"
-            class="white--text"
-            :disabled=" (body.length<=20)"
-          >SEND MESSAGE</v-btn>
-          <v-btn @click="clear">clear</v-btn> -->
+          ></v-textarea> -->
+
           <v-btn @click="submit" type="submit" color="green" class="white--text"
-            >생성하기</v-btn
+            >회원가입</v-btn
           >
           <v-btn @click="clear">clear</v-btn>
         </form>
@@ -149,7 +149,7 @@
 
 <script>
 import { validationMixin } from "vuelidate";
-// import { createInstance } from "@/api/index.js";
+import { createInstance } from "@/api/index.js";
 import {
   required,
   maxLength,
@@ -165,7 +165,7 @@ export default {
       {
         name: "description",
         content:
-          "Eldin Zaimovic's Contact Doboj Bosnia and Herzegovina Freelance Get in Touch ContactMe"
+          "Eldin Zaimovic's Contact Doboj Bosnia and Herzegovina Freelance Get in Touch ContactMe",
       },
       { charset: "utf-8" },
       { property: "og:title", content: "Eldin' Space" },
@@ -174,54 +174,75 @@ export default {
       { property: "og:url", content: "https://eldin.space" },
       {
         property: "og:image",
-        content: "https://i.imgur.com/Dcz2PGx.jpg"
+        content: "https://i.imgur.com/Dcz2PGx.jpg",
       },
       {
         property: "og:description",
         content:
-          "Eldin Zaimovic's Contact Doboj Bosnia and Herzegovina Freelance Get in Touch ContactMe"
-      }
-    ]
+          "Eldin Zaimovic's Contact Doboj Bosnia and Herzegovina Freelance Get in Touch ContactMe",
+      },
+    ],
   },
   mixins: [validationMixin],
   validations: {
     name: { required, maxLength: maxLength(20) },
     email: { required, email },
-    body: { required, minLength: minLength(20) }
+    body: { required, minLength: minLength(20) },
   },
   data() {
     return {
-      sportList: [
-        { name: "러닝", value: 0 },
-        { name: "헬스", value: 1 },
-        { name: "수영", value: 2 },
-        { name: "탁구", value: 3 },
+      sexList: [
+        { name: "남자", value: "M" },
+        { name: "여자", value: "W" },
       ],
+      mbtiList: [
+        { name: "istj", value: "istj" },
+        { name: "isfj", value: "isfj" },
+        { name: "infj", value: "infj" },
+        { name: "intj", value: "intj" },
+        { name: "istp", value: "istp" },
+        { name: "isfp", value: "isfp" },
+        { name: "infp", value: "infp" },
+        { name: "intp", value: "intp" },
+        { name: "estp", value: "estp" },
+        { name: "esfp", value: "esfp" },
+        { name: "entp", value: "entp" },
+        { name: "estj", value: "estj" },
+        { name: "esfj", value: "esfj" },
+        { name: "enfj", value: "enfj" },
+        { name: "entj", value: "entj" },
+      ],
+      selected: { id: 1, stock_count: 5, quantity: 5, name: "Product 1" },
       name: "",
       email: "",
       body: "",
-      team: {
-        teamname: "",
-        sportId: "",
-        teamintroduction: "",
-        teamimg: "",
-        leader: "",
-        leaderId: "",
+      member: {
+        name: "",
+        email: "",
+        phone: "",
+        password: "",
+        address: "",
+        address_detail: "",
+        zonecode: "",
+        sex: "",
+        point: 0,
+        mbti: "",
+        createdate: "",
+        authentification: "",
       },
     };
   },
   methods: {
     submit() {
-      this.team.sport = this.sport.value;
       const instance = createInstance();
       instance
-        .post("http://localhost:8080/team/", JSON.stringify(this.team))
+        .post("/member/signup", JSON.stringify(this.member))
         .then((response) => {
           if (response.data.message === "success") {
-            alert("팀생성완료 완료");
+            alert("회원가입 완료");
             this.$router.push("/");
           } else {
-            alert("팀생성 실패");
+            alert("회원가입 실패");
             this.$router.push("/");
           }
         })
@@ -229,26 +250,51 @@ export default {
     },
     clear() {
       this.$v.$reset();
-      this.team.name = "";
-      this.team.introduction = "";
+      this.member.name = "";
+      this.member.email = "";
+    },
+    showApi() {
+      new window.daum.Postcode({
+        oncomplete: (data) => {
+          let fullRoadAddr = data.roadAddress;
+          let extraRoadAddr = "";
+          if (data.bname !== "" && /[동|로|가]$/g.test(data.bname)) {
+            extraRoadAddr += data.bname;
+          }
+          if (data.buildingName !== "" && data.apartment === "Y") {
+            extraRoadAddr +=
+              extraRoadAddr !== ""
+                ? ", " + data.buildingName
+                : data.buildingName;
+          }
+          if (extraRoadAddr !== "") {
+            extraRoadAddr = " (" + extraRoadAddr + ")";
+          }
+          if (fullRoadAddr !== "") {
+            fullRoadAddr += extraRoadAddr;
+          }
+          this.member.zonecode = data.zonecode;
+          this.member.address = fullRoadAddr;
+        },
+      }).open();
     },
   },
   computed: {
-    teamnameErrors() {
+    nameErrors() {
       const errors = [];
       if (!this.$v.name.$dirty) return errors;
       !this.$v.name.maxLength &&
-        errors.push("팀이름은 20글자 이내로 작성해야합니다.");
-      !this.$v.name.required && errors.push("팀이름을 적어주세요.");
+        errors.push("이름은 20글자 이내로 작성하셔야합니다.");
+      !this.$v.name.required && errors.push("이름을 적어주세요.");
       return errors;
     },
-    // emailErrors() {
-    //   const errors = [];
-    //   if (!this.$v.email.$dirty) return errors;
-    //   !this.$v.email.email && errors.push("Must be valid e-mail");
-    //   !this.$v.email.required && errors.push("E-mail is required");
-    //   return errors;
-    // },
+    emailErrors() {
+      const errors = [];
+      if (!this.$v.email.$dirty) return errors;
+      !this.$v.email.email && errors.push("이메일 형식이 맞지 않습니다.");
+      !this.$v.email.required && errors.push("이메일을 적어주세요");
+      return errors;
+    },
     // bodyErrors() {
     //   const errors = [];
     //   if (!this.$v.body.$dirty) return errors;
@@ -256,8 +302,8 @@ export default {
     //     errors.push("Text must be at least 20 characters long");
     //   !this.$v.body.required && errors.push("Text is required");
     //   return errors;
-    // }
-  }
+    // },
+  },
 };
 </script>
 
