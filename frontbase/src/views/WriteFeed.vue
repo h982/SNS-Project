@@ -1,6 +1,18 @@
 <template>
   <div>
     <div>
+      <label for="challenge">챌린지 선택</label>
+      <select id="challenge" v-model="challenge">
+        <option
+          v-for="(challenge, idx) in challenges"
+          :key="idx"
+          :value="challenge"
+        >
+          {{ challenge }}
+        </option>
+      </select>
+    </div>
+    <div>
       사진올리기
       <input
         type="file"
@@ -25,14 +37,24 @@
 </template>
 
 <script>
+// import http from '@/util/http-common';
+
 export default {
+  data: () => {
+    return {
+      contents: "",
+      challenges: ["aaaaaa", "bbbbbb", "cccccc"],
+      challenge: ""
+    };
+  },
   methods: {
     write() {
-      console.log(this.contents);
+      console.log(this.challenge);
+      console.log("content: " + this.contents);
     },
     loadf() {
       // console.log("되는가?");
-      var file = document.getElementById("chooseFile"); //파일 선택 필드 요소 얻기
+      var file = document.getElementById("chooseFile");
 
       let preview = document.querySelector(".preview");
       preview.src = URL.createObjectURL(file.files[0]);
@@ -42,20 +64,22 @@ export default {
       preview.style.width = "60%";
       preview.style.height = "60%";
     }
-    // selectFile(file) {
-    //   console.log("test");
-    //   this.file = file;
-    // }
-  },
-  data: () => {
-    return {
-      contents: ""
-    };
   }
+  // created() {
+  //   http
+  //     .get("/???/??")
+  //     .then(({ data }) => {
+  //       this.challenges = data;
+  //     })
+  //     .catch(() => {
+  //       alert("챌린지 받아오기 실패");
+  //     });
+  // }
 };
 </script>
 <style scoped>
-textarea {
+textarea,
+select {
   border: 1px solid black;
 }
 </style>
