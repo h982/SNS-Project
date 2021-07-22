@@ -137,12 +137,7 @@
 
           <v-btn @click="submit" type="submit" color="green" class="white--text"
             >회원가입</v-btn>
-            <b-button
-            type="button"
-            color="green"
-            class="white--text"
-            @click="submit"
-          >SEND MESSAGE</b-button>
+            
           <v-btn @click="clear">clear</v-btn>
         </form>
       </v-flex>
@@ -219,7 +214,9 @@ export default {
         .post("http://localhost:8080/member/signup", JSON.stringify(this.member))
         .then(
           (response) => {
-            if (response.data.message === "success") {
+            alert(response);
+            console.log(response);
+            if (response.data === "success") {
               alert("회원가입 완료");
               this.$router.push("/");
             } else {
@@ -231,8 +228,8 @@ export default {
           alert("에러발생!");
           this.$router.push("/");
         });
-      alert("회원가입이 완료되었습니다.");
-      this.$router.push("/");
+      //alert("회원가입이 완료되었습니다.");
+      //this.$router.push("/");
 
     },
     
