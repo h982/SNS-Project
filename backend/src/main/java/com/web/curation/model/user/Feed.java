@@ -33,10 +33,10 @@ public class Feed {
 //	@JoinColumn(name = "TEAM_ID")
 //	private int team_id;
 //	
-//	@Id
-//	@ManyToOne
-//	@JoinColumn(name = "MEMBER_ID")
-//	private int member_id;
+	@Id
+	@ManyToOne
+	@JoinColumn(name = "MEMBER_ID")
+	private int memberId;
 //	
 //	@ManyToOne
 //	@JoinColumn(name = "TEAM_CHALLENGE_ID")
@@ -105,31 +105,14 @@ public class Feed {
 		this.filepath = filepath;
 	}
 
+	public int getMemberId() {
+		return memberId;
+	}
+
+	public void setMemberId(int memberId) {
+		this.memberId = memberId;
+	}
 
 
-
-//	public int getTeam_id() {
-//		return team_id;
-//	}
-//
-//	public void setTeam_id(int team_id) {
-//		this.team_id = team_id;
-//	}
-//
-//	public int getMember_id() {
-//		return member_id;
-//	}
-//
-//	public void setMember_id(int member_id) {
-//		this.member_id = member_id;
-//	}
-//
-//	public int getTeam_challenge_id() {
-//		return team_challenge_id;
-//	}
-//
-//	public void setTeam_challenge_id(int team_challenge_id) {
-//		this.team_challenge_id = team_challenge_id;
-//	}
 
 }
