@@ -109,10 +109,10 @@ export default {
       body: "",
       sport: "",
       team: {
-        teamname: "",
+        name: "",
         sportId: "",
-        teamintroduction: "",
-        teamimg: "",
+        introduction: "",
+        imgPath: "",
         leader: "",
         leaderId: "",
       },
