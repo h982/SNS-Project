@@ -17,12 +17,22 @@
       <div>
         내용
       </div>
-      <v-btn>
+      <v-btn @click="mvComment">
         댓글 모두 보기
       </v-btn>
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  methods: {
+    mvComment() {
+      this.$router.push("/comment");
+    }
+  }
+};
+</script>
 
 <style scoped>
 .feed {

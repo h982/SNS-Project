@@ -90,6 +90,12 @@ export default new Router({
         import(/* webpackChunkName: "about" */ "./views/Feed/Feed.vue")
     },
     {
+      path: "/comment",
+      name: "comment",
+      component: () =>
+        import(/* webpackChunkName: "about" */ "./views/Feed/Comment.vue")
+    },
+    {
       path: "*",
       name: "Error",
       component: () =>

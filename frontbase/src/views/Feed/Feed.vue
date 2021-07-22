@@ -1,14 +1,14 @@
 <template>
   <div>
-    <feed-content></feed-content>
+    <feed-item></feed-item>
   </div>
 </template>
 <script>
-import FeedContent from "@/views/Feed/FeedContent.vue";
+import FeedItem from "@/views/Feed/FeedItem.vue";
 
 export default {
   components: {
-    FeedContent
+    FeedItem
   }
 };
 </script>
