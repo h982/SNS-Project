@@ -66,6 +66,12 @@
             required
           ></v-text-field>
 
+          <v-file-input
+            label="File input"
+            filled
+            prepend-icon="mdi-camera"
+          ></v-file-input>
+
           <v-btn @click="submit" type="submit" color="green" class="white--text"
             >생성하기</v-btn
           >
