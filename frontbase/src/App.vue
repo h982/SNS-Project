@@ -21,7 +21,10 @@
 <script>
 import TheHeader from "./components/TheHeader";
 import TheFooter from "./components/TheFooter";
+import Vue from 'vue'
+import Vuex from 'vuex'
 
+Vue.use(Vuex)
 export default {
   name: "App",
   metaInfo: {

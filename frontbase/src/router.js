@@ -16,10 +16,10 @@ export default new Router({
       component: Home
     },
     {
-      path: "/contact",
-      name: "contact",
+      path: "/signup",
+      name: "signup",
       component: () =>
-        import( /* webpackChunkName: "about" */ "./views/Contact.vue")
+        import( /* webpackChunkName: "about" */ "./views/SignUp.vue")
     },
     {
       path: "/resume",

@@ -13,6 +13,7 @@
           ></v-text-field>
 
           <v-text-field
+            :type="'password'"
             name="member.password"
             color="green"
             background-color="transparent"
@@ -20,9 +21,9 @@
             label="비밀번호"
           ></v-text-field>
 
-          <v-btn @click="confirm" type="submit" color="green" class="white--text"
-            >로그인</v-btn>
+          
       </form>
+      <v-btn @click="confirm" type="submit" color="green" class="white--text">로그인</v-btn>
     </v-container> 
   </div>
 </template>
@@ -56,8 +57,8 @@ export default {
   data() {
     return {
       member: {
-        email: null,
-        password: null
+        email: "",
+        password: ""
       },
       isLoginError: false,
       client_id: "916d7a1087ccb6494372f576d3911baf",
@@ -70,13 +71,12 @@ export default {
       console.log(this.member.email);
       console.log(this.member.password);
       login(
-        this.user,
+        this.member,
         (response) => {
           if (response.data.message === "success") {
             let token = response.data["access-token"];
             this.$store.commit("setIsLogined", true);
             localStorage.setItem("access-token", token);
-
             this.$store.dispatch("GET_MEMBER_INFO", token);
             this.$router.push("/");
           } else {
