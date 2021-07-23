@@ -4,6 +4,7 @@ import App from './App.vue'
 import router from './router'
 import StoryblokVue from 'storyblok-vue'
 import VueAnalytics from 'vue-analytics'
+import store from './store';
 
 //fort-awesome
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -14,11 +15,13 @@ library.add(faUserSecret)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
+
 Vue.config.productionTip = false
 const isProd = process.env.NODE_ENV === "production"
 
 new Vue({
   router,
+  store,
   render: h => h(App)
 }).$mount('#app')
 

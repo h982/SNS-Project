@@ -27,11 +27,16 @@
             <v-list-tile-title>BLOG</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile active-class="green--text" to="/contact">
+        <v-list-tile active-class="green--text" to="/signup">
           <v-list-tile-content>
-            <v-list-tile-title>CONTACT</v-list-tile-title>
+            <v-list-tile-title>SignUp</v-list-tile-title>
+          </v-list-tile-content>
+          <v-list-tile active-class="green--text" to="/login">
+          <v-list-tile-content>
+            <v-list-tile-title>Login</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
+
         <v-list-tile active-class="green--text" to="/team">
           <v-list-tile-content>
             <v-list-tile-title>TEAM</v-list-tile-title>
@@ -55,15 +60,27 @@
         <v-icon v-if="goDark==true">fas fa-sun</v-icon>
         <v-icon v-else>fas fa-moon</v-icon>
       </v-btn>
-      <v-toolbar-items class="hidden-sm-and-down">
+
+      <v-toolbar-items class="hidden-sm-and-down" v-if="memberInfo === null">
+        <v-btn flat to="/" active-class="green--text headline">Home</v-btn>
+        <v-btn flat to="/signup" active-class="green--text headline">SignUp</v-btn>
+        <v-btn flat to="/login" active-class="green--text headline">Login</v-btn>
+        <v-btn @click="changeTheme" depressed small icon>
+          <v-icon v-if="goDark==true">fas fa-sun</v-icon>
+          <v-icon v-else>fas fa-moon</v-icon>
+        </v-btn>
+      </v-toolbar-items>
+
+      <v-toolbar-items class="hidden-sm-and-down" v-else>
         <v-btn flat to="/" active-class="green--text headline">Home</v-btn>
         <v-btn flat to="/resume" active-class="green--text headline">Resume</v-btn>
         <v-btn flat to="/services" active-class="green--text headline">Services</v-btn>
         <v-btn flat to="/portfolio" active-class="green--text headline">Portfolio</v-btn>
         <v-btn flat to="/blog" active-class="green--text headline">Blog</v-btn>
-        <v-btn flat to="/contact" active-class="green--text headline">Contact</v-btn>
         <v-btn flat to="/team" active-class="green--text headline">Team</v-btn>
         <v-btn flat to="/teamlist" active-class="green--text headline">Teamlist</v-btn>
+        <v-btn flat to="/" active-class="" @click.prevent="onClickLogout">Logout</v-btn>
+
         <v-btn @click="changeTheme" depressed small icon>
           <v-icon v-if="goDark==true">fas fa-sun</v-icon>
           <v-icon v-else>fas fa-moon</v-icon>
@@ -74,6 +91,8 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   props: {
     goDark: {
@@ -85,10 +104,25 @@ export default {
       drawer: null
     };
   },
+  computed: {
+    ...mapState(["memberInfo", "isLogin"])
+  },
   methods: {
     changeTheme() {
       this.$emit("changeTheme", this.goDark);
-    }
+    },
+    onClickLogout() {
+      alert("로그아웃 하시겠습니까?");
+      this.$store
+        .dispatch("LOGOUT")
+        .then(() => {
+          if (this.$route.path !== "/") this.$router.replace("/");
+          
+        })
+        .catch(() => {
+          console.log("로그아웃 에러입니다.");
+        });
+    },
   }
 };
 </script>

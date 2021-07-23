@@ -14,6 +14,7 @@
     "@fortawesome/vue-fontawesome": "^2.0.2",
     "axios": "^0.21.1",
     "core-js": "^2.6.9",
+    "jwt-decode": "^3.1.2",
     "marked": "^0.7.0",
     "storyblok-js-client": "^1.0.32",
     "storyblok-vue": "^1.0.5",
@@ -26,6 +27,7 @@
     "vue-typer": "^1.2.0",
     "vuelidate": "^0.7.4",
     "vuetify": "^1.5.18",
+    "vuex": "^3.6.2",
     "vuetify-image-input": "^19.2.2"
   },
   "devDependencies": {

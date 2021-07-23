@@ -2,6 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
 import Meta from 'vue-meta'
+import Login from "@/views/user/Login.vue";
 
 Vue.use(Router);
 Vue.use(Meta)
@@ -15,10 +16,10 @@ export default new Router({
       component: Home
     },
     {
-      path: "/contact",
-      name: "contact",
+      path: "/signup",
+      name: "signup",
       component: () =>
-        import( /* webpackChunkName: "about" */ "./views/Contact.vue")
+        import( /* webpackChunkName: "about" */ "./views/SignUp.vue")
     },
     {
       path: "/team",
@@ -85,6 +86,11 @@ export default new Router({
       name: "Error",
       component: () =>
         import( /* webpackChunkName: "about" */ "./views/Error.vue")
-    }
+    },
+    {
+      path: "/login",
+      name: "login",
+      component: Login
+    },
   ]
 });
