@@ -11,6 +11,12 @@
   </div>
 </template>
 
+<script>
+export default {
+  props: ["comment"],
+  methods: {}
+};
+</script>
 <style scoped>
 .comment {
   display: flex;
