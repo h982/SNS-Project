@@ -3,7 +3,9 @@
     <!-- 피드 상단 -->
     <div class="feed_t">
       <div>작성자</div>
+      <!-- <div>{{feed.writer}}</div> -->
       <div>일시</div>
+      <!-- <div>{{feed.write_date}}</div> -->
     </div>
     <!-- 피드 중단 -->
     <div class="feed_m">
@@ -17,6 +19,7 @@
       <div>
         내용
       </div>
+      <!-- <div>{{feed.contents}}</div> -->
       <v-btn @click="mvComment">
         댓글 모두 보기
       </v-btn>
@@ -26,6 +29,7 @@
 
 <script>
 export default {
+  props: ["feed"],
   methods: {
     mvComment() {
       this.$router.push("/comment");
