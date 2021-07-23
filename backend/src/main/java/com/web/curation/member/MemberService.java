@@ -9,4 +9,6 @@ public interface MemberService {
 	Optional<Member> getUser(String email);
 	Optional<Member> getUser(String email, String password);
 	void certifyMemberByEmail(String email);
+	Member getUser(String email, String password);
+	Optional<Member> getMemberByEmail(String email);
 }

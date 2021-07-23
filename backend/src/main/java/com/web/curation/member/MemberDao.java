@@ -2,6 +2,7 @@ package com.web.curation.member;
 
 import java.util.Optional;
 
+import com.web.curation.member.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -19,4 +20,5 @@ public interface MemberDao extends JpaRepository<Member, String> {
     @Transactional
     int updateAuthentication(@Param("email") String email);
 
+	public Member getMemberByEmailAndPassword(String email, String password);
 }
