@@ -46,6 +46,21 @@ export default {
     write() {
       console.log(this.challenge);
       console.log("content: " + this.contents);
+      // http
+      // .post('', {
+      //   challenge: this.challengel,
+      //   content: this.content,
+      // })
+      // .then(({data})=> {
+      //   let msg = "피드 등록에 문제가 생겼습니다";
+      //   if(data === 'SUCCESS'){
+      //     msg = "피드 등록이 완료되었습니다."
+      //   }
+      //   alert(msg);
+      // })
+      // .catch(()=> {
+      //   alert("글 작성시 에러가 발생했습니다.");
+      // })
     },
     loadf() {
       // console.log("되는가?");
