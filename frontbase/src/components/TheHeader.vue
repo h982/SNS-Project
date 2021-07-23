@@ -28,15 +28,15 @@
           </v-list-tile-content>
         </v-list-tile>
         <v-list-tile active-class="green--text" to="/signup">
-          <v-list-tile-content>
-            <v-list-tile-title>SignUp</v-list-tile-title>
-          </v-list-tile-content>
-          <v-list-tile active-class="green--text" to="/login">
-          <v-list-tile-content>
-            <v-list-tile-title>Login</v-list-tile-title>
-          </v-list-tile-content>
+            <v-list-tile-content>
+              <v-list-tile-title>SignUp</v-list-tile-title>
+            </v-list-tile-content>
+            <v-list-tile active-class="green--text" to="/login">
+            <v-list-tile-content>
+              <v-list-tile-title>Login</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
         </v-list-tile>
-
         <v-list-tile active-class="green--text" to="/team">
           <v-list-tile-content>
             <v-list-tile-title>TEAM</v-list-tile-title>
