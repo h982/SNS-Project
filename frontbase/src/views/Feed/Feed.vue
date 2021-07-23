@@ -1,6 +1,8 @@
 <template>
   <div>
     <feed-item></feed-item>
+    <feed-item></feed-item>
+    <feed-item></feed-item>
     <!-- <feed-item v-for="(feed, idx) in feeds" :key="idx" :feed="feed" /> -->
   </div>
 </template>

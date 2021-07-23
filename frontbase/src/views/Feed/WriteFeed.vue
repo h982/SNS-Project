@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="wrap">
     <div>
       <label for="challenge">챌린지 선택</label>
       <select id="challenge" v-model="challenge">
@@ -88,6 +88,16 @@ export default {
 };
 </script>
 <style scoped>
+.wrap {
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1em;
+}
+.wrap > div {
+  margin: 1em 0;
+}
 textarea,
 select {
   border: 1px solid black;

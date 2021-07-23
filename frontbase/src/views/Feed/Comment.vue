@@ -1,8 +1,10 @@
 <template>
-  <div>
+  <div class="wrap">
     <h3>댓글창</h3>
-    <div class="wrap">
+    <div class="comments">
       <!-- <comment-item v-for="(comment, idx) in comments" :key="idx" :comment="comment"> -->
+      <comment-item></comment-item>
+      <comment-item></comment-item>
       <comment-item></comment-item>
     </div>
     <div class="writeC">
@@ -65,9 +67,11 @@ export default {
 h3 {
   text-align: center;
 }
-.wrap {
-  width: 80%;
+.comments {
+  width: 70%;
   margin: 0 auto;
+  background: lavender;
+  padding: 15px;
 }
 .writeC {
   width: 80%;

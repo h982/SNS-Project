@@ -41,8 +41,9 @@ export default {
 <style scoped>
 .feed {
   border: 1px solid black;
-  width: 70%;
-  margin: 0 auto;
+  max-width: 280px;
+  min-width: 280px;
+  margin: 2em auto;
 }
 .feed_t {
   display: flex;
@@ -51,7 +52,7 @@ export default {
 .feed_m {
   width: 100%;
   background: lavender;
-  height: 35vh;
+  height: 350px;
 }
 .feed_b div:first-child {
   display: flex;

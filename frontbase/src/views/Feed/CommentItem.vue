@@ -6,7 +6,7 @@
         <div>멤버이름</div>
         <div>댓글내용</div>
       </div>
-      <v-btn>답글달기</v-btn>
+      <button>답글달기</button>
     </div>
   </div>
 </template>
@@ -20,17 +20,26 @@ export default {
 <style scoped>
 .comment {
   display: flex;
-  border: 1px solid black;
-  padding: 1em;
+  width: 90%;
+  min-width: 300px;
+  max-width: 580px;
+  margin: 0 auto;
+  background: #ffffff;
+  padding: 0.5em 1em;
 }
 .profile {
   border: 1px solid black;
   border-radius: 50%;
-  width: 5.5em;
-  height: auto;
+  width: 2.5em;
+  height: 2.5em;
   margin-right: 1em;
 }
 .content {
   width: 100%;
+}
+button {
+  margin: 0.5em;
+  padding: 0.2em;
+  border: 1px solid black;
 }
 </style>
