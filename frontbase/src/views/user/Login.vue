@@ -77,6 +77,7 @@ export default {
             let token = response.data["access-token"];
             this.$store.commit("setIsLogined", true);
             localStorage.setItem("access-token", token);
+            console.log(token);
             this.$store.dispatch("GET_MEMBER_INFO", token);
             this.$router.push("/");
           } else {
@@ -92,7 +93,7 @@ export default {
     },
     onSuccess(){
       console.log("success");
-      this.$store.commit("setUserInfo", true);
+      this.$store.commit("setMemberInfo", true);
       this.$router.push("/");
     },
     onFailure(){
@@ -105,7 +106,7 @@ export default {
     kakaoLoginLink() {
       
     },
-    ...mapState(["userInfo","isLogin"]),
+    ...mapState(["memberInfo","isLogin"]),
   },
 
 
