@@ -1,4 +1,4 @@
-package com.web.curaion.member;
+package com.web.curation.member;
 
 import java.util.HashMap;
 import java.util.Map;

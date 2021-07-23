@@ -1,4 +1,4 @@
-package com.web.curaion.member;
+package com.web.curation.member;
 
 import java.util.Optional;
 
@@ -19,10 +19,20 @@ public class MemberServiceImpl implements MemberService {
 	public Member registMember(Member member) {
 		return memberDao.save(member);
 	}
+	
+	@Override
+	public Optional<Member> getUser(String email) {
+		return memberDao.getMemberByEmail(email);
+	}
 
 	@Override
 	public Optional<Member> getUser(String email, String password) {
 		return memberDao.getMemberByEmailAndPassword(email, password);
+	}
+
+	@Override
+	public void certifyMemberByEmail(String email) {
+		memberDao.updateAuthentication(email);
 	}
 
 }

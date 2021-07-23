@@ -1,4 +1,4 @@
-package com.web.curaion.member;
+package com.web.curation.member;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
