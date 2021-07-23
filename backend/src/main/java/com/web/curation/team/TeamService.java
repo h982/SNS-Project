@@ -20,6 +20,7 @@ public class TeamService {
     }
 
     public TeamDto registerTeam(TeamDto teamDto){
+        teamDto.setMemberCount(1);
         return teamDao.save(teamDto);
     }
 
