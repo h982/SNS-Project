@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.web.curation.model.Member;
 import com.web.curation.sport.SportDto;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -13,6 +15,7 @@ import java.time.LocalDateTime;
 @Table(name = "Team")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@DynamicInsert
 @Builder(builderMethodName = "TeamDtoBuilder")
 public class TeamDto {
 
@@ -27,22 +30,25 @@ public class TeamDto {
     private String leader;
 
     @Column(name = "member_count")
+    @ColumnDefault("1")
+    @JsonIgnore
     private int memberCount;
 
     @Column(name = "img_path")
     private String imgPath;
 
     @JsonIgnore
+    @Column(columnDefinition="DATETIME default CURRENT_TIMESTAMP")
     private LocalDateTime createDate;
 
     //참조키
-    @OneToOne(targetEntity = Member.class)
+    @OneToOne
     @JoinColumn(name = "member_id")
-    private long leaderId;
+    private Member member;
 
-    @OneToOne(targetEntity = SportDto.class)
+    @OneToOne
     @JoinColumn(name = "sport_id")
-    private long sportId;
+    private SportDto sportDto;
 
     public static TeamDtoBuilder builder(TeamDto teamDto){
         return TeamDtoBuilder()
@@ -50,8 +56,8 @@ public class TeamDto {
                 .introduction(teamDto.getIntroduction())
                 .leader(teamDto.getLeader())
                 .imgPath(teamDto.getImgPath())
-                .leaderId(teamDto.getLeaderId())
-                .sportId(teamDto.getSportId());
+                .member(teamDto.getMember())
+                .sportDto(teamDto.getSportDto());
     }
 
 
