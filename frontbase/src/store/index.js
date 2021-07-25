@@ -3,18 +3,25 @@ import Vuex from "vuex";
 // import router from "../router";
 import jwt_decode from "jwt-decode";
 import { findById } from "@/api/user.js";
+import { createInstance } from "../api/teamindex";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
         isLogin: false, // 로그인 여부
-        memberInfo: null
+        memberInfo: null,
+        teamLists: [], // 팀정보
+    },
+    getters: {
+        teamLists(state) {
+            return state.teamLists;
+        },
     },
     mutations: {
-        setIsLogined(state, isLogin) {
-            state.isLogin = isLogin;
-        },
+    setIsLogined(state, isLogin) {
+        state.isLogin = isLogin;
+    },
     setMemberInfo(state, memberInfo) {
         state.isLogin = true;
         state.memberInfo = memberInfo;
@@ -22,6 +29,9 @@ export default new Vuex.Store({
     logout(state) {
         state.isLogin = false;
         state.memberInfo = null;
+    },
+    setTeamLists(state, payload) {
+        state.teamLists = payload;
     }
 },
     actions: {
@@ -47,6 +57,17 @@ export default new Vuex.Store({
     LOGOUT({ commit }) {
         commit("logout");
         localStorage.removeItem("access-token");
-        }
-    }
+        },
+    getTeamLists({ commit }) {
+        const instance = createInstance();
+        instance
+        .get("/team")
+        .then((response) => {
+            commit("setTeamLists", response.data.object);
+        })
+        .catch(() => {
+            console.log("에러");
+        });
+        },
+    },
 });

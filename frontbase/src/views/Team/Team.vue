@@ -19,6 +19,12 @@
             @blur="$v.teamname.$touch()"
           ></v-text-field>
 
+          <v-row>
+            <v-btn @click="duplicateName" type="button" color="blue" class="white--text duplicate">
+              중복검사
+            </v-btn>
+          </v-row>
+
           <v-text-field
             name="team.leaderId"
             color="green"
@@ -70,10 +76,12 @@
             prepend-icon="mdi-camera"
           ></v-file-input>
 
-          <v-btn @click="submit" type="button" color="green" class="white--text"
-            >생성하기</v-btn
-          >
-          <v-btn @click="clear">clear</v-btn>
+          <div class="buttons">
+            <v-btn @click="submit" type="button" color="green" class="white--text"
+              >생성하기</v-btn
+            >
+            <v-btn @click="clear">clear</v-btn>
+          </div>
         </form>
       </v-flex>
     </v-layout>
@@ -115,6 +123,12 @@ export default {
         imgPath: "",
         leader: "",
         leaderId: "",
+        member: {
+          memberId: Number(),
+        },
+        sportDto: {
+          sportId: Number(),
+        }
       },
     };
   },
@@ -127,23 +141,31 @@ export default {
         .then((response) => {
           if (response.data.message === "success") {
             alert("팀생성완료 완료");
-            this.$router.push("/");
+            this.$router.push("/"); // 생성성공했으면 자기 그룹영역(그룹피드/게시판/채팅/챌린지)으로 이동 => router children 설정 필요
           } else {
             alert("팀생성 실패");
-            this.$router.push("/");
           }
         })
         .catch(() => {
           alert("에러발생!");
-          this.$router.push("/");
         });
-      alert("팀생성이 완료되었습니다.");
-      this.$router.push("/");
     },
     clear() {
       this.$v.$reset();
       this.team.name = "";
       this.team.introduction = "";
+    },
+    duplicateName(){
+      const instance = createInstance();
+      instance
+        .get("/team"+this.team.name+"exist")
+        .then(({ data }) => {
+          if (data) {
+            alert("이미 사용된 팀명입니다!")
+          } else {
+            alert("사용가능한 팀명입니다!")
+          }
+        });
     },
   },
   computed: {
@@ -174,5 +196,13 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+.duplicate {
+  position: relative;
+  margin-left: 85%;
+}
+.buttons {
+  position: relative;
+  margin-left: 33%;
+}
 </style>
