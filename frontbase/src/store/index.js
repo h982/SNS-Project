@@ -11,7 +11,8 @@ export default new Vuex.Store({
     state: {
         isLogin: false, // 로그인 여부
         memberInfo: null,
-        teamLists: [], // 팀정보
+        teamLists: [], // 팀 정보
+        groupInfo: [], // 각 그룹 정보
     },
     getters: {
         teamLists(state) {
@@ -30,8 +31,8 @@ export default new Vuex.Store({
         state.isLogin = false;
         state.memberInfo = null;
     },
-    setTeamLists(state, payload) {
-        state.teamLists = payload;
+    setTeamLists(state, teamLists) {
+        state.teamLists = teamLists;
     }
 },
     actions: {
@@ -63,6 +64,7 @@ export default new Vuex.Store({
         instance
         .get("/team")
         .then((response) => {
+            console.log(response.data.object);
             commit("setTeamLists", response.data.object);
         })
         .catch(() => {

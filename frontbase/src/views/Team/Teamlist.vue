@@ -1,11 +1,8 @@
 <template>
   <v-container grid-list-xl>
-
     <v-layout >
       <v-bottom-navigation
         class="mx-auto"
-        v-model="value"
-        :background-color="color"
         shift
         x-large
       >
@@ -29,19 +26,17 @@
 
     <v-layout row justify-center align-center wrap class="mt-4 pt-2">
       <v-flex
-      v-for="(teamList, idx) in teamLists"
+      v-for="(teamList, idx) in this.teamLists"
       :key="idx"
       xs12 sm6 md4 lg3 xl3
       >
           <v-card
-            v-if="select.length === 0 || teamList.sport === 'selected'"
-            :to="'/portfolio/'+(portfolio.title).toLowerCase()"
+            v-if="teamList.sportDto.sportId === selected || selected === 4"
             hover
             flat
-            color="transparent"
             height="230"
           >
-            <v-img :src="이미지경로" aspect-ratio="2.75" height="130" contain></v-img>
+            <v-img :src="thumbnail1" aspect-ratio="2.75" height="130" contain></v-img>
             <v-card-title primary-title class="justify-center">
               <v-flex text-xs-center subheading font-weight-bold>{{teamList.name}}</v-flex>
             </v-card-title> 
@@ -67,10 +62,12 @@
 
 <script>
 import { mapGetters } from "vuex";
+import thumbnail1 from "@/assets/images/thumbnail.jpg";
+
 
 export default {
   components: {
-
+  
   },
   computed: {
     ...mapGetters(["teamLists"]),
@@ -80,7 +77,8 @@ export default {
   },
   data() {
     return {
-      selected: "",
+      selected: 4,
+      thumbnail1: thumbnail1,
     };
   },
   methods: {
@@ -89,16 +87,16 @@ export default {
       this.$router.push("/team");
     },
     running() {
-      this.selected = "running";
+      this.selected = 0;
     },
     helth() {
-      this.selected = "helth";
+      this.selected = 1;
     },
     swimming() {
-      this.selected = "swimming";
+      this.selected = 2;
     },
     tableTennis() {
-      this.selected = "tableTennis";
+      this.selected = 3;
     },
   },
 };

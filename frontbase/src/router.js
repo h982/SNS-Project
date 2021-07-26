@@ -25,13 +25,19 @@ export default new Router({
       path: "/team",
       name: "team",
       component: () =>
-        import( /* webpackChunkName: "about" */ "./views/Team/Team.vue")
+      import( /* webpackChunkName: "about" */ "./views/Team/Team.vue")
     },
     {
       path: "/teamlist",
       name: "teamlist",
       component: () =>
-        import( /* webpackChunkName: "about" */ "./views/Team/Teamlist.vue")
+      import( /* webpackChunkName: "about" */ "./views/Team/Teamlist.vue")
+    },
+    {
+      path: "/groupmain",
+      name: "groupmain",
+      component: () =>
+        import( /* webpackChunkName: "about" */ "./views/Group/GroupMain.vue")
     },
     {
       path: "/resume",
@@ -86,11 +92,11 @@ export default new Router({
       name: "Error",
       component: () =>
         import( /* webpackChunkName: "about" */ "./views/Error.vue")
-    },
-    {
-      path: "/login",
-      name: "login",
-      component: Login
-    },
-  ]
+      },
+      {
+        path: "/login",
+        name: "login",
+        component: Login
+      },
+    ]
 });

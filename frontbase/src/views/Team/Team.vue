@@ -134,14 +134,16 @@ export default {
   },
   methods: {
     submit() {
-      this.team.sport = this.sport.value;
+      this.team.sportDto.sportId = 1;
+      this.team.member.memberId = 1;
+      console.log(this.team)
       const instance = createInstance();
       instance
         .post("team/", JSON.stringify(this.team))
         .then((response) => {
-          if (response.data.message === "success") {
+          if (response.data.data === "success") {
             alert("팀생성완료 완료");
-            this.$router.push("/"); // 생성성공했으면 자기 그룹영역(그룹피드/게시판/채팅/챌린지)으로 이동 => router children 설정 필요
+            this.$router.push("/teamlist"); // 생성성공했으면 자기 그룹영역(그룹피드/게시판/채팅/챌린지)으로 이동 => router children 설정 필요
           } else {
             alert("팀생성 실패");
           }
