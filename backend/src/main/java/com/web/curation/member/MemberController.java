@@ -5,19 +5,19 @@ import java.util.Map;
 import java.util.Optional;
 
 import javax.persistence.EntityManager;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import com.web.curation.member.JwtServiceImpl;
+import com.web.curation.member.Member;
+import com.web.curation.member.MemberService;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 
 import com.web.curation.model.BasicResponse;
@@ -34,7 +34,10 @@ import static java.time.LocalDateTime.now;
 public class MemberController {
     @Autowired
     MemberService memberservice;
-    
+
+    @Autowired
+    private JwtServiceImpl jwtService;
+
     EntityManager em;
 
     @PostMapping("/signup")
@@ -47,6 +50,7 @@ public class MemberController {
         HttpStatus status = HttpStatus.ACCEPTED;
 
         member.setCreateDate(now());
+        member.setAuthentication("1");
         if (!responseMember.isPresent()) {
             memberservice.registMember(member);
             resultMap.put("message", "success");
@@ -59,26 +63,58 @@ public class MemberController {
         System.out.println(resultMap.get("message"));
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
-    
+
+    @ApiOperation(value = "로그인", notes = "Access-token과 로그인 결과 메세지를 반환한다.", response = Map.class)
     @PostMapping("/login")
-    @ApiOperation(value = "로그인")
-    @ApiResponses(value = {@ApiResponse(code = 201, message = "회원을 반환", response = Member.class),
-    						@ApiResponse(code = 404, message = "해당 회원을 찾지 못함")})
-    public ResponseEntity<Map<String, Object>> login(@RequestParam String email, @RequestParam String password) {
-    	Map<String, Object> resultMap = new HashMap<>();
-    	HttpStatus status = null;
-        System.out.println("확인");
-    	Optional<Member> responseMember = memberservice.getUser(email, password);
-    	if(responseMember.isPresent()) {
-    		resultMap.put("message", "success");
-        	status = HttpStatus.OK;
-        	
-        	resultMap.put("member", responseMember);
-    	}
-    	else {
-    		resultMap.put("message", "해당 회원이 존재하지 않습니다.");
-        	status = HttpStatus.NOT_FOUND;
-    	}
-    	return new ResponseEntity<Map<String, Object>>(resultMap, status);
+    public ResponseEntity<Map<String, Object>> login(
+            @RequestBody @ApiParam(value = "로그인 시 필요한 회원정보(아이디, 비밀번호).", required = true) Member member) {
+        Map<String, Object> resultMap = new HashMap<>();
+        HttpStatus status = null;
+        System.out.println("로그인진입");
+        try {
+            Member loginUser = memberservice.getUser(member.getEmail(),member.getPassword());
+            System.out.println(loginUser);
+            if (loginUser != null) {
+                System.out.println(loginUser.getEmail());
+                System.out.println(loginUser.getPassword());
+                String token = jwtService.create("memberEmail", loginUser.getEmail(), "access-token");// key, data, subject
+                resultMap.put("access-token", token);
+                resultMap.put("message", "success");
+                status = HttpStatus.ACCEPTED;
+            } else {
+                resultMap.put("message", "fail");
+                status = HttpStatus.ACCEPTED;
+            }
+        } catch (Exception e) {
+            resultMap.put("message", e.getMessage());
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return new ResponseEntity<Map<String, Object>>(resultMap, status);
+    }
+
+    @ApiOperation(value = "회원인증", notes = "회원 정보를 담은 Token을 반환한다.", response = Map.class)
+    @GetMapping("/info/{memberEmail}")
+    public ResponseEntity<Map<String, Object>> getInfo(
+            @PathVariable("memberEmail") @ApiParam(value = "인증할 회원의 아이디.", required = true) String memberEmail,
+            HttpServletRequest request) {
+        System.out.println("회원인증");
+        Map<String, Object> resultMap = new HashMap<>();
+        HttpStatus status = HttpStatus.ACCEPTED;
+        if (jwtService.isUsable(request.getHeader("access-token"))) {
+            try {
+                Optional<Member> member = memberservice.getMemberByEmail(memberEmail);
+                System.out.println(member);
+                resultMap.put("memberInfo", member);
+                resultMap.put("message", "success");
+                status = HttpStatus.ACCEPTED;
+            } catch (Exception e) {
+                resultMap.put("message", e.getMessage());
+                status = HttpStatus.INTERNAL_SERVER_ERROR;
+            }
+        } else {
+            resultMap.put("message", "fail");
+            status = HttpStatus.ACCEPTED;
+        }
+        return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
 }

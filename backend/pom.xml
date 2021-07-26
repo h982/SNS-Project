@@ -62,6 +62,12 @@
 			</exclusions>
 		</dependency>
 
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+			<version>0.9.1</version>
+		</dependency>
+
 		<!-- 디비 셋팅 주석 -->
 		<dependency>
             <groupId>org.springframework.boot</groupId>

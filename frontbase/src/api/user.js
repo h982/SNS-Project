@@ -35,12 +35,12 @@ function join(member, success, fail) {
 }
 
 
-async function findById(userid, success, fail) {
+async function findById(memberEmail, success, fail) {
   instance.defaults.headers["access-token"] = window.localStorage.getItem(
     "access-token"
   );
   await instance
-    .get(`/user/info/${userid}`)
+    .get(`/member/info/${memberEmail}`)
     .then(success)
     .catch(fail);
 }

@@ -9,30 +9,30 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
         isLogin: false, // 로그인 여부
-        userInfo: null
+        memberInfo: null
     },
     mutations: {
         setIsLogined(state, isLogin) {
             state.isLogin = isLogin;
         },
-    setUserInfo(state, userInfo) {
+    setMemberInfo(state, memberInfo) {
         state.isLogin = true;
-        state.userInfo = userInfo;
+        state.memberInfo = memberInfo;
     },
     logout(state) {
         state.isLogin = false;
-        state.userInfo = null;
+        state.memberInfo = null;
     }
 },
     actions: {
     async GET_MEMBER_INFO({ commit }, token) {
         let decode = jwt_decode(token);
-
+            console.log(decode);
         await findById(
-        decode.userid,
+        decode.memberEmail,
         (response) => {
             if (response.data.message === "success") {
-            commit("setUserInfo", response.data.userInfo);
+            commit("setMemberInfo", response.data.memberInfo);
             // router.push("/");
             // router.go(router.currentRoute);
             } else {
@@ -47,7 +47,6 @@ export default new Vuex.Store({
     LOGOUT({ commit }) {
         commit("logout");
         localStorage.removeItem("access-token");
-      // axios.defaults.headers.common["auth-token"] = undefined;
         }
     }
 });
