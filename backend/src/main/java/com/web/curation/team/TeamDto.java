@@ -1,7 +1,7 @@
 package com.web.curation.team;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.web.curation.model.Member;
+import com.web.curation.member.Member;
 import com.web.curation.sport.SportDto;
 import lombok.*;
 
