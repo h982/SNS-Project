@@ -1,6 +1,6 @@
 <template>
   <div class="wrap">
-    <div>
+    <div class="challenge_wrap">
       <label for="challenge">챌린지 선택</label>
       <select id="challenge" v-model="challenge">
         <option
@@ -12,8 +12,10 @@
         </option>
       </select>
     </div>
-    <div>
-      사진올리기
+    <div class="img_wrap">
+      <label for="chooseFile" class="fileBtn">
+        사진올리기
+      </label>
       <input
         type="file"
         id="chooseFile"
@@ -73,6 +75,7 @@ export default {
 
       preview.style.width = "60%";
       preview.style.height = "60%";
+      preview.style.maxHeight = "500px";
     }
   },
   created() {
@@ -92,14 +95,39 @@ export default {
   border: 1px solid black;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   padding: 1em;
-}
-.wrap > div {
-  margin: 1em 0;
 }
 textarea,
 select {
   border: 1px solid black;
+}
+.img_wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.preview {
+  display: block;
+  margin: 20px 0;
+}
+.challenge_wrap {
+  margin: 15px 0;
+}
+.challenge_wrap label {
+  margin-right: 10px;
+}
+#chooseFile {
+  display: none;
+}
+.fileBtn {
+  background: lavender;
+  border-radius: 15px;
+  padding: 0.5em 1em;
+}
+.fileBtn:hover {
+  cursor: pointer;
 }
 </style>
