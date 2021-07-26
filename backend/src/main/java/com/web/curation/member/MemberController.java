@@ -32,6 +32,7 @@ import static java.time.LocalDateTime.now;
 @RestController
 @RequestMapping("/member")
 public class MemberController {
+	// test2
     @Autowired
     MemberService memberservice;
 
