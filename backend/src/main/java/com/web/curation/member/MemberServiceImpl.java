@@ -19,10 +19,20 @@ public class MemberServiceImpl implements MemberService {
 	public Member registMember(Member member) {
 		return memberDao.save(member);
 	}
+	
+	@Override
+	public Optional<Member> getUser(String email) {
+		return memberDao.getMemberByEmail(email);
+	}
 
 	@Override
-	public Member getUser(String email, String password) {
+	public Optional<Member> getUser(String email, String password) {
 		return memberDao.getMemberByEmailAndPassword(email, password);
+	}
+
+	@Override
+	public void certifyMemberByEmail(String email) {
+		memberDao.updateAuthentication(email);
 	}
 
 	@Override
