@@ -12,5 +12,6 @@ public class SportDto {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int sportId;
 
+    @Column(name = "sport_name")
     private String name;
 }
