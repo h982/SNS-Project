@@ -40,15 +40,21 @@ public class EmailServiceImpl implements EmailService {
 	@Override
 	public void sendMail(String from, String to, String subject, String text) throws MessagingException {
 		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-    	MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
+    	MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
     	
-    	helper.setFrom(from); //보내는사람
-    	helper.setTo(to); //받는사람
-    	helper.setSubject(subject); //메일제목
-    	helper.setText(text, true); //ture넣을경우 html
+//    	helper.setFrom("ㅁㅁ"); //보내는사람
+//    	helper.setTo(to); //받는사람
+//    	helper.setSubject(subject); //메일제목
+//    	helper.setText(text, true); //ture넣을경우 html
+    	
+    	SimpleMailMessage mailMessage = new SimpleMailMessage();
+    	mailMessage.setFrom("ㅁㅁ");
+    	mailMessage.setTo(to);
+    	mailMessage.setSubject(subject);
+    	mailMessage.setText("ss");
 
 
-        javaMailSender.send(mimeMessage);
+        javaMailSender.send(mailMessage);
 	}
 
 }

@@ -19,6 +19,5 @@ public interface MemberDao extends JpaRepository<Member, String> {
     @Query(value = "update Member set authentication = 'authentication' where email = :email", nativeQuery = true)
     @Transactional
     int updateAuthentication(@Param("email") String email);
-
 	public Member getMemberByEmailAndPassword(String email, String password);
 }
