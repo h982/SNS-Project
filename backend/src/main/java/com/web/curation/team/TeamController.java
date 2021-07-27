@@ -1,6 +1,11 @@
 package com.web.curation.team;
 
+import com.web.curation.amazonS3.S3Uploader;
+import com.web.curation.files.PhotoDto;
+import com.web.curation.files.PhotoService;
+import com.web.curation.member.Member;
 import com.web.curation.model.BasicResponse;
+import com.web.curation.sport.SportDto;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -8,7 +13,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.swing.filechooser.FileSystemView;
 import java.util.List;
 
 @ApiResponses(value = {@ApiResponse(code = 401, message = "Unauthorized", response = BasicResponse.class),
@@ -23,6 +30,8 @@ import java.util.List;
 public class TeamController {
 
     private final TeamService teamService;
+    private final S3Uploader s3Uploader;
+    private final PhotoService photoService;
 
     //그룹 리스트 조회
     @GetMapping("/team")
@@ -45,8 +54,27 @@ public class TeamController {
 
     @PostMapping("/team")
     @ApiOperation(value = "팀 등록")
-    public ResponseEntity<?> addTeam(@RequestBody TeamDto teamDto) {
-        TeamDto resultTeamDto = teamService.registerTeam(teamDto);
+    public ResponseEntity<?> addTeam(@RequestParam(value = "name" ) String teamName,
+                                     @RequestParam(value = "intro" ) String teamIntro,
+                                     @RequestParam(value = "leader" ) String leader,
+                                     @RequestParam(value = "leaderId" ) int leaderId,
+                                     @RequestParam(value = "sportId" ) int sportId,
+                                     @RequestParam(value = "imgPath" ) String imgPath,
+                                     @RequestParam(value = "images")MultipartFile multipartFile) throws Exception {
+        TeamDto teamDto = TeamDto.TeamDtoBuilder()
+                .name(teamName)
+                .introduction(teamIntro)
+                .leader(leader)
+                .member(new Member(leaderId))
+                .sportDto(new SportDto(sportId))
+                .imgPath(imgPath)
+                .build();
+
+        PhotoDto uploadPhoto = s3Uploader.upload(multipartFile,"static");
+        PhotoDto savedPhoto = photoService.addPhoto(uploadPhoto);
+
+        System.out.println(teamDto.getName());
+        TeamDto resultTeamDto = teamService.registerTeam(teamDto, savedPhoto);
 
         ResponseEntity response = null;
 
