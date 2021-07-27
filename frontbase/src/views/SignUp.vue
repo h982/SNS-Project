@@ -135,7 +135,7 @@
           ></v-select>
 
         </form>
-        <v-btn @click="submit" type="submit" color="green" class="white--text"
+          <v-btn @click="submit" type="submit" color="green" class="white--text"
             >회원가입</v-btn>
             
           <v-btn @click="clear">clear</v-btn>

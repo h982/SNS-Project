@@ -32,6 +32,7 @@ import static java.time.LocalDateTime.now;
 @RestController
 @RequestMapping("/member")
 public class MemberController {
+	// test1
     @Autowired
     MemberService memberservice;
 
@@ -50,8 +51,11 @@ public class MemberController {
         HttpStatus status = HttpStatus.ACCEPTED;
 
         member.setCreateDate(now());
-        member.setAuthentication("1");
+        member.setAuthenticated(false);
+        System.out.println(member.getName());
+        System.out.println(member.getEmail());
         if (!responseMember.isPresent()) {
+            System.out.println("hi");
             memberservice.registMember(member);
             resultMap.put("message", "success");
             status = HttpStatus.CREATED;
@@ -72,12 +76,12 @@ public class MemberController {
         HttpStatus status = null;
         System.out.println("로그인진입");
         try {
-            Member loginUser = memberservice.getUser(member.getEmail(),member.getPassword());
+            Optional<Member> loginUser = memberservice.getUser(member.getEmail(),member.getPassword());
             System.out.println(loginUser);
-            if (loginUser != null) {
-                System.out.println(loginUser.getEmail());
-                System.out.println(loginUser.getPassword());
-                String token = jwtService.create("memberEmail", loginUser.getEmail(), "access-token");// key, data, subject
+            if (loginUser.isPresent()) {
+                System.out.println(loginUser.get().getEmail());
+                System.out.println(loginUser.get().getPassword());
+                String token = jwtService.create("memberEmail", loginUser.get().getEmail(), "access-token");// key, data, subject
                 resultMap.put("access-token", token);
                 resultMap.put("message", "success");
                 status = HttpStatus.ACCEPTED;
@@ -100,6 +104,7 @@ public class MemberController {
         System.out.println("회원인증");
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = HttpStatus.ACCEPTED;
+
         if (jwtService.isUsable(request.getHeader("access-token"))) {
             try {
                 Optional<Member> member = memberservice.getMemberByEmail(memberEmail);
