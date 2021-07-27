@@ -4,6 +4,7 @@ import Vuex from "vuex";
 // import router from "../router";
 import jwt_decode from "jwt-decode";
 import { findById } from "@/api/user.js";
+import { createInstance } from "../api/teamindex";
 
 Vue.use(Vuex);
 
@@ -11,21 +12,27 @@ export default new Vuex.Store({
     state: {
         isLogin: false, // 로그인 여부
         memberInfo: null,
+        teamLists: [], // 팀 정보
+        groupInfo: [], // 각 그룹 정보
         feeds: [],
         comments: []
     },
-    getter: {
+    getters: {
         feeds(state) {
             return state.feeds;
         },
         comments(state) {
             return state.comments;
-        }
+        },
+        teamLists(state) {
+            return state.teamLists;
+        },
+
+        // groupInfo(state) {
+        //     return state.groupInfo;
+        // }
     },
     mutations: {
-        setIsLogined(state, isLogin) {
-            state.isLogin = isLogin;
-        },
         setMemberInfo(state, memberInfo) {
             state.isLogin = true;
             state.memberInfo = memberInfo;
@@ -39,6 +46,9 @@ export default new Vuex.Store({
         },
         setComments(state, payload) {
             state.comments = payload;
+        },
+        setTeamLists(state, payload) {
+            state.teamLists = payload;
         }
     },
     actions: {
@@ -61,10 +71,23 @@ export default new Vuex.Store({
             }
         );
         },
+
         LOGOUT({ commit }) {
             commit("logout");
             localStorage.removeItem("access-token");
-        },
+            },
+        getTeamLists({ commit }) {
+            const instance = createInstance();
+            instance
+            .get("/team")
+            .then((response) => {
+                console.log(response.data.object);
+                commit("setTeamLists", response.data.object);
+            })
+            .catch(() => {
+                console.log("에러");
+            });
+            },
         getFeeds(context) {
             http
                 .get("")

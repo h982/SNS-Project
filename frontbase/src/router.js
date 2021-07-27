@@ -27,13 +27,19 @@ export default new Router({
       path: "/team",
       name: "team",
       component: () =>
-        import( /* webpackChunkName: "about" */ "./views/Team.vue")
+      import( /* webpackChunkName: "about" */ "./views/Team/Team.vue")
     },
     {
       path: "/teamlist",
       name: "teamlist",
       component: () =>
-        import( /* webpackChunkName: "about" */ "./views/Teamlist.vue")
+      import( /* webpackChunkName: "about" */ "./views/Team/Teamlist.vue")
+    },
+    {
+      path: "/groupmain",
+      name: "groupmain",
+      component: () =>
+        import( /* webpackChunkName: "about" */ "./views/Group/GroupMain.vue")
     },
     {
       path: "/resume",
