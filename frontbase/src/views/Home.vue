@@ -23,7 +23,7 @@
 
     <br>
 
-    <vue-typer class="headline" :repeat="0" text="Eldin Zaimovic"></vue-typer>
+    <vue-typer class="headline" :repeat="0" text="혼자 뭐하니?"></vue-typer>
     <vue-typer
       :text="text1"
       :repeat="Infinity"
@@ -98,26 +98,12 @@
 <script>
 import { VueTyper } from "vue-typer";
 import VueCompareImage from "vue-compare-image";
+import banner1 from "@/assets/images/banner1.jpg";
+import banner2 from "@/assets/images/banner2.jpg";
+import banner3 from "@/assets/images/banner3.jpg";
+import banner4 from "@/assets/images/banner4.jpg";
 
 export default {
-  metaInfo: {
-    title: "Home",
-    titleTemplate: "%s ← Eldin's Space",
-    meta: [
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { name: "description", content: "Eldin Zaimovic's Portfolio" },
-      { charset: "utf-8" },
-      { property: "og:title", content: "Eldin' Space" },
-      { property: "og:site_name", content: "Eldin' Space" },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://eldin.space" },
-      {
-        property: "og:image",
-        content: "https://i.imgur.com/Dcz2PGx.jpg"
-      },
-      { property: "og:description", content: "Eldin Zaimovic's Portfolio" }
-    ]
-  },
   components: {
     "vue-typer": VueTyper,
     VueCompareImage
@@ -145,11 +131,11 @@ export default {
         },
         { href: "https://www.instagram.com/matricar", icon: "fab fa-instagram" }
       ],
-      text1: ["Front-End Developer", "Web Developer", "Web Designer"],
-      leftImage: "https://i.imgur.com/bU50uS9.jpg",
-      rightImage: "https://i.imgur.com/z3ZoEEw.jpg",
-      leftImage2: "https://i.imgur.com/SXBitjh.jpg",
-      rightImage2: "https://i.imgur.com/Dcz2PGx.jpg",
+      text1: ["혼자서 하는 쓸쓸한 운동", "다함께 즐기는 재미난 운동"],
+      leftImage: banner1,
+      rightImage: banner2,
+      leftImage2: banner3,
+      rightImage2: banner4,
       sliderLine: 0,
       hSize: 0,
       sliderPosition: 0.5
