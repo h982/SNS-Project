@@ -18,6 +18,9 @@ export default new Vuex.Store({
         teamLists(state) {
             return state.teamLists;
         },
+        // groupInfo(state) {
+        //     return state.groupInfo;
+        // }
     },
     mutations: {
     setIsLogined(state, isLogin) {
@@ -33,7 +36,10 @@ export default new Vuex.Store({
     },
     setTeamLists(state, teamLists) {
         state.teamLists = teamLists;
-    }
+    },
+    // setGroupInfo(state, groupInfo) {
+    //     state.groupInfo = groupInfo;
+    // },
 },
     actions: {
     async GET_MEMBER_INFO({ commit }, token) {
@@ -71,5 +77,16 @@ export default new Vuex.Store({
             console.log("에러");
         });
         },
+    // getGroupInfo({ commit,  }) {
+    //     const instance = createInstance();
+    //     instance
+    //     .get("/team"+teamId)
+    //     .then((response) => {
+    //         commit("setGroupInfo", response.data.object);
+    //     })
+    //     .catch(() => {
+    //         console.log("에러");
+    //     });
+    //     },
     },
 });

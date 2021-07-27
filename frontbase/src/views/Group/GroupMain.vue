@@ -34,7 +34,8 @@
     </v-layout>
     <v-layout column justify-center class="mt-4 pt-2">
       <h1 class="text-xs-center mb-4 pb-2">팀 이름</h1>
-      <span>팀 생일 : 2021.07.26</span>
+      <span class="birthday">팀 생일 : 2021.07.26</span>
+      <br>
       <v-img :src="thumbnail1" aspect-ratio="2.75" height="330" contain></v-img>
       <v-layout column justify-center align-center class="mt-4 pt-2">
         <h2>팀 소개</h2>
@@ -47,7 +48,7 @@
         <br>
         <v-btn @click="join" type="button" color="green" class="white--text">가입하기</v-btn>
         <br>
-        <h2>팀원 소개</h2>
+        <h2>팀원 소개(0 명)</h2>
         <br>
         <p>김아무개</p>
         <p>김아무개</p>
@@ -75,8 +76,8 @@
 </template>
 
 <script>
-import { createInstance } from "@/api/index.js";
 import thumbnail1 from "@/assets/images/thumbnail.jpg";
+import { mapGetters } from 'vuex';
 
 export default {
   data() {
@@ -84,6 +85,12 @@ export default {
       thumbnail1: thumbnail1,
     };
   },
+  // computed: {
+  //   ...mapGetters(["groupInfo"]),
+  // },
+  // created() {
+  //   this.$store.dispatch("getGroupInfo");
+  // },
   methods: {
     join() {
       // 팀가입
@@ -101,5 +108,9 @@ export default {
 }
 .textbox {
   padding: 0px 150px;
+}
+.birthday {
+  position: relative;
+  right: 0px;
 }
 </style>
