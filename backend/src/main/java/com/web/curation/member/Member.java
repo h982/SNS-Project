@@ -36,10 +36,10 @@ public class Member {
 	private String mbti;
 	@Column(insertable = false, updatable = false)
 	private LocalDateTime createDate;
-	private String authentication;
+	private String authenticated;
 
-	public String getAuthentication() {
-		return authentication;
+	public String getAuthenticated() {
+		return authenticated;
 	}
 
 	public int getMemberId() {
