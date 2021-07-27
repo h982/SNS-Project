@@ -1,6 +1,7 @@
 package com.web.curation.team;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.web.curation.files.PhotoDto;
 import com.web.curation.member.Member;
 import com.web.curation.sport.SportDto;
 import lombok.*;
@@ -8,12 +9,13 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
+import java.nio.file.FileStore;
 import java.time.LocalDateTime;
 
 @Entity
 @Data
 @Table(name = "Team")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @AllArgsConstructor
 @DynamicInsert
 @Builder(builderMethodName = "TeamDtoBuilder")
@@ -42,23 +44,16 @@ public class TeamDto {
     private LocalDateTime createDate;
 
     //참조키
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sport_id")
     private SportDto sportDto;
 
-    public static TeamDtoBuilder builder(TeamDto teamDto){
-        return TeamDtoBuilder()
-                .name(teamDto.getName())
-                .introduction(teamDto.getIntroduction())
-                .leader(teamDto.getLeader())
-                .imgPath(teamDto.getImgPath())
-                .member(teamDto.getMember())
-                .sportDto(teamDto.getSportDto());
-    }
-
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "photo_id")
+    private PhotoDto photoDto;
 
 }
