@@ -51,7 +51,7 @@ public class MemberController {
         HttpStatus status = HttpStatus.ACCEPTED;
 
         member.setCreateDate(now());
-        member.setAuthenticated("1");
+        member.setAuthenticated(false);
         System.out.println(member.getName());
         System.out.println(member.getEmail());
         if (!responseMember.isPresent()) {

@@ -9,11 +9,18 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.web.curation.request.Request;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -24,71 +31,41 @@ public class Member {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int memberId;
+	
+	@Column(nullable = false, length = 45)
 	private String name;
+	
+	@Column(nullable = false, length = 128)
 	private String email;
+	
+	@Column(nullable = false, length = 45)
 	private String phone;
+	
+	@Column(nullable = false, length = 240)
 	private String password;
+	
+	@Column(nullable = false, length = 200)
 	private String address;
+	
+	@Column(nullable = false, length = 200)
 	private String addressDetail;
+	
+	@Column(nullable = false, length = 11)
 	private String zonecode;
+	
+	@Column(nullable = false, length = 1)
 	private String sex;
+	
+	@Column(nullable = false)
 	private int point;
+	
+	@Column(nullable = false, length = 5)
 	private String mbti;
-	@Column(insertable = false, updatable = false)
+	
+	@CreationTimestamp
+    @JsonIgnore
 	private LocalDateTime createDate;
-	private String authenticated;
-
-	public String getAuthenticated() {
-		return authenticated;
-	}
-
-	public int getMemberId() {
-		return memberId;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public String getPhone() {
-		return phone;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public String getAddressDetail() {
-		return addressDetail;
-	}
-
-	public String getZonecode() {
-		return zonecode;
-	}
-
-	public String getSex() {
-		return sex;
-	}
-
-	public int getPoint() {
-		return point;
-	}
-
-	public String getMbti() {
-		return mbti;
-	}
-
-	public LocalDateTime getCreateDate() {
-		return createDate;
-	}
-
-
+	
+	@Column(nullable = false)
+	private Boolean authenticated;
 }
