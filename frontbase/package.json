@@ -16,6 +16,7 @@
     "core-js": "^2.6.9",
     "jwt-decode": "^3.1.2",
     "marked": "^0.7.0",
+    "sass-loader": "^10.2.0",
     "storyblok-js-client": "^1.0.32",
     "storyblok-vue": "^1.0.5",
     "vue": "^2.6.6",
@@ -38,11 +39,13 @@
     "babel-eslint": "^10.1.0",
     "eslint": "^5.8.0",
     "eslint-plugin-vue": "^5.2.3",
+    "sass": "^1.36.0",
     "stylus": "^0.54.8",
     "stylus-loader": "^3.0.1",
     "vue-cli-plugin-vuetify": "^0.5.0",
     "vue-template-compiler": "^2.6.12",
-    "vuetify-loader": "^1.6.0"
+    "vuetify-loader": "^1.6.0",
+    "webpack": "^5.46.0"
   },
   "eslintConfig": {
     "root": true,
