@@ -24,9 +24,9 @@
             <v-list-tile-title>SERVICES</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile active-class="green--text" to="/portfolio">
+        <v-list-tile active-class="green--text" to="/teamChallenge">
           <v-list-tile-content>
-            <v-list-tile-title>PORTFOLIO</v-list-tile-title>
+            <v-list-tile-title>TEAMCHALLENGE</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
         <v-list-tile active-class="green--text" to="/blog">
@@ -72,8 +72,8 @@
         @click.stop="drawer = !drawer"
       ></v-toolbar-side-icon>
       <v-toolbar-title class="headline">
-        <span class="font-weight-light">Eldin</span>
-        <span class="green--text">Zaimovic</span>
+        <span class="font-weight-light">혼자</span>
+        <span class="green--text">뭐하니?</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn @click="changeTheme" depressed small icon class="hidden-md-and-up">
@@ -93,28 +93,14 @@
 
       <v-toolbar-items class="hidden-sm-and-down" v-else>
         <v-btn flat to="/" active-class="green--text headline">Home</v-btn>
-        <v-btn flat to="/resume" active-class="green--text headline"
-          >Resume</v-btn
-        >
-        <v-btn flat to="/services" active-class="green--text headline"
-          >Services</v-btn
-        >
-        <v-btn flat to="/portfolio" active-class="green--text headline"
-          >Portfolio</v-btn
-        >
-        <v-btn flat to="/blog" active-class="green--text headline">Blog</v-btn>
-
+        <v-btn flat to="/teamChallenge" active-class="green--text headline">TeamChallenge</v-btn>
+        <v-btn flat to="/challenge" active-class="green--text headline">Challenges</v-btn>
         <v-btn flat to="/team" active-class="green--text headline">Team</v-btn>
         <v-btn flat to="/teamlist" active-class="green--text headline">Teamlist</v-btn>
-        <v-btn flat to="/" active-class="" @click.prevent="onClickLogout">Logout</v-btn>
-
-
-      
-        <v-btn flat to="/group" active-class="green--text headline"
-          >Group</v-btn
-        >
+        <v-btn flat to="/group" active-class="green--text headline">Group</v-btn>
         <v-btn flat to="/feed" active-class="green--text headline">Feed</v-btn>
-
+        <v-btn flat to="/" active-class="" @click.prevent="onClickLogout">Logout</v-btn>
+        
         <v-btn @click="changeTheme" depressed small icon>
           <v-icon v-if="goDark == true">fas fa-sun</v-icon>
           <v-icon v-else>fas fa-moon</v-icon>

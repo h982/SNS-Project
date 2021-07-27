@@ -3,8 +3,8 @@ import Router from "vue-router";
 import Home from "./views/Home.vue";
 import Meta from 'vue-meta'
 import Login from "@/views/user/Login.vue";
-
-
+import TeamChallenge from "@/views/Challenge/TeamChallenge.vue";
+import Challenge from "@/views/Challenge/WholeChallenge.vue";
 Vue.use(Router);
 Vue.use(Meta);
 
@@ -119,6 +119,16 @@ export default new Router({
       path: "/login",
       name: "login",
       component: Login
+    },
+    {
+      path: "/teamChallenge",
+      name: "teamChallenge",
+      component: TeamChallenge
+    },
+    {
+      path: "/challenge",
+      name: "challenge",
+      component: Challenge
     },
   ]
 });
