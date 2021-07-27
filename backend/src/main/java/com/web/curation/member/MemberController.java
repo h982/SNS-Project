@@ -32,6 +32,7 @@ import static java.time.LocalDateTime.now;
 @RestController
 @RequestMapping("/member")
 public class MemberController {
+	// test1
     @Autowired
     MemberService memberservice;
 
@@ -72,12 +73,12 @@ public class MemberController {
         HttpStatus status = null;
         System.out.println("로그인진입");
         try {
-            Member loginUser = memberservice.getUser(member.getEmail(),member.getPassword());
+            Optional<Member> loginUser = memberservice.getUser(member.getEmail(),member.getPassword());
             System.out.println(loginUser);
-            if (loginUser != null) {
-                System.out.println(loginUser.getEmail());
-                System.out.println(loginUser.getPassword());
-                String token = jwtService.create("memberEmail", loginUser.getEmail(), "access-token");// key, data, subject
+            if (loginUser.isPresent()) {
+                System.out.println(loginUser.get().getEmail());
+                System.out.println(loginUser.get().getPassword());
+                String token = jwtService.create("memberEmail", loginUser.get().getEmail(), "access-token");// key, data, subject
                 resultMap.put("access-token", token);
                 resultMap.put("message", "success");
                 status = HttpStatus.ACCEPTED;
