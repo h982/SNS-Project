@@ -3,8 +3,8 @@
     <h3>댓글창</h3>
     <div class="comments">
       <!-- <comment-item v-for="(comment, idx) in comments" :key="idx" :comment="comment"> -->
-      <comment-item></comment-item>
-      <comment-item></comment-item>
+      <!-- <comment-item></comment-item>
+      <comment-item></comment-item> -->
       <comment-item></comment-item>
     </div>
     <div class="writeC">
@@ -68,7 +68,6 @@ h3 {
   text-align: center;
 }
 .comments {
-  width: 70%;
   margin: 0 auto;
   background: lavender;
   padding: 15px;
