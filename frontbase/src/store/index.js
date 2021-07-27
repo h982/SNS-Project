@@ -46,6 +46,9 @@ export default new Vuex.Store({
         },
         setComments(state, payload) {
             state.comments = payload;
+        },
+        setTeamLists(state, payload) {
+            state.teamLists = payload;
         }
     },
     actions: {
