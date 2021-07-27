@@ -1,12 +1,9 @@
 package com.web.curation.team;
 
-import com.web.curation.files.PhotoDao;
 import com.web.curation.files.PhotoDto;
 import com.web.curation.files.PhotoService;
-import com.web.curation.handlers.FileHandler;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -15,7 +12,7 @@ import java.util.List;
 public class TeamService {
 
     private TeamDao teamDao;
-    private FileHandler fileHandler;
+//    private FileHandler fileHandler;
     private PhotoService photoService;
 
     List<TeamDto> getTeamlist(){
