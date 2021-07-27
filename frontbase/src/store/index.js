@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import jwt_decode from "jwt-decode";
 import { findById } from "@/api/user.js";
+import { createInstance } from "../api/teamindex";
 
 Vue.use(Vuex);
 
@@ -9,6 +10,8 @@ export default new Vuex.Store({
     state: {
         isLogin: false, // 로그인 여부
         memberInfo: null,
+        teamLists: [], // 팀 정보
+        groupInfo: [], // 각 그룹 정보
         feeds: [],
         comments: [],
         whole_challenges: [],
@@ -17,8 +20,6 @@ export default new Vuex.Store({
         teamInfo: null,
         myTeamList:[],
     },
-  
-        
 
     getters: {
         team_challenges(state) {
@@ -36,11 +37,11 @@ export default new Vuex.Store({
         comments(state) {
             return state.comments;
         },
+        teamLists(state) {
+            return state.teamLists;
+        },
     },
     mutations: {
-        setIsLogined(state, isLogin) {
-            state.isLogin = isLogin;
-        },
         setMemberInfo(state, memberInfo) {
             state.isLogin = true;
             state.memberInfo = memberInfo;
@@ -79,6 +80,9 @@ export default new Vuex.Store({
                 state.myTeamList.push({ value: element, text: element });
             });
         },
+        setTeamLists(state, payload) {
+            state.teamLists = payload;
+        }
     },
     actions: {
         async GET_MEMBER_INFO({ commit }, token) {
@@ -100,6 +104,7 @@ export default new Vuex.Store({
             }
         );
         },
+
         LOGOUT({ commit }) {
             commit("logout");
             localStorage.removeItem("access-token");
@@ -160,6 +165,18 @@ export default new Vuex.Store({
                     alert("에러발생!");
                 });
         },
+        getTeamLists({ commit }) {
+            const instance = createInstance();
+            instance
+            .get("/team")
+            .then((response) => {
+                console.log(response.data.object);
+                commit("setTeamLists", response.data.object);
+            })
+            .catch(() => {
+                console.log("에러");
+            });
+            },
         getFeeds(context) {
             http
                 .get("")
@@ -180,6 +197,5 @@ export default new Vuex.Store({
                     alert("에러발생");
                 });
         }
-
     }
 });
