@@ -52,7 +52,10 @@ public class MemberController {
 
         member.setCreateDate(now());
         member.setAuthentication("1");
+        System.out.println(member.getName());
+        System.out.println(member.getEmail());
         if (!responseMember.isPresent()) {
+            System.out.println("hi");
             memberservice.registMember(member);
             resultMap.put("message", "success");
             status = HttpStatus.CREATED;
@@ -101,6 +104,7 @@ public class MemberController {
         System.out.println("회원인증");
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = HttpStatus.ACCEPTED;
+
         if (jwtService.isUsable(request.getHeader("access-token"))) {
             try {
                 Optional<Member> member = memberservice.getMemberByEmail(memberEmail);
