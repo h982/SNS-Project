@@ -38,6 +38,10 @@ public class Member {
 	private LocalDateTime createDate;
 	private String authentication;
 
+	public String getAuthentication() {
+		return authentication;
+	}
+
 	public int getMemberId() {
 		return memberId;
 	}
@@ -86,8 +90,5 @@ public class Member {
 		return createDate;
 	}
 
-	public String getAuthentication() {
-		return authentication;
-	}
 
 }
