@@ -47,10 +47,12 @@ public class TeamDto {
     private LocalDateTime createDate;
 
     //참조키
+    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sport_id")
     private SportDto sportDto;
@@ -59,6 +61,7 @@ public class TeamDto {
     	this.teamId = teamId;
     }
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "photo_id")
     private PhotoDto photoDto;
