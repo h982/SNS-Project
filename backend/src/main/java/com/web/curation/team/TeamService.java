@@ -9,6 +9,8 @@ import com.web.curation.member.MemberDao;
 import com.web.curation.team.join.JoinTeam;
 import com.web.curation.team.join.JoinTeamDao;
 
+import lombok.AllArgsConstructor;
+
 import java.util.ArrayList;
 import com.web.curation.files.PhotoDto;
 import com.web.curation.files.PhotoService;

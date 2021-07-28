@@ -12,6 +12,8 @@ public interface TeamDao extends JpaRepository<TeamDto,Long> {
     //팀 이름 중복검사
     boolean existsByName(String name);
 
+	TeamDto getOne(long teamId);
+
     //팀 등록
 //    TeamDto save(TeamDto teamDto);
 }

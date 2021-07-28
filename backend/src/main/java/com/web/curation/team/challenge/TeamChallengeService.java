@@ -72,8 +72,8 @@ public class TeamChallengeService {
 	}
 	
 	public List<TeamChallenge> findTeamChallengeByTeam(int teamId){
-		TeamDto team = teamDao.getOne(teamId);
-		List<TeamChallenge> list = teamChallengeDao.findTeamChallengeByTeam(teamDao.getOne(teamId));
+		TeamDto team = teamDao.getOne((long)teamId);
+		List<TeamChallenge> list = teamChallengeDao.findTeamChallengeByTeam(teamDao.getOne((long)teamId));
 		
 		return list;
 	}
