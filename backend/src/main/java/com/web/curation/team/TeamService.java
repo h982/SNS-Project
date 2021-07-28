@@ -32,7 +32,11 @@ public class TeamService {
 //                photoForId = photoService.addPhoto(photo);
 //            }
 //        }
-        teamDto.setPhotoDto(savedPhoto);
+        if(savedPhoto.getPhotoId() != null){
+            teamDto.setPhotoDto(savedPhoto);
+        }else{
+            teamDto.setPhotoDto(null);
+        }
         teamDto.setMemberCount(1);
 
         return teamDao.save(teamDto);
