@@ -38,11 +38,13 @@
             <v-list-tile-content>
               <v-list-tile-title>SignUp</v-list-tile-title>
             </v-list-tile-content>
-            <v-list-tile active-class="green--text" to="/login">
+            
+        </v-list-tile>
+
+        <v-list-tile active-class="green--text" to="/login">
             <v-list-tile-content>
               <v-list-tile-title>Login</v-list-tile-title>
             </v-list-tile-content>
-          </v-list-tile>
         </v-list-tile>
         <v-list-tile active-class="green--text" to="/team">
           <v-list-tile-content>
@@ -84,7 +86,6 @@
       <v-toolbar-items class="hidden-sm-and-down" v-if="memberInfo === null">
         <v-btn flat to="/" active-class="green--text headline">Home</v-btn>
         <v-btn flat to="/signup" active-class="green--text headline">SignUp</v-btn>
-        <v-btn flat to="/login" active-class="green--text headline">Login</v-btn>
         <v-btn @click="changeTheme" depressed small icon>
           <v-icon v-if="goDark==true">fas fa-sun</v-icon>
           <v-icon v-else>fas fa-moon</v-icon>
@@ -92,12 +93,11 @@
       </v-toolbar-items>
 
       <v-toolbar-items class="hidden-sm-and-down" v-else>
-        <v-btn flat to="/" active-class="green--text headline">Home</v-btn>
-        <v-btn flat to="/teamChallenge" active-class="green--text headline">TeamChallenge</v-btn>
         <v-btn flat to="/challenge" active-class="green--text headline">Challenges</v-btn>
-        <v-btn flat to="/team" active-class="green--text headline">Team</v-btn>
         <v-btn flat to="/teamlist" active-class="green--text headline">Teamlist</v-btn>
-        <v-btn flat to="/group" active-class="green--text headline">Group</v-btn>
+        <v-btn flat to="/group" active-class="green--text headline">MyTeam</v-btn>
+        <v-btn flat to="/teammain" active-class="green--text headline">임시 선택된팀</v-btn>
+
         <v-btn flat to="/feed" active-class="green--text headline">Feed</v-btn>
         <v-btn flat to="/" active-class="" @click.prevent="onClickLogout">Logout</v-btn>
         
