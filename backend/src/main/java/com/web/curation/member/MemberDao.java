@@ -6,4 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MemberDao extends JpaRepository<Member, String> {
 	public Optional<Member> getMemberByEmail(String email);
+	public Member getMemberByMemberId(int memberId);
 }
