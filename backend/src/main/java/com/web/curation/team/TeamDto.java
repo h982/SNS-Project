@@ -2,6 +2,7 @@ package com.web.curation.team;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.web.curation.member.Member;
+import com.web.curation.request.Request;
 import com.web.curation.sport.SportDto;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -9,6 +10,8 @@ import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -49,6 +52,10 @@ public class TeamDto {
     @OneToOne
     @JoinColumn(name = "sport_id")
     private SportDto sportDto;
+    
+    public TeamDto(int teamId) {
+    	this.teamId = teamId;
+    }
 
     public static TeamDtoBuilder builder(TeamDto teamDto){
         return TeamDtoBuilder()
