@@ -16,16 +16,14 @@
             label="팀이름"
           ></v-text-field>
 
-          <v-row>
-            <v-btn
-              @click="duplicateName"
-              type="button"
-              color="blue"
-              class="white--text duplicate"
-            >
-              중복검사
-            </v-btn>
-          </v-row>
+          <v-btn
+            @click="duplicateName"
+            type="button"
+            color="blue"
+            class="white--text duplicate"
+          >
+            중복검사
+          </v-btn>
 
           <v-select
             v-model="team.sport"
@@ -169,7 +167,7 @@ export default {
     },
     duplicateName() {
       const instance = createInstance();
-      instance.get("/team/" + this.team.name + "/exists").then(({ data }) => {
+      instance.get('/team/"' + this.team.name + '"/exists').then(({ data }) => {
         if (data) {
           alert("이미 사용된 팀명입니다!");
         } else {
