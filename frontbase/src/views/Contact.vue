@@ -1,7 +1,7 @@
 <template>
   <v-container grid-list-xl>
     <v-layout row justify-center align-center wrap class="mt-4 pt-2">
-      <v-flex xs12 sm12 md6 lg6 xl6>
+      <!-- <v-flex xs12 sm12 md6 lg6 xl6>
         <h2 class="pb-4 mt-2">
           <span>GetIn</span>
           <span class="green--text">Touch</span>
@@ -26,37 +26,105 @@
           <span>Freelance</span>
           <span class="green--text">Available</span>
         </div>
-      </v-flex>
+      </v-flex> -->
 
       <v-flex xs12 sm12 md6 lg6 xl6>
         <h2 class="pb-4 mb-4">
-          <span>Contact</span>
-          <span class="green--text">Form</span>
+          <span>Sign</span>
+          <span class="blue--text">Up</span>
         </h2>
 
-        <form method="POST" action="https://formspree.io/eldin@zaimovic.com">
-          <v-text-field
-            name="name"
+        <form>
+          <!--<v-text-field
+            name="member.memberid"
             color="green"
             background-color="transparent"
-            v-model="name"
-            :error-messages="nameErrors"
-            label="Name"
+            v-model="id"
+            :error-messages="idErrors"
+            label="Id"
             required
-            @blur="$v.name.$touch()"
+            @blur="$v.id.$touch()"
+          ></v-text-field>-->
+
+          <v-text-field
+            name="member.name"
+            color="green"
+            background-color="transparent"
+            v-model="member.name"
+            :error-messages="nameErrors"
+            label="이름"
+            required
           ></v-text-field>
           <v-text-field
             type="email"
             color="green"
             background-color="transparent"
-            name="email"
-            v-model="email"
+            name="member.email"
+            v-model="member.email"
             :error-messages="emailErrors"
             label="E-mail"
-            required
-            @blur="$v.email.$touch()"
           ></v-text-field>
-          <v-textarea
+
+          <v-text-field
+            name="member.phone"
+            color="green"
+            background-color="transparent"
+            v-model="member.phone"
+            label="전화번호"
+          ></v-text-field>
+
+          <v-text-field
+            name="member.password"
+            color="green"
+            background-color="transparent"
+            v-model="member.password"
+            label="비밀번호"
+          ></v-text-field>
+
+          <v-text-field
+            name="member.zonecode"
+            color="green"
+            background-color="transparent"
+            v-model="member.zonecode"
+            label="우편번호"
+            @click="showApi"
+          ></v-text-field>
+
+          <v-text-field
+            name="member.address"
+            color="green"
+            background-color="transparent"
+            v-model="member.address"
+            label="주소"
+          ></v-text-field>
+
+          <v-text-field
+            name="member.addressDetail"
+            color="green"
+            background-color="transparent"
+            v-model="member.addressDetail"
+            label="상세주소"
+          ></v-text-field>
+
+          <v-select
+            v-model="sex"
+            :items="sexList"
+            label="성별"
+            item-text="name"
+            item-value="value"
+            return-object
+          ></v-select>
+
+          <v-select
+            v-model="mbti"
+            :items="mbtiList"
+            label="MBTI"
+            item-text="name"
+            item-value="value"
+            return-object
+          ></v-select>
+
+          <!-- <v-textarea
             color="green"
             background-color="transparent"
             :counter="200"
@@ -65,14 +133,16 @@
             label="Textarea"
             name="body"
             @blur="$v.body.$touch()"
-          ></v-textarea>
-          <v-btn
-            @click="submit"
-            type="submit"
+          ></v-textarea> -->
+
+          <v-btn @click="submit" type="submit" color="green" class="white--text"
+            >회원가입</v-btn>
+            <b-button
+            type="button"
             color="green"
             class="white--text"
-            :disabled=" (body.length<=20)"
-          >SEND MESSAGE</v-btn>
+            @click="submit"
+          >SEND MESSAGE</b-button>
           <v-btn @click="clear">clear</v-btn>
         </form>
       </v-flex>
@@ -82,88 +152,146 @@
 
 <script>
 import { validationMixin } from "vuelidate";
+import { createInstance } from "@/api/index.js";
 import {
   required,
   maxLength,
   email,
-  minLength
+  minLength,
 } from "vuelidate/lib/validators";
 export default {
-  metaInfo: {
-    title: "Contact",
-    titleTemplate: "%s ← Eldin's Space",
-    meta: [
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-      {
-        name: "description",
-        content:
-          "Eldin Zaimovic's Contact Doboj Bosnia and Herzegovina Freelance Get in Touch ContactMe"
-      },
-      { charset: "utf-8" },
-      { property: "og:title", content: "Eldin' Space" },
-      { property: "og:site_name", content: "Eldin' Space" },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://eldin.space" },
-      {
-        property: "og:image",
-        content: "https://i.imgur.com/Dcz2PGx.jpg"
-      },
-      {
-        property: "og:description",
-        content:
-          "Eldin Zaimovic's Contact Doboj Bosnia and Herzegovina Freelance Get in Touch ContactMe"
-      }
-    ]
-  },
   mixins: [validationMixin],
   validations: {
     name: { required, maxLength: maxLength(20) },
     email: { required, email },
-    body: { required, minLength: minLength(20) }
+    body: { required, minLength: minLength(20) },
   },
   data() {
     return {
+      sexList: [
+        { name: "남자", value: "M" },
+        { name: "여자", value: "W" },
+      ],
+      mbtiList: [
+        { name: "istj", value: "istj" },
+        { name: "isfj", value: "isfj" },
+        { name: "infj", value: "infj" },
+        { name: "intj", value: "intj" },
+        { name: "istp", value: "istp" },
+        { name: "isfp", value: "isfp" },
+        { name: "infp", value: "infp" },
+        { name: "intp", value: "intp" },
+        { name: "estp", value: "estp" },
+        { name: "esfp", value: "esfp" },
+        { name: "entp", value: "entp" },
+        { name: "estj", value: "estj" },
+        { name: "esfj", value: "esfj" },
+        { name: "enfj", value: "enfj" },
+        { name: "entj", value: "entj" },
+      ],
       name: "",
       email: "",
-      body: ""
+      body: "",
+      sex: "",
+      mbti: "",
+      member: {
+        name: "",
+        email: "",
+        phone: "",
+        password: "",
+        address: "",
+        addressDetail: "",
+        zonecode: "",
+        sex: "",
+        point: 0,
+        mbti: "",
+        createdate: "",
+        authentication: "",
+      },
     };
   },
   methods: {
     submit() {
-      this.$v.$touch();
+      this.member.sex = this.sex.value;
+      this.member.mbti = this.mbti.value;
+      const instance = createInstance();
+      instance
+        .post("http://localhost:8080/member/signup", JSON.stringify(this.member))
+        .then(
+          (response) => {
+            if (response.data.message === "success") {
+              alert("회원가입 완료");
+              this.$router.push("/");
+            } else {
+              alert("회원가입 실패");
+            }
+          }
+        )
+        .catch(() => {
+          alert("에러발생!");
+          this.$router.push("/");
+        });
+      alert("회원가입이 완료되었습니다.");
+      this.$router.push("/");
+
     },
+    
     clear() {
       this.$v.$reset();
-      this.name = "";
-      this.email = "";
-      this.body = "";
-    }
+      this.member.name = "";
+      this.member.email = "";
+    },
+    showApi() {
+      new window.daum.Postcode({
+        oncomplete: (data) => {
+          let fullRoadAddr = data.roadAddress;
+          let extraRoadAddr = "";
+          if (data.bname !== "" && /[동|로|가]$/g.test(data.bname)) {
+            extraRoadAddr += data.bname;
+          }
+          if (data.buildingName !== "" && data.apartment === "Y") {
+            extraRoadAddr +=
+              extraRoadAddr !== ""
+                ? ", " + data.buildingName
+                : data.buildingName;
+          }
+          if (extraRoadAddr !== "") {
+            extraRoadAddr = " (" + extraRoadAddr + ")";
+          }
+          if (fullRoadAddr !== "") {
+            fullRoadAddr += extraRoadAddr;
+          }
+          this.member.zonecode = data.zonecode;
+          this.member.address = fullRoadAddr;
+        },
+      }).open();
+    },
   },
   computed: {
     nameErrors() {
       const errors = [];
       if (!this.$v.name.$dirty) return errors;
       !this.$v.name.maxLength &&
-        errors.push("Name must be at most 20 characters long");
-      !this.$v.name.required && errors.push("Name is required.");
+        errors.push("이름은 20글자 이내로 작성하셔야합니다.");
+      !this.$v.name.required && errors.push("이름을 적어주세요.");
       return errors;
     },
     emailErrors() {
       const errors = [];
       if (!this.$v.email.$dirty) return errors;
-      !this.$v.email.email && errors.push("Must be valid e-mail");
-      !this.$v.email.required && errors.push("E-mail is required");
+      !this.$v.email.email && errors.push("이메일 형식이 맞지 않습니다.");
+      !this.$v.email.required && errors.push("이메일을 적어주세요");
       return errors;
     },
-    bodyErrors() {
-      const errors = [];
-      if (!this.$v.body.$dirty) return errors;
-      !this.$v.body.minLength &&
-        errors.push("Text must be at least 20 characters long");
-      !this.$v.body.required && errors.push("Text is required");
-      return errors;
-    }
-  }
+    // bodyErrors() {
+    //   const errors = [];
+    //   if (!this.$v.body.$dirty) return errors;
+    //   !this.$v.body.minLength &&
+    //     errors.push("Text must be at least 20 characters long");
+    //   !this.$v.body.required && errors.push("Text is required");
+    //   return errors;
+    // },
+  },
 };
 </script>
 

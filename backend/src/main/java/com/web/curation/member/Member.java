@@ -1,6 +1,4 @@
-// 하단 DB 설정 부분은 Sub PJT II에서 데이터베이스를 구성한 이후에 주석을 해제하여 사용.
-
-package com.web.curation.model.user;
+package com.web.curation.member;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,16 +20,22 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String uid;
-
-    @JsonIgnore
-    private String password;
-    private String email;
-
-    @Column(insertable = false, updatable = false)
-    private LocalDateTime createDate;
+public class Member {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int memberId;
+	private String name;
+	private String email;
+	private String phone;
+	private String password;
+	private String address;
+	private String addressDetail;
+	private String zonecode;
+	private String sex;
+	private int point;
+	private String mbti;
+	@Column(insertable = false, updatable = false)
+	private LocalDateTime createDate;
+	private String authentication;
 
 }
