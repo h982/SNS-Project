@@ -9,7 +9,7 @@ import TeamMain from "@/views/Team/TeamMain.vue";
 import Board from "@/views/Board.vue";
 import Chatting from "@/views/Team/TeamChattingRoom.vue";
 import TeamFeed from "@/views/Team/TeamFeed.vue";
-
+import MyTeam from "@/views/Team/MyTeam.vue";
 Vue.use(Router);
 Vue.use(Meta);
 
@@ -31,10 +31,16 @@ export default new Router({
         import( /* webpackChunkName: "about" */ "./views/SignUp.vue")
     },
     {
-      path: "/team",
-      name: "team",
+      path: "/myteam",
+      name: "myteam",
+      component: MyTeam
+        
+    },
+    {
+      path: "/teammake",
+      name: "teammake",
       component: () =>
-      import( /* webpackChunkName: "about" */ "./views/Team/Team.vue")
+      import( /* webpackChunkName: "about" */ "./views/Team/TeamMake.vue")
     },
     {
       path: "/teamlist",

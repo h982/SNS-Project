@@ -95,7 +95,7 @@
       <v-toolbar-items class="hidden-sm-and-down" v-else>
         <v-btn flat to="/challenge" active-class="green--text headline">Challenges</v-btn>
         <v-btn flat to="/teamlist" active-class="green--text headline">Teamlist</v-btn>
-        <v-btn flat to="/group" active-class="green--text headline">MyTeam</v-btn>
+        <v-btn flat to="/myteam" active-class="green--text headline">MyTeam</v-btn>
         <v-btn flat to="/teammain" active-class="green--text headline">임시 선택된팀</v-btn>
 
         <v-btn flat to="/feed" active-class="green--text headline">Feed</v-btn>

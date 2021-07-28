@@ -84,7 +84,7 @@ export default {
   methods: {
     mvTeam() {
       // 생성버튼 클릭시 팀생성 페이지 이동
-      this.$router.push("/team");
+      this.$router.push("/teammake");
     },
     running() {
       this.selected = 0;
