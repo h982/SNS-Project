@@ -3,7 +3,7 @@ import Vuex from "vuex";
 import jwt_decode from "jwt-decode";
 import { findById } from "@/api/user.js";
 import { createInstance } from "../api/teamindex";
-
+import http from "@/util/http-common";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -18,7 +18,9 @@ export default new Vuex.Store({
         team_challenges: [],
         team: [],
         teamInfo: null,
-        myTeamList:[],
+        myTeamList: [],
+        book: {},
+        books: [],
     },
 
     getters: {
@@ -40,8 +42,17 @@ export default new Vuex.Store({
         teamLists(state) {
             return state.teamLists;
         },
+        books(state) {
+            return state.books;
+        },
+        book(state) {
+            return state.book;
+        },
     },
     mutations: {
+        setIsLogined(state, isLogin) {
+            state.isLogin = isLogin;
+        },
         setMemberInfo(state, memberInfo) {
             state.isLogin = true;
             state.memberInfo = memberInfo;
@@ -82,7 +93,13 @@ export default new Vuex.Store({
         },
         setTeamLists(state, payload) {
             state.teamLists = payload;
-        }
+        },
+        setBooks(state, payload) {
+            state.books = payload;
+        },
+        setBook(state, payload) {
+            state.book = payload;
+        },
     },
     actions: {
         async GET_MEMBER_INFO({ commit }, token) {
@@ -108,6 +125,23 @@ export default new Vuex.Store({
         LOGOUT({ commit }) {
             commit("logout");
             localStorage.removeItem("access-token");
+        },
+
+        getBooks(context) {
+            http
+            .get("/book")
+            .then(({ data }) => {
+                context.commit("setBooks", data);
+            })
+            .catch(() => {
+                alert("에러발생!");
+            });
+        },
+
+        getBook(context, payload) {
+            http.get("/book/"+payload).then(({ data }) => {
+            context.commit("setBook", data);
+            });
         },
 
         // async GET_TEAMCHALLENGE_INFO({ commit }) {
@@ -154,7 +188,7 @@ export default new Vuex.Store({
                 });
         },
 
-        async GET_TEAM_INFO({ commit }) {
+        async GET_MY_TEAM_INFO({ commit }) {
             await http
                 .get("/team/my_team_list")
                 .then((data) => {
@@ -165,6 +199,8 @@ export default new Vuex.Store({
                     alert("에러발생!");
                 });
         },
+
+        
         getTeamLists({ commit }) {
             const instance = createInstance();
             instance

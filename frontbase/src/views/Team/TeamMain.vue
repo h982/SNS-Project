@@ -1,33 +1,34 @@
 <template>
   <v-container>
+
     <v-layout >
       <v-bottom-navigation
         class="mx-auto"
         shift
         x-large
       >
-        <v-btn color="secondary">
-          <i class="fas fa-address-card fa-2x" @click="running"></i>
+        <v-btn color="secondary" @click="moveMain">
+          <i class="fas fa-address-card fa-2x"></i>
           <div>&nbsp;&nbsp;&nbsp;정보</div>
         </v-btn>
 
-        <v-btn color="success">
-          <i class="fas fa-clipboard fa-2x" @click="helth"></i>
+        <v-btn color="success" @click="moveTeamFeed">
+          <i class="fas fa-clipboard fa-2x"></i>
           <div>&nbsp;&nbsp;&nbsp;피드</div>
         </v-btn>
 
-        <v-btn color="primary">
-          <i class="fas fa-check fa-2x" @click="swimming"></i>
+        <v-btn color="primary" @click="moveBoard">
+          <i class="fas fa-check fa-2x" ></i>
           <div>&nbsp;&nbsp;&nbsp;공지사항</div>
         </v-btn>
         
-        <v-btn color="warning">
-          <i class="fas fa-comments fa-2x" @click="tableTennis"></i>
+        <v-btn color="warning" @click="moveChattingRoom">
+          <i class="fas fa-comments fa-2x"></i>
           <div>&nbsp;&nbsp;&nbsp;채팅</div>
         </v-btn>
 
-        <v-btn color="error">
-          <i class="fas fa-trophy fa-2x" @click="tableTennis"></i>
+        <v-btn color="error"  @click="moveTeamChallenge">
+          <i class="fas fa-trophy fa-2x"></i>
           <div>&nbsp;&nbsp;&nbsp;챌린지</div>
         </v-btn>
       </v-bottom-navigation>
@@ -78,12 +79,16 @@
 <script>
 import thumbnail1 from "@/assets/images/thumbnail.jpg";
 import { mapGetters } from 'vuex';
-
+import TeamHeader from "@/components/TeamHeader"
 export default {
   data() {
     return {
       thumbnail1: thumbnail1,
     };
+  },
+  components: {
+    TeamHeader
+    
   },
   // computed: {
   //   ...mapGetters(["groupInfo"]),
@@ -93,9 +98,23 @@ export default {
   // },
   methods: {
     join() {
-      // 팀가입
       console.log("가입되었습니다.");
     },
+    moveMain(){
+      this.$router.push("/teammain");
+    },
+    moveTeamChallenge(){
+      this.$router.push("/teamChallenge");
+    },
+    moveBoard(){
+      this.$router.push("/board");
+    },
+    moveChattingRoom(){
+      this.$router.push("/chattingroom");
+    },
+    moveTeamFeed(){
+      this.$router.push("/teamFeed");
+    }
   },
 }
 </script>

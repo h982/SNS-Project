@@ -5,12 +5,19 @@ import Meta from 'vue-meta'
 import Login from "@/views/user/Login.vue";
 import TeamChallenge from "@/views/Challenge/TeamChallenge.vue";
 import Challenge from "@/views/Challenge/WholeChallenge.vue";
+import TeamMain from "@/views/Team/TeamMain.vue";
+import Board from "@/views/Board.vue";
+import Chatting from "@/views/Team/TeamChattingRoom.vue";
+import TeamFeed from "@/views/Team/TeamFeed.vue";
+
 Vue.use(Router);
 Vue.use(Meta);
 
 export default new Router({
   mode: "history",
   base: process.env.BASE_URL,
+
+  
   routes: [
     {
       path: "/",
@@ -34,12 +41,6 @@ export default new Router({
       name: "teamlist",
       component: () =>
       import( /* webpackChunkName: "about" */ "./views/Team/Teamlist.vue")
-    },
-    {
-      path: "/groupmain",
-      name: "groupmain",
-      component: () =>
-        import( /* webpackChunkName: "about" */ "./views/Group/GroupMain.vue")
     },
     {
       path: "/resume",
@@ -136,5 +137,57 @@ export default new Router({
       name: "challenge",
       component: Challenge
     },
+    {
+      path: "/teammain",
+      name: "teammain",
+      component: TeamMain
+    },
+    {
+      path: "/chattingroom",
+      name: "chatting",
+      component: Chatting
+    },
+    {
+      name: "board",
+      path: "/board",
+      component: () => import("@/components/board/BoardList.vue")
+    },
+    {
+      name: "TeamFeed",
+      path: "/teamFeed",
+      component: TeamFeed
+    },
+    {
+      name: "board",
+      path: "/board",
+      component: Board,
+      children: [
+        {
+          path: "",
+          name: "board-list",
+          component: () => import("@/components/board/BoardList.vue")
+        },
+        {
+          path: "create",
+          name: "board-create",
+          component: () => import("@/components/board/BoardCreate.vue")
+        },
+        {
+          path: "view",
+          name: "board-view",
+          component: () => import("@/components/board/BoardView.vue")
+        },
+        {
+          path: "modify/:isbn",
+          name: "book-modify",
+          component: () => import("@/components/board/BoardModify.vue")
+        },
+        
+      ],
+      redirect: () => {
+        return "/board";
+      }
+    },
+    
   ]
 });
