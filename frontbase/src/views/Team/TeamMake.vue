@@ -106,6 +106,18 @@ export default {
     };
   },
   methods: {
+    loadf() {
+      var file = document.getElementById("chooseFile");
+
+      let preview = document.querySelector(".preview");
+      preview.src = URL.createObjectURL(file.files[0]);
+
+      // console.log(file.files[0]);
+
+      preview.style.width = "60%";
+      preview.style.height = "60%";
+      preview.style.maxHeight = "500px";
+    },
     submit() {
       // this.team.sportDto.sportId = this.team.sport.value;
       // this.team.member.memberId = this.memberInfo.memberId;
@@ -121,7 +133,7 @@ export default {
       formData.append("leader", JSON.stringify(this.team.leader));
       formData.append("leaderId", JSON.stringify(this.team.member.memberId));
       formData.append("sportId", JSON.stringify(this.team.sportDto.sportId));
-      formData.append("imgPath", JSON.stringify(this.team.imgPath));
+      formData.append("imgPath", document.getElementById("chooseFile").files[0]);
 
       for (var key of formData.keys()) {
       console.log(key);
@@ -141,7 +153,7 @@ export default {
         .then(response => {
           if (response.data.data === "success") {
             alert("팀생성완료 완료");
-            this.$router.push("/"); // 생성성공했으면 자기 그룹영역(그룹피드/게시판/채팅/챌린지)으로 이동 => router children 설정 필요
+            this.$router.push("#"); // 생성성공했으면 자기 그룹영역(그룹피드/게시판/채팅/챌린지)으로 이동 => router children 설정 필요
           } else {
             alert("팀생성 실패");
           }
@@ -165,18 +177,6 @@ export default {
           // console.log(this.memberInfo)
         }
       });
-    },
-    loadf() {
-      var file = document.getElementById("chooseFile");
-
-      let preview = document.querySelector(".preview");
-      preview.src = URL.createObjectURL(file.files[0]);
-
-      console.log(file.files[0]);
-
-      preview.style.width = "60%";
-      preview.style.height = "60%";
-      preview.style.maxHeight = "500px";
     },
   },
 };
