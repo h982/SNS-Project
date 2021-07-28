@@ -38,7 +38,6 @@ public class TeamController {
     public ResponseEntity<?> getTeamlist() {
         List<TeamDto> teamList = teamService.getTeamlist();
         ResponseEntity response = null;
-        System.out.println(teamList.get(5).getPhotoDto().getFilePath());
 
         if (teamList.size() > 0) {
             final BasicResponse result = new BasicResponse();
