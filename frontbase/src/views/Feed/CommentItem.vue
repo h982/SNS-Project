@@ -4,12 +4,14 @@
     <div>
       <div class="content">
         <div>멤버이름</div>
-        <div>댓글내용</div>
+        <div class="contents">댓글내용</div>
+        <!-- <div>{{comment.contents}}</div> -->
       </div>
-      <button @click="writeRe">답글달기</button>
+      <button @click="writeRe" class="showWriteBtn">답글달기</button>
       <button @click="showRe" class="showReBtn">대댓글보기</button>
       <div class="reCom">
-        대댓글창
+        <inner-item></inner-item>
+        <!-- <inner-item v-for="(inner, idx) in inners" :key="idx" :inner="inner"> -->
       </div>
       <div class="writeCom">
         <input type="text" v-model="inputCom" />
@@ -20,6 +22,9 @@
 </template>
 
 <script>
+import InnerItem from "@/views/Feed/InnerItem.vue";
+import http from "@/util/http-common";
+
 export default {
   props: ["comment"],
   data: () => {
@@ -27,18 +32,33 @@ export default {
       inputCom: ""
     };
   },
+  components: {
+    InnerItem
+  },
   methods: {
     writeRe() {
       var comm = document.querySelector(".writeCom");
       //console.log(comm.style.display);
       if (comm.style.display == "none") {
         comm.style.display = "block";
+        document.querySelector(".showWriteBtn").innerHTML = "닫기";
       } else {
         comm.style.display = "none";
+        document.querySelector(".showWriteBtn").innerHTML = "답글달기";
       }
     },
     writeComment() {
       // alert(this.inputCom);
+      //  http
+      //   .post("",{
+      //     inputCom : this.inputCom
+      //   })
+      //   .then (({data}) => {
+      //     console.log(this.data);
+      //   })
+      //   .catch(({data})=> {
+      //     alert("실패");
+      //   })
     },
     showRe() {
       var comm = document.querySelector(".reCom");
@@ -89,5 +109,8 @@ button {
 }
 .reCom {
   display: none;
+}
+.contents {
+  font-weight: 700;
 }
 </style>
