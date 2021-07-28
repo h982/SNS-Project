@@ -36,7 +36,7 @@
             flat
             height="230"
           >
-            <v-img :src="thumbnail1" aspect-ratio="2.75" height="130" contain></v-img>
+            <v-img :src="teamList.imgPath" aspect-ratio="2.75" height="130" contain></v-img>
             <v-card-title primary-title class="justify-center">
               <v-flex text-xs-center subheading font-weight-bold>{{teamList.name}}</v-flex>
             </v-card-title> 
