@@ -15,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.swing.filechooser.FileSystemView;
 import java.util.List;
 
 @ApiResponses(value = {@ApiResponse(code = 401, message = "Unauthorized", response = BasicResponse.class),
@@ -39,6 +38,7 @@ public class TeamController {
     public ResponseEntity<?> getTeamlist() {
         List<TeamDto> teamList = teamService.getTeamlist();
         ResponseEntity response = null;
+        System.out.println(teamList.get(5).getPhotoDto().getFilePath());
 
         if (teamList.size() > 0) {
             final BasicResponse result = new BasicResponse();
@@ -60,7 +60,8 @@ public class TeamController {
                                      @RequestParam(value = "leaderId" ) int leaderId,
                                      @RequestParam(value = "sportId" ) int sportId,
                                      @RequestParam(value = "imgPath" ) String imgPath,
-                                     @RequestParam(value = "images")MultipartFile multipartFile) throws Exception {
+                                     @RequestParam(value = "images", required = false) MultipartFile multipartFile) throws Exception {
+        PhotoDto savedPhoto = new PhotoDto();
         TeamDto teamDto = TeamDto.TeamDtoBuilder()
                 .name(teamName)
                 .introduction(teamIntro)
@@ -68,10 +69,13 @@ public class TeamController {
                 .member(new Member(leaderId))
                 .sportDto(new SportDto(sportId))
                 .imgPath(imgPath)
+                .photoDto(savedPhoto)
                 .build();
-
-        PhotoDto uploadPhoto = s3Uploader.upload(multipartFile,"static");
-        PhotoDto savedPhoto = photoService.addPhoto(uploadPhoto);
+        if(multipartFile != null){
+            System.out.println("이건 실행되면 안되는데");
+            PhotoDto uploadPhoto = s3Uploader.upload(multipartFile,"static");
+            savedPhoto = photoService.addPhoto(uploadPhoto);
+        }
 
         System.out.println(teamDto.getName());
         TeamDto resultTeamDto = teamService.registerTeam(teamDto, savedPhoto);
@@ -92,6 +96,7 @@ public class TeamController {
     public ResponseEntity<Boolean> checkNameDuplicate(@PathVariable String name) {
         return ResponseEntity.ok(teamService.checkNameDuplicate(name));
     }
+
 
 
 }

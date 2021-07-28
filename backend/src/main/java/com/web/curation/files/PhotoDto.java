@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Table(name = "Photo")
 public class PhotoDto {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long photoId;
+    private Integer photoId;
 
     @Column(name = "original_filename")
     private String originalName;
