@@ -26,7 +26,12 @@ import lombok.ToString;
 public class FeedLike {
 	
 	@Id
-	private FeedLikeId feedLikeId;
+	@Column(name = "FEEDLIKE_ID")
+	private int feedlikeId;
+	
+	@ManyToOne
+	@JoinColumn(name = "FEED_ID")
+	private Feed feed;
 	
 	@Column(name = "feed_like")
 	private int feedLike;

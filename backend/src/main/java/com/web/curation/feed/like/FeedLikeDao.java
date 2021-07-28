@@ -8,5 +8,5 @@ import com.web.curation.feed.Feed;
 
 public interface FeedLikeDao extends JpaRepository<FeedLike, Integer>{
 //	List<Integer> findFeedLikeByMemberId(int memberId);
-	List<Integer> findFeedLikeByFeed(Feed feed);
+//	List<Integer> findFeedLikeByFeed(Feed feed);
 }

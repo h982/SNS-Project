@@ -36,10 +36,7 @@ public class Comment {
 	private Comment parent;
 	
 	@ManyToOne
-	@JoinColumns({
-		@JoinColumn(name = "FEED_ID"),
-		@JoinColumn(name = "MEMBER_ID")
-	})
+	@JoinColumn(name = "FEED_ID")
 	private Feed feed;
 	
 	@ManyToOne
