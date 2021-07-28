@@ -3,6 +3,7 @@ package com.web.curation.team;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.web.curation.files.PhotoDto;
 import com.web.curation.member.Member;
+import com.web.curation.request.Request;
 import com.web.curation.sport.SportDto;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -11,6 +12,8 @@ import org.hibernate.annotations.DynamicInsert;
 import javax.persistence.*;
 import java.nio.file.FileStore;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -51,6 +54,10 @@ public class TeamDto {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sport_id")
     private SportDto sportDto;
+    
+    public TeamDto(int teamId) {
+    	this.teamId = teamId;
+    }
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "photo_id")
