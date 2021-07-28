@@ -90,12 +90,6 @@ export default {
     TeamHeader
     
   },
-  // computed: {
-  //   ...mapGetters(["groupInfo"]),
-  // },
-  // created() {
-  //   this.$store.dispatch("getGroupInfo");
-  // },
   methods: {
     join() {
       console.log("가입되었습니다.");

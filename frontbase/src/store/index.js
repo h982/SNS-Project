@@ -11,7 +11,6 @@ export default new Vuex.Store({
         isLogin: false, // 로그인 여부
         memberInfo: null,
         teamLists: [], // 팀 정보
-        groupInfo: [], // 각 그룹 정보
         feeds: [],
         comments: [],
         whole_challenges: [],
@@ -102,9 +101,6 @@ export default new Vuex.Store({
         },
         setBook(state, payload) {
             state.book = payload;
-        },
-        setGroupInfo(sate, payload) {
-            state.groupInfo = payload;
         },
     },
     actions: {
@@ -238,16 +234,6 @@ export default new Vuex.Store({
                 .catch(() => {
                     alert("에러발생");
                 });
-        },
-        getGroupInfo({ commit }) {
-            http
-            .get("")
-            .then((response) => {
-                commit("setGroupInfo", response.data);
-            })
-            .catch(() => {
-                alert("에러");
-            });
         },
     }
 });

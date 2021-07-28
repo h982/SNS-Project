@@ -67,7 +67,7 @@ import thumbnail1 from "@/assets/images/thumbnail.jpg";
 
 export default {
   components: {
-  
+    
   },
   computed: {
     ...mapGetters(["teamLists"]),

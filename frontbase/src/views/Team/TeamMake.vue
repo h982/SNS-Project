@@ -14,8 +14,6 @@
             background-color="transparent"
             v-model="team.name"
             label="팀이름"
-            required
-            @blur="$v.teamname.$touch()"
           ></v-text-field>
 
           <v-row>
@@ -44,7 +42,6 @@
             background-color="transparent"
             v-model="team.introduction"
             label="팀소개"
-            required
           ></v-text-field>
 
           <div class="img_wrap">
@@ -80,42 +77,25 @@
 
 
 <script>
-import { validationMixin } from "vuelidate";
 import { createInstance } from "@/api/teamindex.js";
-import {
-  required,
-  maxLength,
-  email,
-  minLength
-} from "vuelidate/lib/validators";
 import { mapGetters } from 'vuex';
+
 export default {
-  mixins: [validationMixin],
-  validations: {
-    name: { required, maxLength: maxLength(20) },
-    email: { required, email },
-    body: { required, minLength: minLength(20) }
+  computed: {
+    ...mapGetters(["memberInfo"]),
   },
   data() {
     return {
-      selected_file: null,
       sportList: [
         { name: "러닝", value: 0 },
         { name: "헬스", value: 1 },
         { name: "수영", value: 2 },
-        { name: "탁구", value: 3 }
+        { name: "탁구", value: 3 },
       ],
-      name: "",
-      email: "",
-      body: "",
-      sport: "",
       team: {
         name: "",
-        sportId: "",
         introduction: "",
-        imgPath: "",
         leader: "",
-        leaderId: "",
         member: {
           memberId: Number()
         },
@@ -129,6 +109,11 @@ export default {
     submit() {
       // this.team.sportDto.sportId = this.team.sport.value;
       // this.team.member.memberId = this.memberInfo.memberId;
+      this.team.leader = this.memberInfo.name
+      this.team.member.memberId = this.memberInfo.memberId
+      this.team.sportDto.sportId = this.team.sport.value
+
+      // console.log(this.team);
 
       const formData = new FormData();
       formData.append("name", JSON.stringify(this.team.name));
@@ -138,7 +123,14 @@ export default {
       formData.append("sportId", JSON.stringify(this.team.sportDto.sportId));
       formData.append("imgPath", JSON.stringify(this.team.imgPath));
 
-      console.log(this.team);
+      for (var key of formData.keys()) {
+      console.log(key);
+      }
+
+      for (var value of formData.values()) {
+      console.log(value);
+      }
+      
       const instance = createInstance();
       instance
         .post("team/", formData, {
@@ -149,7 +141,7 @@ export default {
         .then(response => {
           if (response.data.data === "success") {
             alert("팀생성완료 완료");
-            this.$router.push("/teammain"); // 생성성공했으면 자기 그룹영역(그룹피드/게시판/채팅/챌린지)으로 이동 => router children 설정 필요
+            this.$router.push("/"); // 생성성공했으면 자기 그룹영역(그룹피드/게시판/채팅/챌린지)으로 이동 => router children 설정 필요
           } else {
             alert("팀생성 실패");
           }
@@ -165,11 +157,12 @@ export default {
     },
     duplicateName() {
       const instance = createInstance();
-      instance.get("/team" + this.team.name + "exist").then(({ data }) => {
+      instance.get("/team/" + this.team.name + "/exists").then(({ data }) => {
         if (data) {
           alert("이미 사용된 팀명입니다!");
         } else {
           alert("사용가능한 팀명입니다!");
+          // console.log(this.memberInfo)
         }
       });
     },
@@ -186,9 +179,6 @@ export default {
       preview.style.maxHeight = "500px";
     },
   },
-  computed: {
-    ...mapGetters(["memberInfo"]),
-  }
 };
 </script>
 
