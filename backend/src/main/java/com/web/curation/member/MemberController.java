@@ -74,13 +74,9 @@ public class MemberController {
             @RequestBody @ApiParam(value = "로그인 시 필요한 회원정보(아이디, 비밀번호).", required = true) Member member) {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = null;
-        System.out.println("로그인진입");
         try {
             Optional<Member> loginUser = memberservice.getUser(member.getEmail(),member.getPassword());
-            System.out.println(loginUser);
             if (loginUser.isPresent()) {
-                System.out.println(loginUser.get().getEmail());
-                System.out.println(loginUser.get().getPassword());
                 String token = jwtService.create("memberEmail", loginUser.get().getEmail(), "access-token");// key, data, subject
                 resultMap.put("access-token", token);
                 resultMap.put("message", "success");

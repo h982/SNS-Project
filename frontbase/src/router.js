@@ -60,12 +60,7 @@ export default new Router({
       component: () =>
         import(/* webpackChunkName: "about" */ "./views/Blog.vue")
     },
-    {
-      path: "/blog/:id",
-      name: "blogPost",
-      component: () =>
-        import(/* webpackChunkName: "about" */ "./views/BlogPost.vue")
-    },
+    
     {
       path: "/services",
       name: "services",
@@ -80,12 +75,7 @@ export default new Router({
           /* webpackChunkName: "about" */ "./views/Portfolio/Portfolio.vue"
         )
     },
-    {
-      path: "/portfolio/video",
-      name: "videoPortfolio",
-      component: () =>
-        import(/* webpackChunkName: "about" */ "./views/Portfolio/Video.vue")
-    },
+    
     {
       path: "/portfolio/graphic",
       name: "graphicPortfolio",
