@@ -21,10 +21,8 @@ public class TeamService {
 
     private TeamDao teamDao;
 
-    @Autowired
     private JoinTeamDao joinTeamDao;
     
-    @Autowired
     private MemberDao memberDao;
     
 //    private FileHandler fileHandler;
