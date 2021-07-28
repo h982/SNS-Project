@@ -5,20 +5,16 @@ const instance = createInstance();
 //   headers: { "access-token": localStorage.getItem("access-token") }
 // };
 
-function login(user, success, fail) {
+function login(member, success, fail) {
   instance.defaults.headers["access-token"] = window.localStorage.getItem(
     "access-token"
   );
-  const body = {
-    userid: user.userid,
-    userpwd: user.userpwd,
-    username: user.name,
-    email: user.email,
-    address: user.address,
-  };
-
+  
   instance
-    .post("/user/confirm/login", JSON.stringify(body))
+    .post(`/member/login`, {
+      email: member.email,
+      password:member.password
+    })
     .then(success)
     .catch(fail);
 }
@@ -39,12 +35,12 @@ function join(member, success, fail) {
 }
 
 
-async function findById(userid, success, fail) {
+async function findById(memberEmail, success, fail) {
   instance.defaults.headers["access-token"] = window.localStorage.getItem(
     "access-token"
   );
   await instance
-    .get(`/user/info/${userid}`)
+    .get(`/member/info/${memberEmail}`)
     .then(success)
     .catch(fail);
 }

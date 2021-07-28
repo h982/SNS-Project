@@ -74,6 +74,7 @@
           ></v-text-field>
 
           <v-text-field
+            :type="'password'"
             name="member.password"
             color="green"
             background-color="transparent"
@@ -81,6 +82,15 @@
             label="비밀번호"
           ></v-text-field>
 
+          <v-text-field
+            :type="'password'"
+            name="passwordConfirm"
+            color="green"
+            background-color="transparent"
+            v-model="passwordConfirm"
+            label="비밀번호확인"
+          ></v-text-field>
+          <div style="color:red" v-if="error.passwordConfirm">{{error.passwordConfirm}}</div>
           <v-text-field
             name="member.zonecode"
             color="green"
@@ -124,27 +134,11 @@
             return-object
           ></v-select>
 
-          <!-- <v-textarea
-            color="green"
-            background-color="transparent"
-            :counter="200"
-            :error-messages="bodyErrors"
-            v-model="body"
-            label="Textarea"
-            name="body"
-            @blur="$v.body.$touch()"
-          ></v-textarea> -->
-
+        </form>
           <v-btn @click="submit" type="submit" color="green" class="white--text"
             >회원가입</v-btn>
-            <b-button
-            type="button"
-            color="green"
-            class="white--text"
-            @click="submit"
-          >SEND MESSAGE</b-button>
+            
           <v-btn @click="clear">clear</v-btn>
-        </form>
       </v-flex>
     </v-layout>
   </v-container>
@@ -168,6 +162,7 @@ export default {
   },
   data() {
     return {
+      passwordConfirm:"",
       sexList: [
         { name: "남자", value: "M" },
         { name: "여자", value: "W" },
@@ -208,17 +203,25 @@ export default {
         createdate: "",
         authentication: "",
       },
+      error: {
+        passwordConfirm: false,
+      },
     };
+  },
+  watch: {
+    passwordConfirm: function(v){
+      this.checkForm();
+    }
   },
   methods: {
     submit() {
       this.member.sex = this.sex.value;
       this.member.mbti = this.mbti.value;
       const instance = createInstance();
-      instance
-        .post("http://localhost:8080/member/signup", JSON.stringify(this.member))
+      instance.post("/member/signup", JSON.stringify(this.member))
         .then(
           (response) => {
+            console.log(response);
             if (response.data.message === "success") {
               alert("회원가입 완료");
               this.$router.push("/");
@@ -231,9 +234,6 @@ export default {
           alert("에러발생!");
           this.$router.push("/");
         });
-      alert("회원가입이 완료되었습니다.");
-      this.$router.push("/");
-
     },
     
     clear() {
@@ -265,6 +265,18 @@ export default {
           this.member.address = fullRoadAddr;
         },
       }).open();
+    },
+    checkForm() {
+      if (this.member.password !== this.passwordConfirm)
+        this.error.passwordConfirm = "비밀번호가 다릅니다.";
+      else this.error.passwordConfirm = false;
+
+
+      let isSubmit = true;
+      Object.values(this.error).map(v => {
+        if (v) isSubmit = false;
+      });
+      this.isSubmit = isSubmit;
     },
   },
   computed: {
