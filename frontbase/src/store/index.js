@@ -48,6 +48,9 @@ export default new Vuex.Store({
         book(state) {
             return state.book;
         },
+        memberInfo(state) {
+            return state.memberInfo;
+        },
     },
     mutations: {
         setIsLogined(state, isLogin) {
@@ -99,6 +102,9 @@ export default new Vuex.Store({
         },
         setBook(state, payload) {
             state.book = payload;
+        },
+        setGroupInfo(sate, payload) {
+            state.groupInfo = payload;
         },
     },
     actions: {
@@ -232,6 +238,16 @@ export default new Vuex.Store({
                 .catch(() => {
                     alert("에러발생");
                 });
-        }
+        },
+        getGroupInfo({ commit }) {
+            http
+            .get("")
+            .then((response) => {
+                commit("setGroupInfo", response.data);
+            })
+            .catch(() => {
+                alert("에러");
+            });
+        },
     }
 });
