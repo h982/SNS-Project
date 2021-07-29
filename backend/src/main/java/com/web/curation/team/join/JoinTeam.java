@@ -42,4 +42,8 @@ public class JoinTeam {
 	@Column(name = "join_date", insertable = false, updatable = false)
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
 	LocalDateTime joinDate;
+
+	public JoinTeam(int joinTeamId) {
+		this.joinTeamId = joinTeamId;
+	}
 }
