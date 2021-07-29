@@ -1,7 +1,8 @@
 <template>
   <v-flex xs12 sm6 md4 lg4 xl4>
-
-    <v-card :to="'/teammain/'" hover>
+  
+    <v-card @click="enrollCntTeam()" hover>
+    
       <v-img :src="imgPath" aspect-ratio="2.75" height="230" :alt="title"></v-img>
       <v-card-title primary-title>
         <div>
@@ -11,13 +12,19 @@
           </div>
         </div>
       </v-card-title>
+      
     </v-card>
+  
 
   </v-flex>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
+  computed: {
+    ...mapGetters(["selectTeam","myTeamList","memberInfo","SET_SELECT_TEAM"]),
+  },
   props: {
     name: {
       type: String,
@@ -34,8 +41,24 @@ export default {
     teamId: {
       type: String,
       required: true
+    },
+    selectMyTeam:{
+      type: Object,
+      required:true
     }
-  }
+  },
+  methods: {
+    enrollCntTeam(){
+      console.log(this.selectMyTeam);
+      this.$store.dispatch("SET_SELECT_TEAM",this.selectMyTeam).then(()=>{
+        this.$router.replace("/teammain");
+      });
+      //this.selectTeam=this.selectMyTeam;
+      console.log(this.selectTeam);
+      //alert(this.selectMyTeam);
+    }
+    
+  },
 };
 </script>
 

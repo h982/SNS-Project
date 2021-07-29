@@ -61,4 +61,7 @@ public class TeamChallenge {
 	@Column(name="end_date")
 	private LocalDateTime endDate;
 
+	public TeamChallenge(int teamChallengeId) {
+		this.teamChallengeId = teamChallengeId;
+	}
 }
