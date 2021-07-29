@@ -1,5 +1,7 @@
 package com.web.curation.files;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.web.curation.feed.Feed;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,6 +28,11 @@ public class PhotoDto {
     private String imageName;
 
     private String imageExtension;
+
+    @JsonIgnore
+    @JoinColumn(name = "feed_id")
+    @ManyToOne
+    private Feed feed;
 
 
     @Builder
