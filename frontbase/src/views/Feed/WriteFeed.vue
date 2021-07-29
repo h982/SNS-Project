@@ -82,7 +82,7 @@ export default {
         .then(response => {
           if (response.data.data === "success") {
             alert("피드 작성 완료");
-            this.$router.push("#");
+            this.$router.push("/feed");
           } else {
             alert("피드 작성 실패");
           }

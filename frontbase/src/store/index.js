@@ -228,11 +228,14 @@ export default new Vuex.Store({
                 console.log("에러");
             });
             },
-        getFeeds(context) {
-            http
-                .get("")
-                .then(({ data }) => {
-                    context.commit("setFeeds", data);
+        getFeeds({ commit }) {
+            const instance = createInstance();
+            instance
+                .get("/feed")
+                .then((response) => {
+                    console.log("?????????????????");
+                    console.log(response);
+                    commit("setFeeds", response.data.object);
                 })
                 .catch(() => {
                     alert("에러발생");

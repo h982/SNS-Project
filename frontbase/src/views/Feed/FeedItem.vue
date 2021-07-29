@@ -14,20 +14,19 @@
       <div class="content">
         <p>이 글은 아주 좋습니다.</p>
       </div> -->
-      <div>작성자</div>
-      <!-- <div>{{feed.writer}}</div> -->
-      <div>일시</div>
-      <!-- <div>{{feed.write_date}}</div> -->
+      <!-- <div>작성자</div> -->
+      <div>{{ feed.writer.replaceAll('"', "") }}</div>
+      <!-- <div>일시</div> -->
+      <div>{{ feed.writeDate }}</div>
     </div>
     <div class="feed-card">
       <div
         class="img"
-        :style="{ 'background-image': 'url(' + defaultImage + ')' }"
+        :style="{ 'background-image': 'url(' + feed.photos[0].filePath + ')' }"
       ></div>
       <div class="contentsWrap">
         <div class="desc">
-          사용자경험(UX)을 이해하는 팀원이 되기 위하여 - 사용자에게 '기본적인'
-          UX를 선사하기 위해 우리 모두 알아야할 사실들
+          {{ feed.contents.replaceAll('"', "") }}
         </div>
         <!-- <div class="wrap">
           <div class="url">
@@ -51,6 +50,7 @@
 import defaultImage from "../../assets/images/img-placeholder.png";
 import defaultProfile from "../../assets/images/profile_default.png";
 export default {
+  props: ["feed"],
   data: () => {
     return { defaultImage, defaultProfile };
   },
