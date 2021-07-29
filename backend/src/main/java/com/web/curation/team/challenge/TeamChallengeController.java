@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.web.curation.member.Member;
@@ -26,25 +27,26 @@ public class TeamChallengeController {
 	@Autowired
 	private TeamChallengeService teamChallengeService;
 	
-//	@GetMapping("/my_team")
-//	@ApiOperation(value = "내 팀 챌린지 리스트")
-//	public Object findTeamChallenges(@Valid @RequestBody Member member) {
-//		
-//		BasicResponse result = new BasicResponse();
-//		ResponseEntity response = null;
-//        if(list == null) {
-//        	result.status =false;
-//        	result.data = "fail";
-//        	response = new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
-//        }else {
-//        	 result.status = true;
-//             result.data = "success";
-//             result.object = list;
-//             response = new ResponseEntity<>(result, HttpStatus.OK);
-//        }
-//        
-//        return response;
-//	}
+	@GetMapping("/my_teamchallenge_list/{member_id}")
+	@ApiOperation(value = "내 팀 챌린지 리스트")
+	public Object findTeamChallenges(@Valid @RequestParam(name = "member_id") int memberId) {
+
+		List<TeamChallenge> list = teamChallengeService.getTeamChallengeList(memberId);
+		BasicResponse result = new BasicResponse();
+		ResponseEntity response = null;
+        if(list == null) {
+        	result.status =false;
+        	result.data = "fail";
+        	response = new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+        }else {
+        	 result.status = true;
+             result.data = "success";
+             result.object = list;
+             response = new ResponseEntity<>(result, HttpStatus.OK);
+        }
+
+        return response;
+	}
 	
 	@PutMapping("/team_challenge_enroll")
 	@ApiOperation(value = "팀 챌런지 생성하기")

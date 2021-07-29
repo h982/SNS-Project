@@ -6,6 +6,9 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import com.web.curation.team.join.JoinTeam;
+import com.web.curation.team.join.JoinTeamDao;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,30 +21,26 @@ import com.web.curation.team.challenger.TeamChallengerDao;
 import com.web.curation.team.challenger.TeamChallengerParticipation;
 
 @Service
+@AllArgsConstructor
 public class TeamChallengeService {
-	@Autowired
+
 	private TeamChallengeDao teamChallengeDao;
-	
-	@Autowired
 	private TeamDao teamDao;
-	
-	@Autowired
 	private TeamChallengerDao teamChallengerDao;
-	
-	@Autowired
 	private MemberDao memberDao;
-	
+	private JoinTeamDao joinTeamDao;
+
 	public boolean addTeamChallenge(TeamChallengeCreationRequest creationRequest) {
+
 		TeamChallenge teamChallenge = TeamChallenge.builder()
 				.contents(creationRequest.getContents())
 				.title(creationRequest.getTitle())
 				.memberCount(1)
 				.status(Status.BEGIN)
-				.team(teamDao.getOne(creationRequest.getTeamId()))
+				.team(teamDao.findById((long)creationRequest.getTeamId()).get())
 				.startDate(creationRequest.getStartDate())
 				.endDate(creationRequest.getEndDate())
 				.build();
-	
 		
 		TeamChallenge result = teamChallengeDao.save(teamChallenge);
 		System.out.println(result);
@@ -78,18 +77,23 @@ public class TeamChallengeService {
 		return list;
 	}
 
-	// join team 이 구현되야함
-//	public List<TeamChallenge> getTeamChallengeList(@Valid Member member) {
-//		
-//		LisT<TeamDto> teams = ;
-//		List<TeamChallenge> list = teamChallengeDao.findTeamChallengeByMember(member);
-//		
-//		return list;
-//	}
-//	
+//	 join team 이 구현되야함
+	public List<TeamChallenge> getTeamChallengeList(@Valid int memberId) {
+		Member member = memberDao.findById(memberId).get();
+		List<JoinTeam> joinTeams = joinTeamDao.findJoinTeamByMember(member);
+
+		List<TeamChallenge> list = new ArrayList<>();
+		for(JoinTeam join: joinTeams){
+			List<TeamChallenge> tc = teamChallengeDao.findTeamChallengeByTeam(join.getTeam());
+			list.addAll(tc);
+		}
+
+		return list;
+	}
+
 	public boolean participateTeamChallenge(@Valid TeamChallengerParticipation participation) {
 		TeamChallenge teamChallenge = teamChallengeDao.getTeamChallengeByTeamChallengeId(participation.getTeamChallengeId());
-		Member member = memberDao.getMemberByMemberId(participation.getMemberId());
+		Member member = memberDao.findById(participation.getMemberId()).get();
 		
 		TeamChallenger teamChallenger = TeamChallenger.builder()
 				.done(false)
@@ -108,7 +112,7 @@ public class TeamChallengeService {
 
 	public boolean giveupTeamChallenge(@Valid TeamChallengerParticipation participation) {
 		TeamChallenge teamChallenge = teamChallengeDao.getTeamChallengeByTeamChallengeId(participation.getTeamChallengeId());
-		Member member = memberDao.getMemberByMemberId(participation.getMemberId());
+		Member member = memberDao.findById(participation.getMemberId()).get();
 		
 		TeamChallenger isExist = teamChallengerDao.findTeamChallengerByTeamChallengeAndMember(teamChallenge, member);
 		if(isExist == null) {

@@ -13,7 +13,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.web.curation.member.Member;
 import com.web.curation.team.TeamDto;
 import com.web.curation.team.challenge.TeamChallenge;
-import com.web.curation.team.challenge.TeamChallenge.TeamChallengeBuilder;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
