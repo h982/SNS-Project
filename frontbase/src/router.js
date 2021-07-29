@@ -10,6 +10,7 @@ import Board from "@/views/Board.vue";
 import Chatting from "@/views/Team/TeamChattingRoom.vue";
 import TeamFeed from "@/views/Team/TeamFeed.vue";
 import MyTeam from "@/views/Team/MyTeam.vue";
+import MyPage from "@/views/user/MyPage.vue";
 Vue.use(Router);
 Vue.use(Meta);
 
@@ -34,6 +35,12 @@ export default new Router({
       path: "/myteam",
       name: "myteam",
       component: MyTeam
+        
+    },
+    {
+      path: "/mypage",
+      name: "mypage",
+      component: MyPage
         
     },
     {

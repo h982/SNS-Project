@@ -96,9 +96,8 @@
         <v-btn flat to="/challenge" active-class="green--text headline">Challenges</v-btn>
         <v-btn flat to="/teamlist" active-class="green--text headline">Teamlist</v-btn>
         <v-btn flat to="/myteam" active-class="green--text headline">MyTeam</v-btn>
-        <v-btn flat to="/teammain" active-class="green--text headline">임시 선택된팀</v-btn>
-
         <v-btn flat to="/feed" active-class="green--text headline">Feed</v-btn>
+        <v-btn flat to="/mypage" active-class="green--text headline">MyPage</v-btn>
         <v-btn flat to="/" active-class="" @click.prevent="onClickLogout">Logout</v-btn>
         
         <v-btn @click="changeTheme" depressed small icon>
