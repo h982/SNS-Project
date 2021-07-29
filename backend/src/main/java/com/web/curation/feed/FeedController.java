@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -66,6 +67,23 @@ public class FeedController {
         result.status = true;
         result.data = "success";
         result.object = resultFeed;
+        response = new ResponseEntity<>(result, HttpStatus.OK);
+
+        return response;
+    }
+
+    @GetMapping("/feed")
+    @ApiOperation(value = "피드 조회")
+    public ResponseEntity<?> getFeedList(){
+        //피드 하나조회해서 사진테이블에 피드아이디가 맞는 것들 가져와서 add
+        List<Feed> feedList = feedService.getFeedList();
+
+        ResponseEntity response = null;
+
+        final BasicResponse result = new BasicResponse();
+        result.status = true;
+        result.data = "success";
+        result.object = feedList;
         response = new ResponseEntity<>(result, HttpStatus.OK);
 
         return response;

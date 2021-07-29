@@ -1,16 +1,13 @@
 package com.web.curation.feed;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.web.curation.files.PhotoDto;
 import com.web.curation.member.Member;
 import com.web.curation.team.challenge.TeamChallenge;
 import com.web.curation.team.join.JoinTeam;
@@ -50,5 +47,9 @@ public class Feed {
 	
 	@Column(name="write_date", insertable = false, updatable = false)
 	private LocalDateTime writeDate;
+
+	@OneToMany
+	@JoinColumn(name = "feed_id")
+	private List<PhotoDto> photos = new ArrayList<>();
 
 }
