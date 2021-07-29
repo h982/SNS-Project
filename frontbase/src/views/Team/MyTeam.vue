@@ -9,7 +9,9 @@
           :introduction="post.text.introduction"
           :imgPath="post.text.imgPath"
           :teamId="post.text.teamId"
+          :selectMyTeam="post.text"
         />
+
       </v-layout>
     </v-layout>
   </v-container>
