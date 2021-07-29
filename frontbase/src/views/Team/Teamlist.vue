@@ -31,18 +31,17 @@
       xs12 sm6 md4 lg3 xl3
       >
           <v-card
-            v-if="teamList.sportDto.sportId === selected || selected === 4"
             hover
             flat
             height="230"
           >
             <v-img :src="thumbnail1" aspect-ratio="2.75" height="130" contain></v-img>
             <v-card-title primary-title class="justify-center">
-              <v-flex text-xs-center subheading font-weight-bold>{{teamList.name}}</v-flex>
+              <v-flex text-xs-center subheading font-weight-bold>{{teamList.name.replaceAll("\"", "")}}
+                <br>
+                {{teamList.introduction.replaceAll("\"", "")}}
+              </v-flex>
             </v-card-title> 
-            <v-card-text>
-              {{ teamList.introduction }}
-            </v-card-text>
           </v-card>
       </v-flex>
     </v-layout>
@@ -67,13 +66,14 @@ import thumbnail1 from "@/assets/images/thumbnail.jpg";
 
 export default {
   components: {
-  
+    
   },
   computed: {
     ...mapGetters(["teamLists"]),
   },
   created() {
     this.$store.dispatch("getTeamLists");
+    console.log(teamList);
   },
   data() {
     return {

@@ -1,7 +1,6 @@
 <template>
   <v-container grid-list-xl>
     <v-layout row justify-center align-center wrap class="mt-4 pt-2">
-
       <v-flex xs12 sm12 md6 lg6 xl6>
         <h2 class="pb-4 mb-4">
           <span>Team</span>
@@ -15,33 +14,16 @@
             background-color="transparent"
             v-model="team.name"
             label="팀이름"
-            required
-            @blur="$v.teamname.$touch()"
           ></v-text-field>
 
-          <v-row>
-            <v-btn @click="duplicateName" type="button" color="blue" class="white--text duplicate">
-              중복검사
-            </v-btn>
-          </v-row>
-
-          <v-text-field
-            name="team.leaderId"
-            color="green"
-            background-color="transparent"
-            v-model="team.leaderId"
-            label="리더ID"
-            required
-          ></v-text-field>
-
-          <v-text-field
-            name="team.leader"
-            color="green"
-            background-color="transparent"
-            v-model="team.leader"
-            label="리더이름"
-            required
-          ></v-text-field>
+          <v-btn
+            @click="duplicateName"
+            type="button"
+            color="blue"
+            class="white--text duplicate"
+          >
+            중복검사
+          </v-btn>
 
           <v-select
             v-model="team.sport"
@@ -58,26 +40,29 @@
             background-color="transparent"
             v-model="team.introduction"
             label="팀소개"
-            required
           ></v-text-field>
 
-          <v-text-field
-            name="team.imgPath"
-            color="green"
-            background-color="transparent"
-            v-model="team.imgPath"
-            label="이미지"
-            required
-          ></v-text-field>
-
-          <v-file-input
-            label="File input"
-            filled
-            prepend-icon="mdi-camera"
-          ></v-file-input>
-
+          <div class="img_wrap">
+            <label for="chooseFile" class="fileBtn">
+              팀 썸네일
+            </label>
+            <input
+              type="file"
+              id="chooseFile"
+              name="chooseFile"
+              accept="image/*"
+              @change="loadf"
+            />
+            <img src="" class="preview" />
+          </div>
+          
+          <br>
           <div class="buttons">
-            <v-btn @click="submit" type="button" color="green" class="white--text"
+            <v-btn
+              @click="submit"
+              type="button"
+              color="green"
+              class="white--text"
               >생성하기</v-btn
             >
             <v-btn @click="clear">clear</v-btn>
@@ -88,21 +73,14 @@
   </v-container>
 </template>
 
+
 <script>
-import { validationMixin } from "vuelidate";
 import { createInstance } from "@/api/teamindex.js";
-import {
-  required,
-  maxLength,
-  email,
-  minLength,
-} from "vuelidate/lib/validators";
+import { mapGetters } from 'vuex';
+
 export default {
-  mixins: [validationMixin],
-  validations: {
-    name: { required, maxLength: maxLength(20) },
-    email: { required, email },
-    body: { required, minLength: minLength(20) }
+  computed: {
+    ...mapGetters(["memberInfo"]),
   },
   data() {
     return {
@@ -112,38 +90,68 @@ export default {
         { name: "수영", value: 2 },
         { name: "탁구", value: 3 },
       ],
-      name: "",
-      email: "",
-      body: "",
-      sport: "",
       team: {
         name: "",
-        sportId: "",
         introduction: "",
-        imgPath: "",
         leader: "",
-        leaderId: "",
         member: {
-          memberId: Number(),
+          memberId: Number()
         },
         sportDto: {
-          sportId: Number(),
+          sportId: Number()
         }
-      },
+      }
     };
   },
   methods: {
+    loadf() {
+      var file = document.getElementById("chooseFile");
+
+      let preview = document.querySelector(".preview");
+      preview.src = URL.createObjectURL(file.files[0]);
+
+      // console.log(file.files[0]);
+
+      preview.style.width = "60%";
+      preview.style.height = "60%";
+      preview.style.maxHeight = "500px";
+    },
     submit() {
-      this.team.sportDto.sportId = 1;
-      this.team.member.memberId = 1;
-      console.log(this.team)
+      // this.team.sportDto.sportId = this.team.sport.value;
+      // this.team.member.memberId = this.memberInfo.memberId;
+      this.team.leader = this.memberInfo.name
+      this.team.member.memberId = this.memberInfo.memberId
+      this.team.sportDto.sportId = this.team.sport.value
+
+      // console.log(this.team);
+
+      const formData = new FormData();
+      formData.append("name", JSON.stringify(this.team.name));
+      formData.append("intro", JSON.stringify(this.team.introduction));
+      formData.append("leader", JSON.stringify(this.team.leader));
+      formData.append("leaderId", JSON.stringify(this.team.member.memberId));
+      formData.append("sportId", JSON.stringify(this.team.sportDto.sportId));
+      formData.append("imgPath", document.getElementById("chooseFile").files[0]);
+
+      for (var key of formData.keys()) {
+      console.log(key);
+      }
+
+      for (var value of formData.values()) {
+      console.log(value);
+      }
+      
       const instance = createInstance();
       instance
-        .post("team/", JSON.stringify(this.team))
-        .then((response) => {
+        .post("team/", formData, {
+          Headers: {
+            "Content-Type": "multiart/form-data"
+          }
+        })
+        .then(response => {
           if (response.data.data === "success") {
             alert("팀생성완료 완료");
-            this.$router.push("/teamlist"); // 생성성공했으면 자기 그룹영역(그룹피드/게시판/채팅/챌린지)으로 이동 => router children 설정 필요
+            this.$router.push("#"); // 생성성공했으면 자기 그룹영역(그룹피드/게시판/채팅/챌린지)으로 이동 => router children 설정 필요
           } else {
             alert("팀생성 실패");
           }
@@ -157,46 +165,21 @@ export default {
       this.team.name = "";
       this.team.introduction = "";
     },
-    duplicateName(){
+    duplicateName() {
       const instance = createInstance();
-      instance
-        .get("/team"+this.team.name+"exist")
-        .then(({ data }) => {
-          if (data) {
-            alert("이미 사용된 팀명입니다!")
-          } else {
-            alert("사용가능한 팀명입니다!")
-          }
-        });
+      instance.get('/team/"' + this.team.name + '"/exists').then(({ data }) => {
+        if (data) {
+          alert("이미 사용된 팀명입니다!");
+        } else {
+          alert("사용가능한 팀명입니다!");
+          // console.log(this.memberInfo)
+        }
+      });
     },
   },
-  computed: {
-    // teamnameErrors() {
-    //   const errors = [];
-    //   if (!this.$v.teamname.$dirty) return errors;
-    //   !this.$v.teamname.maxLength &&
-    //     errors.push("팀이름은 20글자 이내로 작성해야합니다.");
-    //   !this.$v.teamname.required && errors.push("팀이름을 적어주세요.");
-    //   return errors;
-    // },
-    // emailErrors() {
-    //   const errors = [];
-    //   if (!this.$v.email.$dirty) return errors;
-    //   !this.$v.email.email && errors.push("Must be valid e-mail");
-    //   !this.$v.email.required && errors.push("E-mail is required");
-    //   return errors;
-    // },
-    // bodyErrors() {
-    //   const errors = [];
-    //   if (!this.$v.body.$dirty) return errors;
-    //   !this.$v.body.minLength &&
-    //     errors.push("Text must be at least 20 characters long");
-    //   !this.$v.body.required && errors.push("Text is required");
-    //   return errors;
-    // }
-  }
 };
 </script>
+
 
 <style scoped>
 .duplicate {
@@ -206,5 +189,26 @@ export default {
 .buttons {
   position: relative;
   margin-left: 33%;
+}
+.img_wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.preview {
+  display: block;
+  margin: 20px 0;
+}
+#chooseFile {
+  display: none;
+}
+.fileBtn {
+  background: lavender;
+  border-radius: 15px;
+  padding: 0.5em 1em;
+}
+.fileBtn:hover {
+  cursor: pointer;
 }
 </style>

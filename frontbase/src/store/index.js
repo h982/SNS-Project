@@ -11,7 +11,6 @@ export default new Vuex.Store({
         isLogin: false, // 로그인 여부
         memberInfo: null,
         teamLists: [], // 팀 정보
-        groupInfo: [], // 각 그룹 정보
         feeds: [],
         comments: [],
         whole_challenges: [],
@@ -47,6 +46,9 @@ export default new Vuex.Store({
         },
         book(state) {
             return state.book;
+        },
+        memberInfo(state) {
+            return state.memberInfo;
         },
     },
     mutations: {
@@ -232,6 +234,6 @@ export default new Vuex.Store({
                 .catch(() => {
                     alert("에러발생");
                 });
-        }
+        },
     }
 });
