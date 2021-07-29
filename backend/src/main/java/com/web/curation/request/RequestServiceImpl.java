@@ -24,7 +24,7 @@ public class RequestServiceImpl implements RequestService {
 
 	@Override
 	public void makeRequest(Request request) {
-		request.setStatus(0);
+		request.setStatus(Status.WAITING);
 		requestDao.save(request);
 	}
 
@@ -36,7 +36,7 @@ public class RequestServiceImpl implements RequestService {
 	@Override
 	public Request acceptRequest(int requestId) {
 		Request request = requestDao.getOne(requestId);
-		request.setStatus(1);
+		request.setStatus(Status.ACCEPT);
 		requestDao.save(request);
 		return request;
 	}
@@ -44,7 +44,7 @@ public class RequestServiceImpl implements RequestService {
 	@Override
 	public Request rejectRequest(int requestId) {
 		Request request = requestDao.getOne(requestId);
-		request.setStatus(2);
+		request.setStatus(Status.REJECT);
 		requestDao.save(request);
 		return request;
 	}
