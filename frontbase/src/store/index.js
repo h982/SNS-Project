@@ -20,6 +20,7 @@ export default new Vuex.Store({
         myTeamList: [],
         book: {},
         books: [],
+        selectTeam: {},
     },
 
     getters: {
@@ -49,6 +50,9 @@ export default new Vuex.Store({
         },
         memberInfo(state) {
             return state.memberInfo;
+        },
+        selectTeam(state) {
+            return state.selectTeam;
         }
     },
     mutations: {
@@ -102,32 +106,39 @@ export default new Vuex.Store({
         setBook(state, payload) {
             state.book = payload;
         },
+        SET_SELECT_TEAM(state, data) {
+            state.selectTeam = data;
+        },
     },
     actions: {
         async GET_MEMBER_INFO({ commit }, token) {
             let decode = jwt_decode(token);
-                console.log(decode);
+            console.log(decode);
             await findById(
-            decode.memberEmail,
-            (response) => {
-                if (response.data.message === "success") {
-                commit("setMemberInfo", response.data.memberInfo);
-                // router.push("/");
-                // router.go(router.currentRoute);
-                } else {
-                    console.log("유저 정보 없음!!");
+                decode.memberEmail,
+                (response) => {
+                    if (response.data.message === "success") {
+                        commit("setMemberInfo", response.data.memberInfo);
+                        // router.push("/");
+                        // router.go(router.currentRoute);
+                    } else {
+                        console.log("유저 정보 없음!!");
+                    }
+                },
+                (error) => {
+                    console.log(error);
                 }
-            },
-            (error) => {
-                console.log(error);
-            }
-        );
+            );
         },
 
         LOGOUT({ commit }) {
             commit("logout");
-            this.state.myTeamList.length=0;
+            this.state.myTeamList.length = 0;
             localStorage.removeItem("access-token");
+        },
+        SET_SELECT_TEAM(context, payload) {
+            this.state.selectTeam.length=0;
+            context.commit("SET_SELECT_TEAM",payload);
         },
 
         getBooks(context) {
