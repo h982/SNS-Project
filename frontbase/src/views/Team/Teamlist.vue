@@ -80,7 +80,6 @@ export default {
   },
   created() {
     this.$store.dispatch("getTeamLists");
-    console.log(teamList);
   },
   data() {
     return {
