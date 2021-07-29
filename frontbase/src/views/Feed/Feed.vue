@@ -3,6 +3,7 @@
     <div class="wrapB">
       <feed-item v-for="(feed, idx) in feeds" :key="idx" :feed="feed" />
       <!-- <feed-item></feed-item> -->
+      <div class="writebtn" @click="mvWrite"/>></div>
     </div>
   </div>
 </template>
@@ -22,6 +23,26 @@ export default {
   },
   created() {
     this.$store.dispatch("getFeeds");
-  }
+  },
+  methods: {
+    mvWrite() {
+      this.$router.push("/writefeed");
+    }
+  },
 };
 </script>
+
+<style scoped>
+.writebtn {
+  position: fixed;
+  bottom : 30px;
+  right: 30px;
+  width: 50px;
+  height: 50px;
+  background-image:  url("../../assets/plus.png");
+  background-size: cover;
+}
+.writebtn:hover{
+  cursor: pointer;
+}
+</style>
