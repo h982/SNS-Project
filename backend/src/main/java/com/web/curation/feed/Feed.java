@@ -50,8 +50,5 @@ public class Feed {
 	
 	@Column(name="write_date", insertable = false, updatable = false)
 	private LocalDateTime writeDate;
-	
-	@Column(name = "filepath", nullable = false, length = 255)
-	private String filepath;
 
 }
