@@ -31,11 +31,17 @@
       xs12 sm6 md4 lg3 xl3
       >
           <v-card
+            v-if="teamList.sportDto.sportId === selected || selected === 4"
             hover
             flat
             height="230"
           >
-            <v-img :src="thumbnail1" aspect-ratio="2.75" height="130" contain></v-img>
+            <div v-if="teamList.photoDto ===null">
+              <v-img :src="thumbnail1" aspect-ratio="2.75" height="130" contain></v-img>
+            </div>
+            <div v-else>
+              <v-img :src="teamList.photoDto.filePath" aspect-ratio="2.75" height="130" contain></v-img>
+            </div>
             <v-card-title primary-title class="justify-center">
               <v-flex text-xs-center subheading font-weight-bold>{{teamList.name.replaceAll("\"", "")}}
                 <br>
