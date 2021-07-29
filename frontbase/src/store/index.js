@@ -49,7 +49,7 @@ export default new Vuex.Store({
         },
         memberInfo(state) {
             return state.memberInfo;
-        },
+        }
     },
     mutations: {
         setIsLogined(state, isLogin) {
@@ -58,6 +58,7 @@ export default new Vuex.Store({
         setMemberInfo(state, memberInfo) {
             state.isLogin = true;
             state.memberInfo = memberInfo;
+            console.log(memberInfo);
         },
         logout(state) {
             state.isLogin = false;
@@ -88,7 +89,6 @@ export default new Vuex.Store({
         },
         SET_MY_TEAMLIST(state, data) {
             state.myTeamList.length = 0;
-            console.log(data);
             data.forEach(element => {
                 state.myTeamList.push({ value: element, text: element });
             });
@@ -190,12 +190,13 @@ export default new Vuex.Store({
                 });
         },
 
-        async GET_MY_TEAM_INFO({ commit }) {
+        async GET_MY_TEAM_INFO({ commit },payload) {
             await http
-                .get("/team/my_team_list")
+                .get("/team/my_team_list/"+payload)
                 .then((data) => {
-                    console.log(data.data);
-                    commit("SET_MY_TEAMLIST", data.data);
+                    console.log(data);
+                    console.log(data.data.object);
+                    commit("SET_MY_TEAMLIST", data.data.object);
                 })
                 .catch(() => {
                     alert("에러발생!");
