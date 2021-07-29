@@ -150,7 +150,7 @@ export default {
       "whole_challenges",
       "team_challenges",
     ]),
-    ...mapState(["memberInfo","teamInfo"])
+    ...mapState(["memberInfo","teamInfo","selectTeam"])
   },
   data() {
     return {
@@ -241,15 +241,19 @@ export default {
   methods: {
       enroll(data) {
         console.log(data);
-        let start_date=data.date[0].split(" ");
-        let end_date=data.date[1];
-        alert(start_date[1]);
+        let start_date = JSON.stringify(data.date[0]);
+        let end_date = JSON.stringify(data.date[1]);
         const instance = createInstance();
+        console.log(start_date);
         const body = {
-          challenge: data,
-          
+          "contents":data.contents,
+          "endDate":end_date,
+          "startDate":start_date,
+          "teamId": this.selectTeam.teamId,
+          "title": data.title
         }; 
-        instance.post("/challenge/team_challenges_enroll", JSON.stringify(body))
+        console.log(JSON.stringify(body));
+        instance.put("/challenge/team_challenge_enroll", JSON.stringify(body))
         .then(
           (response) => {
             if (response.data.message === "success") {
