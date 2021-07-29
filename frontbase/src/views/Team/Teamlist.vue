@@ -35,8 +35,9 @@
             hover
             flat
             height="230"
+            @click="confirm(teamList)"
           >
-            <div v-if="teamList.photoDto ===null">
+            <div v-if="teamList.photoDto === null">
               <v-img :src="thumbnail1" aspect-ratio="2.75" height="130" contain></v-img>
             </div>
             <div v-else>
@@ -104,6 +105,11 @@ export default {
     tableTennis() {
       this.selected = 3;
     },
+    confirm(data){
+      this.$store.dispatch("SET_SELECT_TEAM",data).then(()=>{
+        this.$router.replace("/teammain");
+      });
+    }
   },
 };
 </script>

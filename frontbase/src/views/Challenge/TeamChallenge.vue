@@ -89,10 +89,9 @@
     </h2>
     <v-layout row justify-center align-center wrap class="mt-4 pt-2">
       <v-dialog
-        v-model="whole_challenge.dialog"
         lazy
         max-width="1000"
-        v-for="whole_challenge in whole_projects"
+        v-for="whole_challenge in whole_challenges"
         :key="whole_challenge.title"
       >
         <template v-slot:activator="{ on }">
@@ -108,16 +107,15 @@
             </v-card>
           </v-flex>
         </template>
-        <v-card v-if="whole_challenge.dialog">
+        <v-card >
           <v-img :src="whole_challenge.poster"></v-img>
           <v-card-text>
             <h3 class="headline mb-0">
               <span>{{whole_challenge.title}}</span>
             </h3>
             
-            <v-chip color="green" text-color="white">{{whole_challenge.tech.tech1}}</v-chip>
-            <v-chip color="green" text-color="white">{{whole_challenge.tech.tech2}}</v-chip>
-            <v-chip color="green" text-color="white">{{whole_challenge.tech.tech3}}</v-chip>
+            <v-chip color="green" text-color="white">{{whole_challenge.title}}</v-chip>
+            <v-chip color="green" text-color="white">{{whole_challenge.contents}}</v-chip>
 
           </v-card-text>
           <v-card-actions>
@@ -125,7 +123,7 @@
               등록하기
             </v-btn>
 
-          <date-picker v-model="date" range></date-picker>
+          <date-picker v-model="whole_challenge.date" range></date-picker>
 
             <!-- <v-btn large flat dark color="green" :href="whole_challenge.demo" target="_blank">
               <v-icon left>fas fa-desktop</v-icon>Demo
@@ -139,6 +137,7 @@
 
 <script>
 import DatePicker from 'vue2-datepicker';
+import 'vue2-datepicker/index.css';
 import { mapGetters, mapState } from 'vuex';
 import { createInstance } from "@/api/index.js";
 
@@ -155,6 +154,23 @@ export default {
   },
   data() {
     return {
+      month_map : new Map(
+        [
+          ["Jen", "01"],
+          ["Feb", "02"],
+          ["Mar", "03"],
+          ["Apr", "04"],
+          ["May", "05"],
+          ["Jue", "06"],
+          ["Jul", "07"],
+          ["Aug", "08"],
+          ["Sep", "09"],
+          ["Oct", "10"],
+          ["Nov", "11"],
+          ["Dec", "12"],
+        ]
+      ),
+      
       dialog: false,
       team_projects: [
         {
@@ -196,96 +212,42 @@ export default {
           poster: "https://i.ibb.co/p2cLTzW/image.jpg"
         },
       ],
-
-      whole_projects: [
-        {
-          dialog: false,
-          title: "작심삼일이라도 달리기",
-          git: "",
-          demo: "",
-          tech: {
-            tech1: "러닝",
-            tech2: "팀챌린지",
-            tech3: "기간: 3일",
-          },
-          poster: "https://i.ibb.co/p2cLTzW/image.jpg"
-        },
-        {
-          dialog: false,
-          title: "러닝은 거들뿐",
-          git: "https://github.com/EldinZaimovic/Eldin-Space-Vue",
-          demo: "https://eldin.space/",
-          tech: {
-            tech1: "VUE",
-            tech2: "Storyblok",
-            tech3: "HTML",
-            tech4: "JavaScript"
-          },
-          poster: "https://i.ibb.co/p2cLTzW/image.jpg"
-        },
-        {
-          dialog: false,
-          title: "일주일만 버티자",
-          git: "https://cdn.neow.in/news/images/uploaded/2018/11/1543476286_cybersecurity.jpg",
-          demo: "https://www.brandly.com/",
-          tech: {
-            tech1: "VUE",
-            tech2: "SCSS",
-            tech3: "HTML",
-            tech4: "JavaScript"
-          },
-          poster: "https://i.ibb.co/p2cLTzW/image.jpg"
-        },
-        {
-          dialog: false,
-          title: "달리기는 최고야",
-          git: "",
-          demo: "",
-          tech: {
-            tech1: "러닝",
-            tech2: "팀챌린지",
-            tech3: "기간: 3일",
-          },
-          poster: "https://i.ibb.co/p2cLTzW/image.jpg"
-        },
-        {
-          dialog: false,
-          title: "러닝은 거들뿐2",
-          git: "https://github.com/EldinZaimovic/Eldin-Space-Vue",
-          demo: "https://eldin.space/",
-          tech: {
-            tech1: "VUE",
-            tech2: "Storyblok",
-            tech3: "HTML",
-            tech4: "JavaScript"
-          },
-          poster: "https://i.ibb.co/p2cLTzW/image.jpg"
-        },
-        {
-          dialog: false,
-          title: "일주일만 버티자2",
-          git: "https://cdn.neow.in/news/images/uploaded/2018/11/1543476286_cybersecurity.jpg",
-          demo: "https://www.brandly.com/",
-          tech: {
-            tech1: "VUE",
-            tech2: "SCSS",
-            tech3: "HTML",
-            tech4: "JavaScript"
-          },
-          poster: "https://i.ibb.co/p2cLTzW/image.jpg"
-        },
-      ],
+      
+  
       date: null,
+      whole_challenges:[
+        {
+          title: "설문안나간다고 구라치고 달리기",
+          contents: "설문좀그만해라 싸피야",
+          status : 0,
+          member_count : 0,
+          goal_count : 3,
+          date:null,
+          poster: "https://i.ibb.co/p2cLTzW/image.jpg"
+        },
+        {
+          title: "퇴근 후 달리기",
+          contents: "퇴근 후 달리고 인증하자",
+          status : 0,
+          member_count : 0,
+          goal_count : 5,
+          date:null,
+          poster: "https://i.ibb.co/p2cLTzW/image.jpg"
+        }
+      ]
     };
   },
   
   methods: {
       enroll(data) {
         console.log(data);
+        let start_date=data.date[0].split(" ");
+        let end_date=data.date[1];
+        alert(start_date[1]);
         const instance = createInstance();
         const body = {
           challenge: data,
-          memberInfo: this.memberInfo,
+          
         }; 
         instance.post("/challenge/team_challenges_enroll", JSON.stringify(body))
         .then(
