@@ -18,8 +18,10 @@ export default new Vuex.Store({
         team: [],
         teamInfo: null,
         myTeamList: [],
+        managingTeam: {},
         book: {},
         books: [],
+        joinRequests: [],
     },
 
     getters: {
@@ -49,6 +51,9 @@ export default new Vuex.Store({
         },
         memberInfo(state) {
             return state.memberInfo;
+        },
+        joinRequests(state) {
+            return state.joinRequests;
         }
     },
     mutations: {
@@ -93,6 +98,9 @@ export default new Vuex.Store({
                 state.myTeamList.push({ value: element, text: element });
             });
         },
+        SET_MANAGING_TEAM(state, data) {
+            state.managingTeam = data;
+        },
         setTeamLists(state, payload) {
             state.teamLists = payload;
         },
@@ -102,6 +110,9 @@ export default new Vuex.Store({
         setBook(state, payload) {
             state.book = payload;
         },
+        SET_REQUESTS(state, payload) {
+            state.joinRequests = payload;
+        }
     },
     actions: {
         async GET_MEMBER_INFO({ commit }, token) {
@@ -191,13 +202,21 @@ export default new Vuex.Store({
                 });
         },
 
-        async GET_MY_TEAM_INFO({ commit },payload) {
+        async GET_MY_TEAM_INFO({ commit, dispatch, state },payload) {
             await http
-                .get("/team/my_team_list/"+payload)
+                .get("/team/my_team_list/" + payload)
                 .then((data) => {
-                    console.log(data);
                     console.log(data.data.object);
                     commit("SET_MY_TEAMLIST", data.data.object);
+
+                    data.data.object.forEach(element => {
+                        console.log(element);
+                        let managerId = element.member.memberId;
+                        if (managerId === state.memberInfo.memberId) {
+                            commit('SET_MANAGING_TEAM', element);
+                            dispatch('getRequests', element.teamId);
+                        }
+                    });
                 })
                 .catch(() => {
                     alert("에러발생!");
@@ -237,5 +256,16 @@ export default new Vuex.Store({
                     alert("에러발생");
                 });
         },
+        getRequests(context, teamId) {
+            http
+            .get("/request/" + teamId)
+                .then(({ data }) => {
+                console.log("request send");
+                context.commit("SET_REQUESTS", data);
+            })
+            .catch(() => {
+                console.log("index.js getrequest error")
+            });
+        },  
     }
 });
