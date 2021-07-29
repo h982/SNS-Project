@@ -16,6 +16,7 @@ import com.web.curation.team.challenge.TeamChallenge;
 import com.web.curation.team.join.JoinTeam;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -24,14 +25,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Builder
 public class Feed {
 
-	@Id
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int feedId;
 	
 	@ManyToOne
 	@JoinColumn(name = "TEAMCHALLENGE_ID")
-	private TeamChallenge teamchallengeId;
+	private TeamChallenge teamchallenge;
 
 	@ManyToOne
 	@JoinColumn(name = "JOINTEAM_ID")
