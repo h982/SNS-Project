@@ -36,22 +36,21 @@
     <v-layout column justify-center class="mt-4 pt-2">
       <h1 class="text-xs-center mb-4 pb-2">{{selectTeam.name}}</h1>
       <br>
-      <v-img :src="selectTeam.imgPath" aspect-ratio="2.75" height="330" contain></v-img>
+      <v-img :src="selectTeam.photoDto.filePath" aspect-ratio="2.75" height="330" contain></v-img>
       <v-layout column justify-center align-center class="mt-4 pt-2">
         <h2>팀 소개</h2>
-        <br>
         <v-flex wrap justify-center align-center class="textbox">
           <h3>
             {{selectTeam.introduction}}
           </h3>
         </v-flex>
         <br>
-        <v-btn @click="join" type="button" color="green" class="white--text">가입하기</v-btn>
-        <br>
+
         <h2>팀장</h2>
-        <br>
         <p>{{selectTeam.leader}}</p>
-        
+        <br>
+        <br>
+        <v-btn @click="join" type="button" color="green" class="white--text">가입하기</v-btn>
       </v-layout>
       <v-btn
         color="secondary"
@@ -91,8 +90,7 @@ export default {
   
   methods: {
     join() {
-      console.log(this.selectTeam.imgPath);
-      console.log(this.selectTeam);
+      alert("가입신청하시겠습니까?");
     },
     moveMain(){
       this.$router.push("/teammain");
