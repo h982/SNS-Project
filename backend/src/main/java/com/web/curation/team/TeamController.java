@@ -58,6 +58,7 @@ public class TeamController {
                                      @RequestParam(value = "leader" ) String leader,
                                      @RequestParam(value = "leaderId" ) int leaderId,
                                      @RequestParam(value = "sportId" ) int sportId,
+                                     @RequestParam(value = "imgPath" ) String imgPath,
                                      @RequestParam(value = "images", required = false) MultipartFile multipartFile) throws Exception {
         PhotoDto savedPhoto = new PhotoDto();
         TeamDto teamDto = TeamDto.TeamDtoBuilder()

@@ -33,36 +33,63 @@
 </template>
 
 <script>
-import http from "@/util/http-common";
+import { mapGetters } from "vuex";
+import { createInstance } from "@/api/teamindex.js";
 
 export default {
   data: () => {
     return {
       contents: "",
-      //challenges: ["aaaaaa", "bbbbbb", "cccccc"],
       challenges: [],
-      challenge: ""
+      challenge: Number(),
+      file: null
     };
   },
+  computed: {
+    // ...mapGetters(["team_challenges"]),
+    ...mapGetters(["memberInfo", "teamInfo"])
+  },
+  // created() {
+  //   this.$store.dispatch("GET_MY_TEAM_INFO");
+  // },
   methods: {
     write() {
-      console.log(this.challenge);
-      console.log("content: " + this.contents);
-      // http
-      // .post('', {
-      //   challenge: this.challengel,
-      //   content: this.content,
-      // })
-      // .then(({data})=> {
-      //   let msg = "피드 등록에 문제가 생겼습니다";
-      //   if(data === 'SUCCESS'){
-      //     msg = "피드 등록이 완료되었습니다."
-      //   }
-      //   alert(msg);
-      // })
-      // .catch(()=> {
-      //   alert("글 작성시 에러가 발생했습니다.");
-      // })
+      this.challenge = -1;
+
+      const formData = new FormData();
+      // formData.append("teamchallenge_id", JSON.stringify(this.challenge));
+      // formData.append("jointeam_id", JSON.stringify(this.teamInfo.teamId));
+      // formData.append("team_name", JSON.stringify(this.teamInfo.name));
+      // formData.append("contents", JSON.stringify(this.contents));
+      // formData.append("writer", JSON.stringify(this.memberInfo.name));
+      // formData.append("file", document.getElementById("chooseFile").files[0]);
+      formData.append("teamChallengeId", JSON.stringify(this.challenge));
+      formData.append("joinTeamId", JSON.stringify(1));
+      formData.append("teamName", JSON.stringify("test"));
+      formData.append("contents", JSON.stringify(this.contents));
+      formData.append("writer", JSON.stringify("test"));
+      formData.append("images", document.getElementById("chooseFile").files[0]);
+      console.log(formData.teamChallengeId);
+      // this.file = document.getElementById("chooseFile").files[0];
+      // console.log(this.file);
+      const instance = createInstance();
+      instance
+        .post("/feed", formData, {
+          Headers: {
+            "Content-Type": "multiart/form-data"
+          }
+        })
+        .then(response => {
+          if (response.data.data === "success") {
+            alert("피드 작성 완료");
+            this.$router.push("/feed");
+          } else {
+            alert("피드 작성 실패");
+          }
+        })
+        .catch(() => {
+          alert("에러발생!.");
+        });
     },
     loadf() {
       // console.log("되는가?");
@@ -77,17 +104,17 @@ export default {
       preview.style.height = "60%";
       preview.style.maxHeight = "500px";
     }
-  },
-  created() {
-    // http
-    //   .get("challenge/list")
-    //   .then(({ data }) => {
-    //     this.challenges = data;
-    //   })
-    //   .catch(() => {
-    //     alert("챌린지 받아오기 실패");
-    //   });
   }
+  // created() {
+  //   instance
+  //     .get("challenge/list")
+  //     .then(({ data }) => {
+  //       this.challenges = data;
+  //     })
+  //     .catch(() => {
+  //       alert("챌린지 받아오기 실패");
+  //     });
+  // }
 };
 </script>
 <style scoped>

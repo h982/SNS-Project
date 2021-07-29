@@ -22,6 +22,7 @@ export default new Vuex.Store({
         book: {},
         books: [],
         joinRequests: [],
+        selectTeam: {},
     },
 
     getters: {
@@ -54,6 +55,9 @@ export default new Vuex.Store({
         },
         joinRequests(state) {
             return state.joinRequests;
+        },
+        selectTeam(state) {
+            return state.selectTeam;
         }
     },
     mutations: {
@@ -112,33 +116,40 @@ export default new Vuex.Store({
         },
         SET_REQUESTS(state, payload) {
             state.joinRequests = payload;
-        }
+        },
+        SET_SELECT_TEAM(state, data) {
+            state.selectTeam = data;
+        },
     },
     actions: {
         async GET_MEMBER_INFO({ commit }, token) {
             let decode = jwt_decode(token);
-                console.log(decode);
+            console.log(decode);
             await findById(
-            decode.memberEmail,
-            (response) => {
-                if (response.data.message === "success") {
-                commit("setMemberInfo", response.data.memberInfo);
-                // router.push("/");
-                // router.go(router.currentRoute);
-                } else {
-                    console.log("유저 정보 없음!!");
+                decode.memberEmail,
+                (response) => {
+                    if (response.data.message === "success") {
+                        commit("setMemberInfo", response.data.memberInfo);
+                        // router.push("/");
+                        // router.go(router.currentRoute);
+                    } else {
+                        console.log("유저 정보 없음!!");
+                    }
+                },
+                (error) => {
+                    console.log(error);
                 }
-            },
-            (error) => {
-                console.log(error);
-            }
-        );
+            );
         },
 
         LOGOUT({ commit }) {
             commit("logout");
-            this.state.myTeamList.length=0;
+            this.state.myTeamList.length = 0;
             localStorage.removeItem("access-token");
+        },
+        SET_SELECT_TEAM(context, payload) {
+            this.state.selectTeam.length=0;
+            context.commit("SET_SELECT_TEAM",payload);
         },
 
         getBooks(context) {
@@ -236,11 +247,14 @@ export default new Vuex.Store({
                 console.log("에러");
             });
             },
-        getFeeds(context) {
-            http
-                .get("")
-                .then(({ data }) => {
-                    context.commit("setFeeds", data);
+        getFeeds({ commit }) {
+            const instance = createInstance();
+            instance
+                .get("/feed")
+                .then((response) => {
+                    console.log("?????????????????");
+                    console.log(response);
+                    commit("setFeeds", response.data.object);
                 })
                 .catch(() => {
                     alert("에러발생");

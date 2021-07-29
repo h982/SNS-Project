@@ -34,27 +34,23 @@
       </v-bottom-navigation>
     </v-layout>
     <v-layout column justify-center class="mt-4 pt-2">
-      <h1 class="text-xs-center mb-4 pb-2">팀 이름</h1>
-      <span class="birthday">팀 생일 : 2021.07.26</span>
+      <h1 class="text-xs-center mb-4 pb-2">{{selectTeam.name}}</h1>
       <br>
-      <v-img :src="thumbnail1" aspect-ratio="2.75" height="330" contain></v-img>
+      <v-img :src="selectTeam.photoDto.filePath" aspect-ratio="2.75" height="330" contain></v-img>
       <v-layout column justify-center align-center class="mt-4 pt-2">
         <h2>팀 소개</h2>
-        <br>
         <v-flex wrap justify-center align-center class="textbox">
           <h3>
-          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+            {{selectTeam.introduction}}
           </h3>
         </v-flex>
         <br>
+
+        <h2>팀장</h2>
+        <p>{{selectTeam.leader}}</p>
+        <br>
+        <br>
         <v-btn @click="join" type="button" color="green" class="white--text">가입하기</v-btn>
-        <br>
-        <h2>팀원 소개(0 명)</h2>
-        <br>
-        <p>김아무개</p>
-        <p>김아무개</p>
-        <p>김아무개</p>
-        <p>김아무개</p>
       </v-layout>
       <v-btn
         color="secondary"
@@ -77,22 +73,24 @@
 </template>
 
 <script>
-import thumbnail1 from "@/assets/images/thumbnail.jpg";
 import { mapGetters } from 'vuex';
 import TeamHeader from "@/components/TeamHeader"
 export default {
+  computed:{
+    ...mapGetters(["selectTeam","memberInfo"]),
+  },
+  
   data() {
     return {
-      thumbnail1: thumbnail1,
     };
   },
   components: {
     TeamHeader
-    
   },
+  
   methods: {
     join() {
-      console.log("가입되었습니다.");
+      alert("가입신청하시겠습니까?");
     },
     moveMain(){
       this.$router.push("/teammain");

@@ -1,21 +1,20 @@
 package com.web.curation.feed;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.web.curation.files.PhotoDto;
 import com.web.curation.member.Member;
 import com.web.curation.team.challenge.TeamChallenge;
 import com.web.curation.team.join.JoinTeam;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -24,14 +23,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Builder
 public class Feed {
 
-	@Id
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int feedId;
 	
 	@ManyToOne
 	@JoinColumn(name = "TEAMCHALLENGE_ID")
-	private TeamChallenge teamchallengeId;
+	private TeamChallenge teamchallenge;
 
 	@ManyToOne
 	@JoinColumn(name = "JOINTEAM_ID")
@@ -48,8 +48,9 @@ public class Feed {
 	
 	@Column(name="write_date", insertable = false, updatable = false)
 	private LocalDateTime writeDate;
-	
-	@Column(name = "filepath", nullable = false, length = 255)
-	private String filepath;
+
+	@OneToMany
+	@JoinColumn(name = "feed_id")
+	private List<PhotoDto> photos = new ArrayList<>();
 
 }

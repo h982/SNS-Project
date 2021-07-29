@@ -9,11 +9,9 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-public interface MemberDao extends JpaRepository<Member, String> {
+public interface MemberDao extends JpaRepository<Member, Integer> {
 	public Optional<Member> getMemberByEmail(String email);
-	
-	public Member getMemberByMemberId(int memberId);
-	
+
 	public Optional<Member> getMemberByEmailAndPassword(String email, String password);
 
     @Modifying
