@@ -21,7 +21,7 @@
       :sliderPositionPercentage="sliderPosition"
     />
 
-    <br>
+    <br />
 
     <vue-typer class="headline" :repeat="0" text="혼자 뭐하니?"></vue-typer>
     <vue-typer
@@ -37,36 +37,48 @@
       :erase-on-complete="false"
       caret-animation="smooth"
     ></vue-typer>
-    <br>
+    <br />
     <v-flex xs12 sm6 md4 lg4 xl4>
       <v-card flat color="transparent" max-width="500">
-          <form>
-            <v-text-field
-              type="email"
-              color="green"
-              background-color="transparent"
-              name="member.email"
-              v-model="member.email"
-              label="E-mail"
-            ></v-text-field>
+        <form>
+          <v-text-field
+            type="email"
+            color="green"
+            background-color="transparent"
+            name="member.email"
+            v-model="member.email"
+            label="E-mail"
+          ></v-text-field>
 
-            <v-text-field
-              :type="'password'"
-              name="member.password"
-              color="green"
-              background-color="transparent"
-              v-model="member.password"
-              label="비밀번호"
-            ></v-text-field>
-          </form>
-          
-        <v-card-actions class="hidden-sm-and-down justify-center">
-          <v-btn @click="confirm" type="submit" color="green" class="white--text">로그인</v-btn>
-          <v-btn flat to="/signup" type="submit" color="green" class="white--text">회원가입</v-btn>
+          <v-text-field
+            :type="'password'"
+            name="member.password"
+            color="green"
+            background-color="transparent"
+            v-model="member.password"
+            label="비밀번호"
+          ></v-text-field>
+        </form>
+
+        <v-card-actions class=" justify-center">
+          <v-btn
+            @click="confirm"
+            type="submit"
+            color="green"
+            class="white--text"
+            >로그인</v-btn
+          >
+          <v-btn
+            flat
+            to="/signup"
+            type="submit"
+            color="green"
+            class="white--text"
+            >회원가입</v-btn
+          >
         </v-card-actions>
 
         <v-card-actions class="hidden-md-and-up justify-center">
-
         </v-card-actions>
       </v-card>
     </v-flex>
@@ -135,7 +147,7 @@ export default {
       console.log(this.member.password);
       login(
         this.member,
-        (response) => {
+        response => {
           if (response.data.message === "success") {
             let token = response.data["access-token"];
             this.$store.commit("setIsLogined", true);
@@ -147,29 +159,26 @@ export default {
             this.isLoginError = true;
           }
         },
-        (error) => {
+        error => {
           console.error(error);
           alert("에러입니다.");
         }
       );
-      
     },
-    onSuccess(){
+    onSuccess() {
       console.log("success");
       this.$store.commit("setMemberInfo", true);
       this.$router.push("/");
     },
-    onFailure(){
+    onFailure() {
       console.log("failure");
       this.$router.push("/");
-    },
+    }
   },
   computed: {
-    kakaoLoginLink() {
-      
-    },
-    ...mapState(["memberInfo","isLogin"]),
-  },
+    kakaoLoginLink() {},
+    ...mapState(["memberInfo", "isLogin"])
+  }
 };
 </script>
 <style>
@@ -205,4 +214,3 @@ export default {
   background-color: #e91e63;
 }
 </style>
-
