@@ -131,7 +131,8 @@ export default {
       formData.append("leader", JSON.stringify(this.team.leader));
       formData.append("leaderId", JSON.stringify(this.team.member.memberId));
       formData.append("sportId", JSON.stringify(this.team.sportDto.sportId));
-      formData.append("imgPath", document.getElementById("chooseFile").files[0]);
+      formData.append("imgPath", null);
+      formData.append("images", document.getElementById("chooseFile").files[0]);
 
       for (var key of formData.keys()) {
       console.log(key);
@@ -143,7 +144,7 @@ export default {
       
       const instance = createInstance();
       instance
-        .post("team/", formData, {
+        .post("/team", formData, {
           Headers: {
             "Content-Type": "multiart/form-data"
           }

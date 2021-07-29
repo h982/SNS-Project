@@ -126,6 +126,7 @@ export default new Vuex.Store({
 
         LOGOUT({ commit }) {
             commit("logout");
+            this.state.myTeamList.length=0;
             localStorage.removeItem("access-token");
         },
 
