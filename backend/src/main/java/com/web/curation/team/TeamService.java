@@ -41,7 +41,7 @@ public class TeamService {
     
     public List<TeamDto> getMyTeamList(int memberId){
     	List<TeamDto> teamList = new ArrayList<>();
-    	Member member = memberDao.getMemberByMemberId(memberId);
+    	Member member = memberDao.findById(memberId).get();
     	List<JoinTeam> joinTeams = joinTeamDao.findJoinTeamByMember(member);
     	
     	for(JoinTeam joinTeam : joinTeams) {
