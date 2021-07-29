@@ -1,6 +1,5 @@
 package com.web.curation.team;
 
-import lombok.AllArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,7 +9,12 @@ import com.web.curation.member.MemberDao;
 import com.web.curation.team.join.JoinTeam;
 import com.web.curation.team.join.JoinTeamDao;
 
+import lombok.AllArgsConstructor;
+
 import java.util.ArrayList;
+import com.web.curation.files.PhotoDto;
+import com.web.curation.files.PhotoService;
+
 import java.util.List;
 
 @Service
@@ -19,12 +23,13 @@ public class TeamService {
 
     private TeamDao teamDao;
 
-    @Autowired
     private JoinTeamDao joinTeamDao;
     
-    @Autowired
     private MemberDao memberDao;
     
+//    private FileHandler fileHandler;
+    private PhotoService photoService;
+
     List<TeamDto> getTeamlist(){
         return teamDao.findAll();
     }
@@ -33,13 +38,10 @@ public class TeamService {
         return teamDao.existsByName(name);
     }
 
-    public TeamDto registerTeam(TeamDto teamDto){
-        return teamDao.save(teamDto);
-    }
     
     public List<TeamDto> getMyTeamList(int memberId){
     	List<TeamDto> teamList = new ArrayList<>();
-    	Member member = memberDao.getMemberByMemberId(memberId);
+    	Member member = memberDao.findById(memberId).get();
     	List<JoinTeam> joinTeams = joinTeamDao.findJoinTeamByMember(member);
     	
     	for(JoinTeam joinTeam : joinTeams) {
@@ -48,4 +50,24 @@ public class TeamService {
     	
     	return teamList;
     }
+    
+    public TeamDto registerTeam(TeamDto teamDto, PhotoDto savedPhoto) throws Exception{
+
+//        List<PhotoDto> photoList = fileHandler.parseFileInfo(files);
+//        PhotoDto photoForId = new PhotoDto();
+//        if(!photoList.isEmpty()){
+//            for(PhotoDto photo : photoList){
+//                photoForId = photoService.addPhoto(photo);
+//            }
+//        }
+        if(savedPhoto.getPhotoId() != null){
+            teamDto.setPhotoDto(savedPhoto);
+        }else{
+            teamDto.setPhotoDto(null);
+        }
+        teamDto.setMemberCount(1);
+
+        return teamDao.save(teamDto);
+    }
+
 }

@@ -21,9 +21,9 @@
       :sliderPositionPercentage="sliderPosition"
     />
 
-    <br>
+    <br />
 
-    <vue-typer class="headline" :repeat="0" text="Eldin Zaimovic"></vue-typer>
+    <vue-typer class="headline" :repeat="0" text="혼자 뭐하니?"></vue-typer>
     <vue-typer
       :text="text1"
       :repeat="Infinity"
@@ -37,58 +37,48 @@
       :erase-on-complete="false"
       caret-animation="smooth"
     ></vue-typer>
-    <br>
+    <br />
     <v-flex xs12 sm6 md4 lg4 xl4>
       <v-card flat color="transparent" max-width="500">
-        <v-card-title primary-title>
-          <div>
-            <h3 class="headline mb-0">
-              <span>About</span>
-              <span class="green--text">Me</span>
-            </h3>
-            <div>
-              <p>
-                Hello! I’m Eldin Zaimovic. I'm a front-end developer who
-                is passionate about
-                <span
-                  class="green--text font-weight-bold"
-                >VUE</span>, building great user experiences,
-                fighting for simplicity over complexity and constantly learning.
-                When I'm not coding or making videos, you'll find me traveling across Europe.
-              </p>
-            </div>
-          </div>
-        </v-card-title>
-
-        <v-card-actions class="hidden-sm-and-down">
-          <v-btn
-            v-for="icon in icons"
-            :key="icon.icon"
-            fab
-            dark
-            outline
+        <form>
+          <v-text-field
+            type="email"
             color="green"
-            :href="icon.href"
-            target="_blank"
+            background-color="transparent"
+            name="member.email"
+            v-model="member.email"
+            label="E-mail"
+          ></v-text-field>
+
+          <v-text-field
+            :type="'password'"
+            name="member.password"
+            color="green"
+            background-color="transparent"
+            v-model="member.password"
+            label="비밀번호"
+          ></v-text-field>
+        </form>
+
+        <v-card-actions class=" justify-center">
+          <v-btn
+            @click="confirm"
+            type="submit"
+            color="green"
+            class="white--text"
+            >로그인</v-btn
           >
-            <v-icon dark>{{icon.icon}}</v-icon>
-          </v-btn>
+          <v-btn
+            flat
+            to="/signup"
+            type="submit"
+            color="green"
+            class="white--text"
+            >회원가입</v-btn
+          >
         </v-card-actions>
 
         <v-card-actions class="hidden-md-and-up justify-center">
-          <v-btn
-            v-for="icon in icons"
-            :key="icon.icon"
-            small
-            fab
-            dark
-            outline
-            color="green"
-            :href="icon.href"
-            target="_blank"
-          >
-            <v-icon dark>{{icon.icon}}</v-icon>
-          </v-btn>
         </v-card-actions>
       </v-card>
     </v-flex>
@@ -97,33 +87,28 @@
 
 <script>
 import { VueTyper } from "vue-typer";
+import { login } from "@/api/user.js";
+import { mapState } from "vuex";
 import VueCompareImage from "vue-compare-image";
+import banner1 from "@/assets/images/banner1.jpg";
+import banner2 from "@/assets/images/banner2.jpg";
+import banner3 from "@/assets/images/banner3.jpg";
+import banner4 from "@/assets/images/banner4.jpg";
 
 export default {
-  metaInfo: {
-    title: "Home",
-    titleTemplate: "%s ← Eldin's Space",
-    meta: [
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { name: "description", content: "Eldin Zaimovic's Portfolio" },
-      { charset: "utf-8" },
-      { property: "og:title", content: "Eldin' Space" },
-      { property: "og:site_name", content: "Eldin' Space" },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://eldin.space" },
-      {
-        property: "og:image",
-        content: "https://i.imgur.com/Dcz2PGx.jpg"
-      },
-      { property: "og:description", content: "Eldin Zaimovic's Portfolio" }
-    ]
-  },
   components: {
     "vue-typer": VueTyper,
     VueCompareImage
   },
   data() {
     return {
+      member: {
+        email: "",
+        password: ""
+      },
+      isLoginError: false,
+      client_id: "916d7a1087ccb6494372f576d3911baf",
+      redirect_uri: "http://localhost:8080",
       icons: [
         { href: "https://github.com/EldinZaimovic", icon: "fab fa-github" },
         {
@@ -145,15 +130,54 @@ export default {
         },
         { href: "https://www.instagram.com/matricar", icon: "fab fa-instagram" }
       ],
-      text1: ["Front-End Developer", "Web Developer", "Web Designer"],
-      leftImage: "https://i.imgur.com/bU50uS9.jpg",
-      rightImage: "https://i.imgur.com/z3ZoEEw.jpg",
-      leftImage2: "https://i.imgur.com/SXBitjh.jpg",
-      rightImage2: "https://i.imgur.com/Dcz2PGx.jpg",
+      text1: ["혼자서 하는 쓸쓸한 운동", "다함께 즐기는 재미난 운동"],
+      leftImage: banner1,
+      rightImage: banner2,
+      leftImage2: banner3,
+      rightImage2: banner4,
       sliderLine: 0,
       hSize: 0,
       sliderPosition: 0.5
     };
+  },
+  methods: {
+    confirm() {
+      localStorage.setItem("access-token", "");
+      console.log(this.member.email);
+      console.log(this.member.password);
+      login(
+        this.member,
+        response => {
+          if (response.data.message === "success") {
+            let token = response.data["access-token"];
+            this.$store.commit("setIsLogined", true);
+            localStorage.setItem("access-token", token);
+            console.log(token);
+            this.$store.dispatch("GET_MEMBER_INFO", token);
+            this.$router.push("/feed");
+          } else {
+            this.isLoginError = true;
+          }
+        },
+        error => {
+          console.error(error);
+          alert("에러입니다.");
+        }
+      );
+    },
+    onSuccess() {
+      console.log("success");
+      this.$store.commit("setMemberInfo", true);
+      this.$router.push("/");
+    },
+    onFailure() {
+      console.log("failure");
+      this.$router.push("/");
+    }
+  },
+  computed: {
+    kakaoLoginLink() {},
+    ...mapState(["memberInfo", "isLogin"])
   }
 };
 </script>
@@ -190,4 +214,3 @@ export default {
   background-color: #e91e63;
 }
 </style>
-

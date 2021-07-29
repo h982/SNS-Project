@@ -12,6 +12,8 @@ import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.web.curation.member.Member;
+import com.web.curation.team.challenge.TeamChallenge;
+import com.web.curation.team.join.JoinTeam;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,11 +27,15 @@ import lombok.NoArgsConstructor;
 public class Feed {
 
 	@Id
-	private FeedId feedId;
-//	
-//	@ManyToOne
-//	@JoinColumn(name = "TEAM_CHALLENGE_ID")
-//	private int team_challenge_id;
+	private int feedId;
+	
+	@ManyToOne
+	@JoinColumn(name = "TEAMCHALLENGE_ID")
+	private TeamChallenge teamchallengeId;
+
+	@ManyToOne
+	@JoinColumn(name = "JOINTEAM_ID")
+	private JoinTeam joinTeam;
 	
 	@Column(name = "team_name", nullable = false, length = 45)
 	private String teamName;

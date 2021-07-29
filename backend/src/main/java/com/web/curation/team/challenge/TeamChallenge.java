@@ -4,12 +4,18 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.web.curation.feed.Feed;
+import com.web.curation.team.TeamDao;
 import com.web.curation.team.TeamDto;
 
 import lombok.AllArgsConstructor;
@@ -39,8 +45,9 @@ public class TeamChallenge {
 	@Column(nullable = false, length = 255)
 	private String contents;
 	
-	@Column(nullable = false)
-	int status;
+	@JsonProperty(access = Access.READ_ONLY)
+	@Enumerated(EnumType.ORDINAL)
+	private Status status;
 	
 	@Column(name = "member_count")
 	int memberCount;
@@ -53,4 +60,5 @@ public class TeamChallenge {
 	
 	@Column(name="end_date")
 	private LocalDateTime endDate;
+
 }
