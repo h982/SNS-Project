@@ -241,12 +241,13 @@ export default {
   methods: {
       enroll(data) {
         console.log(data);
-        let start_date=data.date[0].split(" ");
-        let end_date=data.date[1];
-        alert(start_date[1]);
+        let start_date=JSON.stringify(data.date[0]).split(" ");
+        let end_date=JSON.stringify(data.date[1]).split(" ");
+        alert(start_date[0]);
         const instance = createInstance();
         const body = {
-          challenge: data,
+          "contents": data.contents,
+          "enddate" : th
           
         }; 
         instance.post("/challenge/team_challenges_enroll", JSON.stringify(body))
