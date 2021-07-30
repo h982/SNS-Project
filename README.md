@@ -1,14 +1,14 @@
 # 프로젝트 명
-- 혼자 뭐하지
+- 혼자 뭐하니?
 ## 목차
 
 - [프로젝트 소개](#프로젝트-소개)
 - [텍스트 ... ](#프로젝트-소개)
 - [프로젝트 명세](#프로젝트-명세)
-  - [배포 환경](#배포-환경)
   - [개발 환경](#개발-환경)
   - [Design Resources](#design-resources)
   - [핵심 라이브러리](#핵심-라이브러리)
+  - [기능 소개](#기능-소개)
     <br>
 
 ## 프로젝트 소개
@@ -18,38 +18,29 @@
 
 ## 프로젝트 명세
 
-### 배포 환경
-
-- **URL** :
-- **배포 여부** : O / X
-- **접속 가능** : 접속 가능 / 수정 중
-- **HTTPS 적용** : O / X
-- **PORT** : // 3rd Party에서 사용하는 포트가 있다면 기입해주세요. <- 기입 후 해당 주석 삭제
-  <br>
-
 ### 개발 환경
 
 #### Front-end / Android
 
-- **Framework** : Vue.js / React / Android / Unity
-- **지원 환경** : Web / Mobile / Web App / Native App
-- **담당자** : 팀원 A, 팀원 B,
+- **Framework** : Vue.js 
+- **지원 환경** : Web / Mobile 
+- **담당자** : 진해진, 차범희, 이조순
   <br>
 
 #### Back-end
 
-- **Framework** : Spring boot / Node.js / Django / Flask
-- **Database** : MySQL / MariaDB
-- **담당자** : 팀원 A, 팀원 B,
+- **Framework** : Spring boot 
+- **Database** : MySQL 
+- **담당자** : 최준오, 양동현, 이호황
   <br>
 
 #### Design
 
-- **Framework 사용** : O / X
+- **Framework 사용** : O 
   - [Vuetify](https://vuetifyjs.com/)
-  - [Element Plus](https://element-plus.org/)
-- **Design Tool 사용** : Adobe XD, Photoshop, Blender, Zeplin 등 (없을 경우 빈칸)
-- **담당자** : 팀원 A, 팀원 B,
+  - [Sass](https://sass-lang.com/)
+- **Design Tool 사용** : 
+- **담당자** : 진해진, 차범희
   <br>
 
 ### Design Resources
@@ -57,10 +48,8 @@
 **외부 템플릿 또는 에셋** (이미지 또는 링크 첨부)
 
 - 무료 이미지, 아이콘, 폰트 등은 제외
-- [Vue Argon Design System](https://www.creative-tim.com/product/vue-argon-design-system?affiliate_id=116187) (무료)
+- [EldinZaimovic](https://eldin.space/) (무료)
   - **사용 기능** : 디자인 전반 적용
-- [Vue Black Dashboard Pro](https://www.creative-tim.com/product/vue-black-dashboard-pro?affiliate_id=116187) (유료)
-  - **사용 기능** : 캘린더 컴포넌트 사용
     <br>
 
 **자체 제작 산출물** (필요시 이미지 또는 설명 첨부)
@@ -74,24 +63,25 @@
 ### 핵심 라이브러리
 
 기본 제공하는 라이브러리 외 핵심 기능 구현에 사용한 라이브러리가 있다면 작성해주세요.  
-예시 ) VR/AR 라이브러리, 애니메이션 라이브러리, 텍스트/사진/동영상 지원, 편집 라이브러리 등
+- **Amazon S3**
 
-- **AR CORE**
+  - **링크** : https://aws.amazon.com/ko/s3/
+  - **소개** : AWS에서 제공하는 Store 라이브러리
+  - **사용 기능** : 이미지 파일 저장 
+  - **담당자** : 이호황
 
-  - **링크** : https://developers.google.com/ar
-  - **소개** : 구글에서 제공하는 AR 지원 라이브러리
-  - **사용 기능** : 이미지 인식, 이미지 위 영상 표시
-  - **담당자** : 팀원 A,
 
-- **COLOR THIEF**
+- **WebSocket**
 
-  - **링크** : https://lokeshdhakar.com/projects/color-thief/
-  - **소개** : 이미지에서 색상을 추출해주는 라이브러리
-  - **사용 기능** : 커버 사진에서 색상 추출 -> 배경 색상 변경
-  - **담당자** : 팀원 A,
+  - **링크** : https://developer.mozilla.org/ko/docs/Web/API/WebSocket
+  - **소개** : Rest API 소켓 연결을 할 수 있게 해주는 라이브러리
+  - **사용 기능** : 소켓 연결, 통신
+  - **담당자** : 양동현
 
-- **Animate.css**
-  - **링크** : https://animate.style/
-  - **소개** : css 애니메이션 지원 라이브러리
-  - **사용 기능** : 메인 페이지 진입 시 애니메이션 사용
-  - **담당자** : 팀원 A,
+- **카카오 API**
+
+  - **링크** : https://developers.kakao.com/docs/latest/ko/local/dev-guide
+  - **소개** : 카카오에서 제공하는 API
+  - **사용 기능** : 주소 검색 API -> 자기 주변 그룹 검색에 이용
+  - **담당자** : 이조순
+
