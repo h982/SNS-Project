@@ -1,86 +1,82 @@
-# 프로젝트 명
+# SSAFY PJT I 원하는 운동의 그룹을 찾아 인증을 통해 서로 운동자극을 받는 SNS 혼자 뭐하니?
 
 ## 목차
 
-- [프로젝트 소개](#프로젝트-소개)   
-- [텍스트 ... ](#프로젝트-소개)   
+- [프로젝트 소개](#프로젝트-소개)
+- [텍스트 ... ](#프로젝트-소개)
 - [프로젝트 명세](#프로젝트-명세)
-  - [배포 환경](#배포-환경)
   - [개발 환경](#개발-환경)
   - [Design Resources](#design-resources)
   - [핵심 라이브러리](#핵심-라이브러리)
-<br>
+    <br>
 
 ## 프로젝트 소개
-소개 입력
+
+- 서비스명 : 혼자 뭐하니?
+- 소재 : 팀 매칭과 SNS
+- 원하는 그룹을 찾고 서로의 운동욕구를 자극하는 SNS 프로그램
+  - 원하는 그룹을 찾아 가입할 수 있다.
+  - 그룹을 통해 팀원들과 같이 운동할 수 있는 기회를 제공한다.
+  - SNS를 통해 서로 소통하며 첼린지를 통해 서로의 운동욕구를 자극한다.
 <br>
 
 ## 프로젝트 명세
-### 배포 환경
-- __URL__ : 
-- __배포 여부__ : O / X
-- __접속 가능__ : 접속 가능 / 수정 중
-- __HTTPS 적용__ : O / X
-- __PORT__ : // 3rd Party에서 사용하는 포트가 있다면 기입해주세요. <- 기입 후 해당 주석 삭제
-<br>
 
 ### 개발 환경
 #### Front-end / Android
-- __Framework__ : Vue.js / React / Android / Unity
-- __지원 환경__ : Web / Mobile / Web App / Native App
-- __담당자__ : 팀원 A, 팀원 B,
-<br>
+
+- **Framework** : Vue.js 
+- **지원 환경** : Web / Mobile 
+- **담당자** : 진해진, 차범희, 이조순
+  <br>
 
 #### Back-end
-- __Framework__ : Spring boot / Node.js / Django / Flask
-- __Database__ : MySQL / MariaDB
-- __담당자__ : 팀원 A, 팀원 B,
-<br>
+
+- **Framework** : Spring boot 
+- **Database** : MySQL 
+- **담당자** : 최준오, 양동현, 이호황
+  <br>
 
 #### Design
-- __Framework 사용__ : O / X
+
+- **Framework 사용** : O 
   - [Vuetify](https://vuetifyjs.com/)
-  - [Element Plus](https://element-plus.org/)
-- __Design Tool 사용__ : Adobe XD, Photoshop, Blender, Zeplin 등 (없을 경우 빈칸)
-- __담당자__ : 팀원 A, 팀원 B,
-<br>
+  - [Sass](https://sass-lang.com/)
+- **Design Tool 사용** : 
+- **담당자** : 진해진, 차범희
+  <br>
 
+--------------------
 ### Design Resources
-__외부 템플릿 또는 에셋__ (이미지 또는 링크 첨부)
+**외부 템플릿 또는 에셋** (이미지 또는 링크 첨부)
+
 - 무료 이미지, 아이콘, 폰트 등은 제외
-- [Vue Argon Design System](https://www.creative-tim.com/product/vue-argon-design-system?affiliate_id=116187) (무료)
-  - __사용 기능__ : 디자인 전반 적용
-- [Vue Black Dashboard Pro](https://www.creative-tim.com/product/vue-black-dashboard-pro?affiliate_id=116187) (유료)
-  - __사용 기능__ : 캘린더 컴포넌트 사용
-<br>
+- [EldinZaimovic](https://eldin.space/) (무료)
+  - **사용 기능** : 디자인 전반 적용
+    <br>
 
-__자체 제작 산출물__ (필요시 이미지 또는 설명 첨부)
-- LOGO
-- CardView
-- Button
-- Calendar
-<br>
 
+-------------------
 ### 핵심 라이브러리
-기본 제공하는 라이브러리 외 핵심 기능 구현에 사용한 라이브러리가 있다면 작성해주세요.   
-예시 ) VR/AR 라이브러리, 애니메이션 라이브러리, 텍스트/사진/동영상 지원, 편집 라이브러리 등
+기본 제공하는 라이브러리 외 핵심 기능 구현에 사용한 라이브러리가 있다면 작성해주세요.  
+- **Amazon S3**
 
-- __AR CORE__
-  - __링크__ : https://developers.google.com/ar
-  - __소개__ : 구글에서 제공하는 AR 지원 라이브러리
-  - __사용 기능__ : 이미지 인식, 이미지 위 영상 표시
-  - __담당자__ : 팀원 A, 
+  - **링크** : https://aws.amazon.com/ko/s3/
+  - **소개** : AWS에서 제공하는 Store 라이브러리
+  - **사용 기능** : 이미지 파일 저장 
+  - **담당자** : 이호황
 
-- __COLOR THIEF__
-  - __링크__ : https://lokeshdhakar.com/projects/color-thief/
-  - __소개__ : 이미지에서 색상을 추출해주는 라이브러리
-  - __사용 기능__ : 커버 사진에서 색상 추출 -> 배경 색상 변경
-  - __담당자__ : 팀원 A,
+- **WebSocket**
 
-- __Animate.css__
-  - __링크__ : https://animate.style/
-  - __소개__ : css 애니메이션 지원 라이브러리
-  - __사용 기능__ : 메인 페이지 진입 시 애니메이션 사용
-  - __담당자__ : 팀원 A,
+  - **링크** : https://developer.mozilla.org/ko/docs/Web/API/WebSocket
+  - **소개** : Rest API 소켓 연결을 할 수 있게 해주는 라이브러리
+  - **사용 기능** : 소켓 연결, 통신
+  - **담당자** : 양동현
 
+- **카카오 API**
+
+  - **링크** : https://developers.kakao.com/docs/latest/ko/local/dev-guide
+  - **소개** : 카카오에서 제공하는 API
+  - **사용 기능** : 주소 검색 API -> 자기 주변 그룹 검색에 이용
+  - **담당자** : 이조순
 
