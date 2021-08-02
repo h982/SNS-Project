@@ -3,6 +3,7 @@
 
     <v-layout >
       <v-bottom-navigation
+        v-if="teamcheck === true"
         class="mx-auto"
         shift
         x-large
@@ -50,9 +51,17 @@
         <p>{{selectTeam.leader.replaceAll("\"", "")}}</p>
         <br>
         <br>
-        <v-btn @click="join" type="button" color="green" class="white--text">가입하기</v-btn>
+        <v-btn
+          v-if="selectTeam.member.memberId != memberInfo.memberId && teamcheck === false"
+          @click="join"
+          type="button"
+          color="green"
+          class="white--text"
+        >가입하기
+        </v-btn>
       </v-layout>
       <v-btn
+        v-if="selectTeam.member.memberId != memberInfo.memberId && teamcheck === false"
         color="secondary"
         @click="join"
         elevation="7"
@@ -65,9 +74,11 @@
       </v-btn>
       <br>
       <br>
-      <v-btn large flat to="/teamlist" class="green--text">
-        <v-icon>arrow_back</v-icon>Back to Teamlist
-      </v-btn>
+      <v-layout>
+        <v-btn large flat to="/teamlist" class="green--text">
+          <v-icon>arrow_back</v-icon>Back to Teamlist
+        </v-btn>
+      </v-layout>
     </v-layout>
   </v-container>
 </template>
@@ -82,13 +93,16 @@ export default {
     ...mapGetters(["selectTeam","memberInfo","myTeamList"]),
   },
   created() {
-    console.log(this.selectTeam);
-    // console.log(this.memberInfo);
+    // console.log(this.memberInfo.memberId);
     this.$store.dispatch("GET_MY_TEAM_INFO",this.memberInfo.memberId);
-    console.log(this.myTeamList);
+    this.teamchecking();
+    // console.log(this.myTeamList);
+    // console.log(this.selectTeam.teamId);
+    
   },
   data() {
     return {
+      teamcheck: false,
     };
   },
   components: {
@@ -108,7 +122,8 @@ export default {
       })
       .then(
         (response) => {
-          if (response.data.message === "success") {
+          console.log(response);
+          if (response.status === 201) {
             alert("가입 요청 완료");
           } else {
             alert("가입 요청 실패");
@@ -133,6 +148,15 @@ export default {
     },
     moveTeamFeed(){
       this.$router.push("/teamFeed");
+    },
+    teamchecking() {
+      for(let i=0; i<this.myTeamList.length; i++) {
+        if (this.myTeamList[i].value.teamId === this.selectTeam.teamId) {
+          this.teamcheck = true;
+          console.log(this.teamcheck);
+          break;
+        }
+      }
     },
   },
 }
