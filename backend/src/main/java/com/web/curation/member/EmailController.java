@@ -38,7 +38,7 @@ public class EmailController {
 	@PostMapping(value = "/send")
 	@ApiOperation(value = "이메일 전송")
 	@ApiResponses(value = {@ApiResponse(code = 200, message = "이메일 정상 전송", response = NormalResponse.class)})
-	public ResponseEntity<Map<String, Object>> sendEmail(@RequestBody Member member) throws MessagingException {
+	public ResponseEntity<Map<String, Object>> sendEmail(@RequestBody MemberDto member) throws MessagingException {
 		Map<String, Object> resultMap = new HashMap<>();
     	HttpStatus status = null;
 		StringBuffer emailcontent = new StringBuffer();
@@ -83,8 +83,8 @@ public class EmailController {
 	
 	@GetMapping(value = "/certified")
 	@Transactional
-	@ApiOperation(value = "이메일 전송")
-	@ApiResponses(value = {@ApiResponse(code = 200, message = "이메일 정상 전송", response = NormalResponse.class)})
+	@ApiOperation(value = "이메일 인증")
+	@ApiResponses(value = {@ApiResponse(code = 200, message = "이메일 인증 정상 작동", response = NormalResponse.class)})
 	public ResponseEntity<Map<String, Object>> checkEmail(String email) throws MessagingException {
 		Map<String, Object> resultMap = new HashMap<>();
     	HttpStatus status = null;
@@ -92,7 +92,7 @@ public class EmailController {
     	System.out.println("check");
 		
 		memberService.certifyMemberByEmail(email);
-		Optional<Member> member = memberService.getUser(email);
+		Optional<MemberDto> member = memberService.getUser(email);
 		
 		resultMap.put("member", member);
 		resultMap.put("message", "success");
