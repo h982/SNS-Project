@@ -35,6 +35,51 @@
     </v-layout>
 
     <h2 class="pl-4">
+      <span>팀에서 진행중인 </span>
+      <span class="green--text">챌린지</span>
+    </h2>
+    <div>
+      <ul>
+        <li v-for="(challenge,idx) in team_challenges" v-bind:key="challenge"
+        >
+          <div v-if="challenge.text.team.teamId==selectTeam.teamId">
+            <h3>챌린지 : {{idx}}</h3>
+            <h3>챌린지 제목: {{challenge.text.title}}</h3>
+            <h3>챌린지 내용: {{challenge.text.contents}}</h3>
+            <h3>시작 일자: {{challenge.text.startDate}}</h3>
+            <h3>종료 일자: {{challenge.text.endDate}}</h3>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <v-btn flat large dark color="black" target="_blank" @click="check()">
+      확인하기
+    </v-btn>
+
+    <h2 class="pl-4">
+      <span>전체 </span>
+      <span class="green--text">챌린지</span>
+    </h2>
+    <div>
+      <ul>
+        <li v-for="(challenge,idx) in team_challenges" v-bind:key="challenge"
+        >
+          
+            <h3>챌린지 : {{idx}}</h3>
+            <h3>챌린지 제목: {{challenge.text.title}}</h3>
+            <h3>챌린지 내용: {{challenge.text.contents}}</h3>
+            <h3>시작 일자: {{challenge.text.startDate}}</h3>
+            <h3>종료 일자: {{challenge.text.endDate}}</h3>
+        
+        </li>
+      </ul>
+    </div>
+    <v-btn flat large dark color="black" target="_blank" @click="check()">
+      확인하기
+    </v-btn>
+    
+
+    <!-- <h2 class="pl-4">
       <span>진행중인 </span>
       <span class="green--text">팀 챌린지</span>
     </h2>
@@ -81,13 +126,13 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
-    </v-layout>
+    </v-layout> -->
 
-    <h2 class="pl-4">
+    <!-- <h2 class="pl-4">
       <span>전체 </span>
       <span class="green--text">챌린지</span>
-    </h2>
-    <v-layout row justify-center align-center wrap class="mt-4 pt-2">
+    </h2> -->
+    <!-- <v-layout row justify-center align-center wrap class="mt-4 pt-2">
       <v-dialog
         lazy
         max-width="1000"
@@ -119,19 +164,17 @@
 
           </v-card-text>
           <v-card-actions>
-            <v-btn flat large dark color="black" target="_blank" @click="enroll(whole_challenge)">
+            <v-btn large flat dark color="green" target="_blank" @click="enroll(whole_challenge)">
               등록하기
             </v-btn>
 
           <date-picker v-model="whole_challenge.date" range></date-picker>
-
-            <!-- <v-btn large flat dark color="green" :href="whole_challenge.demo" target="_blank">
-              <v-icon left>fas fa-desktop</v-icon>Demo
-            </v-btn> -->
           </v-card-actions>
         </v-card>
       </v-dialog>
-    </v-layout>
+    </v-layout> -->
+    <v-btn flat to="/challengemake" active-class="green--text headline">챌린지만들기</v-btn>
+
   </v-container>
 </template>
 
@@ -147,30 +190,12 @@ export default {
   },
   computed:{
     ...mapGetters ([
-      "whole_challenges",
-      "team_challenges",
+      
     ]),
-    ...mapState(["memberInfo","teamInfo","selectTeam"])
+    ...mapState(["memberInfo","teamInfo","selectTeam","team_challenges"])
   },
   data() {
     return {
-      month_map : new Map(
-        [
-          ["Jen", "01"],
-          ["Feb", "02"],
-          ["Mar", "03"],
-          ["Apr", "04"],
-          ["May", "05"],
-          ["Jue", "06"],
-          ["Jul", "07"],
-          ["Aug", "08"],
-          ["Sep", "09"],
-          ["Oct", "10"],
-          ["Nov", "11"],
-          ["Dec", "12"],
-        ]
-      ),
-      
       dialog: false,
       team_projects: [
         {
@@ -239,12 +264,18 @@ export default {
   },
   
   methods: {
+      check(){
+        console.log(this.team_challenges);
+        alert(this.team_challenges);
+        console.log(this.selectTeam);
+      },
       enroll(data) {
-        console.log(data);
-        let start_date = JSON.stringify(data.date[0]);
-        let end_date = JSON.stringify(data.date[1]);
+        let start_date = JSON.stringify(data.date[0]).replaceAll('"', "");
+        let end_date = JSON.stringify(data.date[1]).replaceAll('"', "");
         const instance = createInstance();
-        console.log(start_date);
+        start_date = start_date.replaceAll('\\', "");
+        end_date = end_date.replaceAll('\\',"");
+        console.log(this.selectTeam);
         const body = {
           "contents":data.contents,
           "endDate":end_date,
@@ -253,7 +284,7 @@ export default {
           "title": data.title
         }; 
         console.log(JSON.stringify(body));
-        instance.put("/challenge/team_challenge_enroll", JSON.stringify(body))
+        instance.put("/team_challenge_enroll", JSON.stringify(body))
         .then(
           (response) => {
             if (response.data.message === "success") {
