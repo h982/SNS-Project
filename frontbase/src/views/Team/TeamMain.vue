@@ -79,7 +79,7 @@ import { createInstance } from "@/api/index.js";
 
 export default {
   computed:{
-    ...mapGetters(["selectTeam","memberInfo","myTeamList"]),
+    ...mapGetters(["selectTeam","memberInfo","myTeamList","team_challenges"]),
   },
   created() {
     console.log(this.selectTeam);
@@ -123,6 +123,8 @@ export default {
       this.$router.push("/teammain");
     },
     moveTeamChallenge(){
+      //alert(this.memberInfo.memberId);
+      this.$store.dispatch("GET_TEAMCHALLENGE_INFO", this.memberInfo.memberId);
       this.$router.push("/teamChallenge");
     },
     moveBoard(){

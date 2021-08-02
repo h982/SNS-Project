@@ -35,17 +35,6 @@
         </h2>
 
         <form>
-          <!--<v-text-field
-            name="member.memberid"
-            color="green"
-            background-color="transparent"
-            v-model="id"
-            :error-messages="idErrors"
-            label="Id"
-            required
-            @blur="$v.id.$touch()"
-          ></v-text-field>-->
-
           <v-text-field
             name="member.name"
             color="green"

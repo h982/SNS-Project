@@ -130,8 +130,6 @@ export default new Vuex.Store({
                 (response) => {
                     if (response.data.message === "success") {
                         commit("setMemberInfo", response.data.memberInfo);
-                        // router.push("/");
-                        // router.go(router.currentRoute);
                     } else {
                         console.log("유저 정보 없음!!");
                     }
@@ -169,35 +167,15 @@ export default new Vuex.Store({
             });
         },
 
-        // async GET_TEAMCHALLENGE_INFO({ commit }) {
-        //     let decode = jwt_decode(token);
-        //         console.log(decode);
-        //     await findById(
-        //         decode.memberEmail,
-        //         (response) => {
-        //             if (response.data.message === "success") {
-        //             commit("setMemberInfo", response.data.memberInfo);
-        //             // router.push("/");
-        //             // router.go(router.currentRoute);
-        //             } else {
-        //                 console.log("유저 정보 없음!!");
-        //             }
-        //         },
-        //         (error) => {
-        //             console.log(error);
-        //         }
-        //     );
-        // },
-
-        async GET_TEAMCHALLENGE_INFO({ commit }) {
-            await http
-                .get("/challenge/team_challenge_list")
+        GET_TEAMCHALLENGE_INFO( context, payload) {
+            http
+                .get("/my_teamchallenge_list/"+"{member_id}?member_id="+payload)
                 .then((data) => {
-                    console.log(data.data);
-                    commit("SET_TEAMCHALLENGE", data.data);
+                    console.log(data.data.object);
+                    context.commit("SET_TEAMCHALLENGE", data.data.object);
                 })
                 .catch(() => {
-                    alert("에러발생!");
+                    
                 });
         },
 
@@ -217,7 +195,7 @@ export default new Vuex.Store({
             await http
                 .get("/team/my_team_list/" + payload)
                 .then((data) => {
-                    console.log(data.data.object);
+                    //console.log(data.data.object);
                     commit("SET_MY_TEAMLIST", data.data.object);
 
                     data.data.object.forEach(element => {
@@ -252,7 +230,6 @@ export default new Vuex.Store({
             instance
                 .get("/feed")
                 .then((response) => {
-                    console.log("?????????????????");
                     console.log(response);
                     commit("setFeeds", response.data.object);
                 })
