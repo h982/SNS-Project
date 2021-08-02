@@ -13,13 +13,11 @@ import com.web.curation.member.Member;
 import com.web.curation.team.challenge.TeamChallenge;
 import com.web.curation.team.join.JoinTeam;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
