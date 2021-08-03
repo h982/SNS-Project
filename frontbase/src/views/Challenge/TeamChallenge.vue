@@ -8,30 +8,7 @@
         shift
         x-large
       >
-        <v-btn color="secondary" @click="moveMain">
-          <i class="fas fa-address-card fa-2x"></i>
-          <div>&nbsp;&nbsp;&nbsp;정보</div>
-        </v-btn>
-
-        <v-btn color="success" @click="moveTeamFeed">
-          <i class="fas fa-clipboard fa-2x" ></i>
-          <div>&nbsp;&nbsp;&nbsp;피드</div>
-        </v-btn>
-
-        <v-btn color="primary" @click="moveBoard">
-          <i class="fas fa-check fa-2x" ></i>
-          <div>&nbsp;&nbsp;&nbsp;공지사항</div>
-        </v-btn>
-        
-        <v-btn color="warning" @click="moveChattingRoom">
-          <i class="fas fa-comments fa-2x"></i>
-          <div>&nbsp;&nbsp;&nbsp;채팅</div>
-        </v-btn>
-
-        <v-btn color="error"  @click="moveTeamChallenge">
-          <i class="fas fa-trophy fa-2x"></i>
-          <div>&nbsp;&nbsp;&nbsp;챌린지</div>
-        </v-btn>
+      <team-header />
       </v-bottom-navigation>
     </v-layout>
     
@@ -67,7 +44,7 @@
           <list-row-team-challenge
             v-for="(challenge, index) in items"
             :key="index"
-            :no="challenge.text.teamChallengeId"
+            :no=challenge.text.teamChallengeId
             :title="challenge.text.title"
             :contents="challenge.text.contents"
             :endDate="challenge.text.endDate"
@@ -105,7 +82,7 @@
           <list-row-whole-challenge
             v-for="(challenge, index) in team_challenges"
             :key="index"
-            :no="index+1"
+            :no=challenge.text.teamChallengeId
             :title="challenge.text.title"
             :contents="challenge.text.contents"
             :endDate="challenge.text.endDate"
@@ -115,106 +92,9 @@
       </table>
     </div>
 
-  
     <v-btn flat large dark color="black" target="_blank" @click="check()">
       확인하기
     </v-btn>
-    
-
-    <!-- <h2 class="pl-4">
-      <span>진행중인 </span>
-      <span class="green--text">팀 챌린지</span>
-    </h2>
-    <v-layout row justify-center align-center wrap class="mt-4 pt-2">
-      <v-dialog
-        v-model="team_challenge.dialog"
-        lazy
-        max-width="1000"
-        v-for="team_challenge in team_projects"
-        :key="team_challenge.title"
-      >
-        <template v-slot:activator="{ on }">
-          <v-flex xs12 sm6 md4 lg4 xl4 v-on="on">
-            <v-card hover flat color="transparent">
-              <v-img
-                :src="team_challenge.poster"
-                :alt="team_challenge.title"
-                height="230"
-                lazy-src="https://cdn.dribbble.com/users/503653/screenshots/3143656/fluid-loader.gif"
-              ></v-img>
-              <v-card-title primary-title class="justify-center">{{team_challenge.title}}</v-card-title>
-            </v-card>
-          </v-flex>
-        </template>
-        <v-card v-if="team_challenge.dialog">
-          <v-img :src="team_challenge.poster"></v-img>
-          <v-card-text>
-            <h3 class="headline mb-0">
-              <span>{{team_challenge.title}}</span>
-            </h3>
-            <v-chip color="green" text-color="white">{{team_challenge.tech.tech1}}</v-chip>
-            <v-chip color="green" text-color="white">{{team_challenge.tech.tech2}}</v-chip>
-            <v-chip color="green" text-color="white">{{team_challenge.tech.tech3}}</v-chip>
-            <v-btn flat large dark color="black" target="_blank" @click="pariticipate(team_challenge)">
-              참여하기
-            </v-btn>
-
-            <v-btn flat large dark color="black" target="_blank" @click="giveUp(team_challenge)">
-              포기하기
-            </v-btn>
-          </v-card-text>
-          <v-card-actions>
-            
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-    </v-layout> -->
-
-    <!-- <h2 class="pl-4">
-      <span>전체 </span>
-      <span class="green--text">챌린지</span>
-    </h2> -->
-    <!-- <v-layout row justify-center align-center wrap class="mt-4 pt-2">
-      <v-dialog
-        lazy
-        max-width="1000"
-        v-for="whole_challenge in whole_challenges"
-        :key="whole_challenge.title"
-      >
-        <template v-slot:activator="{ on }">
-          <v-flex xs12 sm6 md4 lg4 xl4 v-on="on">
-            <v-card hover flat color="transparent">
-              <v-img
-                :src="whole_challenge.poster"
-                :alt="whole_challenge.title"
-                height="230"
-                lazy-src="https://cdn.dribbble.com/users/503653/screenshots/3143656/fluid-loader.gif"
-              ></v-img>
-              <v-card-title primary-title class="justify-center">{{whole_challenge.title}}</v-card-title>
-            </v-card>
-          </v-flex>
-        </template>
-        <v-card >
-          <v-img :src="whole_challenge.poster"></v-img>
-          <v-card-text>
-            <h3 class="headline mb-0">
-              <span>{{whole_challenge.title}}</span>
-            </h3>
-            
-            <v-chip color="green" text-color="white">{{whole_challenge.title}}</v-chip>
-            <v-chip color="green" text-color="white">{{whole_challenge.contents}}</v-chip>
-
-          </v-card-text>
-          <v-card-actions>
-            <v-btn large flat dark color="green" target="_blank" @click="enroll(whole_challenge)">
-              등록하기
-            </v-btn>
-
-          <date-picker v-model="whole_challenge.date" range></date-picker>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-    </v-layout> -->
     <v-btn flat to="/challengemake" active-class="green--text headline">챌린지만들기</v-btn>
 
   </v-container>
@@ -227,11 +107,14 @@ import { mapGetters, mapState } from 'vuex';
 import { createInstance } from "@/api/index.js";
 import ListRowWholeChallenge from "@/components/ListRowWholeChallenge.vue";
 import ListRowTeamChallenge from "@/components/ListRowTeamChallenge.vue";
+import TeamHeader from "@/components/TeamHeader.vue"
+
 export default {
   components:{
     DatePicker,
     ListRowWholeChallenge,
-    ListRowTeamChallenge
+    ListRowTeamChallenge,
+    TeamHeader
   },
   computed:{
     ...mapGetters ([
@@ -240,11 +123,11 @@ export default {
     ...mapState(["memberInfo","teamInfo","selectTeam","team_challenges"])
   },
   created: function(){
+    this.$store.dispatch("GET_TEAMCHALLENGE_INFO", this.memberInfo.memberId);
     if(this.team_challenges.length>0){
       for(var i = 0; i< this.team_challenges.length;i++){
         if(this.team_challenges[i].text.team.teamId===this.selectTeam.teamId)
           this.items.push(this.team_challenges[i]);
-          console.log(i);
       }
     }
   },
@@ -341,21 +224,6 @@ export default {
         )
         .catch();
       },
-      moveMain(){
-      this.$router.push("/teammain");
-    },
-    moveTeamChallenge(){
-      this.$router.push("/teamChallenge");
-    },
-    moveBoard(){
-      this.$router.push("/board");
-    },
-    moveChattingRoom(){
-      this.$router.push("/chattingroom");
-    },
-    moveTeamFeed(){
-      this.$router.push("/teamFeed");
-    }          
     },
       
 };

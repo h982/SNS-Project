@@ -16,7 +16,7 @@ import { createInstance } from "@/api/index.js";
 export default {
   name: "ListRow",
   props: {
-    no: String,
+    no: Number,
     title: String,
     contents: String,
     endDate: String,
