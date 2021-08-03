@@ -85,10 +85,10 @@ export default {
   data() {
     return {
       sportList: [
-        { name: "러닝", value: 0 },
-        { name: "헬스", value: 1 },
-        { name: "수영", value: 2 },
-        { name: "탁구", value: 3 },
+        { name: "러닝", value: 1 },
+        { name: "헬스", value: 2 },
+        { name: "수영", value: 3 },
+        { name: "탁구", value: 4 },
       ],
       team: {
         name: "",
