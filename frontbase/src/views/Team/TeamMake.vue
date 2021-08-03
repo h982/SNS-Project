@@ -85,10 +85,10 @@ export default {
   data() {
     return {
       sportList: [
-        { name: "러닝", value: 0 },
-        { name: "헬스", value: 1 },
-        { name: "수영", value: 2 },
-        { name: "탁구", value: 3 },
+        { name: "러닝", value: 1 },
+        { name: "헬스", value: 2 },
+        { name: "수영", value: 3 },
+        { name: "탁구", value: 4 },
       ],
       team: {
         name: "",
@@ -129,7 +129,7 @@ export default {
       formData.append("name", JSON.stringify(this.team.name));
       formData.append("intro", JSON.stringify(this.team.introduction));
       formData.append("leader", JSON.stringify(this.team.leader));
-      formData.append("leaderId", JSON.stringify(this.team.member.memberId));
+      formData.append("memberId", JSON.stringify(this.team.member.memberId));
       formData.append("sportId", JSON.stringify(this.team.sportDto.sportId));
       formData.append("imgPath", null);
       formData.append("images", document.getElementById("chooseFile").files[0]);
