@@ -12,8 +12,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.web.curation.member.Member;
 import com.web.curation.team.Team;
-import com.web.curation.team.TeamDto;
-import com.web.curation.team.challenge.TeamChallenge;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

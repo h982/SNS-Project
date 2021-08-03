@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.web.curation.member.Member;
 import com.web.curation.team.Team;
-import com.web.curation.team.TeamDto;
 
 public interface JoinTeamDao extends JpaRepository<JoinTeam, Integer> {
 

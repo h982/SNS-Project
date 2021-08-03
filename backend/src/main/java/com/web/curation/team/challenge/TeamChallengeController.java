@@ -4,22 +4,14 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.web.curation.team.challenger.TeamChallengerDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.web.curation.member.Member;
 import com.web.curation.model.BasicResponse;
-import com.web.curation.team.TeamController;
-import com.web.curation.team.challenger.TeamChallengerParticipation;
 
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 
 @RestController("/challenge")
@@ -48,11 +40,11 @@ public class TeamChallengeController {
         return response;
 	}
 	
-	@PutMapping("/team_challenge_enroll")
+	@PostMapping("/team_challenge_enroll")
 	@ApiOperation(value = "팀 챌런지 생성하기")
-	public Object createTeamChallenge(@Valid @RequestBody TeamChallengeCreationRequest creationRequest) {
+	public Object createTeamChallenge(@Valid @RequestBody TeamChallengeDto teamChallengeDto) {
 		
-		boolean ret = teamChallengeService.addTeamChallenge(creationRequest);
+		boolean ret = teamChallengeService.addTeamChallenge(teamChallengeDto);
 		
 		BasicResponse result = new BasicResponse();
 		ResponseEntity response = null;
@@ -72,9 +64,9 @@ public class TeamChallengeController {
 	
 	@PostMapping("/team_challenge_participate")
 	@ApiOperation(value = "팀 챌런지 참여하기")
-	public Object participateTeamChallenge(@Valid @RequestBody TeamChallengerParticipation participation) {
+	public Object participateTeamChallenge(@Valid @RequestBody TeamChallengerDto teamChallengerDto) {
 		
-		boolean ret = teamChallengeService.participateTeamChallenge(participation);
+		boolean ret = teamChallengeService.participateTeamChallenge(teamChallengerDto);
 		
 		BasicResponse result = new BasicResponse();
 		ResponseEntity response = null;
@@ -92,11 +84,11 @@ public class TeamChallengeController {
         return response;
 	}
 	
-	@PostMapping("/team_challenge_giveup")
+	@DeleteMapping("/team_challenge_giveup")
 	@ApiOperation("챌린지 포기하기")
-	public Object giveupTeamChallenge(@Valid @RequestBody TeamChallengerParticipation participation) {
+	public Object giveupTeamChallenge(@Valid @RequestBody TeamChallengerDto teamChallengerDto) {
 		
-		boolean ret = teamChallengeService.giveupTeamChallenge(participation);
+		boolean ret = teamChallengeService.giveupTeamChallenge(teamChallengerDto);
 		
 		BasicResponse result = new BasicResponse();
 		ResponseEntity response = null;
@@ -113,7 +105,7 @@ public class TeamChallengeController {
         return response;
 	}
 	
-//	@PostMapping("/updatechallenge")
+//	@PutMapping("/updatechallenge")
 //	@ApiOperation(value = "팀 챌린지 수정하기")
 //	public Object updateTeamChallenge(@Valid @RequestBody TeamController updation) {
 //		
