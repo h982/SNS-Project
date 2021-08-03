@@ -24,9 +24,11 @@ import TheFooter from "./components/TheFooter";
 import Vue from 'vue'
 import Vuex from 'vuex'
 import Vuetify from 'vuetify'
+import Vuetify2 from 'vuetify/lib'
 
 
 Vue.use(Vuetify);
+Vue.use(Vuetify2);
 Vue.use(Vuex)
 export default {
   name: "App",

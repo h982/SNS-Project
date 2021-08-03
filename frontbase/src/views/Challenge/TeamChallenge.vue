@@ -183,47 +183,6 @@ export default {
         )
         .catch();
       },
-      participate(challengeInfo){
-        const instance = createInstance();
-        const body = {
-          challenge: this.challengeInfo,
-          memberInfo: this.memberInfo.memberId,
-        }; 
-        console.log(body);
-        instance.post("/team_challenge_participate", JSON.stringify(body))
-        .then(
-          (response) => {
-            if (response.data.message === "success") {
-              alert("챌린지에 등록되었습니다.");
-              
-            } else {
-              alert("챌린지 추가에 실패하였습니다.");
-            }
-          }
-        )
-        .catch();
-      },  
-      giveUp(challengeInfo){
-        const body = {
-          challenge: challengeInfo,
-          memberInfo: this.memberInfo,
-        }; 
-        console.log(body);
-        const instance = createInstance();
-      
-        instance.post("/challenge/team_challenge_giveUp", JSON.stringify(body))
-        .then(
-          (response) => {
-            if (response.data.message === "success") {
-              alert("챌린지를 포기하셨습니다.");
-              
-            } else {
-              alert("챌린지 포기에 실패하셨습니다.");
-            }
-          }
-        )
-        .catch();
-      },
     },
       
 };

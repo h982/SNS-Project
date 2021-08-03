@@ -6,6 +6,8 @@ import StoryblokVue from 'storyblok-vue'
 import VueAnalytics from 'vue-analytics'
 import store from './store';
 import Vuetify from 'vuetify'
+import Vuetify2 from 'vuetify/lib'
+
 //fort-awesome
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faUserSecret } from '@fortawesome/free-solid-svg-icons'
@@ -21,6 +23,7 @@ Vue.use(BootstrapVue);
 Vue.config.productionTip = false
 const isProd = process.env.NODE_ENV === "production"
 Vue.use(Vuetify);
+Vue.use(Vuetify2);
 Vue.use(IconsPlugin);
 new Vue({
   router,
