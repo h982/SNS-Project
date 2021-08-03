@@ -4,12 +4,15 @@
     <td>{{ title }}</td>
     <td>{{ contents }}</td>
     <td>{{ endDate }}</td>
-    <td><v-btn  @click="delete1">등록</v-btn></td>
-
+    <td><v-btn @click="participate">챌린지신청</v-btn></td>
+    <td><v-btn @click="giveUp">챌린지포기</v-btn></td>
   </tr>
 </template>
 
 <script>
+import { mapState } from 'vuex';
+import { createInstance } from "@/api/index.js";
+
 export default {
   name: "ListRow",
   props: {
@@ -23,6 +26,55 @@ export default {
     
     }
   },
+  computed:{
+    
+    ...mapState(["memberInfo","teamInfo","selectTeam","team_challenges"])
+  },
+  methods:{
+    participate(){
+        const instance = createInstance();
+        const body = {
+          memberId: this.memberInfo.memberId,
+          teamChallengeId: this.no,
+        }; 
+        console.log(body);
+        instance.post("/team_challenge_participate", JSON.stringify(body))
+        .then(
+          (response) => {
+            console.log(response);
+            if (response.data.data === "success") {
+              alert("챌린지에 등록되었습니다.");
+              
+            } else {
+              alert("챌린지 추가에 실패하였습니다.");
+            }
+          }
+        )
+        .catch();
+      },
+      giveUp(){
+        const body = {
+          memberId: this.memberInfo.memberId,
+          teamChallengeId: this.no,
+        }; 
+        console.log(body);
+        const instance = createInstance();
+      
+        instance.post("/team_challenge_giveup", JSON.stringify(body))
+        .then(
+          (response) => {
+            console.log(response);
+            if (response.data.data === "success") {
+              alert("챌린지를 포기하셨습니다.");
+              
+            } else {
+              alert("챌린지 포기에 실패하셨습니다.");
+            }
+          }
+        )
+        .catch();
+      },  
+  }
 };
 </script>
 <style scope>

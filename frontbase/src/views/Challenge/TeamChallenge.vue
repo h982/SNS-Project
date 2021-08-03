@@ -58,20 +58,19 @@
             <th>챌린지 제목</th>
             <th>내용</th>
             <th>종료일자</th>
-            <th>수행여부</th>
+            <th>챌린지신청</th>
+            <th>챌린지포기</th>
           </tr>
         </thead>
         <tbody>
         
           <list-row-team-challenge
             v-for="(challenge, index) in items"
-            
             :key="index"
-            :no="index+1"
+            :no="challenge.text.teamChallengeId"
             :title="challenge.text.title"
             :contents="challenge.text.contents"
             :endDate="challenge.text.endDate"
-            
           />
           </tbody>
       </table>
@@ -96,7 +95,7 @@
         <thead>
           <tr>
             <th>챌린지번호</th>
-            <th> 챌린지 제목</th>
+            <th>챌린지 제목</th>
             <th>내용</th>
             <th>종료일자</th>
             
@@ -304,11 +303,11 @@ export default {
       participate(challengeInfo){
         const instance = createInstance();
         const body = {
-          challenge: challengeInfo,
-          memberInfo: this.memberInfo,
+          challenge: this.challengeInfo,
+          memberInfo: this.memberInfo.memberId,
         }; 
         console.log(body);
-        instance.post("/challenge/team_challenge_participate", JSON.stringify(body))
+        instance.post("/team_challenge_participate", JSON.stringify(body))
         .then(
           (response) => {
             if (response.data.message === "success") {
