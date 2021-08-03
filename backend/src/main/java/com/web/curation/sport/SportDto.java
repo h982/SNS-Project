@@ -1,25 +1,16 @@
 package com.web.curation.sport;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import javax.persistence.*;
+import javax.validation.Valid;
 
-@Data
-@Entity
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "Sport")
+@Valid
+@Builder
 public class SportDto {
-
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int sportId;
-
-    @Column(name = "sport_name")
     private String name;
-
-    public SportDto(int sportId) {
-        this.sportId = sportId;
-    }
 }
