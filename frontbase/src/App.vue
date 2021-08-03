@@ -23,7 +23,10 @@ import TheHeader from "./components/TheHeader";
 import TheFooter from "./components/TheFooter";
 import Vue from 'vue'
 import Vuex from 'vuex'
+import Vuetify from 'vuetify'
 
+
+Vue.use(Vuetify);
 Vue.use(Vuex)
 export default {
   name: "App",

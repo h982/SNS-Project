@@ -1,14 +1,20 @@
 <template>
-  <div>
-    <h2>팀 가입 신청</h2>
-    <table>
-        <tr v-for="request in waitingReqests" v-bind:key="request.requestId">
-            <td>{{request.member.name}}</td>
-            <td><button v-on:click="acceptRequest(request.requestId, request.member.memberId)">수락</button></td>
-            <td><button v-on:click="rejectRequest(request.requestId)">거절</button></td>
-        </tr>
-    </table>
-  </div>
+    <div>
+        <h2>팀 가입 신청</h2>
+        <table v-if="waitingReqests.length !== 0">
+            
+            <tr v-for="request in waitingReqests" v-bind:key="request.requestId" >
+                <td>{{request.member.name}}</td>
+                <td><b-button variant="primary" v-on:click="acceptRequest(request.requestId, request.member.memberId)">수락</b-button></td>
+                <td><b-button variant="danger" v-on:click="rejectRequest(request.requestId)">거절</b-button></td>
+            </tr>
+        </table>
+
+        <table v-else>
+            <tr>가입 요청이 존재하지 않습니다.</tr>
+        </table>
+
+    </div>
 </template>
 
 <script>
