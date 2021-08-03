@@ -2,6 +2,7 @@ package com.web.curation.amazonS3;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.web.curation.files.PhotoDto;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,10 @@ public class S3Uploader {
                 () -> new IllegalArgumentException("MultipartFile => File 변환에 실패했습니다.")
         );
         return upload(uploadFile, dirName);
+    }
+
+    public void deleteFile(String fileName){
+        amazonS3Client.deleteObject(bucket, fileName);
     }
 
     private PhotoDto upload(File uploadFile, String dirName) {

@@ -63,12 +63,11 @@ public class FeedController {
 
     @PutMapping("/feed")
     @ApiOperation(value = "피드 수정")
-    public ResponseEntity<?> updateFeed(@RequestBody @Valid FeedDto feedDto){
-        boolean ret = feedService.updateFeed(feedDto);
-
+    public ResponseEntity<?> updateFeed(FeedDto feedDto)throws IOException{
         ResponseEntity response = null;
-
         final BasicResponse result = new BasicResponse();
+
+        boolean ret = feedService.updateFeed(feedDto);
         if(ret) {
             result.status = true;
             result.data = "success";
@@ -81,7 +80,27 @@ public class FeedController {
         response = new ResponseEntity<>(result, HttpStatus.OK);
 
         return response;
+    }
 
+    @DeleteMapping("/feed")
+    @ApiOperation(value = "피드 삭제")
+    public ResponseEntity<?> deleteFeed(FeedDto feedDto) throws IOException{
+        ResponseEntity response = null;
+        final BasicResponse result = new BasicResponse();
+
+        boolean ret = feedService.deleteFeed(feedDto);
+        if(ret) {
+            result.status = true;
+            result.data = "success";
+            result.object = feedDto;
+        }else{
+            result.status = false;
+            result.data = "fail";
+        }
+
+        response = new ResponseEntity<>(result, HttpStatus.OK);
+
+        return response;
     }
 	
 }
