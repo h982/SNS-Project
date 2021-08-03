@@ -18,19 +18,7 @@ public class MemberService {
 	}
 
 	public MemberDto registMember(MemberDto memberDto) {
-		Member member = new Member.MemberBuilder()
-				.memberId(memberDto.getMemberId())
-				.name(memberDto.getName())
-				.email(memberDto.getEmail())
-				.phone(memberDto.getPhone())
-				.password(memberDto.getPassword())
-				.address(memberDto.getAddress())
-				.addressDetail(memberDto.getAddressDetail())
-				.zonecode(memberDto.getZonecode())
-				.sex(memberDto.getSex())
-				.mbti(memberDto.getMbti())
-				.authenticated(memberDto.getAuthenticated())
-				.build();
+		Member member = MemberAdapter.dtoToEntity(memberDto);
 		memberDao.save(member);
 		return memberDto;
 	}
@@ -39,19 +27,7 @@ public class MemberService {
 		Optional<Member> member = memberDao.getMemberByEmail(email);
 		Optional<MemberDto> memberDto = null;
 		if(member.isPresent()) {
-			memberDto = Optional.of(MemberDto.builder()
-					.memberId(member.get().getMemberId())
-					.name(member.get().getName())
-					.email(member.get().getEmail())
-					.phone(member.get().getPhone())
-					.password(member.get().getPassword())
-					.address(member.get().getAddress())
-					.addressDetail(member.get().getAddressDetail())
-					.zonecode(member.get().getZonecode())
-					.sex(member.get().getSex())
-					.mbti(member.get().getMbti())
-					.authenticated(member.get().getAuthenticated())
-					.build());
+			memberDto = Optional.of(MemberAdapter.entityToDto(member.get()));
 			return memberDto;
 		}
 		return memberDto;
@@ -61,19 +37,7 @@ public class MemberService {
 		Optional<Member> member = memberDao.getMemberByEmailAndPassword(email, password);
 		Optional<MemberDto> memberDto = null;
 		if(member.isPresent()) {
-			memberDto = Optional.of(MemberDto.builder()
-					.memberId(member.get().getMemberId())
-					.name(member.get().getName())
-					.email(member.get().getEmail())
-					.phone(member.get().getPhone())
-					.password(member.get().getPassword())
-					.address(member.get().getAddress())
-					.addressDetail(member.get().getAddressDetail())
-					.zonecode(member.get().getZonecode())
-					.sex(member.get().getSex())
-					.mbti(member.get().getMbti())
-					.authenticated(member.get().getAuthenticated())
-					.build());
+			memberDto = Optional.of(MemberAdapter.entityToDto(member.get()));
 			return memberDto;
 		}
 		return memberDto;
@@ -87,19 +51,7 @@ public class MemberService {
 		Optional<Member> member = memberDao.getMemberByEmail(email);
 		Optional<MemberDto> memberDto = null;
 		if(member.isPresent()) {
-			memberDto = Optional.of(MemberDto.builder()
-					.memberId(member.get().getMemberId())
-					.name(member.get().getName())
-					.email(member.get().getEmail())
-					.phone(member.get().getPhone())
-					.password(member.get().getPassword())
-					.address(member.get().getAddress())
-					.addressDetail(member.get().getAddressDetail())
-					.zonecode(member.get().getZonecode())
-					.sex(member.get().getSex())
-					.mbti(member.get().getMbti())
-					.authenticated(member.get().getAuthenticated())
-					.build());
+			memberDto = Optional.of(MemberAdapter.entityToDto(member.get()));
 			return memberDto;
 		}
 		return memberDto;

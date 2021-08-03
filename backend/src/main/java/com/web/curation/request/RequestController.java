@@ -24,9 +24,9 @@ public class RequestController {
     @ApiOperation(value = "팀 가입요청")
     @ApiResponses(value = {@ApiResponse(code = 201, message = "팀 가입요청이 생성됨"),
     						@ApiResponse(code = 409, message = "이미 요청한 적이 있음")})
-    public Object sendRequest(@RequestBody Request request) {
-    	if(!requestService.checkDuplication(request)) {
-    		requestService.makeRequest(request);
+    public Object sendRequest(@RequestBody RequestDto requestDto) {
+    	if(!requestService.checkDuplication(requestDto)) {
+    		requestService.makeRequest(requestDto);
     		return new ResponseEntity<>(HttpStatus.CREATED);
     	}
     	return new ResponseEntity<>(HttpStatus.CONFLICT);
@@ -36,7 +36,7 @@ public class RequestController {
     @ApiOperation(value = "팀별 가입요청 목록")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "팀별 가입요청 리스트", response = Request.class, responseContainer = "List")})
     public Object getRequestList(@PathVariable int teamId) {
-    	List<Request> list = requestService.getRequestList(teamId);
+    	List<RequestDto> list = requestService.getRequestList(teamId);
     	
     	return new ResponseEntity<>(list, HttpStatus.OK);
     }
