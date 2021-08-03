@@ -11,6 +11,7 @@ import Chatting from "@/views/Team/TeamChattingRoom.vue";
 import TeamFeed from "@/views/Team/TeamFeed.vue";
 import MyTeam from "@/views/Team/MyTeam.vue";
 import MyPage from "@/views/user/MyPage.vue";
+import ChallengeMake from "@/views/Challenge/TeamChallengeMake.vue";
 Vue.use(Router);
 Vue.use(Meta);
 
@@ -159,6 +160,12 @@ export default new Router({
       name: "TeamFeed",
       path: "/teamFeed",
       component: TeamFeed
+    },
+    {
+      name: "ChallengeMake",
+      path: "/challengemake",
+      component: ChallengeMake
+      
     },
     {
       name: "board",

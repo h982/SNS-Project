@@ -11,7 +11,6 @@ import javax.validation.Valid;
 
 import com.web.curation.member.JwtServiceImpl;
 import com.web.curation.member.Member;
-import com.web.curation.member.MemberService;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,7 +33,7 @@ import static java.time.LocalDateTime.now;
 public class MemberController {
 	// test1
     @Autowired
-    MemberService memberservice;
+    MemberService memberService;
 
     @Autowired
     private JwtServiceImpl jwtService;
@@ -45,18 +44,13 @@ public class MemberController {
     @ApiOperation(value = "회원가입")
     @ApiResponses(value = {@ApiResponse(code = 201, message = "회원이 생성됨", response = BasicResponse.class),
     						@ApiResponse(code = 409, message = "중복된 값이 있음", response = BasicResponse.class)})
-    public ResponseEntity<Map<String, Object>> signup(@RequestBody Member member) {
-        Optional<Member> responseMember = memberservice.checkEmail(member.getEmail());
+    public ResponseEntity<Map<String, Object>> signup(@RequestBody MemberDto memberDto) {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = HttpStatus.ACCEPTED;
 
-        member.setCreateDate(now());
-        member.setAuthenticated(false);
-        System.out.println(member.getName());
-        System.out.println(member.getEmail());
-        if (!responseMember.isPresent()) {
-            System.out.println("hi");
-            memberservice.registMember(member);
+        memberDto.setAuthenticated(false);
+        if (!memberService.hasSameEmail(memberDto.getEmail())) {
+            memberService.registMember(memberDto);
             resultMap.put("message", "success");
             status = HttpStatus.CREATED;
             System.out.println(resultMap.get("message"));
@@ -71,11 +65,11 @@ public class MemberController {
     @ApiOperation(value = "로그인", notes = "Access-token과 로그인 결과 메세지를 반환한다.", response = Map.class)
     @PostMapping("/login")
     public ResponseEntity<Map<String, Object>> login(
-            @RequestBody @ApiParam(value = "로그인 시 필요한 회원정보(아이디, 비밀번호).", required = true) Member member) {
+            @RequestBody @ApiParam(value = "로그인 시 필요한 회원정보(아이디, 비밀번호).", required = true) MemberDto memberDto) {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = null;
         try {
-            Optional<Member> loginUser = memberservice.getUser(member.getEmail(),member.getPassword());
+            Optional<MemberDto> loginUser = memberService.getUser(memberDto.getEmail(),memberDto.getPassword());
             if (loginUser.isPresent()) {
                 String token = jwtService.create("memberEmail", loginUser.get().getEmail(), "access-token");// key, data, subject
                 resultMap.put("access-token", token);
@@ -83,7 +77,7 @@ public class MemberController {
                 status = HttpStatus.ACCEPTED;
             } else {
                 resultMap.put("message", "fail");
-                status = HttpStatus.ACCEPTED;
+                status = HttpStatus.CONFLICT;
             }
         } catch (Exception e) {
             resultMap.put("message", e.getMessage());
@@ -103,7 +97,7 @@ public class MemberController {
 
         if (jwtService.isUsable(request.getHeader("access-token"))) {
             try {
-                Optional<Member> member = memberservice.getMemberByEmail(memberEmail);
+                Optional<MemberDto> member = memberService.getMemberByEmail(memberEmail);
                 System.out.println(member);
                 resultMap.put("memberInfo", member);
                 resultMap.put("message", "success");
@@ -114,7 +108,7 @@ public class MemberController {
             }
         } else {
             resultMap.put("message", "fail");
-            status = HttpStatus.ACCEPTED;
+            status = HttpStatus.CONFLICT;
         }
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }

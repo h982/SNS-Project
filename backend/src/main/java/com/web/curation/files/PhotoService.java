@@ -1,5 +1,6 @@
 package com.web.curation.files;
 
+import com.web.curation.feed.Feed;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,15 +12,16 @@ public class PhotoService {
     private PhotoDao photoDao;
 
     public PhotoDto addPhoto(PhotoDto photoDto){
-        return photoDao.save(photoDto);
+        Photo savePhoto = PhotoAndDtoAdapter.dtoToEntity(photoDto);
+        return PhotoAndDtoAdapter.entityToDto(photoDao.save(savePhoto));
     }
 
     public Optional<PhotoDto> findByImageName(String uploadedImageName) {
         return photoDao.findByImageName(uploadedImageName);
     }
 
-    public void delete(Long id) {
-        Optional<PhotoDto> uploadedImage = photoDao.findById(id);
+    public void delete(Integer id) {
+        Optional<Photo> uploadedImage = photoDao.findById(id);
         if (uploadedImage.isPresent()) {
             photoDao.delete(uploadedImage.get());
         }
