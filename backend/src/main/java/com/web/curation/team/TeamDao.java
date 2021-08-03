@@ -4,7 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface TeamDao extends JpaRepository<Team,Long> {
+public interface TeamDao extends JpaRepository<Team,Integer> {
 
     //모든 팀 조회
     List<Team> findAll();
