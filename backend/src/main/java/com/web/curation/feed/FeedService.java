@@ -103,7 +103,7 @@ public class FeedService {
 				.teamName(feedDto.getTeamName())
 				.writer(feedDto.getWriter())
 				.photos(photoList)
-				.teamchallenge(teamChallengeDao.getTeamChallengeByTeamChallengeId(feedDto.getTeamchallengeId()))
+				.teamchallenge(teamChallengeDao.findById(feedDto.getTeamchallengeId()).get())
 				.build();
 
 		feedDao.save(feed);
