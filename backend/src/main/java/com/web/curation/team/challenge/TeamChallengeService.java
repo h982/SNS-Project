@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import com.web.curation.team.Team;
 import com.web.curation.team.join.JoinTeam;
 import com.web.curation.team.join.JoinTeamDao;
 import lombok.AllArgsConstructor;
@@ -71,7 +72,7 @@ public class TeamChallengeService {
 	}
 	
 	public List<TeamChallenge> findTeamChallengeByTeam(int teamId){
-		TeamDto team = teamDao.getOne((long)teamId);
+		Team team = teamDao.getOne((long)teamId);
 		List<TeamChallenge> list = teamChallengeDao.findTeamChallengeByTeam(teamDao.getOne((long)teamId));
 		
 		return list;

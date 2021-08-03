@@ -1,8 +1,14 @@
 package com.web.curation.feed;
 
 import com.web.curation.amazonS3.S3Uploader;
+import com.web.curation.files.Photo;
+import com.web.curation.files.PhotoAndDtoAdapter;
 import com.web.curation.files.PhotoDao;
 import com.web.curation.files.PhotoDto;
+import com.web.curation.member.Member;
+import com.web.curation.member.MemberDao;
+import com.web.curation.team.Team;
+import com.web.curation.team.TeamDao;
 import com.web.curation.team.challenge.TeamChallenge;
 import com.web.curation.team.challenge.TeamChallengeDao;
 import com.web.curation.team.join.JoinTeam;
@@ -22,11 +28,16 @@ public class FeedService {
 	private S3Uploader s3Uploader;
 	private JoinTeamDao joinTeamDao;
 	private TeamChallengeDao teamChallengeDao;
+	private MemberDao memberDao;
+	private TeamDao teamDao;
 
 	public Feed registerFeed(FeedDto feedDto) throws IOException {
+		Member member = memberDao.findById(feedDto.getMemerId()).get();
+		Team team = teamDao.findById(new Long(feedDto.getTeamId())).get();
+		JoinTeam joinTeam = joinTeamDao.findByMemberAndTeam(member, team).get();
 		//Feed 객체 생성하기
 		Feed feed = Feed.builder()
-				.joinTeam(new JoinTeam(feedDto.getJoinTeamId()))
+				.joinTeam(joinTeam)
 				.teamchallenge(null)
 				.teamName(feedDto.getTeamName())
 				.contents(feedDto.getContents())
@@ -39,16 +50,17 @@ public class FeedService {
 		Feed resultFeed = feedDao.save(feed);
 
 		//사진 등록
-		List<PhotoDto> photoList = new ArrayList<>();
+		List<Photo> photoList = new ArrayList<>();
 //		for(MultipartFile multipartFile : feedDto.getImages()){
-//			PhotoDto uploadPhoto = s3Uploader.upload(multipartFile,"static");
+//			Photo uploadPhoto = s3Uploader.upload(multipartFile,"static");
 //			uploadPhoto.setFeed(resultFeed);
-//			photoList.add(photoDao.save(uploadPhoto));
+//			Photo photo = PhotoAndDtoAdapter.dtoToEntity(uploadPhoto);
+//			photoList.add(photoDao.save(photo));
 //		}
 		PhotoDto uploadPhoto = s3Uploader.upload(feedDto.getImage(), "static");
-
+		Photo photo = PhotoAndDtoAdapter.dtoToEntity(uploadPhoto);
 		uploadPhoto.setFeed(resultFeed);
-		photoList.add(photoDao.save(uploadPhoto));
+		photoList.add(photoDao.save(photo));
 		feed.setPhotos(photoList);
 
 		return feedDao.save(feed);
@@ -64,26 +76,30 @@ public class FeedService {
 			return false;
 		}
 		Feed oldFeed = chkFeed.get();
-		for(PhotoDto photo : oldFeed.getPhotos()) {
+		for(Photo photo : oldFeed.getPhotos()) {
 			s3Uploader.deleteFile(photo.getImageName());
 			photoDao.delete(photo);
 		}
 
-		List<PhotoDto> photoList = new ArrayList<>();
+		List<Photo> photoList = new ArrayList<>();
 //		for(MultipartFile multipartFile : feedDto.getImages()){
 //			PhotoDto uploadPhoto = s3Uploader.upload(multipartFile,"static");
+//			Photo photo = PhotoAndDtoAdapter.dtoToEntity(uploadPhoto);
 //			uploadPhoto.setFeed(resultFeed);
 //			photoList.add(photoDao.save(uploadPhoto));
 //		}
 		PhotoDto uploadPhoto = s3Uploader.upload(feedDto.getImage(), "static");
-
+		Photo photo = PhotoAndDtoAdapter.dtoToEntity(uploadPhoto);
 		uploadPhoto.setFeed(oldFeed);
-		photoList.add(photoDao.save(uploadPhoto));
+		photoList.add(photoDao.save(photo));
 
+		Member member = memberDao.findById(feedDto.getMemerId()).get();
+		Team team = teamDao.findById(new Long(feedDto.getTeamId())).get();
+		JoinTeam joinTeam = joinTeamDao.findByMemberAndTeam(member, team).get();
 		Feed feed = Feed.builder()
 				.feedId(feedDto.getFeedId())
 				.contents(feedDto.getContents())
-				.joinTeam(joinTeamDao.findById(feedDto.getJoinTeamId()).get())
+				.joinTeam(joinTeam)
 				.teamName(feedDto.getTeamName())
 				.writer(feedDto.getWriter())
 				.photos(photoList)
@@ -100,7 +116,7 @@ public class FeedService {
 			return false;
 		}
 		Feed feed = chkFeed.get();
-		for(PhotoDto photo : feed.getPhotos()){
+		for(Photo photo : feed.getPhotos()){
 			s3Uploader.deleteFile(photo.getImageName());
 			photoDao.delete(photo);
 		}

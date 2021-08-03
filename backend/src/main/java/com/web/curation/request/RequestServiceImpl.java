@@ -3,6 +3,7 @@ package com.web.curation.request;
 import java.util.List;
 import java.util.Optional;
 
+import com.web.curation.team.Team;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +31,7 @@ public class RequestServiceImpl implements RequestService {
 
 	@Override
 	public List<Request> getRequestList(int teamId) {
-		return requestDao.findAllByTeam(new TeamDto(teamId));
+		return requestDao.findAllByTeam(new Team(teamId));
 	}
 
 	@Override

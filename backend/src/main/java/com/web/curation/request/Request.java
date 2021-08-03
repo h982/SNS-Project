@@ -1,5 +1,6 @@
 package com.web.curation.request;
 
+import com.web.curation.team.Team;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,7 +24,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.web.curation.member.Member;
-import com.web.curation.team.TeamDto;
 
 import java.time.LocalDateTime;
 
@@ -39,7 +39,7 @@ public class Request {
 
 	@ManyToOne
 	@JoinColumn(name = "Team_id", nullable = false)
-	private TeamDto team;
+	private Team team;
 
 	@ManyToOne
 	@JoinColumn(name = "Member_id", nullable = false)

@@ -14,9 +14,7 @@ import javax.persistence.Enumerated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
-import com.web.curation.feed.Feed;
-import com.web.curation.team.TeamDao;
-import com.web.curation.team.TeamDto;
+import com.web.curation.team.Team;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -37,7 +35,7 @@ public class TeamChallenge {
 	
 	@ManyToOne
 	@JoinColumn(name = "TEAM_ID")
-	private TeamDto team;
+	private Team team;
 	
 	@Column(name = "TITLE", length = 128)
 	private String title;
