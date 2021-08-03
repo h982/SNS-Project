@@ -32,7 +32,7 @@ public class FeedService {
 	private TeamDao teamDao;
 
 	public Feed registerFeed(FeedDto feedDto) throws IOException {
-		Member member = memberDao.findById(feedDto.getMemerId()).get();
+		Member member = memberDao.findById(feedDto.getMemberId()).get();
 		Team team = teamDao.findById(new Long(feedDto.getTeamId())).get();
 		JoinTeam joinTeam = joinTeamDao.findByMemberAndTeam(member, team).get();
 		//Feed 객체 생성하기
@@ -93,7 +93,7 @@ public class FeedService {
 		uploadPhoto.setFeed(oldFeed);
 		photoList.add(photoDao.save(photo));
 
-		Member member = memberDao.findById(feedDto.getMemerId()).get();
+		Member member = memberDao.findById(feedDto.getMemberId()).get();
 		Team team = teamDao.findById(new Long(feedDto.getTeamId())).get();
 		JoinTeam joinTeam = joinTeamDao.findByMemberAndTeam(member, team).get();
 		Feed feed = Feed.builder()

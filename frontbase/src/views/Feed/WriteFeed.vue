@@ -4,11 +4,11 @@
       <label for="challenge">챌린지 선택</label>
       <select id="challenge" v-model="challenge">
         <option
-          v-for="(challenge, idx) in challenges"
+          v-for="(challenge, idx) in team_challenges"
           :key="idx"
           :value="challenge"
         >
-          {{ challenge }}
+          {{ challenge.text.title }}
         </option>
       </select>
     </div>
@@ -40,43 +40,50 @@ export default {
   data: () => {
     return {
       contents: "",
-      challenges: [],
-      challenge: Number(),
+      // challenge: Number(),
+      challenge: "",
       file: null
     };
   },
   computed: {
-    // ...mapGetters(["team_challenges"]),
-    ...mapGetters(["memberInfo", "teamInfo"])
+    ...mapGetters(["memberInfo", "myTeamList", "team_challenges"])
   },
-  // created() {
-  //   this.$store.dispatch("GET_MY_TEAM_INFO");
-  // },
+  created() {
+    this.$store.dispatch("GET_TEAMCHALLENGE_INFO", this.memberInfo.memberId);
+    this.$store.dispatch("GET_MY_TEAM_INFO", this.memberInfo.memberId);
+    // console.log(this.team_challenges);
+    // console.log(this.memberInfo);
+    // console.log(this.myTeamList);
+  },
   methods: {
     write() {
-      this.challenge = -1;
+      // this.challenge = -1;
 
       const formData = new FormData();
-      // formData.append("teamchallenge_id", JSON.stringify(this.challenge));
-      // formData.append("jointeam_id", JSON.stringify(this.teamInfo.teamId));
-      // formData.append("team_name", JSON.stringify(this.teamInfo.name));
-      // formData.append("contents", JSON.stringify(this.contents));
-      // formData.append("writer", JSON.stringify(this.memberInfo.name));
-      // formData.append("file", document.getElementById("chooseFile").files[0]);
-      formData.append("teamChallengeId", JSON.stringify(this.challenge));
-      formData.append("joinTeamId", JSON.stringify(1));
-      formData.append("teamName", JSON.stringify("test"));
+      formData.append("teamchallengeId", this.challenge.text.teamChallengeId);
+      formData.append("memberId", this.memberInfo.memberId);
+      formData.append("teamId", this.myTeamList[0].text.teamId);
+      formData.append(
+        "teamName",
+        JSON.stringify(this.challenge.text.team.name)
+      );
       formData.append("contents", JSON.stringify(this.contents));
-      formData.append("writer", JSON.stringify("test"));
-      formData.append("images", document.getElementById("chooseFile").files[0]);
-      console.log(formData.teamChallengeId);
-      // this.file = document.getElementById("chooseFile").files[0];
-      // console.log(this.file);
+      formData.append("writer", JSON.stringify(this.memberInfo.name));
+      formData.append("image", document.getElementById("chooseFile").files[0]);
+
+      console.log(this.challenge.text.teamChallengeId);
+      console.log(this.memberInfo.memberId);
+      console.log(this.myTeamList[0].text.teamId);
+      console.log(this.challenge.text.team.name);
+      console.log(JSON.stringify(this.contents));
+      console.log(JSON.stringify(this.memberInfo.name));
+      console.log(document.getElementById("chooseFile").files[0]);
+
       const instance = createInstance();
       instance
         .post("/feed", formData, {
           Headers: {
-            "Content-Type": "multiart/form-data"
+            "Content-Type": "multipart/form-data"
           }
         })
         .then(response => {

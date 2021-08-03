@@ -25,7 +25,7 @@ public class FeedDto {
     private int teamchallengeId;
 
     @ApiModelProperty(required = true)
-    private int memerId;
+    private int memberId;
 
     @ApiModelProperty(required = true)
     private int teamId;
