@@ -13,8 +13,11 @@ import java.util.List;
 
 @Getter
 @Setter
+@ToString
 @Builder
 @Valid
+@NoArgsConstructor
+@AllArgsConstructor
 public class FeedDto {
     private int feedId;
 
@@ -34,5 +37,5 @@ public class FeedDto {
     private String writer;
 
     @ApiModelProperty(required = true)
-    private List<MultipartFile> multipartFiles;
+    private MultipartFile image;
 }

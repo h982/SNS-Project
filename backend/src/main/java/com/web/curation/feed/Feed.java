@@ -18,6 +18,7 @@ import lombok.*;
 @Entity
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -27,7 +28,7 @@ public class Feed {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int feedId;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "TEAMCHALLENGE_ID")
 	private TeamChallenge teamchallenge;
 
@@ -50,5 +51,4 @@ public class Feed {
 	@OneToMany
 	@JoinColumn(name = "feed_id")
 	private List<PhotoDto> photos = new ArrayList<>();
-
 }
