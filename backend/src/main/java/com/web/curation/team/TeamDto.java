@@ -25,7 +25,7 @@ public class TeamDto {
     private int sportId;
     private MultipartFile multipartFile;
 
-    private long teamId;
+    private Integer teamId;
     private int memberCount;
     private String imgPath;
     private LocalDateTime createDate;

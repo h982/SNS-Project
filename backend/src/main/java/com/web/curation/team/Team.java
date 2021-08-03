@@ -25,7 +25,7 @@ public class Team {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "team_id")
-    private long teamId;
+    private Integer teamId;
 
     private String name;
 
