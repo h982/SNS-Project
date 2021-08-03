@@ -1,28 +1,27 @@
 package com.web.curation.team;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.web.curation.files.PhotoDto;
+import com.web.curation.files.Photo;
 import com.web.curation.member.Member;
-import com.web.curation.request.Request;
-import com.web.curation.sport.SportDto;
-import lombok.*;
+import com.web.curation.sport.Sport;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
-import java.nio.file.FileStore;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
-@Data
+@Getter
 @Table(name = "Team")
 @NoArgsConstructor
 @AllArgsConstructor
 @DynamicInsert
-@Builder(builderMethodName = "TeamDtoBuilder")
-public class TeamDto {
+@Builder
+public class Team {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "team_id")
@@ -53,14 +52,14 @@ public class TeamDto {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sport_id")
-    private SportDto sportDto;
+    private Sport sport;
     
-    public TeamDto(int teamId) {
+    public Team(int teamId) {
     	this.teamId = teamId;
     }
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "photo_id")
-    private PhotoDto photoDto;
+    private Photo photo;
 
 }
