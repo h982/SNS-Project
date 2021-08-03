@@ -22,6 +22,12 @@ const isProd = process.env.NODE_ENV === "production"
 new Vue({
   router,
   store,
+  async beforeCreate() {
+    let token = localStorage.getItem("access-token");
+    if (store.state.memberInfo == null && token) {
+      await store.dispatch("GET_MEMBER_INFO", token);
+    }
+  },
   render: h => h(App),
 }).$mount('#app')
 

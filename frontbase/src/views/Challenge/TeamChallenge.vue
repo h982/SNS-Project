@@ -1,5 +1,6 @@
 <template>
   <v-container grid-list-xl>
+    
 
     <v-layout >
       <v-bottom-navigation
@@ -33,47 +34,89 @@
         </v-btn>
       </v-bottom-navigation>
     </v-layout>
-
+    
+    <br>
     <h2 class="pl-4">
       <span>팀에서 진행중인 </span>
       <span class="green--text">챌린지</span>
     </h2>
-    <div>
-      <ul>
-        <li v-for="(challenge,idx) in team_challenges" v-bind:key="challenge"
-        >
-          <div v-if="challenge.text.team.teamId==selectTeam.teamId">
-            <h3>챌린지 : {{idx}}</h3>
-            <h3>챌린지 제목: {{challenge.text.title}}</h3>
-            <h3>챌린지 내용: {{challenge.text.contents}}</h3>
-            <h3>시작 일자: {{challenge.text.startDate}}</h3>
-            <h3>종료 일자: {{challenge.text.endDate}}</h3>
-          </div>
-        </li>
-      </ul>
+    
+    <br>
+
+    <div v-if="team_challenges.length">
+      <table id="book-list">
+        <colgroup>
+          <col style="width: 10%" />
+          <col style="width: 30%" />
+          <col style="width: 20%" />
+          <col style="width: 20%" />
+          <col style="width: 20%" />
+        </colgroup>
+        <thead>
+          <tr>
+            <th>챌린지번호</th>
+            <th>챌린지 제목</th>
+            <th>내용</th>
+            <th>종료일자</th>
+            <th>수행여부</th>
+          </tr>
+        </thead>
+        <tbody>
+        
+          <list-row-team-challenge
+            v-for="(challenge, index) in items"
+            
+            :key="index"
+            :no="index+1"
+            :title="challenge.text.title"
+            :contents="challenge.text.contents"
+            :endDate="challenge.text.endDate"
+            
+          />
+          </tbody>
+      </table>
     </div>
-    <v-btn flat large dark color="black" target="_blank" @click="check()">
-      확인하기
-    </v-btn>
+
+    <br><br>
 
     <h2 class="pl-4">
       <span>전체 </span>
       <span class="green--text">챌린지</span>
     </h2>
-    <div>
-      <ul>
-        <li v-for="(challenge,idx) in team_challenges" v-bind:key="challenge"
-        >
-          
-            <h3>챌린지 : {{idx}}</h3>
-            <h3>챌린지 제목: {{challenge.text.title}}</h3>
-            <h3>챌린지 내용: {{challenge.text.contents}}</h3>
-            <h3>시작 일자: {{challenge.text.startDate}}</h3>
-            <h3>종료 일자: {{challenge.text.endDate}}</h3>
-        
-        </li>
-      </ul>
+    <br>
+    <div v-if="team_challenges.length">
+      <table id="book-list">
+        <colgroup>
+          <col style="width: 10%" />
+          <col style="width: 30%" />
+          <col style="width: 20%" />
+          <col style="width: 20%" />
+          <col style="width: 20%" />
+        </colgroup>
+        <thead>
+          <tr>
+            <th>챌린지번호</th>
+            <th> 챌린지 제목</th>
+            <th>내용</th>
+            <th>종료일자</th>
+            
+          </tr>
+        </thead>
+        <tbody>
+          <list-row-whole-challenge
+            v-for="(challenge, index) in team_challenges"
+            :key="index"
+            :no="index+1"
+            :title="challenge.text.title"
+            :contents="challenge.text.contents"
+            :endDate="challenge.text.endDate"
+            
+          />
+          </tbody>
+      </table>
     </div>
+
+  
     <v-btn flat large dark color="black" target="_blank" @click="check()">
       확인하기
     </v-btn>
@@ -183,10 +226,13 @@ import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
 import { mapGetters, mapState } from 'vuex';
 import { createInstance } from "@/api/index.js";
-
+import ListRowWholeChallenge from "@/components/ListRowWholeChallenge.vue";
+import ListRowTeamChallenge from "@/components/ListRowTeamChallenge.vue";
 export default {
   components:{
-    DatePicker 
+    DatePicker,
+    ListRowWholeChallenge,
+    ListRowTeamChallenge
   },
   computed:{
     ...mapGetters ([
@@ -194,80 +240,38 @@ export default {
     ]),
     ...mapState(["memberInfo","teamInfo","selectTeam","team_challenges"])
   },
+  created: function(){
+    if(this.team_challenges.length>0){
+      for(var i = 0; i< this.team_challenges.length;i++){
+        if(this.team_challenges[i].text.team.teamId===this.selectTeam.teamId)
+          this.items.push(this.team_challenges[i]);
+          console.log(i);
+      }
+    }
+  },
+
   data() {
     return {
-      dialog: false,
-      team_projects: [
-        {
-          dialog: false,
-          title: "작심삼일이라도 달리기",
-          git: "",
-          demo: "",
-          tech: {
-            tech1: "러닝",
-            tech2: "팀챌린지",
-            tech3: "기간: 3일",
-          },
-          poster: "https://i.ibb.co/p2cLTzW/image.jpg"
-        },
-        {
-          dialog: false,
-          title: "러닝은 거들뿐",
-          git: "https://github.com/EldinZaimovic/Eldin-Space-Vue",
-          demo: "https://eldin.space/",
-          tech: {
-            tech1: "VUE",
-            tech2: "Storyblok",
-            tech3: "HTML",
-            tech4: "JavaScript"
-          },
-          poster: "https://i.ibb.co/p2cLTzW/image.jpg"
-        },
-        {
-          dialog: false,
-          title: "일주일만 버티자",
-          git: "https://cdn.neow.in/news/images/uploaded/2018/11/1543476286_cybersecurity.jpg",
-          demo: "https://www.brandly.com/",
-          tech: {
-            tech1: "VUE",
-            tech2: "SCSS",
-            tech3: "HTML",
-            tech4: "JavaScript"
-          },
-          poster: "https://i.ibb.co/p2cLTzW/image.jpg"
-        },
+      items:[],
+      headers: [
+        { text: '챌린지ID', align: 'center', value: 'teamChallengeId' },
+        { text: '챌린지제목', align: 'center',value: 'title' },
+        { text: '챌린지내용', align: 'center',  value: 'contents' },
+        { text: '종료일자', align: 'center', value: 'endDate' },
       ],
+      page: 1,
+      pageCount: 0,
+      loading: false,
+      itemsPerPage: 10,
+      dialog: false,
       
-  
-      date: null,
-      whole_challenges:[
-        {
-          title: "설문안나간다고 구라치고 달리기",
-          contents: "설문좀그만해라 싸피야",
-          status : 0,
-          member_count : 0,
-          goal_count : 3,
-          date:null,
-          poster: "https://i.ibb.co/p2cLTzW/image.jpg"
-        },
-        {
-          title: "퇴근 후 달리기",
-          contents: "퇴근 후 달리고 인증하자",
-          status : 0,
-          member_count : 0,
-          goal_count : 5,
-          date:null,
-          poster: "https://i.ibb.co/p2cLTzW/image.jpg"
-        }
-      ]
-    };
+    }
   },
   
   methods: {
       check(){
+        console.log(this.items);
         console.log(this.team_challenges);
-        alert(this.team_challenges);
-        console.log(this.selectTeam);
       },
       enroll(data) {
         let start_date = JSON.stringify(data.date[0]).replaceAll('"', "");
@@ -360,5 +364,19 @@ export default {
 
 
 <style>
+#book-list {
+  border-collapse: collapse;
+  width: 100%;
+}
 
+#book-list thead {
+  font-weight: bold;
+}
+
+#book-list td,
+#book-list th {
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+  height: 50px;
+}
 </style>
