@@ -3,7 +3,6 @@
 
     <v-layout >
       <v-bottom-navigation
-        v-if="teamcheck === true"
         class="mx-auto"
         shift
         x-large
@@ -35,7 +34,7 @@
         <br>
         <br>
         <v-btn
-          v-if="selectTeam.member.memberId != memberInfo.memberId && teamcheck === false"
+          v-if="selectTeam.memberId != memberInfo.memberId && teamcheck === false"
           @click="join"
           type="button"
           color="green"
@@ -44,7 +43,7 @@
         </v-btn>
       </v-layout>
       <v-btn
-        v-if="selectTeam.member.memberId != memberInfo.memberId && teamcheck === false"
+        v-if="selectTeam.memberId != memberInfo.memberId && teamcheck === false"
         color="secondary"
         @click="join"
         elevation="7"
@@ -54,7 +53,7 @@
         x-small
         class="join"
       ><i class="fas fa-sign-in-alt fa-2x"></i>
-      </v-btn>
+      </v-btn> 
       <br>
       <br>
       <v-layout>
@@ -77,12 +76,8 @@ export default {
     ...mapGetters(["selectTeam","memberInfo","myTeamList","team_challenges"]),
   },
   created() {
-    // console.log(this.memberInfo.memberId);
     this.$store.dispatch("GET_MY_TEAM_INFO",this.memberInfo.memberId);
     this.teamchecking();
-    // console.log(this.myTeamList);
-    // console.log(this.selectTeam.teamId);
-    
   },
   data() {
     return {
@@ -140,11 +135,13 @@ export default {
       for(let i=0; i<this.myTeamList.length; i++) {
         if (this.myTeamList[i].value.teamId === this.selectTeam.teamId) {
           this.teamcheck = true;
-          console.log(this.teamcheck);
           break;
         }
       }
     },
+    check(){
+      console.log(this.selectTeam);
+    }
   },
 }
 </script>
