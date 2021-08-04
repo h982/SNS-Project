@@ -11,7 +11,50 @@
       <team-header />
       </v-bottom-navigation>
     </v-layout>
+    <br>
+    <h2 class="pl-4">
+      <span>현재 도전중인</span>
+      <span class="green--text">챌린지</span>
+    </h2>
     
+    <br>
+
+    <div v-if="team_challenging.length">
+      <table id="book-list">
+        <colgroup>
+          <col style="width: 10%" />
+          <col style="width: 20%" />
+          <col style="width: 30%" />
+          <col style="width: 10%" />
+          <col style="width: 20%" />
+        </colgroup>
+        <thead>
+          <tr>
+            <th>챌린지번호</th>
+            <th>챌린지 제목</th>
+            <th>내용</th>
+            <th>종료일자</th>
+            <th>달성여부</th>
+            <th>챌린지포기</th>
+          </tr>
+        </thead>
+        <tbody>
+        
+          <list-row-team-challenge-participate
+            v-for="(challenge, index) in team_challenging"
+            :key="index"
+            :no=challenge.value.teamChallenge.teamChallengeId
+            :title="challenge.value.teamChallenge.title"
+            :contents="challenge.value.teamChallenge.contents"
+            :endDate="challenge.value.teamChallenge.endDate"
+            :done="challenge.value.done"
+          />
+          </tbody>
+      </table>
+    </div>
+
+    <br><br>
+
     <br>
     <h2 class="pl-4">
       <span>팀에서 진행중인 </span>
@@ -36,7 +79,6 @@
             <th>내용</th>
             <th>종료일자</th>
             <th>챌린지신청</th>
-            <th>챌린지포기</th>
           </tr>
         </thead>
         <tbody>
@@ -108,22 +150,21 @@ import { createInstance } from "@/api/index.js";
 import ListRowWholeChallenge from "@/components/ListRowWholeChallenge.vue";
 import ListRowTeamChallenge from "@/components/ListRowTeamChallenge.vue";
 import TeamHeader from "@/components/TeamHeader.vue"
+import ListRowTeamChallengeParticipate from '../../components/ListRowTeamChallengeParticipate.vue';
 
 export default {
   components:{
     DatePicker,
     ListRowWholeChallenge,
     ListRowTeamChallenge,
-    TeamHeader
+    TeamHeader,
+    ListRowTeamChallengeParticipate
   },
   computed:{
-    ...mapGetters ([
-      
-    ]),
-    ...mapState(["memberInfo","teamInfo","selectTeam","team_challenges"])
+    ...mapGetters (["team_challenging"]),
+    ...mapState(["memberInfo","teamInfo","selectTeam","team_challenges","team_challenging"])
   },
   created: function(){
-    this.$store.dispatch("GET_TEAMCHALLENGE_INFO", this.memberInfo.memberId);
     if(this.team_challenges.length>0){
       for(var i = 0; i< this.team_challenges.length;i++){
         if(this.team_challenges[i].text.team.teamId===this.selectTeam.teamId)
@@ -152,8 +193,7 @@ export default {
   
   methods: {
       check(){
-        console.log(this.items);
-        console.log(this.team_challenges);
+        console.log(this.team_challenging);
       },
       enroll(data) {
         let start_date = JSON.stringify(data.date[0]).replaceAll('"', "");

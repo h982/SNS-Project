@@ -23,6 +23,7 @@ export default new Vuex.Store({
         books: [],
         joinRequests: [],
         selectTeam: {},
+        team_challenging:[], //내가 진행중인 챌린지
     },
 
     getters: {
@@ -58,6 +59,9 @@ export default new Vuex.Store({
         },
         selectTeam(state) {
             return state.selectTeam;
+        },
+        team_challenging(state) {
+            return state.team_challenging;
         }
     },
     mutations: {
@@ -87,6 +91,13 @@ export default new Vuex.Store({
             console.log(data);
             data.forEach(element => {
                 state.team_challenges.push({ value: element, text: element });
+            });
+        },
+        SET_TEAMCHALLENGER(state, data) {
+            state.team_challenging.length = 0;
+            console.log(data);
+            data.forEach(element => {
+                state.team_challenging.push({ value: element});
             });
         },
         SET_WHOLETEAMCHALLENGE(state, data) {
@@ -173,6 +184,18 @@ export default new Vuex.Store({
                 .then((data) => {
                     console.log(data.data.object);
                     context.commit("SET_TEAMCHALLENGE", data.data.object);
+                })
+                .catch(() => {
+                    
+                });
+        },
+
+        GET_TEAMCHALLENGER_INFO( context, payload) {
+            http
+                .get("/my_teamchallenger_list?"+"member_id="+payload)
+                .then((response) => {
+                    console.log(response.data.object);
+                    context.commit("SET_TEAMCHALLENGER", response.data.object);
                 })
                 .catch(() => {
                     

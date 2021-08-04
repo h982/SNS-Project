@@ -1,15 +1,16 @@
 <template>
-    <tr>
-      <td>{{ no }}</td>
-      <td>{{ title }}</td>
-      <td>{{ contents }}</td>
-      <td>{{ endDate }}</td>
-      <td><v-btn @click="participate">챌린지신청</v-btn></td>
-    </tr>
+  <tr>
+    <td>{{ no }}</td>
+    <td>{{ title }}</td>
+    <td>{{ contents }}</td>
+    <td>{{ endDate }}</td>
+    <td>{{doneFlag}}</td>
+    <td><v-btn @click="giveUp">챌린지포기</v-btn></td>
+  </tr>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 import { createInstance } from "@/api/index.js";
 
 export default {
@@ -19,13 +20,22 @@ export default {
     title: String,
     contents: String,
     endDate: String,
+    done: Boolean,
   },
   data() {
     return {
-    
+      doneFlag:"",
+    }
+  },
+  created: function(){
+    if(this.done==false){
+      this.doneFlag="미달성"
+    }else{
+      this.doneFlag="달성"
     }
   },
   computed:{
+    ...mapGetters(["team_challenging"]),
     ...mapState(["memberInfo","teamInfo","selectTeam","team_challenges"])
   },
   methods:{
@@ -41,8 +51,6 @@ export default {
           (response) => {
             console.log(response);
             if (response.data.data === "success") {
-              this.$store.dispatch("GET_TEAMCHALLENGE_INFO", this.memberInfo.memberId);
-              this.$store.dispatch("GET_TEAMCHALLENGER_INFO", this.memberInfo.memberId);
               alert("챌린지에 등록되었습니다.");
               
             } else {
@@ -50,9 +58,7 @@ export default {
             }
           }
         )
-        .catch(() =>{
-          alert("이미 신청한 챌린지 입니다.");
-        });
+        .catch();
       },
       giveUp(){
         const body = {
@@ -67,6 +73,8 @@ export default {
           (response) => {
             console.log(response);
             if (response.data.data === "success") {
+              this.$store.dispatch("GET_TEAMCHALLENGE_INFO", this.memberInfo.memberId);
+              this.$store.dispatch("GET_TEAMCHALLENGER_INFO", this.memberInfo.memberId);
               alert("챌린지를 포기하셨습니다.");
               
             } else {
