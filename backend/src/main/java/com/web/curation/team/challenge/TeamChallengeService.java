@@ -36,7 +36,7 @@ public class TeamChallengeService {
 				.title(teamChallengeDto.getTitle())
 				.memberCount(1)
 				.status(Status.BEGIN)
-				.team(teamDao.findById((long)teamChallengeDto.getTeamId()).get())
+				.team(teamDao.findById(teamChallengeDto.getTeamId()).get())
 				.startDate(teamChallengeDto.getStartDate())
 				.endDate(teamChallengeDto.getEndDate())
 				.build();
@@ -73,7 +73,7 @@ public class TeamChallengeService {
 	}
 	
 	public List<TeamChallenge> findTeamChallengeByTeam(int teamId){
-		Team team = teamDao.getOne((long)teamId);
+		Team team = teamDao.getOne(teamId);
 		List<TeamChallenge> list = new ArrayList<>();
 		Optional<List<TeamChallenge>> chkList = teamChallengeDao.findTeamChallengeByTeam(team);
 		if(chkList.isPresent()){
