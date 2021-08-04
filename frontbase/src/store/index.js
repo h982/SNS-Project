@@ -146,7 +146,7 @@ export default new Vuex.Store({
             localStorage.removeItem("access-token");
         },
         SET_SELECT_TEAM(context, payload) {
-            this.state.selectTeam.length=0;
+            this.state.selectTeam = {};
             context.commit("SET_SELECT_TEAM",payload);
         },
 
@@ -157,7 +157,7 @@ export default new Vuex.Store({
                 context.commit("setBooks", data);
             })
             .catch(() => {
-                alert("에러발생!");
+                //alert("에러발생!");
             });
         },
 
@@ -187,7 +187,7 @@ export default new Vuex.Store({
                     commit("SET_WHOLETEAMCHALLENGE", data.data);
                 })
                 .catch(() => {
-                    alert("에러발생!");
+                    //alert("에러발생!");
                 });
         },
 
@@ -195,11 +195,9 @@ export default new Vuex.Store({
             await http
                 .get("/team/my_team_list/" + payload)
                 .then((data) => {
-                    //console.log(data.data.object);
                     commit("SET_MY_TEAMLIST", data.data.object);
 
                     data.data.object.forEach(element => {
-                        console.log(element);
                         let managerId = element.member.memberId;
                         if (managerId === state.memberInfo.memberId) {
                             commit('SET_MANAGING_TEAM', element);
@@ -208,7 +206,7 @@ export default new Vuex.Store({
                     });
                 })
                 .catch(() => {
-                    alert("에러발생!");
+                    //alert("에러발생!");
                 });
         },
 
@@ -234,7 +232,7 @@ export default new Vuex.Store({
                     commit("setFeeds", response.data.object);
                 })
                 .catch(() => {
-                    alert("에러발생");
+                    //alert("에러발생");
                 });
         },
         getComments(context) {
@@ -244,7 +242,7 @@ export default new Vuex.Store({
                     context.commit("setComments", data);
                 })
                 .catch(() => {
-                    alert("에러발생");
+                    //alert("에러발생");
                 });
         },
         getRequests(context, teamId) {

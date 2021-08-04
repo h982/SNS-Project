@@ -31,7 +31,6 @@
     <v-layout row justify-center align-center wrap class="mt-4 pt-2">
       <v-flex
       v-for="(teamList, idx) in this.teamLists"
-      v-if="teamList.sportDto.sportId === selected || selected === 5"
       :key="idx"
       xs12 sm6 md4 lg3 xl3
       >
@@ -114,7 +113,7 @@ export default {
       this.selected = 4;
     },
     confirm(data){
-      this.$store.dispatch("SET_SELECT_TEAM",data).then(()=>{
+      this.$store.dispatch("SET_SELECT_TEAM", data).then(()=>{
         this.$router.replace("/teammain");
       });
     }

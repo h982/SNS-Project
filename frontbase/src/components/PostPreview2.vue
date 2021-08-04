@@ -45,12 +45,24 @@ export default {
     selectMyTeam:{
       type: Object,
       required:true
+    },
+    leader:{
+      type:String,
+      required:true
     }
   },
   methods: {
     enrollCntTeam(){
       console.log(this.selectMyTeam);
-      this.$store.dispatch("SET_SELECT_TEAM",this.selectMyTeam).then(()=>{
+      const body = {
+        name: this.name,
+        introduction: this.introduction,
+        leader: this.leader,
+        photoDto:{
+          filePath : this.imgPath,
+        }
+      };
+      this.$store.dispatch("SET_SELECT_TEAM", body).then(()=>{
         this.$router.replace("/teammain");
       });
       //this.selectTeam=this.selectMyTeam;
