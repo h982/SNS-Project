@@ -1,5 +1,7 @@
 package com.web.curation.request;
 
+import java.time.LocalDateTime;
+
 import com.web.curation.member.MemberDto;
 import com.web.curation.team.TeamDto;
 
@@ -15,4 +17,5 @@ public class RequestDto {
 	private TeamDto team;
 	private MemberDto member;
 	private Status status;
+	private LocalDateTime createDate;
 }
