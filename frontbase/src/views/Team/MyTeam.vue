@@ -7,7 +7,7 @@
           :key="post.text.teamId"
           :name="post.text.name"
           :introduction="post.text.introduction"
-          :imgPath="post.text.photoDto.filePath"
+          :imgPath="post.text.photo.filePath"
           :teamId="post.text.teamId"
           :selectMyTeam="post.text"
         />

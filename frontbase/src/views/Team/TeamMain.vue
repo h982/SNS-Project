@@ -19,7 +19,7 @@
         <v-img :src="thumbnail1" aspect-ratio="2.75" height="330" contain></v-img>
       </div>
       <div v-else>
-        <v-img :src="selectTeam.photoDto.filePath" aspect-ratio="2.75" height="330" contain></v-img>
+        <v-img :src="selectTeam.photo.filePath" aspect-ratio="2.75" height="330" contain></v-img>
       </div>
       <v-layout column justify-center align-center class="mt-4 pt-2">
         <h2>팀 소개</h2>
