@@ -1,10 +1,14 @@
 package com.web.curation.feed.comment;
 
+import com.web.curation.feed.Feed;
+import com.web.curation.member.Member;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Getter
@@ -25,10 +29,15 @@ public class CommentDto {
     @NotNull
     private String contents;
 
-    @NotNull
     private int className;
 
-    @NotNull
     private int order;
+
+    private LocalDateTime createDate;
+
+    private List<CommentDto> coComments;
+    private Member member;
+    private Comment parent;
+    private Feed feed;
 
 }
