@@ -29,6 +29,7 @@ public class MemberAdapter {
 				.zonecode(memberDto.getZonecode())
 				.sex(memberDto.getSex())
 				.mbti(memberDto.getMbti())
+				.createDate(memberDto.getCreateDate())
 				.authenticated(memberDto.getAuthenticated())
 				.build();
 	}

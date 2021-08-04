@@ -27,7 +27,7 @@ public class RequestService {
 	TeamDao teamDao;
 
 	public void makeRequest(RequestDto requestDto) {
-		Request request = RequestAdapter.DtoToEntity(requestDto);
+		Request request = RequestAdapter.createDtoToEntity(requestDto);
 		requestDao.save(request);
 	}
 
@@ -43,28 +43,29 @@ public class RequestService {
 	}
 
 	public RequestDto acceptRequest(int requestId) {
-		Request request = requestDao.getOne(requestId);
+		Request request = requestDao.findById(requestId).get();
 		
 		RequestDto requestDto = RequestAdapter.EntityToDto(request);
 		requestDto.setStatus(Status.ACCEPTED);
 		
-		requestDao.save(RequestAdapter.DtoToEntity(requestDto));
+		requestDao.save(RequestAdapter.updateDtoToEntity(requestDto));
 		return requestDto;
 	}
 
 	public RequestDto rejectRequest(int requestId) {
-		Request request = requestDao.getOne(requestId);
+		Request request = requestDao.findById(requestId).get();
+		System.out.println(request.getRequestId());
 		
 		RequestDto requestDto = RequestAdapter.EntityToDto(request);
 		requestDto.setStatus(Status.REJECTED);
 		
-		requestDao.save(RequestAdapter.DtoToEntity(requestDto));
+		requestDao.save(RequestAdapter.updateDtoToEntity(requestDto));
 		return requestDto;
 	}
 
 	public boolean checkDuplication(RequestDto requestDto) {
-		Team team = TeamAndDtoAdapter.dtoToEntity(requestDto.getTeam());
-		Member member = MemberAdapter.dtoToEntity(requestDto.getMember());
+		Team team = new Team(requestDto.getTeam().getTeamId());
+		Member member = new Member(requestDto.getMember().getMemberId());
 		
 		Optional<Request> responseRequest = requestDao.getRequestByTeamAndMember(team, member);
 		

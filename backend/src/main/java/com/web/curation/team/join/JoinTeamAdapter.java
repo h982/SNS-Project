@@ -1,13 +1,16 @@
 package com.web.curation.team.join;
 
+import com.web.curation.member.Member;
 import com.web.curation.member.MemberAdapter;
+import com.web.curation.team.Team;
 import com.web.curation.team.TeamAndDtoAdapter;
 
 public class JoinTeamAdapter {
 	public static JoinTeam dtoToEntity(JoinTeamDto joinTeamDto) {
 		return new JoinTeam.JoinTeamBuilder()
-				.team(TeamAndDtoAdapter.dtoToEntity(joinTeamDto.getTeam()))
-				.member(MemberAdapter.dtoToEntity(joinTeamDto.getMember()))
+				.joinTeamId(joinTeamDto.getJoinTeamId())
+				.team(new Team(joinTeamDto.getTeam().getTeamId()))
+				.member(new Member(joinTeamDto.getMember().getMemberId()))
 				.build();
 	}
 	

@@ -1,5 +1,7 @@
 package com.web.curation.member;
 
+import java.time.LocalDateTime;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,5 +21,6 @@ public class MemberDto {
 	private String sex;
 	private int point;
 	private String mbti;
+	private LocalDateTime createDate;
 	private Boolean authenticated;
 }
