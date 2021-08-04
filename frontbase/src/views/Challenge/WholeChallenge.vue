@@ -109,7 +109,6 @@ export default {
           title: "인싸중에 인싸",
           introduction: "5 개팀 가입 달성",
         },
-
         {
           src: feed,
           src_b: feed_b,
@@ -130,7 +129,7 @@ export default {
         {
           src: "",
           title: "궁극의 기억력",
-          introduction: "비밀번호 10 자리 이상",
+          introduction: "비밀번호 10 자리 이상 충족",
         },
         {
           src: heart_b,
