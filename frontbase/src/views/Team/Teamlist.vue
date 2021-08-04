@@ -57,7 +57,6 @@
         </v-card>
       </v-flex>
     </v-layout>
-    <img src="thumbnail" alt="">
     <v-btn
       @click="mvTeam"
       color="secondary"

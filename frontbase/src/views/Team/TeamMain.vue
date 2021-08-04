@@ -35,7 +35,7 @@
         <br>
         <br>
         <v-btn
-          v-if="selectTeam.member.memberId != memberInfo.memberId && teamcheck === false"
+          v-if="selectTeam.memberId != memberInfo.memberId && teamcheck === false"
           @click="join"
           type="button"
           color="green"
@@ -44,7 +44,7 @@
         </v-btn>
       </v-layout>
       <v-btn
-        v-if="selectTeam.member.memberId != memberInfo.memberId && teamcheck === false"
+        v-if="selectTeam.memberId != memberInfo.memberId && teamcheck === false"
         color="secondary"
         @click="join"
         elevation="7"
@@ -77,11 +77,11 @@ export default {
     ...mapGetters(["selectTeam","memberInfo","myTeamList","team_challenges"]),
   },
   created() {
+    console.log(this.selectTeam);
     // console.log(this.memberInfo.memberId);
     this.$store.dispatch("GET_MY_TEAM_INFO",this.memberInfo.memberId);
     this.teamchecking();
     // console.log(this.myTeamList);
-    // console.log(this.selectTeam.teamId);
     
   },
   data() {
