@@ -1,5 +1,6 @@
 @charset "utf-8";
 @import "../../css/common";
+@import "../../css/feed/mixin";
 
 .feed-card {
   box-sizing: content-box;
@@ -8,17 +9,13 @@
   float: left;
   border-radius: 5px;
   overflow: hidden;
-  .img {
-    @include background-img;
-    width: $c100;
-    height: 250px;
-  }
+
   .contentsWrap {
     @include wrap;
     box-sizing: border-box;
     padding: 12px;
     float: left;
-    //width: calc(100% - 36px);
+    position: relative;
     .desc {
       @include ellipsisMulti(2);
       font: {
@@ -30,7 +27,7 @@
       -webkit-box-orient: vertical;
       word-wrap: break-word;
       line-height: 1.5em;
-      font-size: 0.929em;
+      // font-size: 1.2em;
       @include ellipsis;
       margin: 0 0 8px;
       white-space: normal;
@@ -52,11 +49,25 @@
   }
 }
 
+.feed-wrap {
+  position: relative;
+  width: 100%;
+  height: 0;
+  overflow: hidden;
+  padding-bottom: 85%;
+  .img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+  }
+}
+
 .feed-item {
   @include wrap;
   margin: 20px 0;
-  //   border-bottom: 1px solid $grey;
-  //   padding-bottom: 20px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -66,33 +77,6 @@
     display: flex;
     justify-content: space-between;
   }
-
-  //   .profile-image {
-  //     float: left;
-  //   }
-  //   .user-info,
-  //   .content {
-  //     width: calc(100% - 50px);
-  //     float: right;
-  //   }
-  //   .user-info {
-  //     .user-name {
-  //       float: left;
-  //       //font-weight: $f600;
-  //       button {
-  //         font-weight: $f600;
-  //       }
-  //       span {
-  //         margin-left: 10px;
-  //       }
-  //     }
-  //     .date {
-  //       float: right;
-  //       font-size: $font-size__5;
-  //       font-weight: $f600;
-  //       color: #999;
-  //     }
-  //   }
   .content {
     p {
       display: -webkit-box;
@@ -109,62 +93,20 @@
   .feed-card {
     width: calc(100% - 50px);
     float: right;
-    //max-width: $c100;
   }
-  //   .btn-group {
-  //     width: calc(100% - 50px);
-  //     float: right;
-  //     div {
-  //       float: left;
-  //       margin-right: 30px;
-  //       color: #000;
-  //       font-weight: $f600;
-  //       font-size: $font-size__5;
-  //       .icon {
-  //         color: $ssafy;
-  //         margin-right: 5px;
-  //         font-weight: $f600;
-  //         width: auto;
-  //         font-size: 15px;
-  //       }
-  //       &:last-child {
-  //         margin-right: 0;
-  //       }
-  //     }
-  //     .likeScrap {
-  //       position: relative;
-  //       line-height: 20px;
-  //       text-indent: 23px;
-  //       &.active {
-  //         color: $ssafy;
-  //         .icon {
-  //           &.full {
-  //             display: inline-block;
-  //           }
-  //           &.empty {
-  //             display: none;
-  //           }
-  //         }
-  //       }
-  //       .icon {
-  //         position: absolute;
-  //         left: 0;
-  //         top: 0;
-  //         &.full {
-  //           display: none;
-  //         }
-  //         &.empty {
-  //           display: inline-block;
-  //         }
-  //       }
-  //     }
-  //   }
-  .likeBtn {
-    width: 30px;
-    height: 30px;
-    background-image: url("../../../assets/heart.png");
-    background-size: cover;
-    margin: 0.5em 0;
+
+  .like_wrap {
+    position: absolute;
+    top: 0;
+    right: 1em;
+    .likeBtn {
+      right: 0;
+      width: 30px;
+      height: 30px;
+      background-image: url("../../../assets/heart.png");
+      background-size: cover;
+      margin: 0.5em 0;
+    }
   }
 
   .likeBtn:hover {
@@ -246,5 +188,34 @@
         }
       }
     }
+  }
+}
+
+@include mobile {
+  .feed_writer {
+    font-size: 1.2em;
+  }
+  .desc {
+    font-size: 1.1em;
+    margin-bottom: 0.5em;
+  }
+}
+@include tablet {
+  .feed_writer {
+    font-size: 1.2em;
+  }
+  .desc {
+    font-size: 1.2em;
+    margin-bottom: 0.5em;
+  }
+}
+
+@include desktop {
+  .feed_writer {
+    font-size: 1.2em;
+  }
+  .desc {
+    font-size: 1.3em;
+    margin-bottom: 0.5em;
   }
 }
