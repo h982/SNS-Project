@@ -3,7 +3,6 @@
 
     <v-layout >
       <v-bottom-navigation
-        v-if="teamcheck === true"
         class="mx-auto"
         shift
         x-large
