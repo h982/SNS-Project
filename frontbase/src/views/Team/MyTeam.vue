@@ -10,6 +10,7 @@
           :imgPath="post.text.photo.filePath"
           :teamId="post.text.teamId"
           :selectMyTeam="post.text"
+          :leader="post.text.leader"
         />
 
       </v-layout>
@@ -31,6 +32,7 @@ export default {
   },
   created() {
     this.$store.dispatch("GET_MY_TEAM_INFO",this.memberInfo.memberId);
+    console.log(this.myTeamList);
   },
   data() {
     return {
