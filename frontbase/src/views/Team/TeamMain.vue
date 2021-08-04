@@ -80,8 +80,11 @@ export default {
     this.$store.dispatch("GET_MY_TEAM_INFO",this.memberInfo.memberId);
     this.teamchecking();
     this.$store.dispatch("GET_TEAMCHALLENGE_INFO", this.memberInfo.memberId);
-    this.$store.dispatch("GET_TEAMCHALLENGER_INFO", this.memberInfo.memberId);
-    console.log(this.team_challenging);
+    const token={
+      memberId: this.memberInfo.memberId,
+      teamId:this.selectTeam.teamId
+    };
+    this.$store.dispatch("GET_TEAMCHALLENGER_INFO", token);  
   },
   data() {
     return {

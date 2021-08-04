@@ -190,9 +190,9 @@ export default new Vuex.Store({
                 });
         },
 
-        GET_TEAMCHALLENGER_INFO( context, payload) {
+        GET_TEAMCHALLENGER_INFO(context, payload) {
             http
-                .get("/my_teamchallenger_list?"+"member_id="+payload)
+                .get("/my_teamchallenger_list?"+"member_id="+payload.memberId+"&team_id="+payload.teamId)
                 .then((response) => {
                     console.log(response.data.object);
                     context.commit("SET_TEAMCHALLENGER", response.data.object);

@@ -74,7 +74,12 @@ export default {
             console.log(response);
             if (response.data.data === "success") {
               this.$store.dispatch("GET_TEAMCHALLENGE_INFO", this.memberInfo.memberId);
-              this.$store.dispatch("GET_TEAMCHALLENGER_INFO", this.memberInfo.memberId);
+              const token={
+                memberId: this.memberInfo.memberId,
+                teamId:this.selectTeam.teamId
+              };
+              this.$store.dispatch("GET_TEAMCHALLENGER_INFO", token);  
+              
               alert("챌린지를 포기하셨습니다.");
               
             } else {

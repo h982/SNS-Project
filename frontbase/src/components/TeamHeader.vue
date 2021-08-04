@@ -35,7 +35,7 @@ import { mapGetters } from 'vuex';
 export default {
     
     computed: {
-        ...mapGetters(["memberInfo","myTeamList","team_challenges"]),
+        ...mapGetters(["selectTeam","memberInfo","myTeamList","team_challenges"]),
     },
     methods: {
         moveMain(){
@@ -44,7 +44,11 @@ export default {
         },
         moveTeamChallenge(){
             this.$store.dispatch("GET_TEAMCHALLENGE_INFO", this.memberInfo.memberId);
-            this.$store.dispatch("GET_TEAMCHALLENGER_INFO", this.memberInfo.memberId);
+            const token={
+                memberId: this.memberInfo.memberId,
+                teamId:this.selectTeam.teamId
+            };
+            this.$store.dispatch("GET_TEAMCHALLENGER_INFO", token);       
             this.$router.push("/teamChallenge");
             
         },
