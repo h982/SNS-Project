@@ -27,7 +27,7 @@ import lombok.NoArgsConstructor;
 public class Comment {
 
 	@Id
-	@Column(name="COMMANT_ID")
+	@Column(name="COMMENT_ID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int commentId;
 	
