@@ -12,7 +12,7 @@ public interface TeamDao extends JpaRepository<Team,Integer> {
     //팀 이름 중복검사
     boolean existsByName(String name);
 
-	Team getOne(long teamId);
+	Team getOne(int teamId);
 
     //팀 등록
 //    TeamDto save(TeamDto teamDto);
