@@ -18,9 +18,9 @@ public class MemberService {
 	}
 
 	public MemberDto registMember(MemberDto memberDto) {
-		Member member = MemberAdapter.dtoToEntity(memberDto);
-		memberDao.save(member);
-		return memberDto;
+		memberDao.save(MemberAdapter.dtoToEntity(memberDto));
+		Member member = memberDao.getMemberByEmail(memberDto.getEmail()).get();
+		return MemberAdapter.entityToDto(member);
 	}
 	
 	public Optional<MemberDto> getUser(String email) {

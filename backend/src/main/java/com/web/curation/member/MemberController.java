@@ -11,6 +11,8 @@ import javax.validation.Valid;
 
 import com.web.curation.member.JwtServiceImpl;
 import com.web.curation.member.Member;
+import com.web.curation.member.challenge.ChallengeService;
+
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,6 +36,9 @@ public class MemberController {
 	// test1
     @Autowired
     MemberService memberService;
+    
+    @Autowired
+    ChallengeService challengeService;
 
     @Autowired
     private JwtServiceImpl jwtService;
@@ -47,10 +52,12 @@ public class MemberController {
     public ResponseEntity<Map<String, Object>> signup(@RequestBody MemberDto memberDto) {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = HttpStatus.ACCEPTED;
-
+        
         memberDto.setAuthenticated(false);
         if (!memberService.hasSameEmail(memberDto.getEmail())) {
-            memberService.registMember(memberDto);
+            MemberDto responseMemberDto = memberService.registMember(memberDto);
+            challengeService.createChallenge(responseMemberDto.getMemberId());
+            
             resultMap.put("message", "success");
             status = HttpStatus.CREATED;
             System.out.println(resultMap.get("message"));
@@ -71,6 +78,8 @@ public class MemberController {
         try {
             Optional<MemberDto> loginUser = memberService.getUser(memberDto.getEmail(),memberDto.getPassword());
             if (loginUser.isPresent()) {
+            	challengeService.attend(memberDto.getMemberId());
+            	
                 String token = jwtService.create("memberEmail", loginUser.get().getEmail(), "access-token");// key, data, subject
                 resultMap.put("access-token", token);
                 resultMap.put("message", "success");
