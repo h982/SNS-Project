@@ -44,7 +44,7 @@ public class FeedService {
 				.writer(feedDto.getWriter())
 				.build();
 		if(feedDto.getTeamchallengeId() != 0){
-			feed.setTeamchallenge(new TeamChallenge(feedDto.getTeamchallengeId()));
+			feed.setTeamchallenge(teamChallengeDao.findById(feedDto.getTeamchallengeId()).get());
 		}
 		System.out.println(feed);
 		Feed resultFeed = feedDao.save(feed);
@@ -94,7 +94,7 @@ public class FeedService {
 		photoList.add(photoDao.save(photo));
 
 		Member member = memberDao.findById(feedDto.getMemberId()).get();
-		Team team = teamDao.findById(new Long(feedDto.getTeamId())).get();
+		Team team = teamDao.findById(feedDto.getTeamId()).get();
 		JoinTeam joinTeam = joinTeamDao.findByMemberAndTeam(member, team).get();
 		Feed feed = Feed.builder()
 				.feedId(feedDto.getFeedId())

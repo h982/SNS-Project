@@ -6,12 +6,11 @@ import io.swagger.annotations.ApiResponses;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.Optional;
 
 @ApiResponses(value = {@ApiResponse(code = 401, message = "Unauthorized", response = BasicResponse.class),
         @ApiResponse(code = 403, message = "Forbidden", response = BasicResponse.class),
@@ -26,23 +25,74 @@ public class FeedlikeController {
 
     @PostMapping("/feedlike")
     ResponseEntity<?> createFeedlike(@RequestBody @Valid FeedlikeDto feedlikeDto){
+
         int feedlikeId = feedlikeService.likeFeed(feedlikeDto);
-
-        if(feedlikeId == -1){
-            final BasicResponse result = new BasicResponse();
-            result.status = false;
-            result.data = "fail";
-
-            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
-        }
-
         feedlikeDto.setFeedlikeId(feedlikeId);
 
         final BasicResponse result = new BasicResponse();
+        if(feedlikeId == -1){
+            result.status = false;
+            result.data = "fail";
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+        }
+
         result.status = true;
         result.data = "success";
         result.object = feedlikeDto;
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 
+    @GetMapping("/feedlike/{feed_id}")
+    ResponseEntity<?> getFeedlikes(@RequestParam(value = "feed_id")int feedId){
+
+        Optional<List<FeedlikeDto>> feedlikeList = feedlikeService.getfeedlikeList(feedId);
+
+        final BasicResponse result = new BasicResponse();
+        if(!feedlikeList.isPresent()){
+            result.status = false;
+            result.data = "fail";
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+        }
+
+        result.status = true;
+        result.data = "success";
+        result.object = feedlikeList;
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @PutMapping("/feedlike")
+    ResponseEntity<?> updateFeedlike(@RequestBody @Valid FeedlikeDto feedlikeDto){
+
+        boolean isOk = feedlikeService.updateFeedlike(feedlikeDto);
+
+        final BasicResponse result = new BasicResponse();
+        if(!isOk){
+            result.status = false;
+            result.data = "fail";
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+        }
+
+        result.status = true;
+        result.data = "success";
+        result.object = feedlikeDto;
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/feedlike")
+    ResponseEntity<?> deleteFeedlike(@RequestBody @Valid FeedlikeDto feedlikeDto){
+
+        boolean isOk = feedlikeService.deleteFeedlike(feedlikeDto);
+
+        final BasicResponse result = new BasicResponse();
+        if(!isOk){
+            result.status = false;
+            result.data = "fail";
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+        }
+
+        result.status = true;
+        result.data = "success";
+        result.object = feedlikeDto;
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
