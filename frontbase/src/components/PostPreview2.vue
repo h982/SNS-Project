@@ -58,6 +58,7 @@ export default {
         name: this.name,
         introduction: this.introduction,
         leader: this.leader,
+        teamId: this.teamId,
         photoDto:{
           filePath : this.imgPath,
         }
@@ -65,9 +66,7 @@ export default {
       this.$store.dispatch("SET_SELECT_TEAM", body).then(()=>{
         this.$router.replace("/teammain");
       });
-      //this.selectTeam=this.selectMyTeam;
       console.log(this.selectTeam);
-      //alert(this.selectMyTeam);
     }
     
   },

@@ -44,8 +44,9 @@ export default {
         },
         moveTeamChallenge(){
             this.$store.dispatch("GET_TEAMCHALLENGE_INFO", this.memberInfo.memberId);
-            console.log("챌린지로가자");
+            this.$store.dispatch("GET_TEAMCHALLENGER_INFO", this.memberInfo.memberId);
             this.$router.push("/teamChallenge");
+            
         },
         moveBoard(){
             this.$router.push("/board");

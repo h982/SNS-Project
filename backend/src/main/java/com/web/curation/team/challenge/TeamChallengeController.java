@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import com.web.curation.model.BasicResponse;
 
 import io.swagger.annotations.ApiOperation;
-
+@CrossOrigin(origins = {"*"}, maxAge = 6000)
 @RestController("/challenge")
 public class TeamChallengeController {
 	@Autowired
@@ -84,9 +84,9 @@ public class TeamChallengeController {
         return response;
 	}
 	
-	@DeleteMapping("/team_challenge_giveup")
+	@PostMapping("/team_challenge_giveup")
 	@ApiOperation("챌린지 포기하기")
-	public Object giveupTeamChallenge(@Valid @RequestBody TeamChallengerDto teamChallengerDto) {
+	public Object giveupTeamChallenge(@RequestBody TeamChallengerDto teamChallengerDto) {
 		
 		boolean ret = teamChallengeService.giveupTeamChallenge(teamChallengerDto);
 		
