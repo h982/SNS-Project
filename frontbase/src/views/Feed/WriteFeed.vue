@@ -1,8 +1,9 @@
 <template>
   <div class="wrap">
     <div class="challenge_wrap">
-      <label for="challenge">챌린지 선택</label>
-      <select id="challenge" v-model="challenge">
+      <label for="challenge" class="feedType">▼일상글|챌린지▼</label>
+      <select id="challenge" v-model="challenge" class="dailyFeed">
+        <option>일상글</option>
         <option
           v-for="(challenge, idx) in team_challenges"
           :key="idx"
@@ -14,7 +15,7 @@
     </div>
     <div class="img_wrap">
       <label for="chooseFile" class="fileBtn">
-        사진올리기
+        👉 UPLOAD IMAGE 👈
       </label>
       <input
         type="file"
@@ -25,8 +26,8 @@
       />
       <img src="" class="preview" />
     </div>
-    <div>
-      <textarea v-model="contents"></textarea>
+    <div class="contents_wrap">
+      <textarea v-model="contents" class="contents"></textarea>
     </div>
     <v-btn @click="write">등록</v-btn>
   </div>
@@ -35,13 +36,13 @@
 <script>
 import { mapGetters } from "vuex";
 import { createInstance } from "@/api/teamindex.js";
+import "../../components/css/feed/writeFeed.scss";
 
 export default {
   data: () => {
     return {
       contents: "",
-      // challenge: Number(),
-      challenge: "",
+      challenge: Number(),
       file: null
     };
   },
@@ -51,33 +52,23 @@ export default {
   created() {
     this.$store.dispatch("GET_TEAMCHALLENGE_INFO", this.memberInfo.memberId);
     this.$store.dispatch("GET_MY_TEAM_INFO", this.memberInfo.memberId);
-    // console.log(this.team_challenges);
-    // console.log(this.memberInfo);
-    // console.log(this.myTeamList);
   },
   methods: {
     write() {
-      // this.challenge = -1;
-
+      var daily = document.querySelector(".dailyFeed");
       const formData = new FormData();
-      formData.append("teamchallengeId", this.challenge.text.teamChallengeId);
+
+      if (daily.options[daily.selectedIndex].value == "일상글") {
+        formData.append("teamchallengeId", 0);
+      } else {
+        formData.append("teamchallengeId", this.challenge.text.teamChallengeId);
+      }
       formData.append("memberId", this.memberInfo.memberId);
       formData.append("teamId", this.myTeamList[0].text.teamId);
-      formData.append(
-        "teamName",
-        JSON.stringify(this.challenge.text.team.name)
-      );
+      formData.append("teamName", JSON.stringify(this.myTeamList[0].text.name));
       formData.append("contents", JSON.stringify(this.contents));
       formData.append("writer", JSON.stringify(this.memberInfo.name));
       formData.append("image", document.getElementById("chooseFile").files[0]);
-
-      console.log(this.challenge.text.teamChallengeId);
-      console.log(this.memberInfo.memberId);
-      console.log(this.myTeamList[0].text.teamId);
-      console.log(this.challenge.text.team.name);
-      console.log(JSON.stringify(this.contents));
-      console.log(JSON.stringify(this.memberInfo.name));
-      console.log(document.getElementById("chooseFile").files[0]);
 
       const instance = createInstance();
       instance
@@ -112,56 +103,5 @@ export default {
       preview.style.maxHeight = "500px";
     }
   }
-  // created() {
-  //   instance
-  //     .get("challenge/list")
-  //     .then(({ data }) => {
-  //       this.challenges = data;
-  //     })
-  //     .catch(() => {
-  //       alert("챌린지 받아오기 실패");
-  //     });
-  // }
 };
 </script>
-<style scoped>
-.wrap {
-  border: 1px solid black;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 1em;
-}
-textarea,
-select {
-  border: 1px solid black;
-}
-.img_wrap {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-.preview {
-  display: block;
-  margin: 20px 0;
-}
-.challenge_wrap {
-  margin: 15px 0;
-}
-.challenge_wrap label {
-  margin-right: 10px;
-}
-#chooseFile {
-  display: none;
-}
-.fileBtn {
-  background: lavender;
-  border-radius: 15px;
-  padding: 0.5em 1em;
-}
-.fileBtn:hover {
-  cursor: pointer;
-}
-</style>
