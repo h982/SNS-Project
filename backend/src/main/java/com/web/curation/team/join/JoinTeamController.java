@@ -20,9 +20,9 @@ public class JoinTeamController {
     @PostMapping("/jointeam")
     @ApiOperation(value = "팀 가입")
     @ApiResponses(value = {@ApiResponse(code = 201, message = "팀 가입 성공")})
-    public Object getMyTeamList(@RequestBody JoinTeam joinTeam) {
-    	if(!joinTeamService.getSameContent(joinTeam).isPresent()) {
-    		joinTeamService.createJoin(joinTeam);
+    public Object getMyTeamList(@RequestBody JoinTeamDto joinTeamDto) {
+    	if(!joinTeamService.getSameContent(joinTeamDto).isPresent()) {
+    		joinTeamService.createJoin(joinTeamDto);
     		return new ResponseEntity<>(HttpStatus.CREATED);
     	}
     		

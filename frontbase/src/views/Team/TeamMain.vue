@@ -8,36 +8,19 @@
         shift
         x-large
       >
-        <v-btn color="secondary" @click="moveMain">
-          <i class="fas fa-address-card fa-2x"></i>
-          <div>&nbsp;&nbsp;&nbsp;정보</div>
-        </v-btn>
-
-        <v-btn color="success" @click="moveTeamFeed">
-          <i class="fas fa-clipboard fa-2x"></i>
-          <div>&nbsp;&nbsp;&nbsp;피드</div>
-        </v-btn>
-
-        <v-btn color="primary" @click="moveBoard">
-          <i class="fas fa-check fa-2x" ></i>
-          <div>&nbsp;&nbsp;&nbsp;공지사항</div>
-        </v-btn>
+      <team-header />
         
-        <v-btn color="warning" @click="moveChattingRoom">
-          <i class="fas fa-comments fa-2x"></i>
-          <div>&nbsp;&nbsp;&nbsp;채팅</div>
-        </v-btn>
-
-        <v-btn color="error"  @click="moveTeamChallenge">
-          <i class="fas fa-trophy fa-2x"></i>
-          <div>&nbsp;&nbsp;&nbsp;챌린지</div>
-        </v-btn>
       </v-bottom-navigation>
     </v-layout>
     <v-layout column justify-center class="mt-4 pt-2">
       <h1 class="text-xs-center mb-4 pb-2">{{selectTeam.name.replaceAll("\"", "")}}</h1>
       <br>
-      <v-img :src="selectTeam.photoDto.filePath" aspect-ratio="2.75" height="330" contain></v-img>
+      <div v-if="selectTeam.photoDto === null">
+        <v-img :src="thumbnail1" aspect-ratio="2.75" height="330" contain></v-img>
+      </div>
+      <div v-else>
+        <v-img :src="selectTeam.photoDto.filePath" aspect-ratio="2.75" height="330" contain></v-img>
+      </div>
       <v-layout column justify-center align-center class="mt-4 pt-2">
         <h2>팀 소개</h2>
         <v-flex wrap justify-center align-center class="textbox">
@@ -85,8 +68,9 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import TeamHeader from "@/components/TeamHeader"
+import TeamHeader from "@/components/TeamHeader.vue"
 import { createInstance } from "@/api/index.js";
+import thumbnail1 from "@/assets/images/thumbnail.jpg";
 
 export default {
   computed:{
@@ -103,6 +87,7 @@ export default {
   data() {
     return {
       teamcheck: false,
+      thumbnail1: thumbnail1,
     };
   },
   components: {

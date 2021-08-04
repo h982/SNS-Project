@@ -3,7 +3,7 @@
   
     <v-card @click="enrollCntTeam()" hover>
     
-      <v-img :src="imgPath" aspect-ratio="2.75" height="230" :alt="title"></v-img>
+      <v-img :src="imgPath" aspect-ratio="2.75" height="230" :alt="name"></v-img>
       <v-card-title primary-title>
         <div>
           <h3 class="headline mb-0">{{name}}</h3>
@@ -39,7 +39,7 @@ export default {
       required: true
     },
     teamId: {
-      type: String,
+      type: Number,
       required: true
     },
     selectMyTeam:{

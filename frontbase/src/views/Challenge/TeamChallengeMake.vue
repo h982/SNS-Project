@@ -74,7 +74,7 @@
 <script>
 import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
-import { mapGetters, mapState } from 'vuex';
+import { mapState } from 'vuex';
 import { createInstance } from "@/api/index.js";
 
 export default {
@@ -82,9 +82,7 @@ export default {
     DatePicker 
   },
   computed:{
-    ...mapGetters ([
-      
-    ]),
+  
     ...mapState(["memberInfo","teamInfo","selectTeam","team_challenges"])
   },
   data() {

@@ -33,7 +33,7 @@ public class FeedService {
 
 	public Feed registerFeed(FeedDto feedDto) throws IOException {
 		Member member = memberDao.findById(feedDto.getMemberId()).get();
-		Team team = teamDao.findById(new Long(feedDto.getTeamId())).get();
+		Team team = teamDao.findById(feedDto.getTeamId()).get();
 		JoinTeam joinTeam = joinTeamDao.findByMemberAndTeam(member, team).get();
 		//Feed 객체 생성하기
 		Feed feed = Feed.builder()
@@ -103,7 +103,7 @@ public class FeedService {
 				.teamName(feedDto.getTeamName())
 				.writer(feedDto.getWriter())
 				.photos(photoList)
-				.teamchallenge(teamChallengeDao.getTeamChallengeByTeamChallengeId(feedDto.getTeamchallengeId()))
+				.teamchallenge(teamChallengeDao.findById(feedDto.getTeamchallengeId()).get())
 				.build();
 
 		feedDao.save(feed);
