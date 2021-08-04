@@ -8,6 +8,7 @@ public class BoardAndDtoAdapter {
                 .title(board.getTitle())
                 .writer(board.getWriter())
                 .writeDate(board.getWriteDate())
+                .team(board.getTeam())
                 .build();
     }
 
@@ -17,6 +18,7 @@ public class BoardAndDtoAdapter {
                 .title(boardDto.getTitle())
                 .contents(boardDto.getContents())
                 .writer(boardDto.getWriter())
+                .team(boardDto.getTeam())
                 .build();
         return board;
     }
