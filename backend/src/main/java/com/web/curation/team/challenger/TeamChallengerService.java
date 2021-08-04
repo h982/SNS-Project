@@ -20,19 +20,38 @@ import java.util.Optional;
 @AllArgsConstructor
 public class TeamChallengerService {
 
-	private TeamChallengerDao teamChallengerDao;
-	private TeamChallengeDao teamChallengeDao;
-	private MemberDao memberDao;
-	private JoinTeamDao joinTeamDao;
-	private TeamDao teamDao;
+    private TeamChallengerDao teamChallengerDao;
+    private TeamChallengeDao teamChallengeDao;
+    private MemberDao memberDao;
+    private TeamDao teamDao;
 
 
-	public List<TeamChallenger> getTeamChallengerList(@Valid int memberId) {
+    public List<TeamChallenger> getTeamChallengerList(@Valid int memberId, int teamId) {
 
-		Member member = memberDao.findById(memberId).get();
-		List<TeamChallenger> teamChallengers = teamChallengerDao.findTeamChallengerByMember(member);
-		return teamChallengers;
-	}
+        Member member = memberDao.findById(memberId).get();
+        Team team = teamDao.findById(teamId).get();
+        Optional<List<TeamChallenge>> teamChallenges = teamChallengeDao.findTeamChallengeByTeam(team);
 
-
+        List<TeamChallenger> teamChallengers = teamChallengerDao.findTeamChallengerByMember(member);
+        List<TeamChallenge> tmp = new ArrayList<>();
+        if (teamChallenges.isPresent()) {
+            tmp = teamChallenges.get();
+        }
+        List<TeamChallenger> res = new ArrayList<>();
+        for (TeamChallenger teamChallenger : teamChallengers) {
+            int id = teamChallenger.getTeamChallenge().getTeamChallengeId();
+            boolean flag = false;
+            for (TeamChallenge teamChallenge : tmp) {
+                if (teamChallenge.getTeamChallengeId() == id) {
+                    flag = true;
+                    break;
+                }
+            }
+            if (flag) {
+                res.add(teamChallenger);
+            }
+        }
+        return res;
+    }
 }
+

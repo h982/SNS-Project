@@ -17,11 +17,13 @@ public class TeamChallengerController {
 	
 	@GetMapping("/my_teamchallenger_list")
 	@ApiOperation(value = "팀 챌린저 리스트")
-	public Object findTeamChallenges(@RequestParam(name = "member_id") int memberId) {
+	public Object findTeamChallenges(@RequestParam(name = "member_id") int memberId,
+									 @RequestParam(name = "team_id") int teamId) {
 
-		List<TeamChallenger> list = teamChallengerService.getTeamChallengerList(memberId);
+		List<TeamChallenger> list = teamChallengerService.getTeamChallengerList(memberId,teamId);
 		BasicResponse result = new BasicResponse();
 		ResponseEntity response = null;
+		System.out.println(teamId);
         if(list == null) {
         	result.status =false;
         	result.data = "fail";
@@ -34,70 +36,4 @@ public class TeamChallengerController {
         }
         return response;
 	}
-	
-//	@PostMapping("/team_challenge_enroll")
-//	@ApiOperation(value = "팀 챌런지 생성하기")
-//	public Object createTeamChallenge(@Valid @RequestBody TeamChallengeDto teamChallengeDto) {
-//
-//		boolean ret = teamChallengeService.addTeamChallenge(teamChallengeDto);
-//
-//		BasicResponse result = new BasicResponse();
-//		ResponseEntity response = null;
-//        if(ret) {
-//        	result.status = true;
-//            result.message = "success";
-//            response = new ResponseEntity<>(result, HttpStatus.OK);
-//
-//        }else {
-//        	result.status =false;
-//        	result.message = "fail";
-//        	response = new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
-//        }
-//
-//        return response;
-//	}
-//
-//	@PostMapping("/team_challenge_participate")
-//	@ApiOperation(value = "팀 챌런지 참여하기")
-//	public Object participateTeamChallenge(@Valid @RequestBody TeamChallengerDto teamChallengerDto) {
-//
-//		boolean ret = teamChallengeService.participateTeamChallenge(teamChallengerDto);
-//
-//		BasicResponse result = new BasicResponse();
-//		ResponseEntity response = null;
-//        if(ret) {
-//        	result.status = true;
-//            result.data = "success";
-//            response = new ResponseEntity<>(result, HttpStatus.OK);
-//
-//        }else {
-//        	result.status =false;
-//        	result.data = "fail";
-//        	response = new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
-//        }
-//
-//        return response;
-//	}
-//
-//	@DeleteMapping("/team_challenge_giveup")
-//	@ApiOperation("챌린지 포기하기")
-//	public Object giveupTeamChallenge(@Valid @RequestBody TeamChallengerDto teamChallengerDto) {
-//
-//		boolean ret = teamChallengeService.giveupTeamChallenge(teamChallengerDto);
-//
-//		BasicResponse result = new BasicResponse();
-//		ResponseEntity response = null;
-//        if(ret) {
-//	    	result.status = true;
-//	        result.data = "success";
-//	        response = new ResponseEntity<>(result, HttpStatus.OK);
-//        }else {
-//        	result.status =false;
-//        	result.data = "fail";
-//        	response = new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
-//        }
-//
-//        return response;
-//	}
-
 }

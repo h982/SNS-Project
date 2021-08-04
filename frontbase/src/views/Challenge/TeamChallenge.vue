@@ -11,7 +11,7 @@
       <team-header />
       </v-bottom-navigation>
     </v-layout>
-    <br>
+    <br><br><br>
     <h2 class="pl-4">
       <span>현재 도전중인</span>
       <span class="green--text">챌린지</span>
@@ -97,47 +97,12 @@
 
     <br><br>
 
-    <h2 class="pl-4">
-      <span>전체 </span>
-      <span class="green--text">챌린지</span>
-    </h2>
-    <br>
-    <div v-if="team_challenges.length">
-      <table id="book-list">
-        <colgroup>
-          <col style="width: 10%" />
-          <col style="width: 30%" />
-          <col style="width: 20%" />
-          <col style="width: 20%" />
-          <col style="width: 20%" />
-        </colgroup>
-        <thead>
-          <tr>
-            <th>챌린지번호</th>
-            <th>챌린지 제목</th>
-            <th>내용</th>
-            <th>종료일자</th>
-            
-          </tr>
-        </thead>
-        <tbody>
-          <list-row-whole-challenge
-            v-for="(challenge, index) in team_challenges"
-            :key="index"
-            :no=challenge.text.teamChallengeId
-            :title="challenge.text.title"
-            :contents="challenge.text.contents"
-            :endDate="challenge.text.endDate"
-            
-          />
-          </tbody>
-      </table>
-    </div>
+    /
 
     <v-btn flat large dark color="black" target="_blank" @click="check()">
       확인하기
     </v-btn>
-    <v-btn flat to="/challengemake" active-class="green--text headline">챌린지만들기</v-btn>
+    <v-btn flat to="/challengemake" active-class="green--text headline">챌린지 만들기</v-btn>
 
   </v-container>
 </template>
@@ -193,6 +158,7 @@ export default {
   
   methods: {
       check(){
+        console.log(this.team_challenges);
         console.log(this.team_challenging);
       },
       enroll(data) {
