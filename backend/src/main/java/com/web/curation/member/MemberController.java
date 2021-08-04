@@ -112,4 +112,23 @@ public class MemberController {
         }
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
+    
+    @ApiOperation(value = "회원정보 수정")
+    @PutMapping
+    public ResponseEntity<Map<String, Object>> updateInfo(@RequestBody MemberDto memberDto){
+        Map<String, Object> resultMap = new HashMap<>();
+        Optional<MemberDto> responseMemberDto = memberService.updateMember(memberDto);
+        
+        if(responseMemberDto.isPresent()) {
+        	Map<String, Object> dataMap = new HashMap<>();
+        	dataMap.put("memberInfo", responseMemberDto);
+        	resultMap.put("data", dataMap);
+            resultMap.put("message", "success");
+            
+            return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+        }
+
+        resultMap.put("message", "해당하는 email이 없습니다.");
+        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.NOT_FOUND);
+    }
 }

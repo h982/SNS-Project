@@ -25,7 +25,7 @@ public class MemberService {
 	
 	public Optional<MemberDto> getUser(String email) {
 		Optional<Member> member = memberDao.getMemberByEmail(email);
-		Optional<MemberDto> memberDto = null;
+		Optional<MemberDto> memberDto = Optional.ofNullable(null);
 		if(member.isPresent()) {
 			memberDto = Optional.of(MemberAdapter.entityToDto(member.get()));
 			return memberDto;
@@ -35,7 +35,7 @@ public class MemberService {
 
 	public Optional<MemberDto> getUser(String email, String password) {
 		Optional<Member> member = memberDao.getMemberByEmailAndPassword(email, password);
-		Optional<MemberDto> memberDto = null;
+		Optional<MemberDto> memberDto = Optional.ofNullable(null);
 		if(member.isPresent()) {
 			memberDto = Optional.of(MemberAdapter.entityToDto(member.get()));
 			return memberDto;
@@ -49,12 +49,26 @@ public class MemberService {
 
 	public Optional<MemberDto> getMemberByEmail(String email) {
 		Optional<Member> member = memberDao.getMemberByEmail(email);
-		Optional<MemberDto> memberDto = null;
+		Optional<MemberDto> memberDto = Optional.ofNullable(null);
 		if(member.isPresent()) {
 			memberDto = Optional.of(MemberAdapter.entityToDto(member.get()));
 			return memberDto;
 		}
 		return memberDto;
+	}
+	
+	public Optional<MemberDto> updateMember(MemberDto memberDto) {
+		Optional<Member> member = memberDao.getMemberByEmail(memberDto.getEmail());
+		Optional<MemberDto> responseMemberDto = Optional.ofNullable(null);
+		if(member.isPresent()) {
+			memberDto.setMemberId(member.get().getMemberId());
+			memberDto.setCreateDate(member.get().getCreateDate());
+			
+			memberDao.save(MemberAdapter.dtoToEntity(memberDto));
+			responseMemberDto = Optional.of(memberDto);
+			return responseMemberDto;
+		}
+		return responseMemberDto;
 	}
 
 }
