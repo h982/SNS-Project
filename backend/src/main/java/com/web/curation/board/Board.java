@@ -19,10 +19,8 @@ public class Board {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer boardId;
 
-    @NotEmpty
     private String title;
 
-    @NotEmpty
     private String contents;
 
     @JsonIgnore

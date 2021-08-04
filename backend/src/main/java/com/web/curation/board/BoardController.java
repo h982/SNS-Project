@@ -45,24 +45,18 @@ public class BoardController {
     @GetMapping("/board/{boardId}")
     @ApiOperation(value = "선택 게시글 보기")
     public ResponseEntity<?> getBoardOne(@PathVariable int boardId) {
-        Board board = boardService.getBoardOne(boardId);
-        ResponseEntity response = null;
-        if (board != null) {
-            final BasicResponse result = new BasicResponse();
-            result.status = true;
-            result.data = "success";
-            result.object = board;
-            response = new ResponseEntity(result, HttpStatus.OK);
-        } else {
-            response = new ResponseEntity(null, HttpStatus.NO_CONTENT);
-        }
-        return response;
+        BoardDto board = boardService.getBoardOne(boardId);
+        final BasicResponse result = new BasicResponse();
+        result.status = true;
+        result.data = "success";
+        result.object = board;
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @PostMapping("/board")
     @ApiOperation(value = "게시글 작성")
     public ResponseEntity<?> writeBoard(@Valid @RequestBody BoardDto boardDto) {
-        Board writeBoard = boardService.writeBoard(boardDto);
+        BoardDto writeBoard = boardService.writeBoard(boardDto);
         final BasicResponse result = new BasicResponse();
         result.status = true;
         result.data = "success";
@@ -73,18 +67,20 @@ public class BoardController {
     @DeleteMapping("/board/{boardId}")
     @ApiOperation(value = "게시글 삭제")
     public ResponseEntity<?> deleteBoard(@PathVariable int boardId) {
-        boardService.deleteBoard(boardId);
-        return new ResponseEntity<>("success", HttpStatus.OK);
+        final BasicResponse result = new BasicResponse();
+        result.status = boardService.deleteBoard(boardId);
+        result.data = "success";
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @PutMapping("/board")
     @ApiOperation(value = "게시글 수정")
     public ResponseEntity<?> modifyBoard(@RequestBody BoardDto boardDto) {
-        if (boardService.getBoardExist(boardDto.getBoardId())) {
-            Board modifyBoard = boardService.modifyBoard(boardDto);
-            return new ResponseEntity<>(modifyBoard, HttpStatus.OK);
-        }else{
-            return new ResponseEntity<>("FAIL", HttpStatus.NOT_FOUND);
-        }
+        BoardDto modifyBoard = boardService.modifyBoard(boardDto);
+        final BasicResponse result = new BasicResponse();
+        result.status = true;
+        result.data = "success";
+        result.object = modifyBoard;
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }
