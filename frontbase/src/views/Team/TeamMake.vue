@@ -80,7 +80,7 @@ import { mapGetters } from 'vuex';
 
 export default {
   computed: {
-    ...mapGetters(["memberInfo"]),
+    ...mapGetters(["memberInfo", "selectTeam", "SET_SELECT_TEAM"]),
   },
   data() {
     return {
@@ -131,7 +131,9 @@ export default {
       formData.append("leader", JSON.stringify(this.team.leader));
       formData.append("memberId", JSON.stringify(this.team.member.memberId));
       formData.append("sportId", JSON.stringify(this.team.sportDto.sportId));
-      formData.append("multipartFile", document.getElementById("chooseFile").files[0]);
+      if(document.getElementById("chooseFile").files[0] !=null){
+        formData.append("multipartFile", document.getElementById("chooseFile").files[0]);
+      }
 
       for (var key of formData.keys()) {
       console.log(key);
@@ -151,7 +153,7 @@ export default {
         .then(response => {
           if (response.data.data === "success") {
             alert("팀생성완료 완료");
-            this.$router.push("/teamlist"); // 생성성공했으면 자기 그룹영역(그룹피드/게시판/채팅/챌린지)으로 이동 => router children 설정 필요
+            this.$router.push("/teamlist");
           } else {
             alert("팀생성 실패");
           }
