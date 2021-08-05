@@ -74,6 +74,9 @@ export default new Vuex.Store({
     },
     entire_challenge(state) {
       return state.entire_challenge;
+      },
+    managingTeam(state) {
+        return state.managingTeam
     }
   },
   mutations: {
@@ -83,7 +86,6 @@ export default new Vuex.Store({
     setMemberInfo(state, memberInfo) {
       state.isLogin = true;
       state.memberInfo = memberInfo;
-      console.log(memberInfo);
     },
     logout(state) {
       state.isLogin = false;
@@ -103,21 +105,18 @@ export default new Vuex.Store({
     },
     SET_TEAMCHALLENGE(state, data) {
       state.team_challenges.length = 0;
-      console.log(data);
       data.forEach(element => {
         state.team_challenges.push({ value: element, text: element });
       });
     },
     SET_TEAMCHALLENGER(state, data) {
       state.team_challenging.length = 0;
-      console.log(data);
       data.forEach(element => {
         state.team_challenging.push({ value: element });
       });
     },
     SET_WHOLETEAMCHALLENGE(state, data) {
       state.whole_challenges.length = 0;
-      console.log(data);
       data.forEach(element => {
         state.whole_challenges.push({ value: element, text: element });
       });
@@ -159,7 +158,6 @@ export default new Vuex.Store({
   actions: {
     async GET_MEMBER_INFO({ commit }, token) {
       let decode = jwt_decode(token);
-      console.log(decode);
       await findById(
         decode.memberEmail,
         response => {
@@ -206,7 +204,6 @@ export default new Vuex.Store({
       http
         .get("/my_teamchallenge_list/" + "{member_id}?member_id=" + payload)
         .then(data => {
-          console.log(data.data.object);
           context.commit("SET_TEAMCHALLENGE", data.data.object);
         })
         .catch(() => {});
@@ -222,7 +219,6 @@ export default new Vuex.Store({
             payload.teamId
         )
         .then(response => {
-          console.log(response.data.object);
           context.commit("SET_TEAMCHALLENGER", response.data.object);
         })
         .catch(() => {});
@@ -232,7 +228,6 @@ export default new Vuex.Store({
       await http
         .get("/challenge/whole_challenge_list")
         .then(data => {
-          console.log(data.data);
           commit("SET_WHOLETEAMCHALLENGE", data.data);
         })
         .catch(() => {
@@ -249,8 +244,8 @@ export default new Vuex.Store({
           data.data.object.forEach(element => {
             let managerId = element.member.memberId;
             if (managerId === state.memberInfo.memberId) {
-              commit("SET_MANAGING_TEAM", element);
-              dispatch("getRequests", element.teamId);
+                commit("SET_MANAGING_TEAM", element);
+                dispatch("getRequests", element.teamId);
             }
           });
         })
@@ -264,7 +259,6 @@ export default new Vuex.Store({
       instance
         .get("/team")
         .then(response => {
-          console.log(response.data.object);
           commit("setTeamLists", response.data.object);
         })
         .catch(() => {
@@ -320,7 +314,6 @@ export default new Vuex.Store({
       http
         .get("/comment/" + payload)
         .then(data => {
-          console.log(data.data.object);
           context.commit("SET_COMMENTS", data.data.object);
         })
         .catch(() => {});

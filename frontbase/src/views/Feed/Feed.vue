@@ -18,15 +18,21 @@ export default {
     FeedItem
   },
   computed: {
-    ...mapGetters(["feeds"])
+    ...mapGetters(["memberInfo","feeds","managingTeam"])
   },
   created() {
     this.$store.dispatch("getFeeds");
-  },
+    this.$store.dispatch("GET_MY_TEAM_INFO",this.memberInfo.memberId);
+    this.$store.dispatch("getTeamLists");
+    this.$store.dispatch("getRequests", this.managingTeam.data.object[0].joinTeam.team.teamId);
+    console.log(this.managingTeam);
+
+    //console.log(this.managingTeam.data.object[0].joinTeam.team.teamId);
+},
   methods: {
     mvWrite() {
       this.$router.push("/writefeed");
-    }
+    },
   }
 };
 </script>
