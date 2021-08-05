@@ -6,31 +6,31 @@
         shift
         x-large
       >
-        <v-btn color="purple">
-          <i class="fas fa-list-ul fa-2x white--text" @click="all"></i>
+        <v-btn color="purple" @click="all">
+          <i class="fas fa-list-ul fa-2x white--text" ></i>
         </v-btn>
 
-        <v-btn color="secondary">
-          <i class="fas fa-running fa-2x" @click="running"></i>
+        <v-btn color="secondary" @click="running">
+          <i class="fas fa-running fa-2x" ></i>
         </v-btn>
 
-        <v-btn color="success">
-          <i class="fas fa-dumbbell fa-2x" @click="helth"></i>
+        <v-btn color="success" @click="health">
+          <i class="fas fa-dumbbell fa-2x" ></i>
         </v-btn>
 
-        <v-btn color="primary">
-          <i class="fas fa-swimmer fa-2x" @click="swimming"></i>
+        <v-btn color="primary" @click="swimming">
+          <i class="fas fa-swimmer fa-2x" ></i>
         </v-btn>
         
-        <v-btn color="error">
-          <i class="fas fa-table-tennis fa-2x" @click="tableTennis"></i>
+        <v-btn color="error" @click="tableTennis">
+          <i class="fas fa-table-tennis fa-2x" ></i>
         </v-btn>
       </v-bottom-navigation>
     </v-layout>
 
     <v-layout row justify-center align-center wrap class="mt-4 pt-2">
       <v-flex
-      v-for="(teamList, idx) in this.teamLists"
+      v-for="(teamList, idx) in this.filteredTeam"
       :key="idx"
       xs12 sm6 md4 lg3 xl3
       >
@@ -81,58 +81,46 @@ export default {
   },
   computed: {
     ...mapGetters(["teamLists"]),
+    filteredTeam : function() { /* 배열의 아이템중 조건을 만족하는 아이템을 모아서 새로운 배열을 만들어 리턴함 */
+        var cname = this.name.trim();
+        return this.teamLists.filter(function(item,index) {
+        if (item.sportDto.name.indexOf(cname) >-1) {
+            return true;
+        }
+      });
+    }
   },
   created() {
     this.$store.dispatch("getTeamLists");
-   
-    // console.log(this.teamlists);
   },
   data() {
     return {
       selected: 5,
       thumbnail: thumbnail,
-      
+      name: "",
     };
   },
   methods: {
     mvTeam() {
-      // 생성버튼 클릭시 팀생성 페이지 이동
       this.$router.push("/teammake");
     },
     all() {
-      this.teamlists = this.teamLists
-      console.log("모두");
-      // this.selected = 5;
+      this.name="";
     },
     running() {
-      this.teamlists = this.teamLists
-      this.teamlists = this.teamlists.filter(function(teamList) {
-        return teamList.sportDto.name === "러닝";
-      });
+      this.name ="러닝";
       console.log("러닝");
-      // this.selected = 1;
     },
-    helth() {
-      this.teamlists = this.teamLists
-      this.teamlists = this.teamlists.filter(function(teamList) {
-        return teamList.sportDto.name === "헬스";
-      });
+    health() {
+      this.name ="헬스";
       console.log("헬스");
-      // this.selected = 2;
     },
     swimming() {
-      this.teamlists = this.teamLists
-      this.teamlists = this.teamlists.filter(function(teamList) {
-        return teamList.sportDto.name === "수영";
-      });
+      this.name="수영";
       console.log("수영");
-      // this.selected = 3;
     },
     tableTennis() {
-      this.teamlists = this.teamLists
-      this.teamlists = this.teamlists.filter(function(teamList) {
-        return teamList.sportDto.name === "탁구";
-      });
+      this.name="탁구";
       console.log("탁구");
       // this.selected = 4;
     },
