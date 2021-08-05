@@ -19,6 +19,7 @@
     "jwt-decode": "^3.1.2",
     "marked": "^0.7.0",
     "sass-loader": "^10.2.0",
+    "sockjs-client": "^1.5.1",
     "storyblok-js-client": "^1.0.32",
     "storyblok-vue": "^1.0.5",
     "v-calendar": "^2.3.2",
@@ -39,7 +40,8 @@
     "vuelidate": "^0.7.4",
     "vuetify": "^1.5.18",
     "vuetify-image-input": "^19.2.2",
-    "vuex": "^3.6.2"
+    "vuex": "^3.6.2",
+    "webstomp-client": "^1.2.6"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.12.1",

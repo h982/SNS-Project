@@ -41,6 +41,8 @@ public class MessageController {
 	
 	@MessageMapping("/message")
 	public void sendMessage(@Payload MessageDto messageDto) {
+		System.out.println(messageDto.getMemberId());
+		System.out.println(messageDto.getWriter());
 		messageService.insertMessage(messageDto);
 		template.convertAndSend("/sub/" + messageDto.getTeamId(), messageDto);
 	}
