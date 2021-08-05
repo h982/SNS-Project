@@ -3,6 +3,7 @@
 
     <v-layout >
       <v-bottom-navigation
+        v-if="teamcheck === true"
         class="mx-auto"
         shift
         x-large
@@ -79,12 +80,16 @@ export default {
   created() {
     this.$store.dispatch("GET_MY_TEAM_INFO",this.memberInfo.memberId);
     this.teamchecking();
+    console.log(this.teamcheck);
+    // console.log(this.selectTeam);
+    // console.log(this.myTeamList);
     this.$store.dispatch("GET_TEAMCHALLENGE_INFO", this.memberInfo.memberId);
     const token={
       memberId: this.memberInfo.memberId,
       teamId:this.selectTeam.teamId
     };
     this.$store.dispatch("GET_TEAMCHALLENGER_INFO", token);  
+
   },
   data() {
     return {
@@ -118,7 +123,7 @@ export default {
         }
       )
       .catch(() => {
-        alert("에러");
+        alert("요청된 신청입니다");
       });
     },
     moveMain(){

@@ -82,7 +82,7 @@ export default {
   computed: {
     ...mapGetters(["teamLists"]),
   },
-  mounted() {
+  created() {
     this.$store.dispatch("getTeamLists");
     this.teamlists = this.teamLists;
     // console.log(this.teamlists);
