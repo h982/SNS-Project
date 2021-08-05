@@ -24,6 +24,7 @@ export default new Vuex.Store({
     books: [],
     joinRequests: [],
     selectTeam: {},
+    feedid: {},
     team_challenging: [], //내가 진행중인 챌린지
     entire_challenge: [] // 공통 챌린지
   },
@@ -64,6 +65,9 @@ export default new Vuex.Store({
     },
     selectTeam(state) {
       return state.selectTeam;
+    },
+    feedid(state) {
+      return state.feedid;
     },
     team_challenging(state) {
       return state.team_challenging;
@@ -141,6 +145,12 @@ export default new Vuex.Store({
     },
     SET_SELECT_TEAM(state, data) {
       state.selectTeam = data;
+    },
+    SET_COMMENTS(state, payload) {
+      state.comments = payload;
+    },
+    SET_FEEDID(state, payload) {
+      state.feedid = payload;
     },
     SET_ENTIRECHALLEGE(state, payload) {
       state.entire_challenge = payload;
@@ -305,6 +315,19 @@ export default new Vuex.Store({
         .catch(() => {
           console.log("index.js getrequest error");
         });
+    },
+    GET_COMMENTS(context, payload) {
+      http
+        .get("/comment/" + payload)
+        .then(data => {
+          console.log(data.data.object);
+          context.commit("SET_COMMENTS", data.data.object);
+        })
+        .catch(() => {});
+    },
+    SET_FEEDID(context, payload) {
+      this.state.feedid = {};
+      context.commit("SET_FEEDID", payload);
     },
     GET_ENTIRECHALLENGE_INFO(context, memberId) {
       http
