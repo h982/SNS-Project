@@ -1,16 +1,20 @@
 package com.web.curation.feed.like;
 
+import com.web.curation.error.CustomException;
+import com.web.curation.error.NotFoundDataException;
 import com.web.curation.feed.Feed;
 import com.web.curation.feed.FeedDao;
 import com.web.curation.member.Member;
 import com.web.curation.member.MemberDao;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static com.web.curation.error.ErrorCode.FEED_NOT_FOUND;
+import static com.web.curation.error.ErrorCode.MEMBER_NOT_FOUND;
 
 @Service
 @AllArgsConstructor
@@ -20,19 +24,15 @@ public class FeedlikeService {
 	MemberDao memberDao;
 	
 	public int likeFeed(FeedlikeDto feedlikeDto) {
-		Optional<Member> chkMember = memberDao.findById(feedlikeDto.getMemberId());
-		Optional<Feed> chkFeed = feedDao.findById(feedlikeDto.getFeedId());
-		if(!chkFeed.isPresent() || !chkMember.isPresent()){
-			return -1;
-		}
+		Member member = memberDao.findById(feedlikeDto.getMemberId())
+				.orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
+		Feed feed = feedDao.findById(feedlikeDto.getFeedId())
+				.orElseThrow(() -> new CustomException(FEED_NOT_FOUND));
 
-		Member member = chkMember.get();
-		Feed feed = chkFeed.get();
 		Optional<Feedlike> chkFeedlike = feedLikeDao.findFeedlikeByMemberAndFeed(member, feed);
 		if(chkFeedlike.isPresent()){
 			return -1;
 		}
-
 		Feedlike feedlike = Feedlike.builder()
 				.member(member)
 				.feed(feed)
@@ -44,11 +44,10 @@ public class FeedlikeService {
 	}
 
 	public Optional<List<FeedlikeDto>> getfeedlikeList(int feedId){
-		Optional<Feed> chkFeed = feedDao.findById(feedId);
-		if(!chkFeed.isPresent()){
-			return Optional.empty();
-		}
-		List<Feedlike> feedlikeList = feedLikeDao.findFeedlikeByFeed(chkFeed.get()).get();
+		Feed feed = feedDao.findById(feedId)
+				.orElseThrow(() -> new CustomException(FEED_NOT_FOUND));
+
+		List<Feedlike> feedlikeList = feedLikeDao.findFeedlikeByFeed(feed).get();
 		List<FeedlikeDto> feedlikeDtos = new ArrayList<>();
 		for(Feedlike feedlike: feedlikeList){
 			feedlikeDtos.add(FeedlikeDto.builder()
