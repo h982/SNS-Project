@@ -24,6 +24,7 @@ export default new Vuex.Store({
         joinRequests: [],
         selectTeam: {},
         team_challenging:[], //내가 진행중인 챌린지
+        entire_challenge: [], // 공통 챌린지
     },
 
     getters: {
@@ -62,7 +63,10 @@ export default new Vuex.Store({
         },
         team_challenging(state) {
             return state.team_challenging;
-        }
+        },
+        entire_challenge(state)  {
+            return state.entire_challenge;
+        },
     },
     mutations: {
         setIsLogined(state, isLogin) {
@@ -130,6 +134,9 @@ export default new Vuex.Store({
         },
         SET_SELECT_TEAM(state, data) {
             state.selectTeam = data;
+        },
+        SET_ENTIRECHALLEGE(state, payload) {
+            state.entire_challenge = payload;
         },
     },
     actions: {
@@ -278,6 +285,16 @@ export default new Vuex.Store({
             .catch(() => {
                 console.log("index.js getrequest error")
             });
-        },  
+        },
+        GET_ENTIRECHALLENGE_INFO(context, memberId) {
+            http
+            .get("/member/challenge/" + memberId)
+            .then(({ data }) => {
+                context.commit("SET_ENTIRECHALLEGE", data);
+            })
+            .catch(() => {
+                console.log("에러발생");
+            });
+        },
     }
 });

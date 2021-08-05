@@ -33,7 +33,6 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { createInstance } from "@/api/index.js";
 import attendance from "@/assets/images/attendance.png";
 import comment from "@/assets/images/comment.png";
 import feed from "@/assets/images/feed.png";
@@ -51,36 +50,36 @@ import heart_b from "@/assets/images/heart_b.png";
 
 export default {
   computed: {
-    ...mapGetters(["memberInfo", "whole_challenges"])
+    ...mapGetters(["memberInfo", "entire_challenge"])
   },
   created() {
-    // this.$store.dispatch("GET_WHOLECHALLENGE_INFO");
+    this.$store.dispatch("GET_ENTIRECHALLENGE_INFO", this.memberInfo.memberId);
     console.log(this.memberInfo.point);
     console.log(this.memberInfo.password.length);
 
-    // if(this.whole_challenges.attendance < 30) {
-    //   this.challenges[0].src = attendance_b
-    // } else {
-    //   this.challenges[0].src = attendance
-    // }
+    if(this.entire_challenge.attendance < 30) {
+      this.challenges[0].src = attendance_b
+    } else {
+      this.challenges[0].src = attendance
+    }
 
-    // if(this.whole_challenges.teamCount < 5) {
-    //   this.challenges[1].src = team_b
-    // } else {
-    //   this.challenges[1].src = team
-    // }
+    if(this.entire_challenge.teamCount < 5) {
+      this.challenges[1].src = team_b
+    } else {
+      this.challenges[1].src = team
+    }
 
-    // if(this.whole_challenges.feedCount < 10) {
-    //   this.challenges[2].src = feed_b
-    // } else {
-    //   this.challenges[2].src = feed
-    // }
+    if(this.entire_challenge.feedCount < 10) {
+      this.challenges[2].src = feed_b
+    } else {
+      this.challenges[2].src = feed
+    }
 
-    // if(this.whole_challenges.commentCount < 10) {
-    //   this.challenges[3].src = commment_b
-    // } else {
-    //   this.challenges[3].src = comment
-    // }
+    if(this.entire_challenge.commentCount < 10) {
+      this.challenges[3].src = commment_b
+    } else {
+      this.challenges[3].src = comment
+    }
 
     if(this.memberInfo.point < 100) {
       this.challenges[4].src = point_b

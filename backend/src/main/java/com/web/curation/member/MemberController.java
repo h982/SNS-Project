@@ -78,7 +78,7 @@ public class MemberController {
         try {
             Optional<MemberDto> loginUser = memberService.getUser(memberDto.getEmail(),memberDto.getPassword());
             if (loginUser.isPresent()) {
-            	challengeService.attend(memberDto.getMemberId());
+            	challengeService.attend(loginUser.get().getMemberId());
             	
                 String token = jwtService.create("memberEmail", loginUser.get().getEmail(), "access-token");// key, data, subject
                 resultMap.put("access-token", token);

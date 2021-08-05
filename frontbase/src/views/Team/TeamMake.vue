@@ -127,7 +127,7 @@ export default {
 
       const formData = new FormData();
       formData.append("name", JSON.stringify(this.team.name));
-      formData.append("intro", JSON.stringify(this.team.introduction));
+      formData.append("introduction", JSON.stringify(this.team.introduction));
       formData.append("leader", JSON.stringify(this.team.leader));
       formData.append("memberId", JSON.stringify(this.team.member.memberId));
       formData.append("sportId", JSON.stringify(this.team.sportDto.sportId));
