@@ -25,7 +25,7 @@ public class TeamAndDtoAdapter {
         return teamDto;
     }
 
-    public static Team dtoToEntity(TeamDto teamDto){
+    public static Team dtoToEntityPhoto(TeamDto teamDto){
         return Team.builder()
                 .name(teamDto.getName())
                 .introduction((teamDto.getIntroduction()))
@@ -34,6 +34,16 @@ public class TeamAndDtoAdapter {
                 .member(new Member(teamDto.getMemberId()))
                 .sport(new Sport(teamDto.getSportId()))
                 .photo(new Photo(teamDto.getPhotoId()))
+                .build();
+    }
+    public static Team dtoToEntity(TeamDto teamDto){
+        return Team.builder()
+                .name(teamDto.getName())
+                .introduction((teamDto.getIntroduction()))
+                .leader(teamDto.getLeader())
+                .memberCount(teamDto.getMemberCount())
+                .member(new Member(teamDto.getMemberId()))
+                .sport(new Sport(teamDto.getSportId()))
                 .build();
     }
 }
