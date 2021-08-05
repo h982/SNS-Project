@@ -30,7 +30,7 @@
 
     <v-layout row justify-center align-center wrap class="mt-4 pt-2">
       <v-flex
-      v-for="(teamList, idx) in this.lists"
+      v-for="(teamList, idx) in this.teamlists"
       :key="idx"
       xs12 sm6 md4 lg3 xl3
       >
@@ -84,14 +84,14 @@ export default {
   },
   created() {
     this.$store.dispatch("getTeamLists");
-    this.lists = this.teamLists;
-    console.log(this.lists);
+    this.teamlists = this.teamLists;
+    // console.log(this.teamlists);
   },
   data() {
     return {
       selected: 5,
       thumbnail: thumbnail,
-      lists: [],
+      teamlists: [],
     };
   },
   methods: {
@@ -100,37 +100,37 @@ export default {
       this.$router.push("/teammake");
     },
     all() {
-      this.lists = this.teamLists
+      this.teamlists = this.teamLists
       console.log("모두");
       // this.selected = 5;
     },
     running() {
-      this.lists = this.teamLists
-      this.lists = this.lists.filter(function(teamList) {
+      this.teamlists = this.teamLists
+      this.teamlists = this.teamlists.filter(function(teamList) {
         return teamList.sportDto.name === "러닝";
       });
       console.log("러닝");
       // this.selected = 1;
     },
     helth() {
-      this.lists = this.teamLists
-      this.lists = this.lists.filter(function(teamList) {
+      this.teamlists = this.teamLists
+      this.teamlists = this.teamlists.filter(function(teamList) {
         return teamList.sportDto.name === "헬스";
       });
       console.log("헬스");
       // this.selected = 2;
     },
     swimming() {
-      this.lists = this.teamLists
-      this.lists = this.lists.filter(function(teamList) {
+      this.teamlists = this.teamLists
+      this.teamlists = this.teamlists.filter(function(teamList) {
         return teamList.sportDto.name === "수영";
       });
       console.log("수영");
       // this.selected = 3;
     },
     tableTennis() {
-      this.lists = this.teamLists
-      this.lists = this.lists.filter(function(teamList) {
+      this.teamlists = this.teamLists
+      this.teamlists = this.teamlists.filter(function(teamList) {
         return teamList.sportDto.name === "탁구";
       });
       console.log("탁구");
