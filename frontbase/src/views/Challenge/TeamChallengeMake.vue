@@ -111,11 +111,12 @@ export default {
           "contents":this.challenge.contents,
           "endDate":end_date,
           "startDate":start_date,
+          "teamChallengeId":0,
           "teamId": this.selectTeam.teamId,
           "title": this.challenge.title
         }; 
         console.log(JSON.stringify(body));
-        instance.put("/team_challenge_enroll", JSON.stringify(body))
+        instance.post("/team_challenge_enroll", JSON.stringify(body))
         .then(
           (response) => {
             if (response.data.message === "success") {
