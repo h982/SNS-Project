@@ -6,9 +6,9 @@
       <v-img :src="imgPath" aspect-ratio="2.75" height="230" :alt="name"></v-img>
       <v-card-title primary-title>
         <div>
-          <h3 class="headline mb-0">{{name}}</h3>
+          <h3 class="headline mb-0">{{name.replaceAll("\"", "")}}</h3>
           <div>
-            <p class="green--text font-weight-medium">{{introduction}}</p>
+            <p class="green--text font-weight-medium">{{introduction.replaceAll("\"", "")}}</p>
           </div>
         </div>
       </v-card-title>
@@ -58,6 +58,7 @@ export default {
         name: this.name,
         introduction: this.introduction,
         leader: this.leader,
+        teamId: this.teamId,
         photoDto:{
           filePath : this.imgPath,
         }
@@ -65,9 +66,7 @@ export default {
       this.$store.dispatch("SET_SELECT_TEAM", body).then(()=>{
         this.$router.replace("/teammain");
       });
-      //this.selectTeam=this.selectMyTeam;
       console.log(this.selectTeam);
-      //alert(this.selectMyTeam);
     }
     
   },

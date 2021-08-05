@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @ApiResponses(value = {@ApiResponse(code = 401, message = "Unauthorized", response = BasicResponse.class),
@@ -53,7 +54,7 @@ public class TeamController {
 
     @PostMapping("/team")
     @ApiOperation(value = "팀 등록")
-    public ResponseEntity<?> addTeam(TeamDto teamDto) throws Exception {
+    public ResponseEntity<?> addTeam(@Valid TeamDto teamDto) throws Exception {
         TeamDto resultTeam = teamService.registerTeam(teamDto);
 
         ResponseEntity response = null;

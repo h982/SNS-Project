@@ -1,12 +1,11 @@
 <template>
-  <tr>
-    <td>{{ no }}</td>
-    <td>{{ title }}</td>
-    <td>{{ contents }}</td>
-    <td>{{ endDate }}</td>
-    <td><v-btn @click="participate">챌린지신청</v-btn></td>
-    <td><v-btn @click="giveUp">챌린지포기</v-btn></td>
-  </tr>
+    <tr>
+      <td>{{ no }}</td>
+      <td>{{ title }}</td>
+      <td>{{ contents }}</td>
+      <td>{{ endDate }}</td>
+      <td><v-btn @click="participate">챌린지신청</v-btn></td>
+    </tr>
 </template>
 
 <script>
@@ -27,7 +26,6 @@ export default {
     }
   },
   computed:{
-    
     ...mapState(["memberInfo","teamInfo","selectTeam","team_challenges"])
   },
   methods:{
@@ -43,6 +41,12 @@ export default {
           (response) => {
             console.log(response);
             if (response.data.data === "success") {
+              this.$store.dispatch("GET_TEAMCHALLENGE_INFO", this.memberInfo.memberId);
+              const token={
+                memberId: this.memberInfo.memberId,
+                teamId:this.selectTeam.teamId
+              };
+              this.$store.dispatch("GET_TEAMCHALLENGER_INFO", token);
               alert("챌린지에 등록되었습니다.");
               
             } else {
@@ -50,7 +54,9 @@ export default {
             }
           }
         )
-        .catch();
+        .catch(() =>{
+          alert("이미 신청한 챌린지 입니다.");
+        });
       },
       giveUp(){
         const body = {

@@ -3,6 +3,7 @@
 
     <v-layout >
       <v-bottom-navigation
+        v-if="teamcheck === true"
         class="mx-auto"
         shift
         x-large
@@ -55,6 +56,7 @@
       ><i class="fas fa-sign-in-alt fa-2x"></i>
       </v-btn> 
       <br>
+      <v-btn @click="check()">확인</v-btn>
       <br>
       <v-layout>
         <v-btn large flat to="/teamlist" class="green--text">
@@ -73,11 +75,21 @@ import thumbnail1 from "@/assets/images/thumbnail.jpg";
 
 export default {
   computed:{
-    ...mapGetters(["selectTeam","memberInfo","myTeamList","team_challenges"]),
+    ...mapGetters(["selectTeam","memberInfo","myTeamList","team_challenges","team_challenging"]),
   },
   created() {
     this.$store.dispatch("GET_MY_TEAM_INFO",this.memberInfo.memberId);
     this.teamchecking();
+    console.log(this.teamcheck);
+    // console.log(this.selectTeam);
+    // console.log(this.myTeamList);
+    this.$store.dispatch("GET_TEAMCHALLENGE_INFO", this.memberInfo.memberId);
+    const token={
+      memberId: this.memberInfo.memberId,
+      teamId:this.selectTeam.teamId
+    };
+    this.$store.dispatch("GET_TEAMCHALLENGER_INFO", token);  
+
   },
   data() {
     return {
@@ -111,7 +123,7 @@ export default {
         }
       )
       .catch(() => {
-        alert("에러");
+        alert("요청된 신청입니다");
       });
     },
     moveMain(){
@@ -141,6 +153,7 @@ export default {
     },
     check(){
       console.log(this.selectTeam);
+      console.log(this.team_challenging);
     }
   },
 }

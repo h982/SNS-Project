@@ -12,6 +12,7 @@ public class MemberAdapter {
 				.addressDetail(member.getAddressDetail())
 				.zonecode(member.getZonecode())
 				.sex(member.getSex())
+				.point(member.getPoint())
 				.mbti(member.getMbti())
 				.authenticated(member.getAuthenticated())
 				.build();
@@ -28,6 +29,7 @@ public class MemberAdapter {
 				.addressDetail(memberDto.getAddressDetail())
 				.zonecode(memberDto.getZonecode())
 				.sex(memberDto.getSex())
+				.point(memberDto.getPoint())
 				.mbti(memberDto.getMbti())
 				.createDate(memberDto.getCreateDate())
 				.authenticated(memberDto.getAuthenticated())

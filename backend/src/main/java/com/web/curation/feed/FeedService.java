@@ -1,6 +1,8 @@
 package com.web.curation.feed;
 
 import com.web.curation.amazonS3.S3Uploader;
+import com.web.curation.error.CustomException;
+import com.web.curation.error.ErrorCode;
 import com.web.curation.files.Photo;
 import com.web.curation.files.PhotoAndDtoAdapter;
 import com.web.curation.files.PhotoDao;
@@ -20,6 +22,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static com.web.curation.error.ErrorCode.JOIN_TEAM_NOT_FOUNT;
+import static com.web.curation.error.ErrorCode.TEAM_NOT_FOUNT;
+
 @Service
 @AllArgsConstructor
 public class FeedService {
@@ -32,7 +37,7 @@ public class FeedService {
 	private TeamDao teamDao;
 
 	public Feed registerFeed(FeedDto feedDto) throws IOException {
-		Member member = memberDao.findById(feedDto.getMemerId()).get();
+		Member member = memberDao.findById(feedDto.getMemberId()).get();
 		Team team = teamDao.findById(feedDto.getTeamId()).get();
 		JoinTeam joinTeam = joinTeamDao.findByMemberAndTeam(member, team).get();
 		//Feed 객체 생성하기
@@ -44,7 +49,7 @@ public class FeedService {
 				.writer(feedDto.getWriter())
 				.build();
 		if(feedDto.getTeamchallengeId() != 0){
-			feed.setTeamchallenge(new TeamChallenge(feedDto.getTeamchallengeId()));
+			feed.setTeamchallenge(teamChallengeDao.findById(feedDto.getTeamchallengeId()).get());
 		}
 		System.out.println(feed);
 		Feed resultFeed = feedDao.save(feed);
@@ -93,7 +98,7 @@ public class FeedService {
 		uploadPhoto.setFeed(oldFeed);
 		photoList.add(photoDao.save(photo));
 
-		Member member = memberDao.findById(feedDto.getMemerId()).get();
+		Member member = memberDao.findById(feedDto.getMemberId()).get();
 		Team team = teamDao.findById(feedDto.getTeamId()).get();
 		JoinTeam joinTeam = joinTeamDao.findByMemberAndTeam(member, team).get();
 		Feed feed = Feed.builder()
@@ -123,6 +128,15 @@ public class FeedService {
 
 		feedDao.delete(feed);
 		return true;
+	}
+
+	public List<Feed> getTeamFeeds(int teamId){
+		Team team = teamDao.findById(teamId)
+				.orElseThrow(() -> new CustomException(TEAM_NOT_FOUNT));
+		List<JoinTeam> joinTeams = joinTeamDao.findJoinTeamsByTeam(team)
+				.orElseThrow(() -> new CustomException(JOIN_TEAM_NOT_FOUNT));
+
+		return feedDao.findFeedsByJoinTeamIn(joinTeams);
 	}
 
 }
