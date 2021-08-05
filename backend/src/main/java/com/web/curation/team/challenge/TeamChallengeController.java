@@ -1,7 +1,6 @@
 package com.web.curation.team.challenge;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -11,7 +10,6 @@ import io.swagger.annotations.ApiResponses;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.web.bind.annotation.*;
 
 import com.web.curation.model.BasicResponse;
@@ -71,9 +69,9 @@ public class TeamChallengeController {
 
     @DeleteMapping("/team_challenge_giveup")
     @ApiOperation("챌린지 포기하기")
-    public ResponseEntity giveupTeamChallenge(@Valid @RequestBody TeamChallengerDto teamChallengerDto) {
+    public ResponseEntity giveUpTeamChallenge(@Valid @RequestBody TeamChallengerDto teamChallengerDto) {
 
-        teamChallengeService.giveupTeamChallenge(teamChallengerDto);
+        teamChallengeService.giveUpTeamChallenge(teamChallengerDto);
         BasicResponse result = new BasicResponse();
         result.status = true;
         result.data = "success";
@@ -81,15 +79,27 @@ public class TeamChallengeController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-//    @PutMapping("/updatechallenge")
-//    @ApiOperation(value = "팀 챌린지 수정하기")
-//    public ResponseEntity updateTeamChallenge(@Valid @RequestBody TeamChallengeDto teamChallengeDto) {
-//
-//        teamChallengeService.updateTeamChallenge(teamChallengeDto);
-//        BasicResponse result = new BasicResponse();
-//        result.status = true;
-//        result.data = "success";
-//
-//        return  new ResponseEntity<>(result, HttpStatus.OK);
-//    }
+    @PutMapping("/team_challenge")
+    @ApiOperation(value = "팀 챌린지 수정하기")
+    public ResponseEntity updateTeamChallenge(@Valid @RequestBody TeamChallengeDto teamChallengeDto) {
+
+        teamChallengeService.updateTeamChallenge(teamChallengeDto);
+        BasicResponse result = new BasicResponse();
+        result.status = true;
+        result.data = "success";
+
+        return  new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/team_challenge")
+    @ApiOperation(value = "팀 챌린지 삭제하기")
+    private ResponseEntity<?> deleteTeamChallenge(@Valid @RequestBody TeamChallengeDto teamChallengeDto){
+
+        teamChallengeService.deleteTeamChallenge(teamChallengeDto);
+        BasicResponse result = new BasicResponse();
+        result.status = true;
+        result.data = "success";
+
+        return  new ResponseEntity<>(result, HttpStatus.OK);
+    }
 }

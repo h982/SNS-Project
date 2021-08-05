@@ -17,6 +17,7 @@ public class TeamChallengeAdaptor {
                 .teamChallengeId(dto.getTeamChallengeId())
                 .title(dto.getTitle())
                 .contents(dto.getContents())
+                .status(Status.BEGIN)
                 .memberCount(1)
                 .startDate(dto.getStartDate())
                 .endDate(dto.getEndDate())

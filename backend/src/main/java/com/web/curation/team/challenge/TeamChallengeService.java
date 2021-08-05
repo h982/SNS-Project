@@ -36,21 +36,26 @@ public class TeamChallengeService {
         teamChallenge.setTeam(teamDao.findById(teamChallengeDto.getTeamId())
                 .orElseThrow(() -> new CustomException(TEAM_NOT_FOUND))
         );
+        return TeamChallengeAdaptor.entityToDto(teamChallengeDao.save(teamChallenge));
+    }
+
+    public TeamChallengeDto updateTeamChallenge(TeamChallengeDto teamChallengeDto) {
+        TeamChallenge teamChallenge = teamChallengeDao.findById(teamChallengeDto.getTeamChallengeId())
+                .orElseThrow(() -> new CustomException(TEAM_CHALLENGE_NOT_FOUND));
+
+        teamChallenge.setTitle(teamChallengeDto.getTitle());
+        teamChallenge.setContents(teamChallenge.getContents());
+        teamChallenge.setStartDate(teamChallenge.getStartDate());
+        teamChallenge.setEndDate(teamChallenge.getEndDate());
 
         return TeamChallengeAdaptor.entityToDto(teamChallengeDao.save(teamChallenge));
     }
 
-//    public TeamChallengeDto updateTeamChallenge(TeamChallengeDto teamChallengeDto) {
-//        TeamChallenge teamChallenge = teamChallengeDao.findById(teamChallengeDto.getTeamChallengeId())
-//                .orElseThrow(() -> new CustomException(TEAM_CHALLENGE_NOT_FOUND));
-//
-//        teamChallenge.setTitle(teamChallengeDto.getTitle());
-//        teamChallenge.setContents(teamChallenge.getContents());
-//        teamChallenge.setStartDate(teamChallenge.getStartDate());
-//        teamChallenge.setEndDate(teamChallenge.getEndDate());
-//
-//        return TeamChallengeAdaptor.entityToDto(teamChallengeDao.save(teamChallenge));
-//    }
+    public void deleteTeamChallenge(TeamChallengeDto teamChallengeDto){
+        TeamChallenge teamChallenge = teamChallengeDao.findById(teamChallengeDto.getTeamChallengeId())
+                .orElseThrow(() -> new CustomException(TEAM_CHALLENGER_NOT_FOUND));
+        teamChallengeDao.delete(teamChallenge);
+    }
 
     public List<TeamChallengeDto> getTeamChallengeList(int memberId) {
         Member member = memberDao.findById(memberId)
@@ -87,14 +92,14 @@ public class TeamChallengeService {
         teamChallengerDao.save(teamChallenger);
     }
 
-    public void giveupTeamChallenge(@Valid TeamChallengerDto teamChallengerDto) {
+    public void giveUpTeamChallenge(@Valid TeamChallengerDto teamChallengerDto) {
         TeamChallenge teamChallenge = teamChallengeDao.findById(teamChallengerDto.getTeamChallengeId())
                 .orElseThrow(() -> new CustomException(TEAM_CHALLENGE_NOT_FOUND));
         Member member = memberDao.findById(teamChallengerDto.getMemberId())
                 .orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
-        TeamChallenger isExist = teamChallengerDao.findTeamChallengerByTeamChallengeAndMember(teamChallenge, member)
+        TeamChallenger teamChallenger = teamChallengerDao.findTeamChallengerByTeamChallengeAndMember(teamChallenge, member)
                 .orElseThrow(() -> new CustomException(TEAM_CHALLENGER_NOT_FOUND));
 
-        teamChallengerDao.delete(isExist);
+        teamChallengerDao.delete(teamChallenger);
     }
 }
