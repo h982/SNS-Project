@@ -123,7 +123,7 @@ export default {
       this.team.member.memberId = this.memberInfo.memberId
       this.team.sportDto.sportId = this.team.sport.value
 
-      // console.log(this.team);
+      console.log(this.team);
 
       const formData = new FormData();
       formData.append("name", JSON.stringify(this.team.name));
