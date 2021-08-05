@@ -56,7 +56,6 @@
       ><i class="fas fa-sign-in-alt fa-2x"></i>
       </v-btn> 
       <br>
-      <v-btn @click="check()">확인</v-btn>
       <br>
       <v-layout>
         <v-btn large flat to="/teamlist" class="green--text">
