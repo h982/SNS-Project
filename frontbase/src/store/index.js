@@ -26,7 +26,8 @@ export default new Vuex.Store({
     selectTeam: {},
     feedid: {},
     team_challenging: [], //내가 진행중인 챌린지
-    entire_challenge: [] // 공통 챌린지
+    entire_challenge: [], // 공통 챌린지
+    feed_challenging: [] //feed 입력시 넣는 챌린지 목록
   },
 
   getters: {
@@ -76,7 +77,10 @@ export default new Vuex.Store({
       return state.entire_challenge;
       },
     managingTeam(state) {
-        return state.managingTeam
+      return state.managingTeam;
+    },
+    feed_challenging(state) {
+      return state.feed_challenging;
     }
   },
   mutations: {
@@ -153,6 +157,12 @@ export default new Vuex.Store({
     },
     SET_ENTIRECHALLEGE(state, payload) {
       state.entire_challenge = payload;
+    },
+    SET_TEAMCHALLENGING(state, data) {
+      state.feed_challenging.length = 0;
+      data.forEach(element => {
+        state.feed_challenging.push({ value: element, text: element });
+      });
     }
   },
   actions: {
@@ -220,6 +230,18 @@ export default new Vuex.Store({
         )
         .then(response => {
           context.commit("SET_TEAMCHALLENGER", response.data.object);
+        })
+        .catch(() => {});
+    },
+
+    GET_TEAMCHALLENGEING_INFO(context, payload) {
+      http
+        .get(
+          "/my_teamchalleging_list?" +"member_id=" +payload 
+        )
+        .then(response => {
+          console.log(response);
+          context.commit("SET_TEAMCHALLENGING", response.data.object);
         })
         .catch(() => {});
     },

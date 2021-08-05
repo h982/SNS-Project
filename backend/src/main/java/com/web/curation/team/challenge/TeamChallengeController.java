@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import com.web.curation.team.challenger.TeamChallenger;
 import com.web.curation.team.challenger.TeamChallengerDto;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -44,6 +45,27 @@ public class TeamChallengeController {
 			result.status = true;
 			result.data = "success";
 			result.object = list.get();
+			response = new ResponseEntity<>(result, HttpStatus.OK);
+		}
+
+		return response;
+	}
+
+	@GetMapping("/my_teamchalleging_list")
+	@ApiOperation(value = "내 팀 진행중인 챌린지 리스트")
+	public ResponseEntity findTeamChallenging(@Valid @RequestParam(name = "member_id") int memberId) {
+		System.out.println("내 팀 진행중인 챌린지 리스트");
+		List<TeamChallenger> list = teamChallengeService.getTeamChallengingList(memberId);
+		BasicResponse result = new BasicResponse();
+		ResponseEntity response = null;
+		if (list.isEmpty()) {
+			result.status = false;
+			result.data = "fail";
+			response = new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+		} else {
+			result.status = true;
+			result.data = "success";
+			result.object = list;
 			response = new ResponseEntity<>(result, HttpStatus.OK);
 		}
 
