@@ -30,7 +30,7 @@
 
     <v-layout row justify-center align-center wrap class="mt-4 pt-2">
       <v-flex
-      v-for="(teamList, idx) in this.teamlists"
+      v-for="(teamList, idx) in this.teamLists"
       :key="idx"
       xs12 sm6 md4 lg3 xl3
       >
@@ -84,14 +84,14 @@ export default {
   },
   created() {
     this.$store.dispatch("getTeamLists");
-    this.teamlists = this.teamLists;
+   
     // console.log(this.teamlists);
   },
   data() {
     return {
       selected: 5,
       thumbnail: thumbnail,
-      teamlists: [],
+      
     };
   },
   methods: {
