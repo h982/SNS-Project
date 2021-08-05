@@ -1,6 +1,8 @@
 package com.web.curation.feed;
 
 import com.web.curation.amazonS3.S3Uploader;
+import com.web.curation.error.CustomException;
+import com.web.curation.error.ErrorCode;
 import com.web.curation.files.Photo;
 import com.web.curation.files.PhotoAndDtoAdapter;
 import com.web.curation.files.PhotoDao;
@@ -19,6 +21,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static com.web.curation.error.ErrorCode.JOIN_TEAM_NOT_FOUNT;
+import static com.web.curation.error.ErrorCode.TEAM_NOT_FOUNT;
 
 @Service
 @AllArgsConstructor
@@ -123,6 +128,15 @@ public class FeedService {
 
 		feedDao.delete(feed);
 		return true;
+	}
+
+	public List<Feed> getTeamFeeds(int teamId){
+		Team team = teamDao.findById(teamId)
+				.orElseThrow(() -> new CustomException(TEAM_NOT_FOUNT));
+		List<JoinTeam> joinTeams = joinTeamDao.findJoinTeamsByTeam(team)
+				.orElseThrow(() -> new CustomException(JOIN_TEAM_NOT_FOUNT));
+
+		return feedDao.findFeedsByJoinTeamIn(joinTeams);
 	}
 
 }

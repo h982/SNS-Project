@@ -103,4 +103,16 @@ public class FeedController {
         return response;
     }
 
+    @GetMapping("/feed/team/{team_id}")
+    @ApiOperation(value = "팀별 피드 받기")
+    public ResponseEntity<?> getTeamFeeds(@RequestParam(name = "team_id")int teamId){
+        final BasicResponse result = new BasicResponse();
+
+        List<Feed> feedList = feedService.getTeamFeeds(teamId);
+        result.status = true;
+        result.data = "success";
+        result.object = feedList;
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 }
