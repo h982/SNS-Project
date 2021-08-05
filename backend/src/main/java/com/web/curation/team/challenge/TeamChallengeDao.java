@@ -11,5 +11,5 @@ import com.web.curation.team.TeamDto;
 
 public interface TeamChallengeDao extends JpaRepository<TeamChallenge, Integer>{
 
-	public Optional<List<TeamChallenge>> findTeamChallengeByTeam(Team team);
+	List<TeamChallenge> findTeamChallengeByTeam(Team team);
 }
