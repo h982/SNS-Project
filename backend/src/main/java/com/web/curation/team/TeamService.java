@@ -68,13 +68,15 @@ public class TeamService {
             PhotoDto uploadPhoto = s3Uploader.upload(teamDto.getMultipartFile(),"static");
             savedPhoto = PhotoAndDtoAdapter.entityToDto(photoDao.save(PhotoAndDtoAdapter.dtoToEntity(uploadPhoto)));
         }
+        Team team = null;
         if(savedPhoto.getPhotoId() != null){
             teamDto.setPhotoId(savedPhoto.getPhotoId());
+            team = TeamAndDtoAdapter.dtoToEntityPhoto(teamDto);
         }else{
             teamDto.setPhotoId(null);
+            team = TeamAndDtoAdapter.dtoToEntity(teamDto);
         }
         teamDto.setMemberCount(1);
-        Team team = TeamAndDtoAdapter.dtoToEntity(teamDto);
 
         return TeamAndDtoAdapter.entityToDto(teamDao.save(team));
     }
