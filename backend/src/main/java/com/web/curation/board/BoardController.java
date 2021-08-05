@@ -25,10 +25,10 @@ public class BoardController {
 
     private final BoardService boardService;
 
-    @GetMapping("/board")
-    @ApiOperation(value = "게시글 조회")
-    public ResponseEntity<?> getBoardlist() {
-        List<Board> boardList = boardService.getBoardlist();
+    @GetMapping("/board/list/{teamId}")
+    @ApiOperation(value = "팀 게시글 조회")
+    public ResponseEntity<?> getBoardlist(@PathVariable int teamId) {
+        List<Board> boardList = boardService.getBoardlist(teamId);
         ResponseEntity response = null;
         if (boardList.size() > 0) {
             final BasicResponse result = new BasicResponse();
