@@ -26,7 +26,7 @@ export default {
     }
   },
   computed:{
-    ...mapState(["memberInfo","teamInfo","selectTeam","team_challenges"])
+    ...mapState(["memberInfo","teamInfo","selectTeam","team_challenges","team_challenging"])
   },
   methods:{
     participate(){
