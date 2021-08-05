@@ -32,15 +32,15 @@ public class FeedlikeService {
 		if(chkFeedlike.isPresent()){
 			return -1;
 		}
-
 		Feedlike feedlike = Feedlike.builder()
 				.member(member)
 				.feed(feed)
 				.feedLike(feedlikeDto.getFeedLike())
 				.build();
-		feedLikeDao.save(feedlike);
+		Feedlike ret = feedLikeDao.save(feedlike);
+		System.out.println(ret);
 		Feedlike savedFeedlike = feedLikeDao.findFeedlikeByMemberAndFeed(member, feed).get();
-		return savedFeedlike.getFeedlikeId();
+		return ret.getFeedlikeId();
 	}
 
 	public Optional<List<FeedlikeDto>> getfeedlikeList(int feedId){
