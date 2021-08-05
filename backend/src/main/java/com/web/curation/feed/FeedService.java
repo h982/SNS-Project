@@ -2,7 +2,6 @@ package com.web.curation.feed;
 
 import com.web.curation.amazonS3.S3Uploader;
 import com.web.curation.error.CustomException;
-import com.web.curation.error.ErrorCode;
 import com.web.curation.files.Photo;
 import com.web.curation.files.PhotoAndDtoAdapter;
 import com.web.curation.files.PhotoDao;
@@ -11,7 +10,6 @@ import com.web.curation.member.Member;
 import com.web.curation.member.MemberDao;
 import com.web.curation.team.Team;
 import com.web.curation.team.TeamDao;
-import com.web.curation.team.challenge.TeamChallenge;
 import com.web.curation.team.challenge.TeamChallengeDao;
 import com.web.curation.team.join.JoinTeam;
 import com.web.curation.team.join.JoinTeamDao;
@@ -23,7 +21,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.web.curation.error.ErrorCode.JOIN_TEAM_NOT_FOUNT;
-import static com.web.curation.error.ErrorCode.TEAM_NOT_FOUNT;
+import static com.web.curation.error.ErrorCode.TEAM_NOT_FOUND;
 
 @Service
 @AllArgsConstructor
@@ -132,7 +130,7 @@ public class FeedService {
 
 	public List<Feed> getTeamFeeds(int teamId){
 		Team team = teamDao.findById(teamId)
-				.orElseThrow(() -> new CustomException(TEAM_NOT_FOUNT));
+				.orElseThrow(() -> new CustomException(TEAM_NOT_FOUND));
 		List<JoinTeam> joinTeams = joinTeamDao.findJoinTeamsByTeam(team)
 				.orElseThrow(() -> new CustomException(JOIN_TEAM_NOT_FOUNT));
 
