@@ -105,7 +105,7 @@ public class FeedController {
 
     @GetMapping("/feed/team/{team_id}")
     @ApiOperation(value = "팀별 피드 받기")
-    public ResponseEntity<?> getTeamFeeds(@RequestParam(name = "team_id")int teamId){
+    public ResponseEntity<?> getTeamFeeds(@PathVariable(name = "team_id")int teamId){
         final BasicResponse result = new BasicResponse();
 
         List<Feed> feedList = feedService.getTeamFeeds(teamId);

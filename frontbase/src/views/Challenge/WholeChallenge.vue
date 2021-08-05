@@ -7,7 +7,7 @@
           <span class="green--text"><b>&nbsp;챌린지</b></span>
         </h2>
       </v-flex>
-      <v-flex v-for="(challenge,idx) in challenges" :key=idx xs6 sm3 md3 lg3 xl3>
+      <v-flex v-for="(challenge,idx) in newChallenges" :key=idx xs6 sm3 md3 lg3 xl3>
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
             <v-card v-on="on" hover flat color="transparent" :style="{'cursor':'context-menu'}">
@@ -50,73 +50,70 @@ import heart_b from "@/assets/images/heart_b.png";
 
 export default {
   computed: {
-    ...mapGetters(["memberInfo", "entire_challenge"])
+    ...mapGetters(["memberInfo", "entire_challenge"]),
+
+    newChallenges: function () {
+      if(this.entire_challenge.data.attendance < 30) {
+        this.challenges[0].src = attendance_b
+      } else {
+        this.challenges[0].src = attendance
+      }
+
+      if(this.entire_challenge.data.teamCount < 5) {
+        this.challenges[1].src = team_b
+      } else {
+        this.challenges[1].src = team
+      }
+
+      if(this.entire_challenge.data.feedCount < 10) {
+        this.challenges[2].src = feed_b
+      } else {
+        this.challenges[2].src = feed
+      }
+
+      if(this.entire_challenge.data.commentCount < 10) {
+        this.challenges[3].src = comment_b
+      } else {
+        this.challenges[3].src = comment
+      }
+
+      if(this.memberInfo.point < 100) {
+        this.challenges[4].src = point_b
+      } else {
+        this.challenges[4].src = point
+      }
+
+      if(this.memberInfo.password.length < 10) {
+        this.challenges[5].src = security_b
+      } else {
+        this.challenges[5].src = security
+      }
+      return this.challenges
+    },
   },
   created() {
     this.$store.dispatch("GET_ENTIRECHALLENGE_INFO", this.memberInfo.memberId);
-    console.log(this.memberInfo.point);
-    console.log(this.memberInfo.password.length);
-
-    if(this.entire_challenge.attendance < 30) {
-      this.challenges[0].src = attendance_b
-    } else {
-      this.challenges[0].src = attendance
-    }
-
-    if(this.entire_challenge.teamCount < 5) {
-      this.challenges[1].src = team_b
-    } else {
-      this.challenges[1].src = team
-    }
-
-    if(this.entire_challenge.feedCount < 10) {
-      this.challenges[2].src = feed_b
-    } else {
-      this.challenges[2].src = feed
-    }
-
-    if(this.entire_challenge.commentCount < 10) {
-      this.challenges[3].src = commment_b
-    } else {
-      this.challenges[3].src = comment
-    }
-
-    if(this.memberInfo.point < 100) {
-      this.challenges[4].src = point_b
-    } else {
-      this.challenges[4].src = point
-    }
-
-    if(this.memberInfo.password.length < 10) {
-      this.challenges[5].src = security_b
-    } else {
-      this.challenges[5].src = security
-    }
   },
   data() {
     return {
       challenges: [
         {
-          src: attendance,
-          src_b: attendance_b,
+          src: "",
           title: "매일매일 개근왕",
           introduction: "30 일 출석 달성",
         },
         {
-          src: team,
-          src_b: team_b,
+          src: "",
           title: "인싸중에 인싸",
           introduction: "5 개팀 가입 달성",
         },
         {
-          src: feed,
-          src_b: feed_b,
+          src: "",
           title: "포스팅 워리어",
           introduction: "포스팅 10 개 달성",
         },
         {
-          src: comment,
-          src_b: comment_b,
+          src: "",
           title: "댓글 워리어",
           introduction: "댓글 10 개 달성",
         },

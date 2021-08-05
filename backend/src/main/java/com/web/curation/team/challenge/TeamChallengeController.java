@@ -1,6 +1,7 @@
 package com.web.curation.team.challenge;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -8,6 +9,7 @@ import com.web.curation.team.challenger.TeamChallengerDto;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,16 +19,16 @@ import com.web.curation.model.BasicResponse;
 import io.swagger.annotations.ApiOperation;
 
 @ApiResponses(value = {@ApiResponse(code = 401, message = "Unauthorized", response = BasicResponse.class),
-        @ApiResponse(code = 403, message = "Forbidden", response = BasicResponse.class),
-        @ApiResponse(code = 404, message = "Not Found", response = BasicResponse.class),
-        @ApiResponse(code = 500, message = "Failure", response = BasicResponse.class)})
+		@ApiResponse(code = 403, message = "Forbidden", response = BasicResponse.class),
+		@ApiResponse(code = 404, message = "Not Found", response = BasicResponse.class),
+		@ApiResponse(code = 500, message = "Failure", response = BasicResponse.class)})
 
 //@CrossOrigin(origins = { "http://localhost:3000" })
 @CrossOrigin(origins = {"*"}, maxAge = 6000)
 @RestController
 @AllArgsConstructor
 public class TeamChallengeController {
-    private TeamChallengeService teamChallengeService;
+	private TeamChallengeService teamChallengeService;
 
     @GetMapping("/my_teamchallenge_list/{member_id}")
     @ApiOperation(value = "내 팀 챌린지 리스트")

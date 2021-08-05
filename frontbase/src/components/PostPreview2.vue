@@ -6,9 +6,9 @@
       <v-img :src="imgPath" aspect-ratio="2.75" height="230" :alt="name"></v-img>
       <v-card-title primary-title>
         <div>
-          <h3 class="headline mb-0">{{name}}</h3>
+          <h3 class="headline mb-0">{{name.replaceAll("\"", "")}}</h3>
           <div>
-            <p class="green--text font-weight-medium">{{introduction}}</p>
+            <p class="green--text font-weight-medium">{{introduction.replaceAll("\"", "")}}</p>
           </div>
         </div>
       </v-card-title>

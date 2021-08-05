@@ -132,7 +132,7 @@ export default {
   created: function(){
     if(this.team_challenges.length>0){
       for(var i = 0; i< this.team_challenges.length;i++){
-        if(this.team_challenges[i].text.team.teamId===this.selectTeam.teamId)
+        if(this.team_challenges[i].text.teamId===this.selectTeam.teamId)
           this.items.push(this.team_challenges[i]);
       }
     }
@@ -172,6 +172,7 @@ export default {
           "contents":data.contents,
           "endDate":end_date,
           "startDate":start_date,
+          "teamChallengeId":0,
           "teamId": this.selectTeam.teamId,
           "title": data.title
         }; 

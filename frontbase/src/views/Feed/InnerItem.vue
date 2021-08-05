@@ -1,9 +1,18 @@
 <template>
   <div class="wrap">
-    <div>멤버이름</div>
-    <div class="contents">댓글내용</div>
+    <div>{{ inner.member.name }}</div>
+    <div class="contents">{{ inner.contents }}</div>
   </div>
 </template>
+
+<script>
+export default {
+  props: ["inner"],
+  data: () => {
+    return {};
+  }
+};
+</script>
 
 <style scoped>
 .wrap {

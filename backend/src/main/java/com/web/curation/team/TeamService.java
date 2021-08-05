@@ -2,31 +2,36 @@ package com.web.curation.team;
 
 
 import com.web.curation.amazonS3.S3Uploader;
-import com.web.curation.files.Photo;
+import com.web.curation.error.NotFoundDataException;
 import com.web.curation.files.PhotoAndDtoAdapter;
 import com.web.curation.files.PhotoDao;
 import com.web.curation.files.PhotoDto;
 import com.web.curation.member.Member;
+import com.web.curation.member.MemberAdapter;
 import com.web.curation.member.MemberDao;
 import com.web.curation.team.join.JoinTeam;
 import com.web.curation.team.join.JoinTeamDao;
-import lombok.AllArgsConstructor;
+import com.web.curation.team.join.JoinTeamDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
+@Transactional
 public class TeamService {
 
-    private TeamDao teamDao;
-    private JoinTeamDao joinTeamDao;
-    private MemberDao memberDao;
-    private S3Uploader s3Uploader;
-    private PhotoDao photoDao;
+    private final TeamDao teamDao;
+    private final JoinTeamDao joinTeamDao;
+    private final MemberDao memberDao;
+    private final S3Uploader s3Uploader;
+    private final PhotoDao photoDao;
+
     
 //    private FileHandler fileHandler;
 //    private PhotoService photoService;
@@ -77,28 +82,17 @@ public class TeamService {
             team = TeamAndDtoAdapter.dtoToEntity(teamDto);
         }
         teamDto.setMemberCount(1);
+        TeamDto resultTeamDto = TeamAndDtoAdapter.entityToDto(teamDao.save(team));
 
-        return TeamAndDtoAdapter.entityToDto(teamDao.save(team));
+        Optional<Team> chkTeam = Optional.ofNullable(teamDao.findById(resultTeamDto.getTeamId()).orElseThrow(NotFoundDataException::new));
+        Optional<Member> chkMember = Optional.ofNullable(memberDao.findById(resultTeamDto.getMemberId()).orElseThrow(NotFoundDataException::new));
+        JoinTeam jointeam = JoinTeam.builder()
+                .team(chkTeam.get())
+                .member(chkMember.get())
+                .build();
+        joinTeamDao.save(jointeam);
+
+        return resultTeamDto;
     }
-
-
-//    public Team registerTeam(Team team, PhotoDto savedPhoto) throws Exception{
-//
-////        List<PhotoDto> photoList = fileHandler.parseFileInfo(files);
-////        PhotoDto photoForId = new PhotoDto();
-////        if(!photoList.isEmpty()){
-////            for(PhotoDto photo : photoList){
-////                photoForId = photoService.addPhoto(photo);
-////            }
-////        }
-//        if(savedPhoto.getPhotoId() != null){
-//            team.setPhotoDto(savedPhoto);
-//        }else{
-//            team.setPhotoDto(null);
-//        }
-//        team.setMemberCount(1);
-//
-//        return teamDao.save(team);
-//    }
 
 }
