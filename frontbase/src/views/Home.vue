@@ -38,7 +38,7 @@
       caret-animation="smooth"
     ></vue-typer>
     <br />
-    <v-flex xs12 sm6 md4 lg4 xl4>
+    <v-flex xs12 sm6 md4 lg4 xl4 v-if="memberInfo === null">
       <v-card flat color="transparent" max-width="500">
         <form>
           <v-text-field
@@ -89,6 +89,8 @@
 import { VueTyper } from "vue-typer";
 import { login } from "@/api/user.js";
 import { mapState } from "vuex";
+import { mapGetters } from "vuex";
+
 import VueCompareImage from "vue-compare-image";
 import banner1 from "@/assets/images/banner1.jpg";
 import banner2 from "@/assets/images/banner2.jpg";
@@ -99,6 +101,9 @@ export default {
   components: {
     "vue-typer": VueTyper,
     VueCompareImage
+  },
+  computed: {
+    ...mapGetters(["memberInfo"])
   },
   data() {
     return {

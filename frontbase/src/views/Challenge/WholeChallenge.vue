@@ -91,9 +91,6 @@ export default {
       return this.challenges
     },
   },
-  created() {
-    this.$store.dispatch("GET_ENTIRECHALLENGE_INFO", this.memberInfo.memberId);
-  },
   data() {
     return {
       challenges: [
