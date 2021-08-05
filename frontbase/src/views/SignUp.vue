@@ -1,33 +1,6 @@
 <template>
   <v-container grid-list-xl>
     <v-layout row justify-center align-center wrap class="mt-4 pt-2">
-      <!-- <v-flex xs12 sm12 md6 lg6 xl6>
-        <h2 class="pb-4 mt-2">
-          <span>GetIn</span>
-          <span class="green--text">Touch</span>
-        </h2>
-        <div class="py-4 subheading font-weight-bold">
-          <v-icon large color="green" left>fas fa-map-marker-alt</v-icon>
-          <span>Doboj,&nbsp;</span>
-          <span class="green--text">Bosnia & Herzegovina</span>
-        </div>
-        <div class="py-4 subheading font-weight-bold">
-          <v-icon large color="green" left>fas fa-envelope</v-icon>
-          <span>eldin@</span>
-          <span class="green--text">zaimovic.com</span>
-        </div>
-        <div class="py-4 subheading font-weight-bold">
-          <v-icon large color="green" left>fas fa-phone</v-icon>
-          <span>+387&nbsp;</span>
-          <span class="green--text">61 596 676</span>
-        </div>
-        <div class="py-4 subheading font-weight-bold">
-          <v-icon large color="green" left>fas fa-check</v-icon>
-          <span>Freelance</span>
-          <span class="green--text">Available</span>
-        </div>
-      </v-flex> -->
-
       <v-flex xs12 sm12 md6 lg6 xl6>
         <h2 class="pb-4 mb-4">
           <span>Sign</span>
@@ -53,6 +26,17 @@
             :error-messages="emailErrors"
             label="E-mail"
           ></v-text-field>
+
+          <v-btn @click="authentic()">인증</v-btn>
+
+          <v-text-field
+            name="num"
+            color="green"
+            background-color="transparent"
+            v-model="num"
+            label="인증번호"
+          ></v-text-field>
+          <v-btn @click="certify()">확인</v-btn>
 
           <v-text-field
             name="member.phone"
@@ -151,6 +135,8 @@ export default {
   },
   data() {
     return {
+      num:"",
+      authenticFlag:false,
       passwordConfirm:"",
       sexList: [
         { name: "남자", value: "M" },
@@ -204,6 +190,10 @@ export default {
   },
   methods: {
     submit() {
+      if(!this.authenticFlag){
+        alert("인증먼저해주세요");
+        return;
+      }
       this.member.sex = this.sex.value;
       this.member.mbti = this.mbti.value;
       const instance = createInstance();
@@ -267,6 +257,44 @@ export default {
       });
       this.isSubmit = isSubmit;
     },
+    authentic(){
+      const instance = createInstance();
+      instance.post("/email/send?"+"member_email="+this.member.email)
+        .then(
+          (response) => {
+            console.log(response);
+            if (response.data.message === "success") {
+              alert("인증번호가 전송되었습니다.");
+            } else {
+              alert("인증번호 전송에 실패하였습니다.");
+            }
+          }
+        )
+        .catch(() =>{
+          alert("실패하셨습니다.");
+        });
+    },
+    certify(){
+      const instance = createInstance();
+      instance.get("/email/certified?"+"num="+this.num)
+        .then(
+          (response) => {
+            console.log(response);
+            if (response.data.message === "success") {
+              this.authenticFlag=true;
+              alert("인증완료 되었습니다");
+            } else {
+              alert("인증 실패하였습니다. 다시 인증해주세요.");
+            }
+          }
+        )
+        .catch(() =>{
+          alert("실패하셨습니다.");
+        });
+    },
+    check(){
+      console.log(this.authenticFlag);
+    }
   },
   computed: {
     nameErrors() {
