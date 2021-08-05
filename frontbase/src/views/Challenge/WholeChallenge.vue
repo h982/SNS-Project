@@ -7,7 +7,7 @@
           <span class="green--text"><b>&nbsp;챌린지</b></span>
         </h2>
       </v-flex>
-      <v-flex v-for="(challenge,idx) in challenges" :key=idx xs6 sm3 md3 lg3 xl3>
+      <v-flex v-for="(challenge,idx) in newChallenges" :key=idx xs6 sm3 md3 lg3 xl3>
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
             <v-card v-on="on" hover flat color="transparent" :style="{'cursor':'context-menu'}">
@@ -50,46 +50,49 @@ import heart_b from "@/assets/images/heart_b.png";
 
 export default {
   computed: {
-    ...mapGetters(["memberInfo", "entire_challenge"])
+    ...mapGetters(["memberInfo", "entire_challenge"]),
+
+    newChallenges: function () {
+      if(this.entire_challenge.data.attendance < 30) {
+        this.challenges[0].src = attendance_b
+      } else {
+        this.challenges[0].src = attendance
+      }
+
+      if(this.entire_challenge.data.teamCount < 5) {
+        this.challenges[1].src = team_b
+      } else {
+        this.challenges[1].src = team
+      }
+
+      if(this.entire_challenge.data.feedCount < 10) {
+        this.challenges[2].src = feed_b
+      } else {
+        this.challenges[2].src = feed
+      }
+
+      if(this.entire_challenge.data.commentCount < 10) {
+        this.challenges[3].src = comment_b
+      } else {
+        this.challenges[3].src = comment
+      }
+
+      if(this.memberInfo.point < 100) {
+        this.challenges[4].src = point_b
+      } else {
+        this.challenges[4].src = point
+      }
+
+      if(this.memberInfo.password.length < 10) {
+        this.challenges[5].src = security_b
+      } else {
+        this.challenges[5].src = security
+      }
+      return this.challenges
+    },
   },
   created() {
     this.$store.dispatch("GET_ENTIRECHALLENGE_INFO", this.memberInfo.memberId);
-
-    if(this.entire_challenge.data.attendance < 30) {
-      this.challenges[0].src = attendance_b
-    } else {
-      this.challenges[0].src = attendance
-    }
-
-    if(this.entire_challenge.data.teamCount < 5) {
-      this.challenges[1].src = team_b
-    } else {
-      this.challenges[1].src = team
-    }
-
-    if(this.entire_challenge.data.feedCount < 10) {
-      this.challenges[2].src = feed_b
-    } else {
-      this.challenges[2].src = feed
-    }
-
-    if(this.entire_challenge.data.commentCount < 10) {
-      this.challenges[3].src = comment_b
-    } else {
-      this.challenges[3].src = comment
-    }
-
-    if(this.memberInfo.point < 100) {
-      this.challenges[4].src = point_b
-    } else {
-      this.challenges[4].src = point
-    }
-
-    if(this.memberInfo.password.length < 10) {
-      this.challenges[5].src = security_b
-    } else {
-      this.challenges[5].src = security
-    }
   },
   data() {
     return {
