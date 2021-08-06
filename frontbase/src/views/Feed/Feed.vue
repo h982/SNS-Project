@@ -25,7 +25,6 @@ export default {
     this.$store.dispatch("GET_MY_TEAM_INFO",this.memberInfo.memberId);
     this.$store.dispatch("getTeamLists");
     this.$store.dispatch("GET_ENTIRECHALLENGE_INFO", this.memberInfo.memberId);
-    this.$store.dispatch("GET_TEAMCHALLENGEING_INFO", this.memberInfo.memberId);
 
 
     //console.log(this.managingTeam.data.object[0].joinTeam.team.teamId);
