@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <v-layout >
+  <b-container>
+      <v-layout >
       <v-bottom-navigation
         class="mx-auto"
         shift
@@ -12,43 +12,46 @@
 
     <br>
     <br>
-    <h1 class="underline">게시글</h1>
-    <div style="text-align: right">
-      <button @click="movePage">글 등록</button>
-    </div>
-    <div v-if="books.length">
-      <table id="book-list">
-        <colgroup>
-          <col style="width: 10%" />
-          
-          <col style="width: 45%" />
-          <col style="width: 25%" />
-          <col style="width: 20%" />
-        </colgroup>
-        <thead>
-          <tr>
-            <th>번호</th>
-            <th>제목</th>
-            <th>글쓴이</th>
-            <th>날짜</th>
-          </tr>
-        </thead>
-        <tbody>
-          <list-row
-            v-for="(book, index) in books"
-            :key="index"
-            :isbn="book.isbn"
-            :no="`${index + 1}`"
-            :title="book.title"
-            :author="book.author"
-            :price= "book.Number"
-            :joindate="book.joindate"
-          />
-        </tbody>
-      </table>
-    </div>
-    <div v-else class="text-center">게시글이 없습니다.</div>
-  </div>
+
+      <v-layout column justify-center class="mt-4 pt-2">
+        <b-row class="mt-5">
+            <b-col class="text-left">
+                <b-input-group class="mb-2">
+                    <b-input-group-prepend is-text>
+                        <b-icon icon="search"></b-icon>
+                    </b-input-group-prepend>
+                    <b-input type="text" v-model.lazy="word" placeholder="제목으로 검색" />
+                </b-input-group>
+            </b-col>
+            <b-col class="text-right">
+                <b-button pill class="btn-main" @click="movePage">글쓰기</b-button>
+            </b-col>
+        </b-row>
+        <div v-if="noticeItems.length" class="text-center">
+            <b-table
+                hover
+                id="list_table"
+                :items="filtered"
+                :per-page="perPage"
+                :current-page="currentPage"
+                :fields="fields"
+                :sort-by.sync="sortBy"
+                :sort-desc.sync="sortDesc"
+                @row-clicked="moveDetail"
+            >
+            </b-table>
+            <b-pagination
+                align="center"
+                v-model="currentPage"
+                :total-rows="rows"
+                :per-page="perPage"
+                aria-controls="list_table"
+            ></b-pagination>
+        </div>
+        <div v-else>글이 없습니다.</div>
+        <b-button id="up" @click="pageUp">▲</b-button>
+        </v-layout>
+    </b-container>
 </template>
 
 <script>
@@ -57,37 +60,106 @@ import ListRow from "@/components/board/include/ListRow.vue";
 import TeamHeader from '@/components/TeamHeader.vue';
 
 export default {
-  name: "booklist",
+  name: "board",
   components: {
     ListRow,
     TeamHeader
   },
-  computed: {
-    ...mapGetters(["books"])
-  },
-  created() {
-    this.$store.dispatch("getBooks");
-  },
-  methods: {
-    movePage() {
-      this.$router.push({ name: "book-create" });
+   data: function () {
+        return {
+            word: "",
+            perPage: 10,
+            currentPage: 1,
+            sortBy: 'boardid',
+            sortDesc: true,
+
+            fields: [
+                { key: "boardId", label: "번호", thStyle: { width: "10%" }, sortable:true},
+                { key: "writer", label: "작성자", thStyle: { width: "20%" } },
+                { key: "title", label: "제목", thStyle: { width: "50%" } },
+                {
+                    key: "writeDate",
+                    label: "작성일",
+                    thStyle: { width: "20%" },
+                    formatter: "getFormatDate",
+                    sortable: true,
+                },
+            ],
+        };
     },
-    moveMain(){
-      this.$router.push("/teammain");
+    computed: {
+        ...mapGetters(["noticeItems","selectTeam"]),
+        filtered: function () {
+            var stitle = this.word.trim();
+            return this.noticeItems.filter(function (item) {
+                if (item.title.indexOf(stitle) > -1) {
+                    return true;
+                }
+            });
+        },
+        rows() {
+            return this.filtered.length;
+        },
     },
-    moveTeamChallenge(){
-      this.$router.push("/teamChallenge");
+    created() {
+      console.log(this.selectTeam.teamId);
+        this.$store.dispatch("getNoticeItems",this.selectTeam.teamId);
     },
-    moveBoard(){
-      this.$router.push("/board");
+    methods: {
+        movePage() {
+            this.$router.push("/board/create");
+        },
+        search(e) {
+            this.word = e.target.value;
+        },
+        pageUp() {
+            window.scrollTo(0, 100);
+        },
+        moveDetail(e) {
+            //console.log(this);
+            // console.log(e);
+            this.$router.push(`/board/view?boardId=` + e.boardId);
+        },
+        // getFormatDate(regtime) {
+        //     return moment(new Date(regtime)).format("YYYY.MM.DD");
+        // },
+
+        moveMain(){
+          this.$router.push("/teammain");
+        },
+        moveTeamChallenge(){
+          this.$router.push("/teamChallenge");
+        },
+        moveBoard(){
+          this.$router.push("/board");
+        },
+        moveChattingRoom(){
+          this.$router.push("/chattingroom");
+        },
+        moveTeamFeed(){
+          this.$router.push("/teamFeed");
+        }
     },
-    moveChattingRoom(){
-      this.$router.push("/chattingroom");
-    },
-    moveTeamFeed(){
-      this.$router.push("/teamFeed");
-    }
-  }
+  // methods: {
+  //   movePage() {
+  //     this.$router.push({ name: "book-create" });
+  //   },
+  //   moveMain(){
+  //     this.$router.push("/teammain");
+  //   },
+  //   moveTeamChallenge(){
+  //     this.$router.push("/teamChallenge");
+  //   },
+  //   moveBoard(){
+  //     this.$router.push("/board");
+  //   },
+  //   moveChattingRoom(){
+  //     this.$router.push("/chattingroom");
+  //   },
+  //   moveTeamFeed(){
+  //     this.$router.push("/teamFeed");
+  //   }
+  // }
 };
 </script>
 

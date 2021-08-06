@@ -1,6 +1,6 @@
 <template>
   <div>
-    <write-form type="create" />
+    <write-form  type ="create" boardtype="notice"/>
   </div>
 </template>
 
@@ -8,7 +8,7 @@
 import WriteForm from "@/components/board/include/WriteForm.vue";
 
 export default {
-  name: "bookcreate",
+  name: "boardcreate",
   components: {
     WriteForm
   }

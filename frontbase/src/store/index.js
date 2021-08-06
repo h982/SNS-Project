@@ -25,6 +25,10 @@ export default new Vuex.Store({
         selectTeam: {},
         team_challenging:[], //내가 진행중인 챌린지
         entire_challenge: [], // 공통 챌린지
+
+        // 공지사항
+        noticeItems: [],
+        noticeItem: {},
     },
 
     getters: {
@@ -67,6 +71,12 @@ export default new Vuex.Store({
         entire_challenge(state)  {
             return state.entire_challenge;
         },
+        noticeItems(state) {
+            return state.noticeItems;
+          },
+          noticeItem(state) {
+            return state.noticeItem;
+          },
     },
     mutations: {
         setIsLogined(state, isLogin) {
@@ -138,6 +148,13 @@ export default new Vuex.Store({
         SET_ENTIRECHALLEGE(state, payload) {
             state.entire_challenge = payload;
         },
+
+        setNoticeItems(state, payload) {
+            state.noticeItems = payload;
+          },
+          setNoticeItem(state, payload) {
+            state.noticeItem = payload;
+          },
     },
     actions: {
         async GET_MEMBER_INFO({ commit }, token) {
@@ -193,7 +210,7 @@ export default new Vuex.Store({
                     context.commit("SET_TEAMCHALLENGE", data.data.object);
                 })
                 .catch(() => {
-                    
+
                 });
         },
 
@@ -205,7 +222,7 @@ export default new Vuex.Store({
                     context.commit("SET_TEAMCHALLENGER", response.data.object);
                 })
                 .catch(() => {
-                    
+
                 });
         },
 
@@ -296,5 +313,17 @@ export default new Vuex.Store({
                 console.log("에러발생");
             });
         },
+
+        getNoticeItems({ commit },teamId) {
+            http.get("/board/"+teamId).then(({ data }) => {
+              commit("setNoticeItems", data);
+            });
+          },
+          getNoticeItem({ commit }, boardid) {
+            http.get(boardid).then(({ data }) => {
+              //console.log("getItem : " + data)
+              commit("setNoticeItem", data);
+            });
+          },
     }
 });
