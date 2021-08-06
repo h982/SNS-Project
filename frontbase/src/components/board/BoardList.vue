@@ -170,7 +170,7 @@ export default {
 }
 
 #book-list thead {
- 
+
   font-weight: bold;
 }
 
@@ -181,5 +181,32 @@ export default {
   height: 50px;
 }
 
-
+#up {
+    position: fixed;
+    right: 50px;
+    bottom: 80px;
+    opacity: 0.5;
+    border-radius: 100%;
+}
+#list_table th {
+    background-color: #5a7d67;
+    color: white;
+}
+.btn-main {
+    background-color: #5a7d67 !important;
+}
+.page-item button {
+    color: #5a7d67;
+}
+.page-item.active button {
+    background-color: #5a7d67 !important;
+    border-color: #5a7d67 !important;
+}
+.page-link {
+    font-family: Arial, Helvetica, sans-serif !important;
+}
+#noticeTitle {
+    font-weight: bold;
+    margin-top: 72px;
+}
 </style>

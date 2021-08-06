@@ -1,12 +1,9 @@
 <template>
   <b-tr class="list-tr">
-    <b-td v-if="boardtype=='notice'">{{ boardid }}</b-td>
-    <b-td>{{ userId }}</b-td>
+    <b-td v-if="boardtype=='notice'">{{ boardId }}</b-td>
+    <b-td>{{ writer }}</b-td>
     <b-td v-if="boardtype == 'notice'">
-      <router-link :to="`/notice-view?boardid=${boardid}`" boardtype="notice" class="list-title">{{ title }}</router-link>
-    </b-td>
-    <b-td v-else-if="boardtype == 'qna'">
-      <router-link :to="`/qna-view?no=${no}`" boardtype="qna" class="list-title">{{ title }}</router-link>
+      <router-link :to="`/notice-view?boardid=${boardId}`" boardtype="notice" class="list-title">{{ title }}</router-link>
     </b-td>
     <b-td>{{ writeDate }}</b-td>
     <!-- <b-td v-if="ansYes">Y</b-td>

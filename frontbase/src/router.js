@@ -19,7 +19,7 @@ export default new Router({
   mode: "history",
   base: process.env.BASE_URL,
 
-  
+
   routes: [
     {
       path: "/",
@@ -36,13 +36,13 @@ export default new Router({
       path: "/myteam",
       name: "myteam",
       component: MyTeam
-        
+
     },
     {
       path: "/mypage",
       name: "mypage",
       component: MyPage
-        
+
     },
     {
       path: "/teammake",
@@ -68,7 +68,7 @@ export default new Router({
       component: () =>
         import(/* webpackChunkName: "about" */ "./views/Blog.vue")
     },
-    
+
     {
       path: "/services",
       name: "services",
@@ -83,7 +83,7 @@ export default new Router({
           /* webpackChunkName: "about" */ "./views/Portfolio/Portfolio.vue"
         )
     },
-    
+
     {
       path: "/portfolio/graphic",
       name: "graphicPortfolio",
@@ -165,7 +165,7 @@ export default new Router({
       name: "ChallengeMake",
       path: "/challengemake",
       component: ChallengeMake
-      
+
     },
 
     {
@@ -208,17 +208,13 @@ export default new Router({
           name: "board-view",
           component: () => import("@/components/board/BoardView.vue")
         },
-        {
-          path: "/modify/:boardId",
-          name: "board-modify",
-          component: () => import("@/components/board/BoardModify.vue")
-        },
-        
+
+
       ],
       redirect: () => {
         return "/board";
       }
     },
-    
+
   ]
 });
