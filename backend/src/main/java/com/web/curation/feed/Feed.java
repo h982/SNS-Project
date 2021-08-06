@@ -1,25 +1,21 @@
 package com.web.curation.feed;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.web.curation.files.Photo;
+import com.web.curation.team.challenge.TeamChallenge;
+import com.web.curation.team.join.JoinTeam;
+
+import lombok.*;
+
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.*;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.web.curation.files.PhotoDto;
-import com.web.curation.member.Member;
-import com.web.curation.team.challenge.TeamChallenge;
-import com.web.curation.team.join.JoinTeam;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 @Entity
-@Data
+@Getter
+@Setter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -29,7 +25,7 @@ public class Feed {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int feedId;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "TEAMCHALLENGE_ID")
 	private TeamChallenge teamchallenge;
 
@@ -51,6 +47,6 @@ public class Feed {
 
 	@OneToMany
 	@JoinColumn(name = "feed_id")
-	private List<PhotoDto> photos = new ArrayList<>();
+	private List<Photo> photos = new ArrayList<>();
 
 }

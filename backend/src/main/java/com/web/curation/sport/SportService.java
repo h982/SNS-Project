@@ -3,6 +3,7 @@ package com.web.curation.sport;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -11,11 +12,17 @@ public class SportService {
     private SportDao sportDao;
 
     public List<SportDto> getSportList(){
-        return sportDao.findAll();
+        List<Sport> sportList = sportDao.findAll();
+        List<SportDto> responseSports = new ArrayList<>();
+        for(Sport sport: sportList){
+            SportDto sportDto = SportAndDtoAdapter.entityToDto(sport);
+            responseSports.add(sportDto);
+        }
+        return responseSports;
     }
 
     public SportDto getSportOne(int sportId){
-        return sportDao.findById(sportId);
+        return SportAndDtoAdapter.entityToDto(sportDao.findById(sportId));
     }
 
 }

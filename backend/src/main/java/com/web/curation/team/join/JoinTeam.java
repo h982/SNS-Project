@@ -11,8 +11,8 @@ import javax.persistence.ManyToOne;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.web.curation.member.Member;
-import com.web.curation.team.TeamDto;
-import com.web.curation.team.challenge.TeamChallenge;
+import com.web.curation.team.Team;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,7 +32,7 @@ public class JoinTeam {
 	
 	@ManyToOne
 	@JoinColumn(name = "TEAM_ID")
-	private TeamDto team;
+	private Team team;
 	
 	@ManyToOne
 	@JoinColumn(name = "MEMBER_ID")

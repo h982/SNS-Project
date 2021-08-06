@@ -3,12 +3,12 @@
   
     <v-card @click="enrollCntTeam()" hover>
     
-      <v-img :src="imgPath" aspect-ratio="2.75" height="230" :alt="title"></v-img>
+      <v-img :src="imgPath" aspect-ratio="2.75" height="230" :alt="name"></v-img>
       <v-card-title primary-title>
         <div>
-          <h3 class="headline mb-0">{{name}}</h3>
+          <h3 class="headline mb-0">{{name.replaceAll("\"", "")}}</h3>
           <div>
-            <p class="green--text font-weight-medium">{{introduction}}</p>
+            <p class="green--text font-weight-medium">{{introduction.replaceAll("\"", "")}}</p>
           </div>
         </div>
       </v-card-title>
@@ -39,23 +39,34 @@ export default {
       required: true
     },
     teamId: {
-      type: String,
+      type: Number,
       required: true
     },
     selectMyTeam:{
       type: Object,
+      required:true
+    },
+    leader:{
+      type:String,
       required:true
     }
   },
   methods: {
     enrollCntTeam(){
       console.log(this.selectMyTeam);
-      this.$store.dispatch("SET_SELECT_TEAM",this.selectMyTeam).then(()=>{
+      const body = {
+        name: this.name,
+        introduction: this.introduction,
+        leader: this.leader,
+        teamId: this.teamId,
+        photoDto:{
+          filePath : this.imgPath,
+        }
+      };
+      this.$store.dispatch("SET_SELECT_TEAM", body).then(()=>{
         this.$router.replace("/teammain");
       });
-      //this.selectTeam=this.selectMyTeam;
       console.log(this.selectTeam);
-      //alert(this.selectMyTeam);
     }
     
   },

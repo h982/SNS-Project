@@ -1,14 +1,15 @@
 package com.web.curation.request;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Builder;
+
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
+
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,12 +24,13 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.web.curation.member.Member;
-import com.web.curation.team.TeamDto;
+import com.web.curation.team.Team;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Data
+@Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -39,7 +41,7 @@ public class Request {
 
 	@ManyToOne
 	@JoinColumn(name = "Team_id", nullable = false)
-	private TeamDto team;
+	private Team team;
 
 	@ManyToOne
 	@JoinColumn(name = "Member_id", nullable = false)

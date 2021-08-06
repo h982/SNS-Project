@@ -1,46 +1,40 @@
 package com.web.curation.feed.comment;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.web.curation.feed.Feed;
 import com.web.curation.member.Member;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
-@Data
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Comment {
 
 	@Id
-	@Column(name="COMMANT_ID")
+	@Column(name="comment_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int commentId;
 	
 	@ManyToOne
-	@JoinColumn(name = "PARENT_ID")
+	@JoinColumn(name = "parent_id")
 	private Comment parent;
 	
 	@ManyToOne
-	@JoinColumn(name = "FEED_ID")
+	@JoinColumn(name = "feed_id")
 	private Feed feed;
 	
 	@ManyToOne
-	@JoinColumn(name = "MEMBER_ID", insertable = false, updatable = false)
+	@JoinColumn(name = "member_id")
 	private Member member;
 	
 	@Column(nullable = false, length = 255)
@@ -49,10 +43,13 @@ public class Comment {
 	@Column(nullable = false, name="class")
 	private int className;
 	
-	@Column(nullable = false)
+	@Column(name ="`order`" ,nullable = false)
 	private int order;
 	
-	@Column(insertable= false, updatable = false)
-	private LocalDateTime create_date;
+	@Column(name = "create_date", insertable= false, updatable = false)
+	private LocalDateTime createDate;
+
+//	@OneToMany(mappedBy = "parent")
+//	private List<Comment> coComments = new ArrayList<>();
 	
 }

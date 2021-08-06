@@ -3,40 +3,24 @@
 
     <v-layout >
       <v-bottom-navigation
+        v-if="teamcheck === true"
         class="mx-auto"
         shift
         x-large
       >
-        <v-btn color="secondary" @click="moveMain">
-          <i class="fas fa-address-card fa-2x"></i>
-          <div>&nbsp;&nbsp;&nbsp;정보</div>
-        </v-btn>
-
-        <v-btn color="success" @click="moveTeamFeed">
-          <i class="fas fa-clipboard fa-2x"></i>
-          <div>&nbsp;&nbsp;&nbsp;피드</div>
-        </v-btn>
-
-        <v-btn color="primary" @click="moveBoard">
-          <i class="fas fa-check fa-2x" ></i>
-          <div>&nbsp;&nbsp;&nbsp;공지사항</div>
-        </v-btn>
+      <team-header />
         
-        <v-btn color="warning" @click="moveChattingRoom">
-          <i class="fas fa-comments fa-2x"></i>
-          <div>&nbsp;&nbsp;&nbsp;채팅</div>
-        </v-btn>
-
-        <v-btn color="error"  @click="moveTeamChallenge">
-          <i class="fas fa-trophy fa-2x"></i>
-          <div>&nbsp;&nbsp;&nbsp;챌린지</div>
-        </v-btn>
       </v-bottom-navigation>
     </v-layout>
     <v-layout column justify-center class="mt-4 pt-2">
       <h1 class="text-xs-center mb-4 pb-2">{{selectTeam.name.replaceAll("\"", "")}}</h1>
       <br>
-      <v-img :src="selectTeam.photoDto.filePath" aspect-ratio="2.75" height="330" contain></v-img>
+      <div v-if="selectTeam.photoDto === null">
+        <v-img :src="thumbnail1" aspect-ratio="2.75" height="330" contain></v-img>
+      </div>
+      <div v-else>
+        <v-img :src="selectTeam.photoDto.filePath" aspect-ratio="2.75" height="330" contain></v-img>
+      </div>
       <v-layout column justify-center align-center class="mt-4 pt-2">
         <h2>팀 소개</h2>
         <v-flex wrap justify-center align-center class="textbox">
@@ -50,9 +34,17 @@
         <p>{{selectTeam.leader.replaceAll("\"", "")}}</p>
         <br>
         <br>
-        <v-btn @click="join" type="button" color="green" class="white--text">가입하기</v-btn>
+        <v-btn
+          v-if="selectTeam.memberId != memberInfo.memberId && teamcheck === false"
+          @click="join"
+          type="button"
+          color="green"
+          class="white--text"
+        >가입하기
+        </v-btn>
       </v-layout>
       <v-btn
+        v-if="selectTeam.memberId != memberInfo.memberId && teamcheck === false"
         color="secondary"
         @click="join"
         elevation="7"
@@ -62,33 +54,46 @@
         x-small
         class="join"
       ><i class="fas fa-sign-in-alt fa-2x"></i>
-      </v-btn>
+      </v-btn> 
       <br>
       <br>
-      <v-btn large flat to="/teamlist" class="green--text">
-        <v-icon>arrow_back</v-icon>Back to Teamlist
-      </v-btn>
+      <v-layout>
+        <v-btn large flat to="/teamlist" class="green--text">
+          <v-icon>arrow_back</v-icon>Back to Teamlist
+        </v-btn>
+      </v-layout>
     </v-layout>
   </v-container>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
-import TeamHeader from "@/components/TeamHeader"
+import TeamHeader from "@/components/TeamHeader.vue"
 import { createInstance } from "@/api/index.js";
+import thumbnail1 from "@/assets/images/thumbnail.jpg";
 
 export default {
   computed:{
-    ...mapGetters(["selectTeam","memberInfo","myTeamList"]),
+    ...mapGetters(["selectTeam","memberInfo","myTeamList","team_challenges","team_challenging"]),
   },
   created() {
-    console.log(this.selectTeam);
-    // console.log(this.memberInfo);
     this.$store.dispatch("GET_MY_TEAM_INFO",this.memberInfo.memberId);
-    console.log(this.myTeamList);
+    this.teamchecking();
+    console.log(this.teamcheck);
+    // console.log(this.selectTeam);
+    // console.log(this.myTeamList);
+    this.$store.dispatch("GET_TEAMCHALLENGE_INFO", this.memberInfo.memberId);
+    const token={
+      memberId: this.memberInfo.memberId,
+      teamId:this.selectTeam.teamId
+    };
+    this.$store.dispatch("GET_TEAMCHALLENGER_INFO", token);  
+
   },
   data() {
     return {
+      teamcheck: false,
+      thumbnail1: thumbnail1,
     };
   },
   components: {
@@ -108,7 +113,8 @@ export default {
       })
       .then(
         (response) => {
-          if (response.data.message === "success") {
+          console.log(response);
+          if (response.status === 201) {
             alert("가입 요청 완료");
           } else {
             alert("가입 요청 실패");
@@ -116,13 +122,15 @@ export default {
         }
       )
       .catch(() => {
-        alert("에러");
+        alert("요청된 신청입니다");
       });
     },
     moveMain(){
       this.$router.push("/teammain");
     },
     moveTeamChallenge(){
+      //alert(this.memberInfo.memberId);
+      this.$store.dispatch("GET_TEAMCHALLENGE_INFO", this.memberInfo.memberId);
       this.$router.push("/teamChallenge");
     },
     moveBoard(){
@@ -134,6 +142,18 @@ export default {
     moveTeamFeed(){
       this.$router.push("/teamFeed");
     },
+    teamchecking() {
+      for(let i=0; i<this.myTeamList.length; i++) {
+        if (this.myTeamList[i].value.teamId === this.selectTeam.teamId) {
+          this.teamcheck = true;
+          break;
+        }
+      }
+    },
+    check(){
+      console.log(this.selectTeam);
+      console.log(this.team_challenging);
+    }
   },
 }
 </script>

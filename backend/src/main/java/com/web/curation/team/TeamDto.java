@@ -1,66 +1,40 @@
 package com.web.curation.team;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.web.curation.files.Photo;
 import com.web.curation.files.PhotoDto;
 import com.web.curation.member.Member;
-import com.web.curation.request.Request;
+import com.web.curation.sport.Sport;
 import com.web.curation.sport.SportDto;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.DynamicInsert;
+import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.*;
-import java.nio.file.FileStore;
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
-@Entity
-@Data
-@Table(name = "Team")
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@DynamicInsert
-@Builder(builderMethodName = "TeamDtoBuilder")
+@Valid
+@Builder
 public class TeamDto {
-
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "team_id")
-    private long teamId;
-
+    @NotEmpty
     private String name;
-
+    @NotEmpty
     private String introduction;
-
     private String leader;
+    private int memberId;
+    private int sportId;
+    private MultipartFile multipartFile;
 
-    @Column(name = "member_count")
-    @ColumnDefault("1")
-    @JsonIgnore
+    private Integer teamId;
     private int memberCount;
-
-    @Column(name = "img_path")
     private String imgPath;
-
-    @JsonIgnore
-    @Column(columnDefinition="DATETIME default CURRENT_TIMESTAMP")
     private LocalDateTime createDate;
 
-    //참조키
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "sport_id")
-    private SportDto sportDto;
-    
-    public TeamDto(int teamId) {
-    	this.teamId = teamId;
-    }
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "photo_id")
+    private Integer photoId;
     private PhotoDto photoDto;
+    private SportDto sportDto;
 
 }

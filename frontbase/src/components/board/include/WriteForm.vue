@@ -1,120 +1,207 @@
 <template>
-  
-  <div class="regist">
+  <div>
+        <b-container>
+<v-layout >
+      <v-bottom-navigation
+        class="mx-auto"
+        shift
+        x-large
+      >
+      <team-header />
+      </v-bottom-navigation>
+    </v-layout>
+
     <br>
     <br>
-    <h1 class="underline">게시판 
-      <template v-if="type == 'create'">글등록</template>
-      <template v-else >수정</template>
-    </h1>
-    <div>
-      <!-- <label for="isbn">글번호</label>
-      <input v-if="type == 'create'" type="text" id="isbn" name="isbn" v-model="isbn" ref="isbn" /> -->
-      <!-- <input v-else type="text" id="isbn" name="isbn" v-model="isbn" ref="isbn" readonly /><br /> -->
-      <label for="title">제목</label>
-      <input type="text" id="title" name="title" v-model="title" ref="title" /><br />
-      <label for="author">글쓴이</label>
-      <input type="text" id="author" name="author" v-model="author" ref="author" /><br />
-      <label for="content">내용</label><br />
-      <textarea id="content" name="content" v-model="content" ref="content" cols="35" rows="5"></textarea><br />
-      <button v-if="type == 'create'" @click="checkValue" style="padding-right:10px">등록</button>
-      <button v-else @click="checkValue" style="padding-right:10px">수정</button>
-      <button @click="moveList">목록</button>
+            <b-card bg-variant="light">
+                <b-form-group
+                    label-cols-lg="3"
+                    label="✏입력"
+                    label-size="lg"
+                    label-class="font-weight-bold pt-0"
+                    class="mb-0 mt-2 ml-3"
+                >
+                    <b-form-group>
+                        <label for="userId">작성자</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            ref="writer"
+                            v-bind:value="memberInfo.name"
+                            readonly
+                        />
+                    </b-form-group>
+                    <b-form-group>
+                        <label for="title">제목</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            ref="title"
+                            placeholder="제목을 입력하세요"
+                            v-model="title"
+                        />
+                    </b-form-group>
+                    <b-form-group>
+                        <label for="content">내용</label>
+                        <b-textarea
+                            type="text"
+                            class="form-control"
+                            ref="contents"
+                            placeholder="내용을 입력하세요"
+                            v-model="contents"
+                            rows="5"
+                        ></b-textarea>
+                    </b-form-group>
+                    <div class="text-right">
+                        <b-button
+                            variant="success"
+                            class="mr-2"
+                            v-if="type == 'create'"
+                            @click="checkHandler"
+                            >등록</b-button
+                        >
+                        <b-button variant="success" class="mr-2" v-else @click="checkHandler"
+                            >수정</b-button
+                        >
+                        <b-button @click="moveList">목록</b-button>
+                    </div>
+                </b-form-group>
+            </b-card>
+        </b-container>
     </div>
-  </div>
 </template>
 
 <script>
 import http from "@/util/http-common";
-
+import { mapGetters } from "vuex";
+import TeamHeader from '@/components/TeamHeader.vue';
 export default {
   name: "writeform",
+  components: {
+    TeamHeader
+  },
   props: {
     type: { type: String }
   },
-  data() {
-    return {
-      isbn: "",
-      title: "",
-      author: "",
-      price: "",
-      content: "",
-      joindate:"",
-    };
-  },
-  created() {
-    if (this.type === "modify") {
-      http.get(`book/${this.$route.params.isbn}`).then(({ data }) => {
-        this.isbn = data.isbn;
-        this.title = data.title;
-        this.author = data.author;
-        this.price = data.price;
-        this.content = data.content;
-        this.joindate = data.joindate;
-      });
-    }
-  },
-  methods: {
-    // 입력값 체크하기 - 체크가 성공하면 registBook 호출
-    checkValue() {
-      // 사용자 입력값 체크하기
-      // isbn, 제목, 저자, 가격, 설명이 없을 경우 각 항목에 맞는 메세지를 출력
-      let err = true;
-      let msg = "";
-      
-      
-      err && !this.title && ((msg = "제목 입력해주세요"), (err = false), this.$refs.title.focus());
-      err && !this.author && ((msg = "저자 입력해주세요"), (err = false), this.$refs.author.focus());
-      err && !this.content && ((msg = "내용 입력해주세요"), (err = false), this.$refs.content.focus());
+  props: {
+        type: { type: String },
+        boardtype: { boardtype: String },
+    },
+    data: function () {
+        return {
+            boardT: "",
+            boardId: Number(),
+            writeDate: "",
+            writer: "",
+            title: "",
+            contents: "",
+            teamId: Number(),
+        };
+    },
+    computed: {
+        ...mapGetters(["noticeItem", "memberInfo","selectTeam"]),
+    },
+    methods: {
+        checkHandler() {
+            this.writer = this.memberInfo.name;
+            let err = true;
+            let msg = "";
+            !this.writer &&
+                ((msg = "작성자를 입력해주세요"), (err = false), this.$refs.writer.focus());
+            err &&
+                !this.title &&
+                ((msg = "제목 입력해주세요"), (err = false), this.$refs.title.focus());
+            err &&
+                !this.contents &&
+                ((msg = "내용 입력해주세요"), (err = false), this.$refs.contents.focus());
 
-      if (!err) alert(msg);
-      // 만약, 내용이 다 입력되어 있다면 registBook 호출
-      else this.type == "create" ? this.registBook() : this.modifyBook();
+            if (!err) alert(msg);
+            else {
+                this.type == "create" ? this.createHandler() : this.updateHandler();
+            }
+        },
+        createHandler() {
+            // 공지사항 글쓰기
+            this.teamId = this.selectTeam.teamId;
+                http.post("/board", {
+                    teamId: this.teamId,
+                    title: this.title,
+                    contents: this.contents,
+                    writer:this.writer,
+                })
+                    .then(({ data }) => {
+                        let msg = "등록 처리시 문제가 발생했습니다.";
+                        //console.log(data);
+                        if (data.data === "success") {
+                            msg = "등록이 완료되었습니다.";
+                        }
+                        alert(msg);
+                        this.moveList();
+                    })
+                    .catch(() => {
+                        alert("등록 처리시 에러가 발생했습니다.");
+                    });
+
+        },
+        updateHandler() {
+            // 공지사항 글수정
+            console.log(this.boardId);
+                //console.log("공지사항글수정");
+                http.put(`/board`, {
+                    boardId: this.boardId,
+                    writer: this.writer,
+                    title: this.title,
+                    contents: this.contents,
+                    teamId:this.selectTeam.teamId
+                })
+                    .then(({ data }) => {
+                        let msg = "수정 처리시 문제가 발생했습니다.";
+                        if (data.data === "success") {
+                            msg = "수정이 완료되었습니다.";
+                        }
+                        alert(msg);
+                        this.moveList();
+                    })
+                    .catch(() => {
+                        alert("수정 처리시 에러가 발생했습니다.");
+                    });
+            
+        },
+        moveList() {
+            //console.log(this.boardtype);
+            this.$router.push("/board");
+        },
     },
-    registBook() {
-      http
-        .post("/book", {
-          isbn: this.isbn,
-          title: this.title,
-          author: this.author,
-          price: this.price,
-          content: this.content
-        })
-        .then(({ data }) => {
-          let msg = "등록 처리시 문제가 발생했습니다.";
-          if (data === "success") {
-            msg = "등록이 완료되었습니다.";
-          }
-          alert(msg);
-          this.moveList();
-        });
-    },
-    modifyBook() {
-      http
-        .put(`/book/${this.isbn}`, {
-          isbn: this.isbn,
-          title: this.title,
-          author: this.author,
-          price: this.price,
-          content: this.content
-        })
-        .then(({ data }) => {
-          let msg = "수정 처리시 문제가 발생했습니다.";
-          if (data === "success") {
-            msg = "수정이 완료되었습니다.";
-          }
-          alert(msg);
-          this.$router.push("/book");
-        });
-    },
-    moveList() {
-      this.$router.push("/book");
+  created() {
+    if (this.boardtype == "notice") this.boardT = "board";
+
+    console.log(this.type);
+    if (this.type === "modify") {
+        // 공지사항 게시글 하나 불러오기
+            //console.log("공지사항 하나 get");
+            http.get(`/board/${this.$route.query.boardId}`)
+                .then(({ data }) => {
+                    this.boardId = data.object.boardId;
+                    this.writeDate = data.object.writeDate;
+                    this.writer = data.object.writer;
+                    this.title = data.object.title;
+                    this.contents = data.object.contents;
+                })
+                .catch(() => {
+                    alert("에러가 발생했습니다.");
+                });
+
     }
-  }
+  },
 };
 </script>
 
 <style scoped>
+
+.createFormTitle {
+    font-weight: bold;
+    margin-bottom: 60px;
+}
 .regist {
   padding: 10px;
 }
