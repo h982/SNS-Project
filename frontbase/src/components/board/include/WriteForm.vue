@@ -141,7 +141,7 @@ export default {
                     .catch(() => {
                         alert("등록 처리시 에러가 발생했습니다.");
                     });
-            
+
         },
         updateHandler() {
             // 공지사항 글수정
@@ -169,28 +169,28 @@ export default {
         },
         moveList() {
             //console.log(this.boardtype);
-            if (this.boardtype == "notice") this.$router.push("/board");
+            this.$router.push("/board");
         },
     },
   created() {
     if (this.boardtype == "notice") this.boardT = "board";
 
+    console.log(this.type);
     if (this.type === "modify") {
         // 공지사항 게시글 하나 불러오기
-        if (this.boardtype == "notice") {
             //console.log("공지사항 하나 get");
             http.get(`/board/${this.$route.query.boardId}`)
                 .then(({ data }) => {
-                    this.boardId = data.boardId;
-                    this.writeDate = data.writeDate;
-                    this.writer = data.writer;
-                    this.title = data.title;
-                    this.contents = data.contents;
+                    this.boardId = data.object.boardId;
+                    this.writeDate = data.object.writeDate;
+                    this.writer = data.object.writer;
+                    this.title = data.object.title;
+                    this.contents = data.object.contents;
                 })
                 .catch(() => {
                     alert("에러가 발생했습니다.");
                 });
-        }
+
     }
   },
 };

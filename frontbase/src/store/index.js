@@ -237,7 +237,7 @@ export default new Vuex.Store({
     GET_TEAMCHALLENGEING_INFO(context, payload) {
       http
         .get(
-          "/my_teamchalleging_list?" +"member_id=" +payload 
+          "/my_teamchalleging_list?" +"member_id=" +payload
         )
         .then(response => {
           console.log(response);
@@ -355,14 +355,14 @@ export default new Vuex.Store({
         });
     },
     getNoticeItems({ commit },teamId) {
-      http.get("/board/"+teamId).then(({ data }) => {
-        commit("setNoticeItems", data);
+      http.get("/board/list"+teamId).then(({ data }) => {
+        commit("setNoticeItems", data.object);
       });
     },
     getNoticeItem({ commit }, boardid) {
       http.get(boardid).then(({ data }) => {
         //console.log("getItem : " + data)
-        commit("setNoticeItem", data);
+        commit("setNoticeItem", data.object);
       });
     },
   }

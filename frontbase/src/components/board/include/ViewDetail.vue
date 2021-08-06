@@ -75,7 +75,7 @@ export default {
             if (confirm("삭제하시겠습니까?")) {
                     http.delete(`/board/${this.boardId}`).then(({ data }) => {
                         let msg = "삭제 처리시 문제가 발생했습니다.";
-                        if (data === "SUCCESS") {
+                        if (data.data === "success") {
                             msg = "삭제가 완료되었습니다.";
                         }
                         alert(msg);
@@ -84,7 +84,7 @@ export default {
 
                 }
             },
-        
+
     numberWithCommas(x) {
       if (x) return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     },
