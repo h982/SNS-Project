@@ -1,28 +1,34 @@
 <template>
-  <tr>
-    <td>{{ no }}</td>
-    <td>
-      <router-link :to="`book/view?isbn=${isbn}`">{{ title }}</router-link>
-    </td>
-    <td>{{ author }}</td>
-    <td>{{ joindate }}</td>
-  </tr>
+  <b-tr class="list-tr">
+    <b-td v-if="boardtype=='notice'">{{ boardid }}</b-td>
+    <b-td>{{ userId }}</b-td>
+    <b-td v-if="boardtype == 'notice'">
+      <router-link :to="`/notice-view?boardid=${boardid}`" boardtype="notice" class="list-title">{{ title }}</router-link>
+    </b-td>
+    <b-td v-else-if="boardtype == 'qna'">
+      <router-link :to="`/qna-view?no=${no}`" boardtype="qna" class="list-title">{{ title }}</router-link>
+    </b-td>
+    <b-td>{{ writeDate }}</b-td>
+    <!-- <b-td v-if="ansYes">Y</b-td>
+    <b-td v-else></b-td> -->
+  </b-tr>
 </template>
 
 <script>
 export default {
   name: "listrow",
   props: {
-    no: String,
-    isbn: String,
+    boardtype: String,
+    boardid: Number,
+    writer: String,
     title: String,
-    author: String,
-    price: Number,
-    joindate: String,
+    writeDate: String
   },
   methods: {
-    
-  }
+    getFormatDate(writeDate) {
+      return moment(new Date(writeDate)).format('YYYY.MM.DD');
+    },
+  },
 };
 </script>
 <style scope>

@@ -167,6 +167,27 @@ export default new Router({
       component: ChallengeMake
       
     },
+
+    {
+      path: "/board/view",
+      name: "BoardView",
+      component: () =>
+        import(/* webpackChunkName: "about" */ "./components/board/BoardView.vue")
+    },
+    {
+      path: "/board/create",
+      name: "BoardCreate",
+      component: () =>
+        import(/* webpackChunkName: "about" */ "./components/board/BoardCreate.vue")
+    },
+    {
+      path: "/board/modify",
+      name: "BoardModify",
+      component: () =>
+        import(/* webpackChunkName: "about" */ "./components/board/BoardModify.vue")
+    },
+
+
     {
       name: "board",
       path: "/board",
@@ -178,18 +199,18 @@ export default new Router({
           component: () => import("@/components/board/BoardList.vue")
         },
         {
-          path: "create",
+          path: "/create",
           name: "board-create",
           component: () => import("@/components/board/BoardCreate.vue")
         },
         {
-          path: "view",
+          path: "/view",
           name: "board-view",
           component: () => import("@/components/board/BoardView.vue")
         },
         {
-          path: "modify/:isbn",
-          name: "book-modify",
+          path: "/modify/:boardId",
+          name: "board-modify",
           component: () => import("@/components/board/BoardModify.vue")
         },
         

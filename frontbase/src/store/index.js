@@ -27,7 +27,11 @@ export default new Vuex.Store({
     feedid: {},
     team_challenging: [], //내가 진행중인 챌린지
     entire_challenge: [], // 공통 챌린지
-    feed_challenging: [] //feed 입력시 넣는 챌린지 목록
+    feed_challenging: [], //feed 입력시 넣는 챌린지 목록
+
+    // 공지사항
+    noticeItems: [],
+    noticeItem: {},
   },
 
   getters: {
@@ -81,7 +85,13 @@ export default new Vuex.Store({
     },
     feed_challenging(state) {
       return state.feed_challenging;
-    }
+    },
+    noticeItems(state) {
+      return state.noticeItems;
+    },
+    noticeItem(state) {
+      return state.noticeItem;
+    },
   },
   mutations: {
     setIsLogined(state, isLogin) {
@@ -163,7 +173,13 @@ export default new Vuex.Store({
       data.forEach(element => {
         state.feed_challenging.push({ value: element, text: element });
       });
-    }
+    },
+    setNoticeItems(state, payload) {
+      state.noticeItems = payload;
+    },
+    setNoticeItem(state, payload) {
+      state.noticeItem = payload;
+    },
   },
   actions: {
     async GET_MEMBER_INFO({ commit }, token) {
@@ -193,22 +209,6 @@ export default new Vuex.Store({
       context.commit("SET_SELECT_TEAM", payload);
     },
 
-    getBooks(context) {
-      http
-        .get("/book")
-        .then(({ data }) => {
-          context.commit("setBooks", data);
-        })
-        .catch(() => {
-          //alert("에러발생!");
-        });
-    },
-
-    getBook(context, payload) {
-      http.get("/book/" + payload).then(({ data }) => {
-        context.commit("setBook", data);
-      });
-    },
 
     GET_TEAMCHALLENGE_INFO(context, payload) {
       http
@@ -353,6 +353,17 @@ export default new Vuex.Store({
         .catch(() => {
           console.log("에러발생");
         });
-    }
+    },
+    getNoticeItems({ commit },teamId) {
+      http.get("/board/"+teamId).then(({ data }) => {
+        commit("setNoticeItems", data);
+      });
+    },
+    getNoticeItem({ commit }, boardid) {
+      http.get(boardid).then(({ data }) => {
+        //console.log("getItem : " + data)
+        commit("setNoticeItem", data);
+      });
+    },
   }
 });
