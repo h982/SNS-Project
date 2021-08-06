@@ -145,18 +145,18 @@ export default {
         },
         updateHandler() {
             // 공지사항 글수정
-            //console.log(this.boardT);
-            if (this.boardT == "board") {
+            console.log(this.boardId);
                 //console.log("공지사항글수정");
                 http.put(`/board`, {
                     boardId: this.boardId,
                     writer: this.writer,
                     title: this.title,
                     contents: this.contents,
+                    teamId:this.selectTeam.teamId
                 })
                     .then(({ data }) => {
                         let msg = "수정 처리시 문제가 발생했습니다.";
-                        if (data === "SUCCESS") {
+                        if (data.data === "success") {
                             msg = "수정이 완료되었습니다.";
                         }
                         alert(msg);
@@ -165,7 +165,7 @@ export default {
                     .catch(() => {
                         alert("수정 처리시 에러가 발생했습니다.");
                     });
-            }
+            
         },
         moveList() {
             //console.log(this.boardtype);
