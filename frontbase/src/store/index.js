@@ -355,12 +355,12 @@ export default new Vuex.Store({
         });
     },
     getNoticeItems({ commit },teamId) {
-      http.get("/board/list"+teamId).then(({ data }) => {
+      http.get("/board/list/"+teamId).then(({ data }) => {
         commit("setNoticeItems", data.object);
       });
     },
     getNoticeItem({ commit }, boardid) {
-      http.get(boardid).then(({ data }) => {
+      http.get("/board"+boardid).then(({ data }) => {
         //console.log("getItem : " + data)
         commit("setNoticeItem", data.object);
       });
