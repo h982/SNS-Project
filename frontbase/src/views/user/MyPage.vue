@@ -83,7 +83,11 @@ export default {
     JoinRequest
   },
   computed: {
-    ...mapState(["memberInfo"])
+    ...mapState(["memberInfo","managingTeam"])
+  },
+  
+  created: function(){
+    this.$store.dispatch("getRequests", this.managingTeam.teamId);
   },
   methods: {
     modify() {
@@ -94,7 +98,7 @@ export default {
       alert("아직 안만듬");
     },
     check(){
-      console.log(this.memberInfo);
+      console.log(this.managingTeam);
     }
   },
 };

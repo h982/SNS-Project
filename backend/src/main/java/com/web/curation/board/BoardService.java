@@ -17,8 +17,8 @@ public class BoardService {
     private final BoardDao boardDao;
     private final TeamDao teamDao;
 
-    public List<Board> getBoardlist() {
-        return boardDao.findAll();
+    public List<Board> getBoardlist(int teamId) {
+        return boardDao.findByTeam(new Team(teamId));
     }
 
     public BoardDto getBoardOne(int boardId) {

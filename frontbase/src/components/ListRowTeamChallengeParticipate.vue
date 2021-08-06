@@ -62,8 +62,10 @@ export default {
       },
       giveUp(){
         const body = {
+          done: this.done,
           memberId: this.memberInfo.memberId,
           teamChallengeId: this.no,
+          teamchallengerId: 0,
         }; 
         console.log(body);
         const instance = createInstance();
@@ -88,7 +90,10 @@ export default {
           }
         )
         .catch();
-      },  
+      },
+      check(){
+        console.log(this.team_challenging);
+      }  
   }
 };
 </script>
