@@ -13,7 +13,7 @@ public enum ErrorCode {
     MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 유저를 찾을 수 없습니다."),
     FEED_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 피드를 찾을 수 없습니다."),
     TEAM_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 팀를 찾을 수 없습니다."),
-    JOIN_TEAM_NOT_FOUNT(HttpStatus.NOT_FOUND, "해당 팀에 가입된 정보를 찾을 수 없습니다."),
+    JOIN_TEAM_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 팀에 가입된 정보를 찾을 수 없습니다."),
     TEAM_CHALLENGE_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 팀 챌린지 정보를 찾을 수 없습니다."),
     TEAM_CHALLENGER_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 팀 챌린지 참가 정보를 찾을 수 없습니다."),
     
