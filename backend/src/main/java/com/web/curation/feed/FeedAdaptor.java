@@ -1,0 +1,23 @@
+package com.web.curation.feed;
+
+public class FeedAdaptor {
+    static public FeedDto entityToDto(Feed feed){
+        return FeedDto.builder()
+                .feedId(feed.getFeedId())
+                .contents(feed.getContents())
+                .teamName(feed.getTeamName())
+                .writer(feed.getWriter())
+                .memberId(feed.getJoinTeam().getMember().getMemberId())
+                .teamId(feed.getJoinTeam().getTeam().getTeamId())
+                .build();
+    }
+
+    static public Feed dtoToEntity(FeedDto feedDto){
+        return Feed.builder()
+                .feedId(feedDto.getFeedId())
+                .contents(feedDto.getContents())
+                .teamName(feedDto.getTeamName())
+                .writer(feedDto.getWriter())
+                .build();
+    }
+}
