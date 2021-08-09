@@ -4,14 +4,11 @@
       <span>My</span>
       <span class="green--text">Feed</span>
     </h2>
-    <v-layout row justify-center align-center wrap class="mt-4 pt-2">
-      <v-card>
-        <h5>{{memberInfo.name}}   <v-btn>프로필 편집</v-btn></h5>
-  
-        <h5>{{memberInfo.email}}</h5>
-        <h5>{{memberInfo.point}}</h5>
-        <h5>{{memberInfo.address}}</h5>
-        <h5>{{memberInfo.mbti}}</h5>
+    <v-layout justify-center align-center wrap class="mt-4 pt-2">
+      <v-card   elevation="0">
+        <h5>{{memberInfo.name}}   <v-btn @click="move()" icon elevation="0"><v-icon>settings</v-icon></v-btn></h5>
+        <br>
+        <h6>게시물: {{feeds.length}} &nbsp&nbsp 가입된그룹:{{myTeamList.length}} &nbsp&nbsp  도전중인 챌린지: {{feed_challenging.length}}</h6>
       </v-card>
     </v-layout>
     <hr style="height:1px;border:none;color:#333;background-color:#333;" />
@@ -61,15 +58,22 @@ import { mapGetters } from "vuex";
 export default {
   created(){
     this.$store.dispatch("getFeeds");
+    this.$store.dispatch("GET_TEAMCHALLENGEING_INFO", this.memberInfo.memberId);
+
     //this.$store.dispatch("getMyFeeds");
   },
   computed:{
-    ...mapGetters(["memberInfo","feeds"])
+    ...mapGetters(["memberInfo","feeds","myTeamList","feed_challenging"])
   },
   data() {
     return {
       dialog: false,
     };
+  },
+  methods:{
+    move(){
+      this.$router.push("/membermodify");
+    }
   }
 };
 </script>

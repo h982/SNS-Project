@@ -22,6 +22,11 @@
       </v-list>
 
       <v-list class="pt-4" v-else>
+        <v-list-tile active-class="green--text" to="/feed">
+          <v-list-tile-content>
+            <v-list-tile-title>FEED</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
         <v-list-tile active-class="green--text" to="/challenge">
           <v-list-tile-content>
             <v-list-tile-title>CHALLENGE</v-list-tile-title>
@@ -37,9 +42,9 @@
             <v-list-tile-title>MYTEAM</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile active-class="green--text" to="/feed">
+        <v-list-tile active-class="green--text" to="/myfeed">
           <v-list-tile-content>
-            <v-list-tile-title>FEED</v-list-tile-title>
+            <v-list-tile-title>MYFEED</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
         <v-list-tile active-class="green--text" to="/mypage">
