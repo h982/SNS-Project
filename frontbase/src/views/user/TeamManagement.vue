@@ -4,7 +4,7 @@
     <div>
       <template>
         <v-card>
-          <!-- <v-card-title>
+          <v-card-title>
             <v-text-field
               v-model="search"
               append-icon="search"
@@ -12,7 +12,7 @@
               single-line
               hide-details
             ></v-text-field>
-          </v-card-title> -->
+          </v-card-title>
           <v-data-table
             v-model="selected"
             :headers="headers"
@@ -21,6 +21,7 @@
             select-all
             hide-actions
             :pagination.sync="pagination"
+            :search="search"
             class="elevation-1"
           >
             <template v-slot:items="props">
@@ -72,13 +73,13 @@ export default {
         text: '멤버ID',
         align: 'start',
         sortable: false,
-        value: 'memberId',
+        value: 'member.memberId',
       },
-      { text: '이름', value: 'name' },
-      { text: '포인트', value: 'point' },
-      { text: '이메일', value: 'email' },
-      { text: '번호', value: 'phone' },
-      { text: 'mbti', value: 'mbti' },
+      { text: '이름', value: 'member.name' },
+      { text: '포인트', value: 'member.point' },
+      { text: '이메일', value: 'member.email' },
+      { text: '번호', value: 'member.phone' },
+      { text: 'mbti', value: 'member.mbti' },
     ],
   }),
   computed: {
