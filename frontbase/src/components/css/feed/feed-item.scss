@@ -1,6 +1,6 @@
 @charset "utf-8";
-@import "../../css/common";
-@import "../../css/feed/mixin";
+@import '../../css/common';
+@import '../../css/feed/mixin';
 
 .feed-card {
   box-sizing: content-box;
@@ -9,6 +9,7 @@
   float: left;
   border-radius: 5px;
   overflow: hidden;
+  position: relative;
 
   .contentsWrap {
     @include wrap;
@@ -46,6 +47,38 @@
       font-size: 0.714em;
       color: rgba(0, 0, 0, 0.5);
     }
+  }
+
+  .feed-btns {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    top: 0.5em;
+    right: 0.5em;
+  }
+
+  .feed-show-btn {
+    background-image: url('../../../assets/images/menu.png');
+    width: 1.5em;
+    height: 1.5em;
+    background-size: cover;
+    margin: 0 0 0.5em 0;
+  }
+
+  .feed-btns:hover {
+    cursor: pointer;
+  }
+  .feed-change {
+    display: none;
+  }
+
+  .feed-change div {
+    border: 1px solid black;
+    padding: 0.2em;
+    margin-bottom: 0.2em;
+    background-color: white;
   }
 }
 
@@ -103,7 +136,7 @@
       right: 0;
       width: 30px;
       height: 30px;
-      background-image: url("../../../assets/heart.png");
+      background-image: url('../../../assets/heart.png');
       background-size: cover;
       margin: 0.5em 0;
     }
