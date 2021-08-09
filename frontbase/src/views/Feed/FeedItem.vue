@@ -8,7 +8,7 @@
       <div class="feed-btns">
         <div class="feed-show-btn" @click="showBtns"></div>
         <div class="feed-change">
-          <div>수정</div>
+          <div @click="modifyFeed">수정</div>
           <div>삭제</div>
         </div>
       </div>
@@ -43,6 +43,9 @@ export default {
   data: () => {
     return { defaultImage, defaultProfile };
   },
+  computed: {
+    ...mapGetters(["memberInfo", "myTeamList"])
+  },
   methods: {
     likeBtn() {
       alert("like");
@@ -61,6 +64,19 @@ export default {
       } else {
         showitem.style.display = "none";
       }
+    },
+    modifyFeed() {
+      const body = {
+        memberId: this.memberInfo.memberId,
+        teamId: this.myTeamList[0].text.teamId,
+        teamName: this.myTeamList[0].text.name,
+        contents: this.feed.contents,
+        writer: this.feed.writer,
+        image: this.feed.photos[0].filePath
+      };
+      console.log(body);
+      this.$store.dispatch("SET_ONEFEED", body);
+      this.$router.push("/updateFeed");
     }
   }
 };

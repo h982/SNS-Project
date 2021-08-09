@@ -40,6 +40,9 @@ import { createInstance } from "@/api/teamindex.js";
 import "../../components/css/feed/writeFeed.scss";
 
 export default {
+  props: {
+    type: { type: String }
+  },
   data: () => {
     return {
       contents: "",
@@ -48,11 +51,21 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["memberInfo", "myTeamList", "team_challenges","feed_challenging"])
+    ...mapGetters([
+      "memberInfo",
+      "myTeamList",
+      "team_challenges",
+      "feed_challenging",
+      "oneFeed"
+    ])
   },
   created() {
     //this.$store.dispatch("GET_TEAMCHALLENGEING_INFO", this.memberInfo.memberId);
     this.$store.dispatch("GET_MY_TEAM_INFO", this.memberInfo.memberId);
+
+    if (this.type === "update") {
+      this.contents = this.oneFeed.contents;
+    }
   },
   methods: {
     write() {
@@ -62,7 +75,10 @@ export default {
       if (daily.options[daily.selectedIndex].value == "일상글") {
         formData.append("teamchallengeId", 0);
       } else {
-        formData.append("teamchallengeId", this.challenge.text.teamChallenge.teamChallengeId);
+        formData.append(
+          "teamchallengeId",
+          this.challenge.text.teamChallenge.teamChallengeId
+        );
       }
       formData.append("memberId", this.memberInfo.memberId);
       formData.append("teamId", this.myTeamList[0].text.teamId);
@@ -103,7 +119,7 @@ export default {
       preview.style.height = "60%";
       preview.style.maxHeight = "500px";
     },
-    check(){
+    check() {
       console.log(this.feed_challenging);
     }
   }

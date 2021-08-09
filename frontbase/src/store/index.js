@@ -32,6 +32,8 @@ export default new Vuex.Store({
     // 공지사항
     noticeItems: [],
     noticeItem: {},
+
+    oneFeed: null
   },
 
   getters: {
@@ -79,7 +81,7 @@ export default new Vuex.Store({
     },
     entire_challenge(state) {
       return state.entire_challenge;
-      },
+    },
     managingTeam(state) {
       return state.managingTeam;
     },
@@ -92,6 +94,9 @@ export default new Vuex.Store({
     noticeItem(state) {
       return state.noticeItem;
     },
+    oneFeed(state) {
+      return state.oneFeed;
+    }
   },
   mutations: {
     setIsLogined(state, isLogin) {
@@ -180,6 +185,9 @@ export default new Vuex.Store({
     setNoticeItem(state, payload) {
       state.noticeItem = payload;
     },
+    SET_ONEFEED(state, data) {
+      state.oneFeed = data;
+    }
   },
   actions: {
     async GET_MEMBER_INFO({ commit }, token) {
@@ -209,7 +217,6 @@ export default new Vuex.Store({
       context.commit("SET_SELECT_TEAM", payload);
     },
 
-
     GET_TEAMCHALLENGE_INFO(context, payload) {
       http
         .get("/my_teamchallenge_list/" + "{member_id}?member_id=" + payload)
@@ -236,9 +243,7 @@ export default new Vuex.Store({
 
     GET_TEAMCHALLENGEING_INFO(context, payload) {
       http
-        .get(
-          "/my_teamchalleging_list?" +"member_id=" +payload
-        )
+        .get("/my_teamchalleging_list?" + "member_id=" + payload)
         .then(response => {
           console.log(response);
           context.commit("SET_TEAMCHALLENGING", response.data.object);
@@ -266,8 +271,8 @@ export default new Vuex.Store({
           data.data.object.forEach(element => {
             let managerId = element.member.memberId;
             if (managerId === state.memberInfo.memberId) {
-                commit("SET_MANAGING_TEAM", element);
-                dispatch("getRequests", element.teamId);
+              commit("SET_MANAGING_TEAM", element);
+              dispatch("getRequests", element.teamId);
             }
           });
         })
@@ -354,16 +359,19 @@ export default new Vuex.Store({
           console.log("에러발생");
         });
     },
-    getNoticeItems({ commit },teamId) {
-      http.get("/board/list/"+teamId).then(({ data }) => {
+    getNoticeItems({ commit }, teamId) {
+      http.get("/board/list/" + teamId).then(({ data }) => {
         commit("setNoticeItems", data.object);
       });
     },
     getNoticeItem({ commit }, boardid) {
-      http.get("/board"+boardid).then(({ data }) => {
+      http.get("/board" + boardid).then(({ data }) => {
         //console.log("getItem : " + data)
         commit("setNoticeItem", data.object);
       });
     },
+    SET_ONEFEED(context, payload) {
+      context.commit("SET_ONEFEED", payload);
+    }
   }
 });
