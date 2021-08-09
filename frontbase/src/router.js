@@ -12,6 +12,7 @@ import TeamFeed from "@/views/Team/TeamFeed.vue";
 import MyTeam from "@/views/Team/MyTeam.vue";
 import MyPage from "@/views/user/MyPage.vue";
 import MyFeed from "@/views/user/MyFeed.vue";
+import MemberModify from "@/views/user/MemberModify.vue";
 import ChallengeMake from "@/views/Challenge/TeamChallengeMake.vue";
 
 Vue.use(Router);
@@ -51,6 +52,11 @@ export default new Router({
       name: "myfeed",
       component: MyFeed
 
+    },
+    {
+      path: "/membermodify",
+      name: "membermodify",
+      component: MemberModify
     },
     {
       path: "/teammake",
