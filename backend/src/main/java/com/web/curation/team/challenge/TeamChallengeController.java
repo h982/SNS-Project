@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import com.web.curation.team.challenger.TeamChallenger;
 import com.web.curation.team.challenger.TeamChallengerDto;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;

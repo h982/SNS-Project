@@ -1,46 +1,90 @@
 <template>
-  <div class="regist">
+   <b-container align="center">
+        <v-layout >
+      <v-bottom-navigation
+        class="mx-auto"
+        shift
+        x-large
+      >
+      <team-header />
+      </v-bottom-navigation>
+    </v-layout>
+
     <br>
     <br>
-    <h1 class="underline">게시판</h1>
-    <div class="regist_form">
-      
-      
-      <div class="view">{{ book.title }}</div>
-      
-      <label for="content">내용</label>
-      <div class="view" v-html="enterToBr(book.content)"></div>
-      <div style="padding-top: 15px">
-        <router-link :to="`/book/modify/${book.isbn}`" class="btn">수정</router-link>
-        <a href="#" class="btn" @click="deleteBook">삭제</a>
-        <router-link to="/book" class="btn">목록</router-link>
-      </div>
-    </div>
-  </div>
+            <div class="text-center mb-3" v-if="boardtype == 'notice'">
+                <b-col class="text-right mt-5">
+                    <router-link :to="'/board/modify?boardId=' + boardId"
+                        ><b-button size="sm" class="m-1">수정</b-button></router-link
+                    >
+                    <b-button variant="outline-danger" size="sm" class="m-1" @click="deleteBoard"
+                        >삭제</b-button
+                    >
+                </b-col>
+            </div>
+        <table class="table">
+            <colgroup>
+                <col style="width: 10%" />
+                <col style="width: 70%" />
+                <col style="width: 20%" />
+            </colgroup>
+            <tr>
+                <th colspan="3" class="text-center view-title">{{ title }}</th>
+            </tr>
+            <tr>
+                <th>게시자</th>
+                <td>{{ writer }}</td>
+                <td>{{ writeDate}}</td>
+            </tr>
+            <tr>
+                <td colspan="3" class="content-row" v-html="enterToBr(contents)"></td>
+            </tr>
+        </table>
+        <hr />
+
+        <b-row>
+            <b-col v-if="boardtype == 'notice'">
+                <router-link to="/board"
+                    ><b-button squared class="shadow m-1 gotoListBtn">목록</b-button></router-link
+                >
+            </b-col>
+        </b-row>
+    </b-container>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import http from "@/util/http-common";
+import TeamHeader from '@/components/TeamHeader.vue';
 
 export default {
   name: "viewdetail",
-  computed: {
-    ...mapGetters(["book"])
+  components: {
+    TeamHeader
   },
-  methods: {
-    deleteBook() {
-      if (confirm("정말로 삭제?")) {
-        http.delete(`book/${this.book.isbn}`).then(({ data }) => {
-          let msg = "삭제 처리시 문제가 발생했습니다.";
-          if (data === "success") {
-            msg = "삭제가 완료되었습니다.";
-          }
-          alert(msg);
-          this.$router.push("/book");
-        });
-      }
+  props: {
+        boardtype: { type: String },
+        boardId: { type: Number },
+        writer: { type: String },
+        title: { type: String },
+        contents: { type: String },
+        writeDate: { type: String }
     },
+  methods: {
+   deleteBoard() {
+            if (confirm("삭제하시겠습니까?")) {
+                    http.delete(`/board/${this.boardId}`).then(({ data }) => {
+                        let msg = "삭제 처리시 문제가 발생했습니다.";
+                        if (data.data === "success") {
+                            msg = "삭제가 완료되었습니다.";
+                        }
+                        alert(msg);
+                        this.$router.push("/board");
+                    });
+
+                }
+            },
+
     numberWithCommas(x) {
       if (x) return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     },
@@ -73,5 +117,26 @@ textarea,
   box-sizing: border-box;
   color: #787878;
   font-size: medium;
+}
+
+.table {
+    border-top: 1px solid black !important;
+}
+.content-row {
+    height: 200px;
+}
+.answer-row {
+    height: 150px;
+}
+.gotoListBtn {
+    background-color: #5a7d67 !important;
+    color: white;
+    width: 150px;
+    height: 50px;
+}
+.view-title {
+    border-top: 2px;
+    height: 70px;
+    font-size: 25px;
 }
 </style>

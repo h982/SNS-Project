@@ -5,11 +5,11 @@
       <select id="challenge" v-model="challenge" class="dailyFeed">
         <option>일상글</option>
         <option
-          v-for="(challenge, idx) in team_challenges"
+          v-for="(challenge, idx) in feed_challenging"
           :key="idx"
           :value="challenge"
         >
-          {{ challenge.text.title }}
+          {{ challenge.text.teamChallenge.title }}
         </option>
       </select>
     </div>
@@ -30,6 +30,7 @@
       <textarea v-model="contents" class="contents"></textarea>
     </div>
     <v-btn @click="write">등록</v-btn>
+    <v-btn @click="check">확인</v-btn>
   </div>
 </template>
 
@@ -47,10 +48,10 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["memberInfo", "myTeamList", "team_challenges"])
+    ...mapGetters(["memberInfo", "myTeamList", "team_challenges","feed_challenging"])
   },
   created() {
-    this.$store.dispatch("GET_TEAMCHALLENGE_INFO", this.memberInfo.memberId);
+    //this.$store.dispatch("GET_TEAMCHALLENGEING_INFO", this.memberInfo.memberId);
     this.$store.dispatch("GET_MY_TEAM_INFO", this.memberInfo.memberId);
   },
   methods: {
@@ -61,7 +62,7 @@ export default {
       if (daily.options[daily.selectedIndex].value == "일상글") {
         formData.append("teamchallengeId", 0);
       } else {
-        formData.append("teamchallengeId", this.challenge.text.teamChallengeId);
+        formData.append("teamchallengeId", this.challenge.text.teamChallenge.teamChallengeId);
       }
       formData.append("memberId", this.memberInfo.memberId);
       formData.append("teamId", this.myTeamList[0].text.teamId);
@@ -101,6 +102,9 @@ export default {
       preview.style.width = "60%";
       preview.style.height = "60%";
       preview.style.maxHeight = "500px";
+    },
+    check(){
+      console.log(this.feed_challenging);
     }
   }
 };

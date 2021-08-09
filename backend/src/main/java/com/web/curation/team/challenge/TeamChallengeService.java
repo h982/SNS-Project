@@ -102,4 +102,10 @@ public class TeamChallengeService {
 
         teamChallengerDao.delete(teamChallenger);
     }
+
+    public List<TeamChallenger> getTeamChallengingList(int memberId) {
+        Member member = memberDao.findById(memberId).get();
+        List<TeamChallenger> teamChallengers = teamChallengerDao.findTeamChallengerByMember(member);
+        return teamChallengers;
+    }
 }

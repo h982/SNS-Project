@@ -27,7 +27,7 @@ public class MessageService {
 	}
 	
 	public List<MessageDto> getMessages(int teamId, int pageNum) {
-		PageRequest pageRequest = PageRequest.of(pageNum, 5, Sort.by("messageId"));
+		PageRequest pageRequest = PageRequest.of(pageNum, 10, Sort.by("messageId").descending());
 		List<Message> messageList = messageDao.findByTeam(new Team(teamId), pageRequest);
 		List<MessageDto> messageDtoList = new ArrayList<MessageDto>();
 		

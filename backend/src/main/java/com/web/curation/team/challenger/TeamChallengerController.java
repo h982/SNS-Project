@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-
+@CrossOrigin(origins = {"*"}, maxAge = 6000)
 @RestController("/challenger")
 public class TeamChallengerController {
 	@Autowired
 	private TeamChallengerService teamChallengerService;
-	
+
 	@GetMapping("/my_teamchallenger_list")
 	@ApiOperation(value = "팀 챌린저 리스트")
 	public Object findTeamChallenges(@RequestParam(name = "member_id") int memberId,

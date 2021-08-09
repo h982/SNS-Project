@@ -19,7 +19,7 @@ export default new Router({
   mode: "history",
   base: process.env.BASE_URL,
 
-  
+
   routes: [
     {
       path: "/",
@@ -36,13 +36,13 @@ export default new Router({
       path: "/myteam",
       name: "myteam",
       component: MyTeam
-        
+
     },
     {
       path: "/mypage",
       name: "mypage",
       component: MyPage
-        
+
     },
     {
       path: "/teammake",
@@ -68,7 +68,7 @@ export default new Router({
       component: () =>
         import(/* webpackChunkName: "about" */ "./views/Blog.vue")
     },
-    
+
     {
       path: "/services",
       name: "services",
@@ -83,7 +83,7 @@ export default new Router({
           /* webpackChunkName: "about" */ "./views/Portfolio/Portfolio.vue"
         )
     },
-    
+
     {
       path: "/portfolio/graphic",
       name: "graphicPortfolio",
@@ -165,8 +165,29 @@ export default new Router({
       name: "ChallengeMake",
       path: "/challengemake",
       component: ChallengeMake
-      
+
     },
+
+    {
+      path: "/board/view",
+      name: "BoardView",
+      component: () =>
+        import(/* webpackChunkName: "about" */ "./components/board/BoardView.vue")
+    },
+    {
+      path: "/board/create",
+      name: "BoardCreate",
+      component: () =>
+        import(/* webpackChunkName: "about" */ "./components/board/BoardCreate.vue")
+    },
+    {
+      path: "/board/modify",
+      name: "BoardModify",
+      component: () =>
+        import(/* webpackChunkName: "about" */ "./components/board/BoardModify.vue")
+    },
+
+
     {
       name: "board",
       path: "/board",
@@ -178,26 +199,22 @@ export default new Router({
           component: () => import("@/components/board/BoardList.vue")
         },
         {
-          path: "create",
+          path: "/create",
           name: "board-create",
           component: () => import("@/components/board/BoardCreate.vue")
         },
         {
-          path: "view",
+          path: "/view",
           name: "board-view",
           component: () => import("@/components/board/BoardView.vue")
         },
-        {
-          path: "modify/:isbn",
-          name: "book-modify",
-          component: () => import("@/components/board/BoardModify.vue")
-        },
-        
+
+
       ],
       redirect: () => {
         return "/board";
       }
     },
-    
+
   ]
 });

@@ -43,7 +43,7 @@ public class FeedlikeController {
     }
 
     @GetMapping("/feedlike/{feed_id}")
-    ResponseEntity<?> getFeedlikes(@RequestParam(value = "feed_id")int feedId){
+    ResponseEntity<?> getFeedlikes(@PathVariable(value = "feed_id")int feedId){
 
         Optional<List<FeedlikeDto>> feedlikeList = feedlikeService.getfeedlikeList(feedId);
 
