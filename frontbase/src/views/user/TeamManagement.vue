@@ -35,7 +35,14 @@
               </td>
               <td>{{ props.item.member.memberId }}</td>
               <td class="text-xs-right">{{ props.item.member.name }}</td>
-              <td class="text-xs-right">{{ props.item.member.point }}</td>
+              <td class="text-xs-right">
+                <v-chip
+                  :color="getColor(props.item.member.point)"
+                  dark
+                >
+                  {{ props.item.member.point }}
+                </v-chip>
+              </td>
               <td class="text-xs-right">{{ props.item.member.email }}</td>
               <td class="text-xs-right">{{ props.item.member.phone }}</td>
               <td class="text-xs-right">{{ props.item.member.mbti }}</td>
@@ -94,9 +101,14 @@ export default {
   },
   methods: {
     chageleader() {
-      this.$store.dispatch("changeTeamLeader", { teamId: this.managingTeam.teamId, memberId: this.selected[0].member.memberId })
+      this.$store.dispatch("changeTeamLeader", { teamId: this.managingTeam.teamId, memberId: this.selected[0].member.memberId });
       // console.log(this.selected[0].member.memberId);
       // console.log(this.managingTeam.teamId);
+    },
+    getColor (point) {
+      if (point > 100) return 'green'
+      else if (point > 50) return 'orange'
+      else return 'red'
     },
   },
 };
