@@ -51,7 +51,6 @@ export default {
     ...mapGetters(["memberInfo", "myTeamList", "team_challenges","feed_challenging"])
   },
   created() {
-    //this.$store.dispatch("GET_TEAMCHALLENGEING_INFO", this.memberInfo.memberId);
     this.$store.dispatch("GET_MY_TEAM_INFO", this.memberInfo.memberId);
   },
   methods: {
@@ -80,6 +79,7 @@ export default {
         })
         .then(response => {
           if (response.data.data === "success") {
+            this.$store.dispatch("GET_TEAMCHALLENGEING_INFO", this.memberInfo.memberId);
             alert("피드 작성 완료");
             this.$router.push("/feed");
           } else {

@@ -92,7 +92,6 @@ export default {
   methods: {
     modify() {
       alert("아직 안만듬");
-      //this.$router.push('/');
     },
     delete(){
       alert("아직 안만듬");

@@ -32,6 +32,7 @@ export default new Vuex.Store({
     // 공지사항
     noticeItems: [],
     noticeItem: {},
+    myFeeds: [],
   },
 
   getters: {
@@ -107,6 +108,9 @@ export default new Vuex.Store({
     },
     setFeeds(state, payload) {
       state.feeds = payload;
+    },
+    setMyFeeds(state, payload) {
+      state.myFeeds = payload;
     },
     setTeamFeeds(state, payload) {
       state.teamFeeds = payload;
@@ -299,6 +303,18 @@ export default new Vuex.Store({
           //alert("에러발생");
         });
     },
+    getMyFeeds({ commit }) {
+      const instance = createInstance();
+      instance
+        .get("/myfeed")
+        .then(response => {
+          console.log(response);
+          commit("setMyFeeds", response.data.object);
+        })
+        .catch(() => {
+          //alert("에러발생");
+        });
+    },
     getMyTeamFeeds({ commit }, teamId) {
       const instance = createInstance();
       instance
@@ -348,6 +364,7 @@ export default new Vuex.Store({
       http
         .get("/member/challenge/" + memberId)
         .then(({ data }) => {
+          console.log(data);
           context.commit("SET_ENTIRECHALLEGE", data);
         })
         .catch(() => {
