@@ -87,4 +87,17 @@ public class FeedController {
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
+    
+    @GetMapping("/feed/member/{member_id}")
+    @ApiOperation(value = "멤버별 피드 받기")
+    public ResponseEntity<?> getMemberFeeds(@PathVariable(name = "member_id") int memberId) {
+
+        List<Feed> feedList = feedService.getMemberFeeds(memberId);
+        final BasicResponse result = new BasicResponse();
+        result.status = true;
+        result.data = "success";
+        result.object = feedList;
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 }

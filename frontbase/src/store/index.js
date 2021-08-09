@@ -19,10 +19,11 @@ export default new Vuex.Store({
     team: [],
     teamInfo: null,
     myTeamList: [],
-    managingTeam: {},
+    managingTeam: {}, // 내가 팀장으로 있는 팀의 정보
+    managingTeamMembers: [], // 내가 팀장으로 있는 팀의 멤버 목록
     book: {},
     books: [],
-    joinRequests: [],
+    joinRequests: [], // managingTeam의 가입 요청 목록
     selectTeam: {},
     feedid: {},
     team_challenging: [], //내가 진행중인 챌린지
@@ -33,7 +34,8 @@ export default new Vuex.Store({
     noticeItems: [],
     noticeItem: {},
 
-    oneFeed: null
+    oneFeed: null,
+    myFeeds: []
   },
 
   getters: {
@@ -85,6 +87,9 @@ export default new Vuex.Store({
     managingTeam(state) {
       return state.managingTeam;
     },
+    managingTeamMembers(state) {
+      return state.managingTeamMembers;
+    },
     feed_challenging(state) {
       return state.feed_challenging;
     },
@@ -112,6 +117,9 @@ export default new Vuex.Store({
     },
     setFeeds(state, payload) {
       state.feeds = payload;
+    },
+    setMyFeeds(state, payload) {
+      state.myFeeds = payload;
     },
     setTeamFeeds(state, payload) {
       state.teamFeeds = payload;
@@ -187,6 +195,9 @@ export default new Vuex.Store({
     },
     SET_ONEFEED(state, data) {
       state.oneFeed = data;
+    },
+    SET_MANAGING_TEAM_MEMBERS(state, payload) {
+      state.managingTeamMembers = payload;
     }
   },
   actions: {
@@ -273,6 +284,7 @@ export default new Vuex.Store({
             if (managerId === state.memberInfo.memberId) {
               commit("SET_MANAGING_TEAM", element);
               dispatch("getRequests", element.teamId);
+              dispatch("getTeamMembers", element.teamId);
             }
           });
         })
@@ -299,6 +311,18 @@ export default new Vuex.Store({
         .then(response => {
           console.log(response);
           commit("setFeeds", response.data.object);
+        })
+        .catch(() => {
+          //alert("에러발생");
+        });
+    },
+    getMyFeeds({ commit }) {
+      const instance = createInstance();
+      instance
+        .get("/myfeed")
+        .then(response => {
+          console.log(response);
+          commit("setMyFeeds", response.data.object);
         })
         .catch(() => {
           //alert("에러발생");
@@ -353,6 +377,7 @@ export default new Vuex.Store({
       http
         .get("/member/challenge/" + memberId)
         .then(({ data }) => {
+          console.log(data);
           context.commit("SET_ENTIRECHALLEGE", data);
         })
         .catch(() => {
@@ -372,6 +397,19 @@ export default new Vuex.Store({
     },
     SET_ONEFEED(context, payload) {
       context.commit("SET_ONEFEED", payload);
+    },
+    getTeamMembers({ commit }, teamId) {
+      http.get("/jointeam/member/" + teamId).then(({ data }) => {
+        console.log("getTeamMembers : " + data.message);
+        commit("SET_MANAGING_TEAM_MEMBERS", data.data);
+      });
+    },
+    changeTeamLeader({ teamId, memberId }) {
+      http
+        .get("/team/leader/" + memberId + "?teamId=" + teamId)
+        .then(({ data }) => {
+          console.log("changeTeamLeader : " + data.message);
+        });
     }
   }
 });

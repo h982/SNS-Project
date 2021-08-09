@@ -2,6 +2,7 @@ package com.web.curation.team;
 
 
 import com.web.curation.amazonS3.S3Uploader;
+import com.web.curation.error.CustomException;
 import com.web.curation.error.NotFoundDataException;
 import com.web.curation.files.PhotoAndDtoAdapter;
 import com.web.curation.files.PhotoDao;
@@ -16,6 +17,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+
+import static com.web.curation.error.ErrorCode.*;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -95,4 +99,18 @@ public class TeamService {
         return resultTeamDto;
     }
 
+    public boolean changeTeamLeader(int teamId, int memberId) {
+    	Member member = memberDao.findById(memberId)
+                .orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
+    	Team team = teamDao.findById(teamId)
+    			.orElseThrow(() -> new CustomException(TEAM_NOT_FOUND));
+    	
+    	TeamDto teamDto = TeamAndDtoAdapter.entityToDto(team);
+    	teamDto.setSportId(teamDto.getSportDto().getSportId());
+    	teamDto.setMemberId(member.getMemberId());
+    	teamDto.setLeader(member.getName());
+    	
+    	teamDao.save(TeamAndDtoAdapter.dtoToEntity(teamDto));
+    	return true;
+    }
 }

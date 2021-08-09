@@ -56,6 +56,7 @@
             
             <b-row class="col-md-5" style="float: none; margin:0 auto;">
               <b-button variant="primary" class="mr-1" @click.prevent="modify">정보수정</b-button>
+              <b-button variant="success" class="mr-1" @click="teamManagement">팀 관리</b-button>
               <b-button variant="danger" href="#" @click.prevent="check()">회원탈퇴</b-button>
             </b-row>
             <br>
@@ -92,14 +93,16 @@ export default {
   methods: {
     modify() {
       alert("아직 안만듬");
-      //this.$router.push('/');
     },
     delete(){
       alert("아직 안만듬");
     },
     check(){
       console.log(this.managingTeam);
-    }
+    },
+    teamManagement() {
+      this.$router.push("/teamManagement");
+    },
   },
 };
 </script>

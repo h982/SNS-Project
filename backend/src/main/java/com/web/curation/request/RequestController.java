@@ -25,10 +25,8 @@ public class RequestController {
     @ApiResponses(value = {@ApiResponse(code = 201, message = "팀 가입요청이 생성됨"),
     						@ApiResponse(code = 409, message = "이미 요청한 적이 있음")})
     public Object sendRequest(@RequestBody RequestDto requestDto) {
-    	if(!requestService.checkDuplication(requestDto)) {
-    		requestService.makeRequest(requestDto);
-    		return new ResponseEntity<>(HttpStatus.CREATED);
-    	}
+        requestService.makeRequest(requestDto);
+
     	return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 

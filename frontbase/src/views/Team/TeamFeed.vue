@@ -10,7 +10,6 @@
       <!-- <div class="writebtn" @click="mvWrite" /> -->
     </div>
   </div>
-  </div>
 </template>
 <script>
 import "@/components/css/feed/feed-item.scss";

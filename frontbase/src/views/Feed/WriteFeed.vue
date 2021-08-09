@@ -60,7 +60,6 @@ export default {
     ])
   },
   created() {
-    //this.$store.dispatch("GET_TEAMCHALLENGEING_INFO", this.memberInfo.memberId);
     this.$store.dispatch("GET_MY_TEAM_INFO", this.memberInfo.memberId);
 
     if (this.type === "update") {
@@ -96,6 +95,7 @@ export default {
         })
         .then(response => {
           if (response.data.data === "success") {
+            this.$store.dispatch("GET_TEAMCHALLENGEING_INFO", this.memberInfo.memberId);
             alert("피드 작성 완료");
             this.$router.push("/feed");
           } else {
