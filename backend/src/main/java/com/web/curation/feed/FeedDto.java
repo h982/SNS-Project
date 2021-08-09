@@ -1,5 +1,6 @@
 package com.web.curation.feed;
 
+import com.web.curation.files.PhotoDto;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -41,4 +42,6 @@ public class FeedDto {
 
     @ApiModelProperty(required = true)
     private MultipartFile image;
+
+    private List<PhotoDto> photos;
 }

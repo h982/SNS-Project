@@ -2,10 +2,10 @@ package com.web.curation.team.challenge;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
+import com.web.curation.error.CustomException;
 import com.web.curation.team.Team;
 import com.web.curation.team.challenger.TeamChallengerDto;
 import com.web.curation.team.join.JoinTeam;
@@ -19,6 +19,8 @@ import com.web.curation.team.TeamDao;
 import com.web.curation.team.challenger.TeamChallenger;
 import com.web.curation.team.challenger.TeamChallengerDao;
 
+import static com.web.curation.error.ErrorCode.*;
+
 @Service
 @AllArgsConstructor
 public class TeamChallengeService {
@@ -29,93 +31,57 @@ public class TeamChallengeService {
     private MemberDao memberDao;
     private JoinTeamDao joinTeamDao;
 
-    public boolean addTeamChallenge(TeamChallengeDto teamChallengeDto) {
-
-        TeamChallenge teamChallenge = TeamChallenge.builder()
-                .contents(teamChallengeDto.getContents())
-                .title(teamChallengeDto.getTitle())
-                .memberCount(1)
-                .status(Status.BEGIN)
-                .team(teamDao.findById(teamChallengeDto.getTeamId()).get())
-                .startDate(teamChallengeDto.getStartDate())
-                .endDate(teamChallengeDto.getEndDate())
-                .build();
-
-        teamChallengeDao.save(teamChallenge);
-
-        return true;
+    public TeamChallengeDto addTeamChallenge(TeamChallengeDto teamChallengeDto) {
+        TeamChallenge teamChallenge = TeamChallengeAdaptor.dtoToEntity(teamChallengeDto);
+        teamChallenge.setTeam(teamDao.findById(teamChallengeDto.getTeamId())
+                .orElseThrow(() -> new CustomException(TEAM_NOT_FOUND))
+        );
+        return TeamChallengeAdaptor.entityToDto(teamChallengeDao.save(teamChallenge));
     }
 
-    public List<TeamChallenge> updateTeamChallenge(TeamChallengeDto teamChallengeDto) {
-        TeamChallenge teamChallenge = TeamChallenge.builder()
-                .teamChallengeId(teamChallengeDto.getTeamChallengeId())
-                .contents(teamChallengeDto.getContents())
-                .title(teamChallengeDto.getTitle())
-                .memberCount(1)
-                .status(Status.BEGIN)
-                .team(teamDao.getOne(teamChallengeDto.getTeamId()))
-                .startDate(teamChallengeDto.getStartDate())
-                .endDate(teamChallengeDto.getEndDate())
-                .build();
+    public TeamChallengeDto updateTeamChallenge(TeamChallengeDto teamChallengeDto) {
+        TeamChallenge teamChallenge = teamChallengeDao.findById(teamChallengeDto.getTeamChallengeId())
+                .orElseThrow(() -> new CustomException(TEAM_CHALLENGE_NOT_FOUND));
 
-        List<TeamChallenge> list = new ArrayList<>();
-        TeamChallenge result = teamChallengeDao.save(teamChallenge);
-        if (result != null) {
-            Optional<List<TeamChallenge>> chkList = teamChallengeDao.findTeamChallengeByTeam(teamChallenge.getTeam());
-            if (chkList.isPresent()) {
-                list = chkList.get();
-            }
-        }
-        return list;
+        teamChallenge.setTitle(teamChallengeDto.getTitle());
+        teamChallenge.setContents(teamChallenge.getContents());
+        teamChallenge.setStartDate(teamChallenge.getStartDate());
+        teamChallenge.setEndDate(teamChallenge.getEndDate());
+
+        return TeamChallengeAdaptor.entityToDto(teamChallengeDao.save(teamChallenge));
     }
 
-    public Optional<List<TeamChallengeDto>> getTeamChallengeList(@Valid int memberId) {
-        Optional<Member> chkMember = memberDao.findById(memberId);
-        if (!chkMember.isPresent()) {
-            return Optional.empty();
-        }
+    public void deleteTeamChallenge(TeamChallengeDto teamChallengeDto){
+        TeamChallenge teamChallenge = teamChallengeDao.findById(teamChallengeDto.getTeamChallengeId())
+                .orElseThrow(() -> new CustomException(TEAM_CHALLENGER_NOT_FOUND));
+        teamChallengeDao.delete(teamChallenge);
+    }
 
-        Member member = chkMember.get();
-        Optional<List<JoinTeam>> chkJoinTeams = Optional.ofNullable(joinTeamDao.findJoinTeamByMember(member));
-        if (!chkJoinTeams.isPresent()) {
-            return Optional.empty();
-        }
+    public List<TeamChallengeDto> getTeamChallengeList(int memberId) {
+        Member member = memberDao.findById(memberId)
+                .orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
+        List<JoinTeam> joinTeams = joinTeamDao.findJoinTeamByMember(member);
 
-        List<JoinTeam> joinTeams = chkJoinTeams.get();
-        List<TeamChallengeDto> tcList = new ArrayList<>();
+        List<TeamChallengeDto> teamChallengeDtos = new ArrayList<>();
         for (JoinTeam join : joinTeams) {
-            Optional<List<TeamChallenge>> teamChallenges = findTeamChallenges(join.getTeam().getTeamId());
-            if (!teamChallenges.isPresent()) {
-                continue;
-            }
-            for (TeamChallenge tc : teamChallenges.get()) {
-                tcList.add(TeamChallengeDto.builder()
-                        .teamChallengeId(tc.getTeamChallengeId())
-                        .teamId(tc.getTeam().getTeamId())
-                        .title(tc.getTitle())
-                        .contents(tc.getContents())
-                        .startDate(tc.getStartDate())
-                        .endDate(tc.getEndDate())
-                        .build()
-                );
+            List<TeamChallenge> teamChallenges = teamChallengeDao.findTeamChallengeByTeam(join.getTeam());
+            for (TeamChallenge tc : teamChallenges) {
+                teamChallengeDtos.add(TeamChallengeAdaptor.entityToDto(tc));
             }
         }
-        return Optional.of(tcList);
+        return teamChallengeDtos;
     }
 
-    private Optional<List<TeamChallenge>> findTeamChallenges(int teamId) {
-        Optional<Team> chkTeam = teamDao.findById(teamId);
-        if (!chkTeam.isPresent()) {
-            return Optional.empty();
-        }
+    public void participateTeamChallenge(@Valid TeamChallengerDto teamChallengerDto) {
+        TeamChallenge teamChallenge = teamChallengeDao.findById(teamChallengerDto.getTeamChallengeId())
+                .orElseThrow(() -> new CustomException(TEAM_CHALLENGE_NOT_FOUND));
+        Member member = memberDao.findById(teamChallengerDto.getMemberId())
+                .orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
 
-        Optional<List<TeamChallenge>> teamChallenges = teamChallengeDao.findTeamChallengeByTeam(chkTeam.get());
-        return teamChallenges;
-    }
-
-    public boolean participateTeamChallenge(@Valid TeamChallengerDto teamChallengerDto) {
-        TeamChallenge teamChallenge = teamChallengeDao.findById(teamChallengerDto.getTeamChallengeId()).get();
-        Member member = memberDao.findById(teamChallengerDto.getMemberId()).get();
+        teamChallengerDao.findTeamChallengerByTeamChallengeAndMember(teamChallenge, member)
+                .ifPresent(teamChallenger -> {
+                    throw new CustomException(DUPLICATE_RESOURCE);
+                });
 
         TeamChallenger teamChallenger = TeamChallenger.builder()
                 .done(false)
@@ -123,26 +89,18 @@ public class TeamChallengeService {
                 .member(member)
                 .build();
 
-        TeamChallenger isExist = teamChallengerDao.findTeamChallengerByTeamChallengeAndMember(teamChallenge, member);
-        if (isExist != null) {
-            return false;
-        }
-
         teamChallengerDao.save(teamChallenger);
-        return true;
     }
 
-    public boolean giveupTeamChallenge(@Valid TeamChallengerDto teamChallengerDto) {
-        TeamChallenge teamChallenge = teamChallengeDao.findById(teamChallengerDto.getTeamChallengeId()).get();
-        Member member = memberDao.findById(teamChallengerDto.getMemberId()).get();
+    public void giveUpTeamChallenge(@Valid TeamChallengerDto teamChallengerDto) {
+        TeamChallenge teamChallenge = teamChallengeDao.findById(teamChallengerDto.getTeamChallengeId())
+                .orElseThrow(() -> new CustomException(TEAM_CHALLENGE_NOT_FOUND));
+        Member member = memberDao.findById(teamChallengerDto.getMemberId())
+                .orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
+        TeamChallenger teamChallenger = teamChallengerDao.findTeamChallengerByTeamChallengeAndMember(teamChallenge, member)
+                .orElseThrow(() -> new CustomException(TEAM_CHALLENGER_NOT_FOUND));
 
-        TeamChallenger isExist = teamChallengerDao.findTeamChallengerByTeamChallengeAndMember(teamChallenge, member);
-        if (isExist == null) {
-            return false;
-        }
-
-        teamChallengerDao.delete(isExist);
-        return true;
+        teamChallengerDao.delete(teamChallenger);
     }
 
     public List<TeamChallenger> getTeamChallengingList(int memberId) {
