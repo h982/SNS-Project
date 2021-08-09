@@ -4,7 +4,7 @@
     <div>
       <template>
         <v-card>
-          <v-card-title>
+          <!-- <v-card-title>
             <v-text-field
               v-model="search"
               append-icon="search"
@@ -12,37 +12,32 @@
               single-line
               hide-details
             ></v-text-field>
-          </v-card-title>
+          </v-card-title> -->
           <v-data-table
             v-model="selected"
             :headers="headers"
-            :items="items"
-            item-key="name"
+            :items="this.managingTeamMembers"
+            item-key="member.memberId"
             select-all
             hide-actions
             :pagination.sync="pagination"
-            :search="search"
             class="elevation-1"
           >
             <template v-slot:items="props">
               <td>
                 <v-checkbox
                   v-model="props.selected"
+                  :input-value = "props.selected"
                   primary
                   hide-details
                 ></v-checkbox>
               </td>
-              <td>{{ props.item.name }}</td>
-              <td class="text-xs-right">{{ props.item.point }}</td>
-              <td class="text-xs-right">{{ props.item.email }}</td>
-              <td class="text-xs-right">{{ props.item.phone }}</td>
-              <td class="text-xs-right">{{ props.item.mbti }}</td>
-              <td class="text-xs-right">{{ props.item.date }}</td>
-            </template>
-            <template v-slot:no-results>
-              <v-alert :value="true" color="error" icon="warning">
-                Your search for "{{ search }}" found no results.
-              </v-alert>
+              <td>{{ props.item.member.memberId }}</td>
+              <td class="text-xs-right">{{ props.item.member.name }}</td>
+              <td class="text-xs-right">{{ props.item.member.point }}</td>
+              <td class="text-xs-right">{{ props.item.member.email }}</td>
+              <td class="text-xs-right">{{ props.item.member.phone }}</td>
+              <td class="text-xs-right">{{ props.item.member.mbti }}</td>
             </template>
           </v-data-table>
           <div class="text-xs-center pt-2">
@@ -74,74 +69,16 @@ export default {
     search: '',
     headers: [
       {
-        text: '팀원이름',
+        text: '멤버ID',
         align: 'start',
         sortable: false,
-        value: 'name',
+        value: 'memberId',
       },
+      { text: '이름', value: 'name' },
       { text: '포인트', value: 'point' },
       { text: '이메일', value: 'email' },
       { text: '번호', value: 'phone' },
       { text: 'mbti', value: 'mbti' },
-      { text: '가입날짜', value: 'date' },
-    ],
-    items: [
-      {
-        name: '차범희',
-        point: 150,
-        email: 'qqq960909@naver.com',
-        phone: '010-4533-0093',
-        mbti: 'iiii',
-        date: '2021-08-09',
-      },
-      {
-        name: '김범희',
-        point: 100,
-        email: 'qqq960909@naver.com',
-        phone: '010-4533-0093',
-        mbti: 'iiii',
-        date: '2021-08-09',
-      },
-      {
-        name: '박범희',
-        point: 50,
-        email: 'qqq960909@naver.com',
-        phone: '010-4533-0093',
-        mbti: 'iiii',
-        date: '2021-08-09',
-      },
-      {
-        name: '이범희',
-        point: 200,
-        email: 'qqq960909@naver.com',
-        phone: '010-4533-0093',
-        mbti: 'iiii',
-        date: '2021-08-09',
-      },
-      {
-        name: '이범희',
-        point: 80,
-        email: 'qqq960909@naver.com',
-        phone: '010-4533-0093',
-        mbti: 'iiii',
-        date: '2021-08-09',
-      },
-      {
-        name: '이범희',
-        point: 200,
-        email: 'qqq960909@naver.com',
-        phone: '010-4533-0093',
-        mbti: 'iiii',
-        date: '2021-08-09',
-      },
-      {
-        name: '이범희',
-        point: 200,
-        email: 'qqq960909@naver.com',
-        phone: '010-4533-0093',
-        mbti: 'iiii',
-        date: '2021-08-09',
-      },
     ],
   }),
   computed: {
@@ -154,13 +91,11 @@ export default {
         return Math.ceil(this.pagination.totalItems / this.pagination.rowsPerPage)
       },
   },
-  created() {
-    this.$store.dispatch("getTeamMembers", this.managingTeam.teamId);
-    console.log(this.managingTeamMembers);
-  },
   methods: {
     chageleader() {
-
+      this.$store.dispatch("changeTeamLeader", { teamId: this.managingTeam.teamId, memberId: this.selected[0].member.memberId })
+      // console.log(this.selected[0].member.memberId);
+      // console.log(this.managingTeam.teamId);
     },
   },
 };

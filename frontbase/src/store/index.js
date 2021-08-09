@@ -396,7 +396,7 @@ export default new Vuex.Store({
         commit("SET_MANAGING_TEAM_MEMBERS", data.data);
       });
     },
-    changeTeamLeader({ teamId, memberId }) {
+    changeTeamLeader({commit}, {teamId, memberId}) {
       http.get("/team/leader/"+memberId+"?teamId="+teamId).then(({ data }) => {
         console.log("changeTeamLeader : " + data.message);
       });
