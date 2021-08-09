@@ -1,5 +1,6 @@
 package com.web.curation.feed;
 
+import com.google.common.base.Optional;
 import com.web.curation.amazonS3.S3Uploader;
 import com.web.curation.error.CustomException;
 import com.web.curation.files.Photo;
@@ -130,6 +131,18 @@ public class FeedService {
                 .orElseThrow(() -> new CustomException(JOIN_TEAM_NOT_FOUND));
 
         List<Feed> teamFeeds = feedDao.findFeedsByJoinTeamIn(joinTeams);
+        if (teamFeeds == null) {
+            return Collections.emptyList();
+        }
+        return teamFeeds;
+    }
+    
+    public List<Feed> getMemberFeeds(int memberId) {
+    	Member member = memberDao.findById(memberId)
+    			.orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
+    	List<JoinTeam> joinMembers = joinTeamDao.findJoinTeamByMember(member);
+    	
+    	List<Feed> teamFeeds = feedDao.findFeedsByJoinTeamIn(joinMembers);
         if (teamFeeds == null) {
             return Collections.emptyList();
         }
