@@ -16,7 +16,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @ApiResponses(value = {@ApiResponse(code = 401, message = "Unauthorized", response = BasicResponse.class),
         @ApiResponse(code = 403, message = "Forbidden", response = BasicResponse.class),
@@ -95,5 +98,15 @@ public class TeamController {
              response = new ResponseEntity<>(result, HttpStatus.OK);
     	 }
          return response;
+    }
+    
+    @PutMapping("/team/leader/{memberId}")
+    @ApiOperation(value = "팀 리더 변경")
+    public Object changeTeamLeader(@PathVariable int memberId, @RequestParam int teamId) {
+    	Map<String, Object> resultMap = new HashMap<>();
+		
+		teamService.changeTeamLeader(teamId, memberId);
+		resultMap.put("message", "success");
+		return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
     }
 }

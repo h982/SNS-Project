@@ -11,7 +11,10 @@ import Chatting from "@/views/Team/TeamChattingRoom.vue";
 import TeamFeed from "@/views/Team/TeamFeed.vue";
 import MyTeam from "@/views/Team/MyTeam.vue";
 import MyPage from "@/views/user/MyPage.vue";
+import MyFeed from "@/views/user/MyFeed.vue";
+import MemberModify from "@/views/user/MemberModify.vue";
 import ChallengeMake from "@/views/Challenge/TeamChallengeMake.vue";
+import TeamManagement from "@/views/user/TeamManagement.vue";
 Vue.use(Router);
 Vue.use(Meta);
 
@@ -43,6 +46,17 @@ export default new Router({
       name: "mypage",
       component: MyPage
 
+    },
+    {
+      path: "/myfeed",
+      name: "myfeed",
+      component: MyFeed
+
+    },
+    {
+      path: "/membermodify",
+      name: "membermodify",
+      component: MemberModify
     },
     {
       path: "/teammake",
@@ -214,6 +228,11 @@ export default new Router({
       redirect: () => {
         return "/board";
       }
+    },
+    {
+      path: "/teamManagement",
+      name: "teamManagement",
+      component: TeamManagement
     },
 
   ]
