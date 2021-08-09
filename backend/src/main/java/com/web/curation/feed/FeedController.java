@@ -36,11 +36,11 @@ public class FeedController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @GetMapping("/feed")
+    @GetMapping("/feed/{memberId}/{page}")
     @ApiOperation(value = "피드 조회")
-    public ResponseEntity<?> getFeedList() {
+    public ResponseEntity<?> getFeedList(@PathVariable int memberId, @PathVariable int page) {
 
-        List<Feed> feedList = feedService.getFeedList();
+        List<Feed> feedList = feedService.getFeedList(memberId, page);
         final BasicResponse result = new BasicResponse();
         result.status = true;
         result.data = "success";
