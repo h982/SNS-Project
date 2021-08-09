@@ -20,6 +20,10 @@ export default {
   computed: {
     ...mapGetters(["memberInfo","feeds"])
   },
+  mounted(){
+  
+    
+  },
   created() {
     this.$store.dispatch("getFeeds");
     this.$store.dispatch("GET_MY_TEAM_INFO",this.memberInfo.memberId);
