@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
-import com.web.curation.team.challenger.TeamChallenger;
 import com.web.curation.team.challenger.TeamChallengerDto;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -24,7 +23,6 @@ import io.swagger.annotations.ApiOperation;
 		@ApiResponse(code = 404, message = "Not Found", response = BasicResponse.class),
 		@ApiResponse(code = 500, message = "Failure", response = BasicResponse.class)})
 
-//@CrossOrigin(origins = { "http://localhost:3000" })
 @CrossOrigin(origins = {"*"}, maxAge = 6000)
 @RestController
 @AllArgsConstructor
