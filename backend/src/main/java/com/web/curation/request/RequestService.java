@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.List;
 
 import com.web.curation.error.CustomException;
+import com.web.curation.team.join.JoinTeam;
+import com.web.curation.team.join.JoinTeamDao;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,7 @@ public class RequestService {
     RequestDao requestDao;
     MemberDao memberdao;
     TeamDao teamDao;
+    JoinTeamDao joinTeamDao;
 
     public void makeRequest(RequestDto requestDto) {
         Team team = teamDao.findById(requestDto.getTeam().getTeamId())
@@ -42,7 +45,7 @@ public class RequestService {
                 .orElseThrow(() -> new CustomException(TEAM_NOT_FOUND));
 
         List<Request> entityList = requestDao.findAllByTeam(team);
-        if(entityList == null){
+        if (entityList == null) {
             return Collections.emptyList();
         }
 
@@ -58,7 +61,7 @@ public class RequestService {
     public RequestDto acceptRequest(int requestId) {
         Request request = requestDao.findById(requestId)
                 .orElseThrow(() -> new CustomException(REQUEST_NOT_FOUND));
-        if(request.getStatus() != Status.WAITING){
+        if (request.getStatus() != Status.WAITING) {
             throw new CustomException(REQUEST_PROCESSED_RESOURCE);
         }
 
@@ -66,11 +69,12 @@ public class RequestService {
         requestDto.setStatus(Status.ACCEPTED);
         requestDao.save(RequestAdapter.updateDtoToEntity(requestDto));
         increaseMemberCount(requestDto.getTeam().getTeamId());
+        makeJoinTeam(requestDto);
 
         return requestDto;
     }
 
-    private void increaseMemberCount(int teamId){
+    private void increaseMemberCount(int teamId) {
         Team team = teamDao.findById(teamId)
                 .orElseThrow(() -> new CustomException(TEAM_NOT_FOUND));
 
@@ -90,10 +94,27 @@ public class RequestService {
         teamDao.save(team);
     }
 
+    private void makeJoinTeam(RequestDto requestDto){
+        Member member = memberdao.findById(requestDto.getMember().getMemberId())
+                .orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
+        Team team = teamDao.findById(requestDto.getTeam().getTeamId())
+                .orElseThrow(() -> new CustomException(TEAM_NOT_FOUND));
+
+        joinTeamDao.findByMemberAndTeam(member, team)
+                .ifPresent(joinTeam -> {
+                    throw new CustomException(JOIN_TEAM_PROCESSED_RESOURCE);
+                });
+        JoinTeam joinTeam = JoinTeam.builder()
+                .member(member)
+                .team(team)
+                .build();
+        joinTeamDao.save(joinTeam);
+    }
+
     public RequestDto rejectRequest(int requestId) {
         Request request = requestDao.findById(requestId)
                 .orElseThrow(() -> new CustomException(REQUEST_NOT_FOUND));
-        if(request.getStatus() != Status.WAITING){
+        if (request.getStatus() != Status.WAITING) {
             throw new CustomException(REQUEST_PROCESSED_RESOURCE);
         }
         RequestDto requestDto = RequestAdapter.EntityToDto(request);
@@ -102,6 +123,4 @@ public class RequestService {
 
         return requestDto;
     }
-
-
 }

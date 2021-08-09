@@ -23,6 +23,7 @@ public enum ErrorCode {
     FEEDLIKE_DUPLICATE_RESOURCE(HttpStatus.CONFLICT, "피드 좋아요가 이미 존재합니다."),
     REQUEST_DUPLICATE_RESOURCE(HttpStatus.CONFLICT, "가입요청이 이미 존재합니다."),
     REQUEST_PROCESSED_RESOURCE(HttpStatus.CONFLICT, "이미 처리된 요청입니다."),
+    JOIN_TEAM_PROCESSED_RESOURCE(HttpStatus.CONFLICT, "가입 정보가 이미 존재합니다."),
     DUPLICATE_RESOURCE(HttpStatus.CONFLICT, "데이터가 이미 존재합니다."),
 
     ;
