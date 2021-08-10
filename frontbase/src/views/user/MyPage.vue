@@ -56,13 +56,15 @@
             
             <b-row class="col-md-5" style="float: none; margin:0 auto;">
               <b-button variant="primary" class="mr-1" @click.prevent="modify">정보수정</b-button>
-              <b-button variant="success" class="mr-1" @click="teamManagement">팀 관리</b-button>
+              <div v-if="memberInfo.memberId === managingTeam.member.memberId">
+                <b-button variant="success" class="mr-1" @click="teamManagement">팀 관리</b-button>
+              </div>
               <b-button variant="danger" href="#" @click.prevent="check()">회원탈퇴</b-button>
             </b-row>
             <br>
-            <b-row>
+            <!-- <b-row>
               <join-request />
-            </b-row>
+            </b-row> -->
 
             
           </b-jumbotron>
@@ -89,6 +91,8 @@ export default {
   
   created: function(){
     this.$store.dispatch("getRequests", this.managingTeam.teamId);
+    console.log(this.memberInfo.memberId);
+    console.log(this.managingTeam.member.memberId);
   },
   methods: {
     modify() {
