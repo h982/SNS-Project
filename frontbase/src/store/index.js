@@ -304,12 +304,12 @@ export default new Vuex.Store({
           console.log("에러");
         });
     },
-    getFeeds({ commit }) {
+    getFeeds({ commit }, payload) {
       const instance = createInstance();
       instance
-        .get("/feed")
+        .get("/feed/" + payload.memberId + "/" + payload.page)
         .then(response => {
-          console.log(response);
+          console.log(response.data);
           commit("setFeeds", response.data.object);
         })
         .catch(() => {

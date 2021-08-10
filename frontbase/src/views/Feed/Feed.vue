@@ -14,6 +14,14 @@ import { mapGetters } from "vuex";
 import http from "@/util/http-common";
 
 export default {
+  data() {
+    return {
+      feedget: {
+        memberId: "",
+        page: ""
+      }
+    };
+  },
   components: {
     FeedItem
   },
@@ -22,8 +30,10 @@ export default {
   },
   mounted() {},
   created() {
-    this.$store.dispatch("getFeeds");
-    console.log(this.feeds);
+    this.feedget.memberId = this.memberInfo.memberId;
+    this.feedget.page = 0;
+
+    this.$store.dispatch("getFeeds", this.feedget);
     this.$store.dispatch("GET_MY_TEAM_INFO", this.memberInfo.memberId);
     this.$store.dispatch("getTeamLists");
     this.$store.dispatch("GET_ENTIRECHALLENGE_INFO", this.memberInfo.memberId);
