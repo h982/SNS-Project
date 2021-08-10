@@ -104,17 +104,11 @@ public class FeedService {
 //			uploadPhoto.setFeed(resultFeed);
 //			photoList.add(photoDao.save(uploadPhoto));
 //		}
-        PhotoDto uploadPhoto = s3Uploader.upload(feedDto.getImage(), "static");
-        Photo photo = PhotoAndDtoAdapter.dtoToEntity(uploadPhoto);
-        uploadPhoto.setFeed(oldFeed);
-        photoList.add(photoDao.save(photo));
 
         Member member = memberDao.findById(feedDto.getMemberId())
                 .orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
         Team team = teamDao.findById(feedDto.getTeamId())
                 .orElseThrow(() -> new CustomException(TEAM_NOT_FOUND));
-        joinTeamDao.findByMemberAndTeam(member, team)
-                .orElseThrow(() -> new CustomException(JOIN_TEAM_NOT_FOUND));
 
         feedDto.setMember(member);
         feedDto.setTeam(team);
@@ -123,6 +117,11 @@ public class FeedService {
             feed.setTeamchallenge(teamChallengeDao.findById(feedDto.getTeamchallengeId())
                     .orElseThrow(() -> new CustomException(TEAM_CHALLENGE_NOT_FOUND)));
         }
+
+        PhotoDto uploadPhoto = s3Uploader.upload(feedDto.getImage(), "static");
+        uploadPhoto.setFeed(Feed.builder().feedId(feedDto.getFeedId()).build());
+        Photo photo = PhotoAndDtoAdapter.dtoToEntity(uploadPhoto);
+        photoList.add(photoDao.save(photo));
         feed.setPhotos(photoList);
         feedDao.save(feed);
     }
