@@ -9,7 +9,7 @@
         <div class="feed-show-btn" @click="showBtns"></div>
         <div class="feed-change">
           <div @click="modifyFeed">수정</div>
-          <div>삭제</div>
+          <div @click="deleteFeed">삭제</div>
         </div>
       </div>
       <div class="feed-wrap">
@@ -66,18 +66,28 @@ export default {
       }
     },
     modifyFeed() {
-      this.$store.dispatch("SET_FEEDID", this.feed.feedId);
-      const body = {
-        memberId: this.memberInfo.memberId,
-        teamId: this.myTeamList[0].text.teamId,
-        teamName: this.myTeamList[0].text.name,
-        contents: this.feed.contents,
-        writer: this.feed.writer,
-        image: this.feed.photos[0].filePath
-      };
-      console.log(body);
-      this.$store.dispatch("SET_ONEFEED", body);
-      this.$router.push("/updateFeed");
+      if (this.feed.writer.replaceAll('"', "") === this.memberInfo.name) {
+        this.$store.dispatch("SET_FEEDID", this.feed.feedId);
+        const body = {
+          memberId: this.memberInfo.memberId,
+          teamId: this.myTeamList[0].text.teamId,
+          teamName: this.myTeamList[0].text.name,
+          contents: this.feed.contents,
+          writer: this.feed.writer,
+          image: this.feed.photos[0].filePath
+        };
+        console.log(body);
+        this.$store.dispatch("SET_ONEFEED", body);
+        this.$router.push("/updateFeed");
+      } else {
+        alert("본인만 수정할 수 있습니다");
+      }
+    },
+    deleteFeed() {
+      if (this.feed.writer.replaceAll('"', "") === this.memberInfo.name) {
+      } else {
+        alert("본인만 삭제할 수 있습니다");
+      }
     }
   }
 };
