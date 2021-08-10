@@ -15,6 +15,8 @@ import com.web.curation.team.challenge.TeamChallengeDao;
 import com.web.curation.team.join.JoinTeam;
 import com.web.curation.team.join.JoinTeamDao;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,9 +46,10 @@ public class FeedService {
                 .orElseThrow(() -> new CustomException(TEAM_NOT_FOUND));
         JoinTeam joinTeam = joinTeamDao.findByMemberAndTeam(member, team)
                 .orElseThrow(() -> new CustomException(JOIN_TEAM_NOT_FOUND));
+        feedDto.setMember(member);
+        feedDto.setTeam(team);
 
         Feed feed = FeedAdaptor.dtoToEntity(feedDto);
-        feed.setJoinTeam(joinTeam);
         if (feedDto.getTeamchallengeId() != 0) {
             feed.setTeamchallenge(teamChallengeDao.findById(feedDto.getTeamchallengeId())
                     .orElseThrow(() -> new CustomException(TEAM_CHALLENGE_NOT_FOUND)));
@@ -62,13 +65,22 @@ public class FeedService {
 //			photoList.add(photoDao.save(photo));
 //		}
         PhotoDto uploadPhoto = s3Uploader.upload(feedDto.getImage(), "static");
-        Photo photo = PhotoAndDtoAdapter.dtoToEntity(uploadPhoto);
         uploadPhoto.setFeed(resultFeed);
+        Photo photo = PhotoAndDtoAdapter.dtoToEntity(uploadPhoto);
         photoDao.save(photo);
     }
 
-    public List<Feed> getFeedList() {
-        List<Feed> feeds = feedDao.findAllJoinFetch();
+    public List<Feed> getFeedList(int memberId, int page) {
+        PageRequest pageRequest = PageRequest.of(page, 10, Sort.by("feedId").descending());
+        Member chkMember = memberDao.findById(memberId)
+                .orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
+        List<JoinTeam> joinTeamList = joinTeamDao.findJoinTeamByMember(chkMember);
+        List<Team> teamForSearch = new ArrayList<>();
+//        for (JoinTeam joinTeam : joinTeamList) {
+//            teamForSearch.add(joinTeam.getTeam());
+//        }
+        joinTeamList.forEach(joinTeam -> teamForSearch.add(joinTeam.getTeam()));
+        List<Feed> feeds = feedDao.findAllJoinFetch(teamForSearch, pageRequest);
         if (feeds == null) {
             return Collections.emptyList();
         }
@@ -104,7 +116,6 @@ public class FeedService {
         JoinTeam joinTeam = joinTeamDao.findByMemberAndTeam(member, team)
                 .orElseThrow(() -> new CustomException(JOIN_TEAM_NOT_FOUND));
         Feed feed = FeedAdaptor.dtoToEntity(feedDto);
-        feed.setJoinTeam(joinTeam);
         if (feedDto.getTeamchallengeId() != 0) {
             feed.setTeamchallenge(teamChallengeDao.findById(feedDto.getTeamchallengeId())
                     .orElseThrow(() -> new CustomException(TEAM_CHALLENGE_NOT_FOUND)));
@@ -127,22 +138,22 @@ public class FeedService {
     public List<Feed> getTeamFeeds(int teamId) {
         Team team = teamDao.findById(teamId)
                 .orElseThrow(() -> new CustomException(TEAM_NOT_FOUND));
-        List<JoinTeam> joinTeams = joinTeamDao.findJoinTeamsByTeam(team)
-                .orElseThrow(() -> new CustomException(JOIN_TEAM_NOT_FOUND));
+//        List<JoinTeam> joinTeams = joinTeamDao.findJoinTeamsByTeam(team)
+//                .orElseThrow(() -> new CustomException(JOIN_TEAM_NOT_FOUND));
 
-        List<Feed> teamFeeds = feedDao.findFeedsByJoinTeamIn(joinTeams);
+        List<Feed> teamFeeds = feedDao.findByTeam(team);
         if (teamFeeds == null) {
             return Collections.emptyList();
         }
         return teamFeeds;
     }
-    
+
     public List<Feed> getMemberFeeds(int memberId) {
-    	Member member = memberDao.findById(memberId)
-    			.orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
-    	List<JoinTeam> joinMembers = joinTeamDao.findJoinTeamByMember(member);
-    	
-    	List<Feed> teamFeeds = feedDao.findFeedsByJoinTeamIn(joinMembers);
+        Member member = memberDao.findById(memberId)
+                .orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
+//        List<JoinTeam> joinMembers = joinTeamDao.findJoinTeamByMember(member);
+
+        List<Feed> teamFeeds = feedDao.findByMember(member);
         if (teamFeeds == null) {
             return Collections.emptyList();
         }

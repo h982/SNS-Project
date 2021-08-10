@@ -88,11 +88,13 @@ public class TeamService {
         teamDto.setMemberCount(1);
         TeamDto resultTeamDto = TeamAndDtoAdapter.entityToDto(teamDao.save(team));
 
-        Optional<Team> chkTeam = Optional.ofNullable(teamDao.findById(resultTeamDto.getTeamId()).orElseThrow(NotFoundDataException::new));
-        Optional<Member> chkMember = Optional.ofNullable(memberDao.findById(resultTeamDto.getMemberId()).orElseThrow(NotFoundDataException::new));
+        Team chkTeam = teamDao.findById(resultTeamDto.getTeamId())
+                .orElseThrow(NotFoundDataException::new);
+        Member chkMember = memberDao.findById(resultTeamDto.getMemberId())
+                .orElseThrow(NotFoundDataException::new);
         JoinTeam jointeam = JoinTeam.builder()
-                .team(chkTeam.get())
-                .member(chkMember.get())
+                .team(chkTeam)
+                .member(chkMember)
                 .build();
         joinTeamDao.save(jointeam);
 

@@ -50,11 +50,9 @@ public class ChallengeService {
 
 	private ChallengeDto updateInfo(ChallengeDto challengeDto) {
 		System.out.println("update");
-		List<JoinTeam> list = joinTeamDao.findJoinTeamByMember(new Member(challengeDto.getMemberId()));
 		int cnt = 0;
-		for(JoinTeam joinTeam : list) {
-			cnt += feedDao.countByJoinTeam(joinTeam);
-		}
+		cnt += feedDao.countByMember(new Member(challengeDto.getMemberId()));
+
 		
 		challengeDto.setTeamCount(joinTeamDao.countByMember(new Member(challengeDto.getMemberId())));
 		challengeDto.setCommentCount(commentDao.countByMember(new Member(challengeDto.getMemberId())));
