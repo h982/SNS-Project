@@ -29,8 +29,9 @@
     <div class="contents_wrap">
       <textarea v-model="contents" class="contents"></textarea>
     </div>
-    <v-btn @click="write">등록</v-btn>
-    <v-btn @click="check">확인</v-btn>
+    <v-btn v-if="this.type === 'update'" @click="modify">수정</v-btn>
+    <v-btn v-else @click="write">등록</v-btn>
+    <!-- <v-btn @click="check">확인</v-btn> -->
   </div>
 </template>
 
@@ -66,6 +67,7 @@ export default {
       this.contents = this.oneFeed.contents;
     }
   },
+
   methods: {
     write() {
       var daily = document.querySelector(".dailyFeed");
@@ -95,7 +97,10 @@ export default {
         })
         .then(response => {
           if (response.data.data === "success") {
-            this.$store.dispatch("GET_TEAMCHALLENGEING_INFO", this.memberInfo.memberId);
+            this.$store.dispatch(
+              "GET_TEAMCHALLENGEING_INFO",
+              this.memberInfo.memberId
+            );
             alert("피드 작성 완료");
             this.$router.push("/feed");
           } else {
@@ -105,6 +110,9 @@ export default {
         .catch(() => {
           alert("에러발생!.");
         });
+    },
+    modify() {
+      alert("수정하자");
     },
     loadf() {
       // console.log("되는가?");
@@ -118,10 +126,10 @@ export default {
       preview.style.width = "60%";
       preview.style.height = "60%";
       preview.style.maxHeight = "500px";
-    },
-    check() {
-      console.log(this.feed_challenging);
     }
+    // check() {
+    //   console.log(this.feed_challenging);
+    // }
   }
 };
 </script>
