@@ -6,7 +6,9 @@ import com.web.curation.feed.Feed;
 import com.web.curation.feed.FeedDao;
 import com.web.curation.member.Member;
 import com.web.curation.member.MemberDao;
+import com.web.curation.team.Team;
 import com.web.curation.team.challenge.TeamChallenge;
+import com.web.curation.team.challenger.TeamChallenger;
 import com.web.curation.team.challenger.TeamChallengerDao;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -48,16 +50,29 @@ public class FeedlikeService {
 
         TeamChallenge teamChallenge = feed.getTeamchallenge();
         if(teamChallenge != null){
-
+            checkTeamChallenge(feed);
         }
         return feedlikeDto;
+    }
+
+    private void checkTeamChallenge(Feed feed){
+        List<Feedlike> feedlikes = feedLikeDao.findFeedlikeByFeed(feed);
+        Team team = feed.getTeam();
+        int member_count = team.getMemberCount();
+        if(feedlikes.size() < member_count / 3)
+            return;
+
+        TeamChallenger teamChallenger = teamChallengerDao.findTeamChallengerByTeamChallengeAndMember(
+                feed.getTeamchallenge(), feed.getMember()
+        ).orElseThrow(() -> new CustomException(TEAM_CHALLENGER_NOT_FOUND));
+        teamChallenger.setDone(true);
+        teamChallengerDao.save(teamChallenger);
     }
 
     public List<FeedlikeDto> getfeedlikeList(int feedId) {
         Feed feed = feedDao.findById(feedId)
                 .orElseThrow(() -> new CustomException(FEED_NOT_FOUND));
-        List<Feedlike> feedlikeList = feedLikeDao.findFeedlikeByFeed(feed)
-                .orElse(Collections.emptyList());
+        List<Feedlike> feedlikeList = feedLikeDao.findFeedlikeByFeed(feed);
 
         List<FeedlikeDto> feedlikeDtos = new ArrayList<>();
         for (Feedlike feedlike : feedlikeList) {
@@ -76,8 +91,7 @@ public class FeedlikeService {
     public List<FeedlikeDto> getMyFeedlikes(int memberId) {
         Member member = memberDao.findById(memberId)
                 .orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
-        List<Feedlike> feedlikeList = feedLikeDao.findFeedlikeByMember(member)
-                .orElse(Collections.emptyList());
+        List<Feedlike> feedlikeList = feedLikeDao.findFeedlikeByMember(member);
 
         List<FeedlikeDto> feedlikeDtos = new ArrayList<>();
         for (Feedlike feedlike : feedlikeList) {

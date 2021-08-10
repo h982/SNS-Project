@@ -9,6 +9,6 @@ import java.util.Optional;
 
 public interface FeedlikeDao extends JpaRepository<Feedlike, Integer>{
     Optional<Feedlike> findFeedlikeByMemberAndFeed(Member member, Feed feed);
-    Optional<List<Feedlike>> findFeedlikeByFeed(Feed feed);
-    Optional<List<Feedlike>> findFeedlikeByMember(Member member);
+    List<Feedlike> findFeedlikeByFeed(Feed feed);
+    List<Feedlike> findFeedlikeByMember(Member member);
 }
