@@ -57,20 +57,18 @@ public class FeedController {
         final BasicResponse result = new BasicResponse();
         result.status = true;
         result.data = "success";
-        result.object = feedDto;
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @DeleteMapping("/feed")
+    @DeleteMapping("/feed/{feed_id}")
     @ApiOperation(value = "피드 삭제")
-    public ResponseEntity<?> deleteFeed(FeedDto feedDto) throws IOException {
+    public ResponseEntity<?> deleteFeed(@PathVariable(name = "feed_id") int feedId) throws IOException {
 
-        feedService.deleteFeed(feedDto);
+        feedService.deleteFeed(feedId);
         final BasicResponse result = new BasicResponse();
         result.status = true;
         result.data = "success";
-        result.object = feedDto;
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
