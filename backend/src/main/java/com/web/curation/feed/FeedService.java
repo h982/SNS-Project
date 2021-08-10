@@ -71,7 +71,7 @@ public class FeedService {
     }
 
     public List<Feed> getFeedList(int memberId, int page) {
-        PageRequest pageRequest = PageRequest.of(page, 10, Sort.by("feedId").descending());
+        PageRequest pageRequest = PageRequest.of(page, 3, Sort.by("feedId").descending());
         Member chkMember = memberDao.findById(memberId)
                 .orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
         List<JoinTeam> joinTeamList = joinTeamDao.findJoinTeamByMember(chkMember);
