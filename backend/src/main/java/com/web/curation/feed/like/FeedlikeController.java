@@ -25,17 +25,9 @@ public class FeedlikeController {
 
     @PostMapping("/feedlike")
     ResponseEntity<?> createFeedlike(@RequestBody @Valid FeedlikeDto feedlikeDto){
-
-        int feedlikeId = feedlikeService.likeFeed(feedlikeDto);
-        feedlikeDto.setFeedlikeId(feedlikeId);
+        feedlikeDto = feedlikeService.likeFeed(feedlikeDto);
 
         final BasicResponse result = new BasicResponse();
-        if(feedlikeId == -1){
-            result.status = false;
-            result.data = "fail";
-            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
-        }
-
         result.status = true;
         result.data = "success";
         result.object = feedlikeDto;
@@ -44,16 +36,9 @@ public class FeedlikeController {
 
     @GetMapping("/feedlike/{feed_id}")
     ResponseEntity<?> getFeedlikes(@PathVariable(value = "feed_id")int feedId){
-
-        Optional<List<FeedlikeDto>> feedlikeList = feedlikeService.getfeedlikeList(feedId);
+        List<FeedlikeDto> feedlikeList = feedlikeService.getfeedlikeList(feedId);
 
         final BasicResponse result = new BasicResponse();
-        if(!feedlikeList.isPresent()){
-            result.status = false;
-            result.data = "fail";
-            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
-        }
-
         result.status = true;
         result.data = "success";
         result.object = feedlikeList;
@@ -62,16 +47,9 @@ public class FeedlikeController {
 
     @PutMapping("/feedlike")
     ResponseEntity<?> updateFeedlike(@RequestBody @Valid FeedlikeDto feedlikeDto){
-
-        boolean isOk = feedlikeService.updateFeedlike(feedlikeDto);
+        feedlikeService.updateFeedlike(feedlikeDto);
 
         final BasicResponse result = new BasicResponse();
-        if(!isOk){
-            result.status = false;
-            result.data = "fail";
-            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
-        }
-
         result.status = true;
         result.data = "success";
         result.object = feedlikeDto;
@@ -80,16 +58,9 @@ public class FeedlikeController {
 
     @DeleteMapping("/feedlike")
     ResponseEntity<?> deleteFeedlike(@RequestBody @Valid FeedlikeDto feedlikeDto){
-
-        boolean isOk = feedlikeService.deleteFeedlike(feedlikeDto);
+        feedlikeService.deleteFeedlike(feedlikeDto);
 
         final BasicResponse result = new BasicResponse();
-        if(!isOk){
-            result.status = false;
-            result.data = "fail";
-            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
-        }
-
         result.status = true;
         result.data = "success";
         result.object = feedlikeDto;

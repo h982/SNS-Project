@@ -1,12 +1,6 @@
 package com.web.curation.feed.like;
 
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.web.curation.feed.Feed;
@@ -24,7 +18,7 @@ import lombok.*;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Feedlike {
 	
-	@Id
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "FEEDLIKE_ID")
 	private int feedlikeId;
 

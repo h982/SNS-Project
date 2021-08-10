@@ -6,11 +6,14 @@ import com.web.curation.feed.Feed;
 import com.web.curation.feed.FeedDao;
 import com.web.curation.member.Member;
 import com.web.curation.member.MemberDao;
+import com.web.curation.team.challenge.TeamChallenge;
+import com.web.curation.team.challenger.TeamChallengerDao;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,12 +22,13 @@ import static com.web.curation.error.ErrorCode.*;
 @Service
 @AllArgsConstructor
 public class FeedlikeService {
-    FeedlikeDao feedLikeDao;
-    FeedDao feedDao;
-    MemberDao memberDao;
+    private FeedlikeDao feedLikeDao;
+    private FeedDao feedDao;
+    private MemberDao memberDao;
+    private TeamChallengerDao teamChallengerDao;
 
     @Transactional
-    public int likeFeed(FeedlikeDto feedlikeDto) {
+    public FeedlikeDto likeFeed(FeedlikeDto feedlikeDto) {
         Member member = memberDao.findById(feedlikeDto.getMemberId())
                 .orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
         Feed feed = feedDao.findById(feedlikeDto.getFeedId())
@@ -40,15 +44,23 @@ public class FeedlikeService {
                 .feed(feed)
                 .feedLike(feedlikeDto.getFeedLike())
                 .build();
-        Feedlike savedFeedlike = feedLikeDao.save(feedlike);
-        return savedFeedlike.getFeedlikeId();
+        feedlike = feedLikeDao.save(feedlike);
+        feedlikeDto.setFeedlikeId(feedlike.getFeedlikeId());
+
+        TeamChallenge teamChallenge = feed.getTeamchallenge();
+        if(teamChallenge != null){
+
+        }
+
+        return feedlikeDto;
     }
 
-    public Optional<List<FeedlikeDto>> getfeedlikeList(int feedId) {
+    public List<FeedlikeDto> getfeedlikeList(int feedId) {
         Feed feed = feedDao.findById(feedId)
                 .orElseThrow(() -> new CustomException(FEED_NOT_FOUND));
+        List<Feedlike> feedlikeList = feedLikeDao.findFeedlikeByFeed(feed)
+                .orElse(Collections.emptyList());
 
-        List<Feedlike> feedlikeList = feedLikeDao.findFeedlikeByFeed(feed).get();
         List<FeedlikeDto> feedlikeDtos = new ArrayList<>();
         for (Feedlike feedlike : feedlikeList) {
             feedlikeDtos.add(FeedlikeDto.builder()
@@ -60,26 +72,21 @@ public class FeedlikeService {
             );
         }
 
-        return Optional.of(feedlikeDtos);
+        return feedlikeDtos;
     }
 
-    public boolean updateFeedlike(FeedlikeDto feedlikeDto) {
-        Optional<Feedlike> chkFeedlike = feedLikeDao.findById(feedlikeDto.getFeedlikeId());
-        if (!chkFeedlike.isPresent()) {
-            return false;
-        }
-        Feedlike feedlike = chkFeedlike.get();
+    public void updateFeedlike(FeedlikeDto feedlikeDto) {
+        Feedlike feedlike = feedLikeDao.findById(feedlikeDto.getFeedlikeId())
+                .orElseThrow(() -> new CustomException(FEEDLIKE_NOT_FOUND));
+
         feedlike.setFeedLike(feedlikeDto.getFeedLike());
         feedLikeDao.save(feedlike);
-        return true;
     }
 
-    public boolean deleteFeedlike(FeedlikeDto feedlikeDto) {
-        Optional<Feedlike> chkFeedlike = feedLikeDao.findById(feedlikeDto.getFeedlikeId());
-        if (!chkFeedlike.isPresent()) {
-            return false;
-        }
-        feedLikeDao.delete(chkFeedlike.get());
-        return true;
+    public void deleteFeedlike(FeedlikeDto feedlikeDto) {
+        Feedlike feedlike = feedLikeDao.findById(feedlikeDto.getFeedlikeId())
+                .orElseThrow(() -> new CustomException(FEEDLIKE_NOT_FOUND));
+
+        feedLikeDao.delete(feedlike);
     }
 }
