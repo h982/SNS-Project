@@ -2,6 +2,8 @@ package com.web.curation.feed;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.web.curation.files.Photo;
+import com.web.curation.member.Member;
+import com.web.curation.team.Team;
 import com.web.curation.team.challenge.TeamChallenge;
 import com.web.curation.team.join.JoinTeam;
 
@@ -30,8 +32,12 @@ public class Feed {
 	private TeamChallenge teamchallenge;
 
 	@ManyToOne
-	@JoinColumn(name = "JOINTEAM_ID")
-	private JoinTeam joinTeam;
+	@JoinColumn(name = "TEAM_ID")
+	private Team team;
+
+	@ManyToOne
+	@JoinColumn(name = "MEMBER_ID")
+	private Member member;
 	
 	@Column(name = "team_name", nullable = false, length = 45)
 	private String teamName;

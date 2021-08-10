@@ -15,7 +15,7 @@
 
     <div class="wrapB">
       <feed-item v-for="(feed, idx) in teamFeeds" :key="idx" :feed="feed" />
-      <!-- <div class="writebtn" @click="mvWrite" /> -->
+      <div class="writebtn" @click="mvWrite" /> 
     </div>
   </div>
 </template>
