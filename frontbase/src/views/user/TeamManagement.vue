@@ -1,6 +1,12 @@
 <template>
   <div>
-    <h1>팀원 조회 및 팀장 권환 부여</h1>
+    <h1>내 팀 관리</h1>
+    <br>
+    <v-row>
+      <join-request />
+    </v-row>
+    <br>
+    <h3>팀원 조회</h3>
     <div>
       <template>
         <v-card>
@@ -35,7 +41,14 @@
               </td>
               <td>{{ props.item.member.memberId }}</td>
               <td class="text-xs-right">{{ props.item.member.name }}</td>
-              <td class="text-xs-right">{{ props.item.member.point }}</td>
+              <td class="text-xs-right">
+                <v-chip
+                  :color="getColor(props.item.member.point)"
+                  dark
+                >
+                  {{ props.item.member.point }}
+                </v-chip>
+              </td>
               <td class="text-xs-right">{{ props.item.member.email }}</td>
               <td class="text-xs-right">{{ props.item.member.phone }}</td>
               <td class="text-xs-right">{{ props.item.member.mbti }}</td>
@@ -61,9 +74,14 @@
 
 <script>
 import { mapGetters } from "vuex";
+import http from "@/util/http-common";
+import JoinRequest from "@/views/user/JoinRequest";
 
 export default {
   name: "TeamManagement",
+  components: {
+    JoinRequest
+  },
   data: () => ({
     pagination: {},
     selected: [],
@@ -93,10 +111,22 @@ export default {
       },
   },
   methods: {
-    chageleader() {
-      this.$store.dispatch("changeTeamLeader", { teamId: this.managingTeam.teamId, memberId: this.selected[0].member.memberId })
+    // chageleader() {
+    //   this.$store.dispatch("changeTeamLeader", { teamId: this.managingTeam.teamId, memberId: this.selected[0].member.memberId });
       // console.log(this.selected[0].member.memberId);
       // console.log(this.managingTeam.teamId);
+    // },
+    getColor (point) {
+      if (point > 100) return 'green'
+      else if (point > 50) return 'orange'
+      else return 'red'
+    },
+    chageleader() {
+      http.put("/team/leader/"+this.selected[0].member.memberId+"?teamId="+this.managingTeam.teamId).then(({ data }) => {
+        console.log("changeTeamLeader : " + data.message);
+        alert("리더가 변경되었습니다. 잠시 뒤 다시 로그인해주세요.");
+        // this.$router.push("/mypage");
+      });
     },
   },
 };
