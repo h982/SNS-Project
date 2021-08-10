@@ -9,8 +9,17 @@
         x-large
       >
       <team-header />
-        
       </v-bottom-navigation>
+      <v-bottom-navigation
+        v-else
+        class="mx-auto"
+        shift
+        x-large
+      >
+      <team-header-2 />
+      </v-bottom-navigation>
+
+      
     </v-layout>
     <v-layout column justify-center class="mt-4 pt-2">
       <h1 class="text-xs-center mb-4 pb-2">{{selectTeam.name.replaceAll("\"", "")}}</h1>
@@ -114,6 +123,7 @@ import { mapGetters } from 'vuex';
 import TeamHeader from "@/components/TeamHeader.vue"
 import { createInstance } from "@/api/index.js";
 import thumbnail1 from "@/assets/images/thumbnail.jpg";
+import TeamHeader2 from '../../components/TeamHeader2.vue';
 
 export default {
   name: "TeamMain",
@@ -165,7 +175,8 @@ export default {
     };
   },
   components: {
-    TeamHeader
+    TeamHeader,
+    TeamHeader2,
   },
   methods: {
     join() {

@@ -2,19 +2,15 @@
     <div>
         <v-layout >
             <v-btn color="secondary" @click="moveMain">
-                <i class="fas fa-user-edit fa-2x" ></i>
-                <div>&nbsp;&nbsp;&nbsp;내 정보 수정</div>
-            </v-btn>
-
-            <v-btn color="secondary" @click="moveMain">
-                <i class="fas fa-edit fa-2x" ></i>
-                <div>&nbsp;&nbsp;&nbsp;팀 정보 수정</div>
+                <i class="fas fa-address-card fa-2x" ></i>
+                <div>&nbsp;&nbsp;&nbsp;정보</div>
             </v-btn>
 
             <v-btn color="success" @click="moveTeamFeed">
-                <i class="fas fa-users fa-2x" ></i>
-                <div>&nbsp;&nbsp;&nbsp;팀원 목록</div>
+                <i class="fas fa-clipboard fa-2x" ></i>
+                <div>&nbsp;&nbsp;&nbsp;피드</div>
             </v-btn>
+
         </v-layout>
     </div>
 </template>
