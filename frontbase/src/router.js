@@ -37,6 +37,12 @@ export default new Router({
         import( /* webpackChunkName: "about" */ "./views/SignUp.vue")
     },
     {
+      path: "/kakaosignup",
+      name: "kakaosignup",
+      component: () =>
+        import( /* webpackChunkName: "about" */ "./views/KakaoSignUp.vue")
+    },
+    {
       path: "/myteam",
       name: "myteam",
       component: MyTeam

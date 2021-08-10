@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.web.curation.member.JwtServiceImpl;
 import com.web.curation.member.Member;
 import com.web.curation.member.challenge.ChallengeService;
@@ -28,6 +31,14 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 import static java.time.LocalDateTime.now;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 @CrossOrigin(origins = {"*"}, maxAge = 6000)
 @RestController
@@ -139,5 +150,107 @@ public class MemberController {
 
         resultMap.put("message", "해당하는 email이 없습니다.");
         return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.NOT_FOUND);
+    }
+    
+    @ApiOperation(value = "카카오 로그인")
+    @GetMapping("/kakao")
+    public ResponseEntity<Map<String, Object>> kakaoLogin(@RequestParam String code){
+        Map<String, Object> resultMap = new HashMap<>();
+        
+        String token = getKakaoToken(code);
+        Map<String, String> userInfo = getKaKaoUserInfo(token);
+        Optional<MemberDto> dto = memberService.getMemberByEmail(userInfo.get("email"));
+        
+        resultMap.put("message", "카카오 유저 정보");
+        resultMap.put("data", userInfo);
+        resultMap.put("member", dto);
+
+        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+    }
+
+	private String getKakaoToken(String code) {
+		String access_Token = "";
+		String refresh_Token = "";
+		HttpURLConnection conn = null;
+		
+		try {
+			URL url = new URL("https://kauth.kakao.com/oauth/token");
+			conn = (HttpURLConnection)url.openConnection();
+			
+			conn.setRequestMethod("POST");
+			conn.setDoOutput(true);
+			conn.setRequestProperty("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+			
+			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+			StringBuilder sb = new StringBuilder();
+			sb.append("grant_type=authorization_code");
+			sb.append("&client_id=4ae2f007d84e033a263932b5176355f1");
+			sb.append("&redirect_uri=http://localhost:8081/kakaosignup");
+			sb.append("&code=" + code);
+			bw.write(sb.toString());
+			bw.flush();
+			
+			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			String line = "";
+			String result = "";
+			
+			while((line = br.readLine()) != null) {
+				result += line;
+			}
+			
+			JsonParser parser = new JsonParser();
+            JsonElement element = parser.parse(result);
+
+            access_Token = element.getAsJsonObject().get("access_token").getAsString();
+            refresh_Token = element.getAsJsonObject().get("refresh_token").getAsString();
+
+            br.close();
+            bw.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return access_Token;
+	}
+	
+	public Map<String, String> getKaKaoUserInfo(String access_Token) {
+
+        Map<String, String> userInfo = new HashMap<>();
+        String reqURL = "https://kapi.kakao.com/v2/user/me";
+
+        try {
+            URL url = new URL(reqURL);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+
+            conn.setRequestProperty("Authorization", "Bearer " + access_Token);
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+            String line = "";
+            String result = "";
+
+            while ((line = br.readLine()) != null) {
+                result += line;
+            }
+
+            JsonParser parser = new JsonParser();
+            JsonElement element = parser.parse(result);
+
+            JsonObject kakao_account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
+            
+            String id = element.getAsJsonObject().get("id").getAsString();
+            String email = null;
+            if (kakao_account.getAsJsonObject().get("email") != null) {
+                email = kakao_account.getAsJsonObject().get("email").getAsString();
+                userInfo.put("id", id);
+                userInfo.put("email", email);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return userInfo;
     }
 }
