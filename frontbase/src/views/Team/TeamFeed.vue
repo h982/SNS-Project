@@ -7,9 +7,8 @@
     </v-layout>
     <div class="wrapB">
       <feed-item v-for="(feed, idx) in teamFeeds" :key="idx" :feed="feed" />
-      <!-- <div class="writebtn" @click="mvWrite" /> -->
+      <div class="writebtn" @click="mvWrite" /> 
     </div>
-  </div>
   </div>
 </template>
 <script>
@@ -31,9 +30,9 @@ export default {
     this.$store.dispatch("getMyTeamFeeds", this.selectTeam.teamId);
   },
   methods: {
-    // mvWrite() {
-    //   this.$router.push("/writefeed");
-    // }
+    mvWrite() {
+      this.$router.push("/writefeed");
+    }
   }
 };
 </script>

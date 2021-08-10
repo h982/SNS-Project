@@ -19,10 +19,11 @@ export default new Vuex.Store({
     team: [],
     teamInfo: null,
     myTeamList: [],
-    managingTeam: {},
+    managingTeam: {}, // 내가 팀장으로 있는 팀의 정보
+    managingTeamMembers: [], // 내가 팀장으로 있는 팀의 멤버 목록
     book: {},
     books: [],
-    joinRequests: [],
+    joinRequests: [], // managingTeam의 가입 요청 목록
     selectTeam: {},
     feedid: {},
     team_challenging: [], //내가 진행중인 챌린지
@@ -32,6 +33,7 @@ export default new Vuex.Store({
     // 공지사항
     noticeItems: [],
     noticeItem: {},
+    myFeeds: [],
   },
 
   getters: {
@@ -83,6 +85,9 @@ export default new Vuex.Store({
     managingTeam(state) {
       return state.managingTeam;
     },
+    managingTeamMembers(state) {
+      return state.managingTeamMembers;
+    },
     feed_challenging(state) {
       return state.feed_challenging;
     },
@@ -92,6 +97,9 @@ export default new Vuex.Store({
     noticeItem(state) {
       return state.noticeItem;
     },
+    myFeeds(state) {
+      return state.myFeeds;
+    }
   },
   mutations: {
     setIsLogined(state, isLogin) {
@@ -105,8 +113,15 @@ export default new Vuex.Store({
       state.isLogin = false;
       state.memberInfo = null;
     },
-    setFeeds(state, payload) {
-      state.feeds = payload;
+    setFeeds(state, data) {
+      state.feeds = state.feeds.concat(data);
+    },
+    setInitFeeds(state, data) {
+      state.feeds.length = 0;
+      state.feeds = data;
+    },
+    setMyFeeds(state, payload) {
+      state.myFeeds = payload;
     },
     setTeamFeeds(state, payload) {
       state.teamFeeds = payload;
@@ -180,6 +195,9 @@ export default new Vuex.Store({
     setNoticeItem(state, payload) {
       state.noticeItem = payload;
     },
+    SET_MANAGING_TEAM_MEMBERS(state, payload) {
+      state.managingTeamMembers = payload;
+    }
   },
   actions: {
     async GET_MEMBER_INFO({ commit }, token) {
@@ -268,6 +286,7 @@ export default new Vuex.Store({
             if (managerId === state.memberInfo.memberId) {
                 commit("SET_MANAGING_TEAM", element);
                 dispatch("getRequests", element.teamId);
+                dispatch("getTeamMembers", element.teamId);
             }
           });
         })
@@ -287,13 +306,24 @@ export default new Vuex.Store({
           console.log("에러");
         });
     },
-    getFeeds({ commit }) {
+    getFeeds({ commit },payload) {
       const instance = createInstance();
       instance
-        .get("/feed")
+        .get("/feed/"+payload.memberId+"/"+payload.page)
+        .then(response => {
+          commit("setInitFeeds", response.data.object);
+        })
+        .catch(() => {
+          //alert("에러발생");
+        });
+    },
+    getMyFeeds({ commit }, payload) {
+      const instance = createInstance();
+      instance
+        .get("/feed/member/"+ payload)
         .then(response => {
           console.log(response);
-          commit("setFeeds", response.data.object);
+          commit("setMyFeeds", response.data.object);
         })
         .catch(() => {
           //alert("에러발생");
@@ -325,7 +355,6 @@ export default new Vuex.Store({
       http
         .get("/request/" + teamId)
         .then(({ data }) => {
-          console.log("request send");
           context.commit("SET_REQUESTS", data);
         })
         .catch(() => {
@@ -365,5 +394,16 @@ export default new Vuex.Store({
         commit("setNoticeItem", data.object);
       });
     },
+    getTeamMembers({ commit }, teamId) {
+      http.get("/jointeam/member/"+teamId).then(({ data }) => {
+        //console.log("getTeamMembers : " + data.message)
+        commit("SET_MANAGING_TEAM_MEMBERS", data.data);
+      });
+    },
+    // changeTeamLeader({commit}, {teamId, memberId}) {
+    //   http.put("/team/leader/"+memberId+"?teamId="+teamId).then(({ data }) => {
+    //     console.log("changeTeamLeader : " + data.message);
+    //   });
+    // },
   }
 });
