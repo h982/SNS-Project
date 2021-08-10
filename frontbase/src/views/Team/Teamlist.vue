@@ -152,8 +152,8 @@ export default {
 <style scoped>
 .create {
   position: absolute;
-  right: 0px;
-  bottom: 0px;
+  right: 80px;
+  bottom: 50px;
 };
 .txt_line {
   width:70px;

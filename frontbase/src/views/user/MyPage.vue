@@ -4,70 +4,86 @@
       <b-row>
         <b-col></b-col>
         <b-col cols="8">
-          <b-jumbotron>
-            <template #header>My Page</template>
+          <h1>My Page</h1>
 
-            <template #lead>
+            <h3>
               내 정보 확인페이지입니다.
-            </template>
+            </h3>
 
-            <hr class="my-4" />
+          <hr class="my-4" />
 
-            <b-container class="mt-4">
-              <b-row>
-                <b-col cols="2"></b-col>
-                <b-col cols="3" align-self="end">이름: </b-col>
-                <b-col cols="4" align-self="start">{{memberInfo.name}}</b-col>
-                <b-col cols="2"></b-col>
-              </b-row>
+          <v-text-field
+            name="member.name"
+            color="green"
+            background-color="transparent"
+            v-model="memberInfo.name"
+            label="Name"
+            readonly
+          ></v-text-field>
 
-              <b-row>
-                <b-col cols="2"></b-col>
-                <b-col cols="3" align-self="end">이메일: </b-col>
-                <b-col cols="4" align-self="start">{{memberInfo.email}}</b-col>
-                <b-col cols="2"></b-col>
-              </b-row>
+          <v-text-field
+            type="email"
+            color="green"
+            background-color="transparent"
+            name="member.email"
+            v-model="memberInfo.email"
+            label="E-mail"
+            readonly
+            required
+          ></v-text-field>
 
-              <b-row>
-                <b-col cols="2"></b-col>
-                <b-col cols="3" align-self="end">포인트: </b-col>
-                <b-col cols="4" align-self="start">{{memberInfo.point}}</b-col>
-                <b-col cols="2"></b-col>
-              </b-row>
+          <v-text-field
+            type="point"
+            color="green"
+            background-color="transparent"
+            name="member.email"
+            v-model="memberInfo.point"
+            label="Point"
+            readonly
+            required
+          ></v-text-field>
 
-              <b-row>
-                <b-col cols="2"></b-col>
-                <b-col cols="3" align-self="end">주소: </b-col>
-                <b-col cols="4" align-self="start">{{memberInfo.address}}</b-col>
-                <b-col cols="2"></b-col>
-              </b-row>
+          
+          <v-text-field
+            address="address"
+            color="green"
+            background-color="transparent"
+            v-model="memberInfo.address"
+            label="주소"
+            readonly
+            required
+          ></v-text-field>
 
-              <b-row>
-                <b-col cols="2"></b-col>
-                <b-col cols="3" align-self="end">우편번호: </b-col>
-                <b-col cols="6" align-self="start">{{memberInfo.zonecode}}</b-col>
-                <b-col cols="2"></b-col>
-              </b-row>
-              
-            </b-container>
-            <hr class="my-4" />
+          <v-text-field
+            name="member.addressDetail"
+            color="green"
+            background-color="transparent"
+            v-model="memberInfo.addressDetail"
+            label="상세주소"
+            readonly
+          ></v-text-field>
 
+          <v-text-field
+            type="mbti"
+            color="green"
+            background-color="transparent"
+            name="member.mbti"
+            v-model="memberInfo.mbti"
+            label="MBTI"
+            readonly
+            required
+          ></v-text-field>
             
-            
-            <b-row class="col-md-5" style="float: none; margin:0 auto;">
-              <b-button variant="primary" class="mr-1" @click.prevent="modify">정보수정</b-button>
-              <div v-if="memberInfo.memberId === managingTeam.member.memberId">
-                <b-button variant="success" class="mr-1" @click="teamManagement">팀 관리</b-button>
-              </div>
-              <b-button variant="danger" href="#" @click.prevent="check()">회원탈퇴</b-button>
-            </b-row>
-            <br>
-            <!-- <b-row>
-              <join-request />
-            </b-row> -->
+          <hr class="my-4" />
 
-            
-          </b-jumbotron>
+          <v-layout row justify-center align-center wrap class="mt-4 pt-2">
+            <v-btn color="blue" class="white--text" @click="memberModify">정보수정</v-btn>
+            <div v-if="memberInfo.memberId === managingTeam.member.memberId">
+              <v-btn color="green" class="white--text" @click="teamManagement">팀 관리</v-btn>
+            </div>
+            <v-btn color="red" class="white--text" @click.prevent="check()">회원탈퇴</v-btn>
+          </v-layout>
+          <br>
         </b-col>
         <b-col></b-col>
       </b-row>
@@ -106,6 +122,9 @@ export default {
     },
     teamManagement() {
       this.$router.push("/teamManagement");
+    },
+    memberModify(){
+      this.$router.push("/membermodify");
     },
   },
 };

@@ -69,7 +69,7 @@ export default {
   },
   methods:{
     move(){
-      this.$router.push("/membermodify");
+      this.$router.push("/mypage");
     },
     check(){
       console.log(this.myFeeds);
