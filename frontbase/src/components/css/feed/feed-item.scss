@@ -52,7 +52,6 @@
   .feed-btns {
     position: absolute;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
     top: 0.5em;
@@ -60,26 +59,31 @@
     z-index: 10;
   }
 
-  .feed-show-btn {
-    background-image: url('../../../assets/images/menu.png');
-    width: 1.5em;
-    height: 1.5em;
-    background-size: cover;
-    margin: 0 0 0.5em 0;
+  .feed-btns div {
+    margin: 0.1em 0.2em;
   }
 
   .feed-btns:hover {
     cursor: pointer;
   }
-  // .feed-change {
-  //   display: none;
-  // }
 
-  .feed-change div {
-    border: 1px solid black;
-    padding: 0.2em;
-    margin-bottom: 0.2em;
-    background-color: white;
+  .modiBtn {
+    width: 25px;
+    height: 25px;
+    background-image: url('../../../assets/images/edit.png');
+    background-size: cover;
+  }
+
+  .delBtn {
+    width: 25px;
+    height: 25px;
+    background-image: url('../../../assets/images/delete.png');
+    background-size: cover;
+  }
+
+  .modiBtn:hover,
+  .delBtn:hover {
+    transform: scale(1.08);
   }
 }
 
