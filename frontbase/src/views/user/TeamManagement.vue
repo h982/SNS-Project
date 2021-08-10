@@ -1,6 +1,12 @@
 <template>
   <div>
-    <h1>팀원 조회 및 팀장 권환 부여</h1>
+    <h1>내 팀 관리</h1>
+    <br>
+    <v-row>
+      <join-request />
+    </v-row>
+    <br>
+    <h3>팀원 조회</h3>
     <div>
       <template>
         <v-card>
@@ -16,8 +22,8 @@
           <v-data-table
             v-model="selected"
             :headers="headers"
-            :items="items"
-            item-key="name"
+            :items="this.managingTeamMembers"
+            item-key="member.memberId"
             select-all
             hide-actions
             :pagination.sync="pagination"
@@ -28,21 +34,24 @@
               <td>
                 <v-checkbox
                   v-model="props.selected"
+                  :input-value = "props.selected"
                   primary
                   hide-details
                 ></v-checkbox>
               </td>
-              <td>{{ props.item.name }}</td>
-              <td class="text-xs-right">{{ props.item.point }}</td>
-              <td class="text-xs-right">{{ props.item.email }}</td>
-              <td class="text-xs-right">{{ props.item.phone }}</td>
-              <td class="text-xs-right">{{ props.item.mbti }}</td>
-              <td class="text-xs-right">{{ props.item.date }}</td>
-            </template>
-            <template v-slot:no-results>
-              <v-alert :value="true" color="error" icon="warning">
-                Your search for "{{ search }}" found no results.
-              </v-alert>
+              <td>{{ props.item.member.memberId }}</td>
+              <td class="text-xs-right">{{ props.item.member.name }}</td>
+              <td class="text-xs-right">
+                <v-chip
+                  :color="getColor(props.item.member.point)"
+                  dark
+                >
+                  {{ props.item.member.point }}
+                </v-chip>
+              </td>
+              <td class="text-xs-right">{{ props.item.member.email }}</td>
+              <td class="text-xs-right">{{ props.item.member.phone }}</td>
+              <td class="text-xs-right">{{ props.item.member.mbti }}</td>
             </template>
           </v-data-table>
           <div class="text-xs-center pt-2">
@@ -65,83 +74,30 @@
 
 <script>
 import { mapGetters } from "vuex";
+import http from "@/util/http-common";
+import JoinRequest from "@/views/user/JoinRequest";
 
 export default {
   name: "TeamManagement",
+  components: {
+    JoinRequest
+  },
   data: () => ({
     pagination: {},
     selected: [],
     search: '',
     headers: [
       {
-        text: '팀원이름',
+        text: '멤버ID',
         align: 'start',
         sortable: false,
-        value: 'name',
+        value: 'member.memberId',
       },
-      { text: '포인트', value: 'point' },
-      { text: '이메일', value: 'email' },
-      { text: '번호', value: 'phone' },
-      { text: 'mbti', value: 'mbti' },
-      { text: '가입날짜', value: 'date' },
-    ],
-    items: [
-      {
-        name: '차범희',
-        point: 150,
-        email: 'qqq960909@naver.com',
-        phone: '010-4533-0093',
-        mbti: 'iiii',
-        date: '2021-08-09',
-      },
-      {
-        name: '김범희',
-        point: 100,
-        email: 'qqq960909@naver.com',
-        phone: '010-4533-0093',
-        mbti: 'iiii',
-        date: '2021-08-09',
-      },
-      {
-        name: '박범희',
-        point: 50,
-        email: 'qqq960909@naver.com',
-        phone: '010-4533-0093',
-        mbti: 'iiii',
-        date: '2021-08-09',
-      },
-      {
-        name: '이범희',
-        point: 200,
-        email: 'qqq960909@naver.com',
-        phone: '010-4533-0093',
-        mbti: 'iiii',
-        date: '2021-08-09',
-      },
-      {
-        name: '이범희',
-        point: 80,
-        email: 'qqq960909@naver.com',
-        phone: '010-4533-0093',
-        mbti: 'iiii',
-        date: '2021-08-09',
-      },
-      {
-        name: '이범희',
-        point: 200,
-        email: 'qqq960909@naver.com',
-        phone: '010-4533-0093',
-        mbti: 'iiii',
-        date: '2021-08-09',
-      },
-      {
-        name: '이범희',
-        point: 200,
-        email: 'qqq960909@naver.com',
-        phone: '010-4533-0093',
-        mbti: 'iiii',
-        date: '2021-08-09',
-      },
+      { text: '이름', value: 'member.name' },
+      { text: '포인트', value: 'member.point' },
+      { text: '이메일', value: 'member.email' },
+      { text: '번호', value: 'member.phone' },
+      { text: 'mbti', value: 'member.mbti' },
     ],
   }),
   computed: {
@@ -154,13 +110,23 @@ export default {
         return Math.ceil(this.pagination.totalItems / this.pagination.rowsPerPage)
       },
   },
-  created() {
-    this.$store.dispatch("getTeamMembers", this.managingTeam.teamId);
-    console.log(this.managingTeamMembers);
-  },
   methods: {
+    // chageleader() {
+    //   this.$store.dispatch("changeTeamLeader", { teamId: this.managingTeam.teamId, memberId: this.selected[0].member.memberId });
+      // console.log(this.selected[0].member.memberId);
+      // console.log(this.managingTeam.teamId);
+    // },
+    getColor (point) {
+      if (point > 100) return 'green'
+      else if (point > 50) return 'orange'
+      else return 'red'
+    },
     chageleader() {
-
+      http.put("/team/leader/"+this.selected[0].member.memberId+"?teamId="+this.managingTeam.teamId).then(({ data }) => {
+        console.log("changeTeamLeader : " + data.message);
+        alert("리더가 변경되었습니다. 잠시 뒤 다시 로그인해주세요.");
+        // this.$router.push("/mypage");
+      });
     },
   },
 };

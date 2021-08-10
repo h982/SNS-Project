@@ -411,5 +411,10 @@ export default new Vuex.Store({
           console.log("changeTeamLeader : " + data.message);
         });
     }
+    // changeTeamLeader({commit}, {teamId, memberId}) {
+    //   http.put("/team/leader/"+memberId+"?teamId="+teamId).then(({ data }) => {
+    //     console.log("changeTeamLeader : " + data.message);
+    //   });
+    // },
   }
 });
