@@ -44,14 +44,10 @@
         </v-list-tile>
         <v-list-tile active-class="green--text" to="/myfeed">
           <v-list-tile-content>
-            <v-list-tile-title>MYFEED</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-        <v-list-tile active-class="green--text" to="/mypage">
-          <v-list-tile-content>
             <v-list-tile-title>MYPAGE</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
+      
         <v-list-tile active-class="" @click.prevent="onClickLogout" to="/">
           <v-list-tile-content>
             <v-list-tile-title>LOGOUT</v-list-tile-title>
@@ -101,11 +97,9 @@
           >Challenges</v-btn
         >
         <v-btn flat to="/myfeed" active-class="green--text headline"
-          >MyFeed</v-btn
+          >MyPAGE</v-btn
         >
-        <v-btn flat to="/mypage" active-class="green--text headline"
-          >MyPage</v-btn
-        >
+      
         <v-btn flat to="/" active-class="" @click.prevent="onClickLogout"
           >Logout</v-btn
         >

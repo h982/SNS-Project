@@ -7,7 +7,17 @@
     </v-layout>
     <div class="wrapB">
       <feed-item v-for="(feed, idx) in teamFeeds" :key="idx" :feed="feed" />
-      <div class="writebtn" @click="mvWrite" /> 
+        <v-btn
+          @click="mvWrite"
+          color="secondary"
+          elevation="7"
+          fab
+          large
+          x-large
+          x-small
+          class="create"
+          ><i class="fas fa-plus"></i>
+        </v-btn>
     </div>
   </div>
 </template>
@@ -50,4 +60,11 @@ export default {
 .writebtn:hover {
   cursor: pointer;
 }
+
+.create {
+  position: absolute;
+  right: 120px;
+  top: 150px;
+};
+
 </style>

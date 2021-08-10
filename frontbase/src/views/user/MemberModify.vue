@@ -64,12 +64,11 @@
             label="상세주소"
           ></v-text-field>
 
-          <b-button
+          <v-btn
             type="button"
-            color="green"
-            class="white--text"
+            color="green" class="white--text"
             @click="modify"
-          >SEND MESSAGE</b-button>
+          >SEND MESSAGE</v-btn>
           <v-btn @click="clear">clear</v-btn>
         </form>
       </v-flex>

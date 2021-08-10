@@ -4,7 +4,7 @@
       <v-flex xs12 sm12 md6 lg6 xl6>
         <h2 class="pb-4 mb-4">
           <span>Sign</span>
-          <span class="blue--text">Up</span>
+          <span class="green--text">Up</span>
         </h2>
 
         <form>
@@ -15,28 +15,33 @@
             v-model="member.name"
             :error-messages="nameErrors"
             label="이름"
+            
             required
           ></v-text-field>
-          <v-text-field
-            type="email"
-            color="green"
-            background-color="transparent"
-            name="member.email"
-            v-model="member.email"
-            :error-messages="emailErrors"
-            label="E-mail"
-          ></v-text-field>
+          
+          <v-layout row wrap justify-center align-center>
+            <v-text-field id ="nowrap-overflow"
+              type="email"
+              color="green"
+              background-color="transparent"
+              name="member.email"
+              v-model="member.email"
+              :error-messages="emailErrors"
+              label="E-mail"
+            ></v-text-field>
+          <v-btn @click="authentic()" color="green" class="white--text">인증하기</v-btn>
+          </v-layout>
 
-          <v-btn @click="authentic()">인증</v-btn>
-
-          <v-text-field
-            name="num"
-            color="green"
-            background-color="transparent"
-            v-model="num"
-            label="인증번호"
-          ></v-text-field>
-          <v-btn @click="certify()">확인</v-btn>
+          <v-layout row wrap>
+            <v-text-field
+              name="num"
+              color="green"
+              background-color="transparent"
+              v-model="num"
+              label="인증번호"
+            ></v-text-field>
+            <v-btn @click="certify()" elevation="0" color="green" class="white--text">확인하기</v-btn>
+          </v-layout>
 
           <v-text-field
             name="member.phone"
@@ -219,6 +224,12 @@ export default {
       this.$v.$reset();
       this.member.name = "";
       this.member.email = "";
+      this.passwordConfirm="";
+      this.member.password="";
+      this.member.phone="";
+      this.member.address="";
+      this.member.addressDetail="";
+      this.member.zonecode="";
     },
     showApi() {
       new window.daum.Postcode({
@@ -325,4 +336,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.nowrap-overflow {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+}
 </style>
