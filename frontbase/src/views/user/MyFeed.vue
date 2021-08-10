@@ -17,7 +17,7 @@
       <v-dialog
         lazy
         max-width="1000"
-        v-for="myFeed in feeds"
+        v-for="myFeed in myFeeds"
         :key="myFeed.contents"
       >
         <template v-slot:activator="{ on }">
@@ -40,7 +40,7 @@
             <h3 class="headline mb-3">
               <span>{{myFeed.contents}}</span>
             </h3>
-            <v-chip color="green" text-color="white">{{myFeed.teamchallenge.title}}</v-chip>
+            <v-chip color="green" text-color="white">{{myFeed.contents}}</v-chip>
             <v-chip color="green" text-color="white">{{myFeed.writeDate}}</v-chip>
 
           </v-card-text>
@@ -56,14 +56,11 @@
 import { mapGetters } from "vuex";
 
 export default {
-  created(){
-    this.$store.dispatch("getFeeds");
-    this.$store.dispatch("GET_TEAMCHALLENGEING_INFO", this.memberInfo.memberId);
-
-    //this.$store.dispatch("getMyFeeds");
-  },
   computed:{
-    ...mapGetters(["memberInfo","feeds","myTeamList","feed_challenging"])
+    ...mapGetters(["memberInfo","feeds","myTeamList","feed_challenging","myFeeds"])
+  },
+  created(){
+  
   },
   data() {
     return {
@@ -73,6 +70,9 @@ export default {
   methods:{
     move(){
       this.$router.push("/membermodify");
+    },
+    check(){
+      console.log(this.myFeeds);
     }
   }
 };

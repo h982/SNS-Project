@@ -81,6 +81,7 @@ export default {
   },
   computed: {
     ...mapGetters(["teamLists"]),
+    
     filteredTeam : function() { /* 배열의 아이템중 조건을 만족하는 아이템을 모아서 새로운 배열을 만들어 리턴함 */
         var cname = this.name.trim();
         return this.teamLists.filter(function(item,index) {

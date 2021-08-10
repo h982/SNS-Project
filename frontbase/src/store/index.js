@@ -97,6 +97,9 @@ export default new Vuex.Store({
     noticeItem(state) {
       return state.noticeItem;
     },
+    myFeeds(state) {
+      return state.myFeeds;
+    }
   },
   mutations: {
     setIsLogined(state, isLogin) {
@@ -110,8 +113,12 @@ export default new Vuex.Store({
       state.isLogin = false;
       state.memberInfo = null;
     },
-    setFeeds(state, payload) {
-      state.feeds = payload;
+    setFeeds(state, data) {
+      state.feeds = state.feeds.concat(data);
+    },
+    setInitFeeds(state, data) {
+      state.feeds.length = 0;
+      state.feeds = data;
     },
     setMyFeeds(state, payload) {
       state.myFeeds = payload;
@@ -299,22 +306,21 @@ export default new Vuex.Store({
           console.log("에러");
         });
     },
-    getFeeds({ commit }) {
+    getFeeds({ commit },payload) {
       const instance = createInstance();
       instance
-        .get("/feed")
+        .get("/feed/"+payload.memberId+"/"+payload.page)
         .then(response => {
-          console.log(response);
-          commit("setFeeds", response.data.object);
+          commit("setInitFeeds", response.data.object);
         })
         .catch(() => {
           //alert("에러발생");
         });
     },
-    getMyFeeds({ commit }) {
+    getMyFeeds({ commit }, payload) {
       const instance = createInstance();
       instance
-        .get("/myfeed")
+        .get("/feed/member/"+ payload)
         .then(response => {
           console.log(response);
           commit("setMyFeeds", response.data.object);
@@ -349,7 +355,6 @@ export default new Vuex.Store({
       http
         .get("/request/" + teamId)
         .then(({ data }) => {
-          console.log("request send");
           context.commit("SET_REQUESTS", data);
         })
         .catch(() => {
@@ -372,7 +377,6 @@ export default new Vuex.Store({
       http
         .get("/member/challenge/" + memberId)
         .then(({ data }) => {
-          console.log(data);
           context.commit("SET_ENTIRECHALLEGE", data);
         })
         .catch(() => {
@@ -392,7 +396,7 @@ export default new Vuex.Store({
     },
     getTeamMembers({ commit }, teamId) {
       http.get("/jointeam/member/"+teamId).then(({ data }) => {
-        console.log("getTeamMembers : " + data.message)
+        //console.log("getTeamMembers : " + data.message)
         commit("SET_MANAGING_TEAM_MEMBERS", data.data);
       });
     },
