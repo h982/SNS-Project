@@ -27,46 +27,61 @@
         </v-btn>
       </v-bottom-navigation>
     </v-layout>
-
-    <v-layout row justify-center align-center wrap class="mt-4 pt-2">
-      <v-flex
-      v-for="(teamList, idx) in this.filteredTeam"
-      :key="idx"
-      xs12 sm6 md4 lg3 xl3
-      >
-        <v-card
-          hover
-          flat
-          height="230"
-          @click="confirm(teamList)"
+    <div v-if="this.teamLists">
+      <v-layout row justify-center align-center wrap class="mt-4 pt-2">
+        <v-flex
+        v-for="(teamList, idx) in this.filteredTeam"
+        :key="idx"
+        xs12 sm6 md4 lg3 xl3
         >
-          <div v-if="teamList.photoDto === null">
-            <v-img v-bind:src="thumbnail" aspect-ratio="2.75" height="130" contain></v-img>
-          </div>
-          <div v-else>
-            <v-img :src="teamList.photoDto.filePath" aspect-ratio="2.75" height="130" contain></v-img>
-          </div>
-          <v-card-title primary-title class="justify-center">
-            <v-flex text-xs-center subheading font-weight-bold>{{teamList.name.replaceAll("\"", "")}}
-              <br>
-              <div v-if="teamList.introduction.length >16 " class="txt_line">{{teamList.introduction.replaceAll("\"", "").slice(0,13)+"..."}}</div>                
-              <div v-else class="txt_line">{{teamList.introduction.replaceAll("\"", "")}}</div>                
-            </v-flex>
-          </v-card-title> 
-        </v-card>
-      </v-flex>
-    </v-layout>
-    <v-btn
-      @click="mvTeam"
-      color="secondary"
-      elevation="7"
-      fab
-      large
-      x-large
-      x-small
-      class="create"
-    ><i class="fas fa-plus"></i>
-    </v-btn>
+          <v-card
+            hover
+            flat
+            height="230"
+            @click="confirm(teamList)"
+          >
+            <div v-if="teamList.photoDto === null">
+              <v-img v-bind:src="thumbnail" aspect-ratio="2.75" height="130" contain></v-img>
+            </div>
+            <div v-else>
+              <v-img :src="teamList.photoDto.filePath" aspect-ratio="2.75" height="130" contain></v-img>
+            </div>
+            <v-card-title primary-title class="justify-center">
+              <v-flex text-xs-center subheading font-weight-bold>{{teamList.name.replaceAll("\"", "")}}
+                <br>
+                <div v-if="teamList.introduction.length >16 " class="txt_line">{{teamList.introduction.replaceAll("\"", "").slice(0,13)+"..."}}</div>                
+                <div v-else class="txt_line">{{teamList.introduction.replaceAll("\"", "")}}</div>                
+              </v-flex>
+            </v-card-title> 
+          </v-card>
+        </v-flex>
+      </v-layout>
+      <v-btn
+        @click="mvTeam"
+        color="secondary"
+        elevation="7"
+        fab
+        large
+        x-large
+        x-small
+        class="create"
+      ><i class="fas fa-plus"></i>
+      </v-btn>
+    </div>
+    
+    <div v-else>
+      <v-btn
+        @click="mvTeam"
+        color="secondary"
+        elevation="7"
+        fab
+        large
+        x-large
+        x-small
+        class="create"
+      ><i class="fas fa-plus"></i>
+      </v-btn>
+    </div>
   </v-container>
 </template>
 

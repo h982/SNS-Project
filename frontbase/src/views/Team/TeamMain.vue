@@ -3,14 +3,23 @@
 
     <v-layout >
       <v-bottom-navigation
-        v-if="teamcheck === true"
+        v-if="teamcheck === true | this.selectTeam.memberId === this.memberInfo.memberId"
         class="mx-auto"
         shift
         x-large
       >
       <team-header />
-        
       </v-bottom-navigation>
+      <v-bottom-navigation
+        v-else
+        class="mx-auto"
+        shift
+        x-large
+      >
+      <team-header-2 />
+      </v-bottom-navigation>
+
+      
     </v-layout>
     <v-layout column justify-center class="mt-4 pt-2">
       <h1 class="text-xs-center mb-4 pb-2">{{selectTeam.name.replaceAll("\"", "")}}</h1>
@@ -85,6 +94,13 @@
           class="white--text"
         >가입하기
         </v-btn>
+        <v-btn
+          v-else
+          type="button"
+          color="red"
+          class="white--text"
+        >팀탈퇴ㅠ 아직 안만듦
+        </v-btn>
       </v-layout>
       <v-btn
         v-if="selectTeam.memberId != memberInfo.memberId && teamcheck === false"
@@ -114,6 +130,7 @@ import { mapGetters } from 'vuex';
 import TeamHeader from "@/components/TeamHeader.vue"
 import { createInstance } from "@/api/index.js";
 import thumbnail1 from "@/assets/images/thumbnail.jpg";
+import TeamHeader2 from '../../components/TeamHeader2.vue';
 
 export default {
   name: "TeamMain",
@@ -131,7 +148,7 @@ export default {
     this.$store.dispatch("GET_MY_TEAM_INFO",this.memberInfo.memberId);
     this.teamchecking();
     // console.log(this.teamcheck);
-    // console.log(this.selectTeam);
+    console.log(this.selectTeam);
     // console.log(this.myTeamList);
     this.$store.dispatch("GET_TEAMCHALLENGE_INFO", this.memberInfo.memberId);
     const token={
@@ -165,7 +182,8 @@ export default {
     };
   },
   components: {
-    TeamHeader
+    TeamHeader,
+    TeamHeader2,
   },
   methods: {
     join() {
