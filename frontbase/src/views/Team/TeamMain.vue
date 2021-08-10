@@ -3,7 +3,7 @@
 
     <v-layout >
       <v-bottom-navigation
-        v-if="teamcheck === true"
+        v-if="teamcheck === true | this.selectTeam.memberId === this.memberInfo.memberId"
         class="mx-auto"
         shift
         x-large
@@ -94,6 +94,13 @@
           class="white--text"
         >가입하기
         </v-btn>
+        <v-btn
+          v-else
+          type="button"
+          color="red"
+          class="white--text"
+        >팀탈퇴ㅠ 아직 안만듦
+        </v-btn>
       </v-layout>
       <v-btn
         v-if="selectTeam.memberId != memberInfo.memberId && teamcheck === false"
@@ -141,7 +148,7 @@ export default {
     this.$store.dispatch("GET_MY_TEAM_INFO",this.memberInfo.memberId);
     this.teamchecking();
     // console.log(this.teamcheck);
-    // console.log(this.selectTeam);
+    console.log(this.selectTeam);
     // console.log(this.myTeamList);
     this.$store.dispatch("GET_TEAMCHALLENGE_INFO", this.memberInfo.memberId);
     const token={

@@ -1,6 +1,7 @@
 <template>
   <div>
-    <h1>내 팀 관리</h1>
+    <br>
+    <h1>내 팀 관리  <v-btn @click="move()" icon elevation="0"><v-icon>settings</v-icon></v-btn></h1>
     <br>
     <v-row>
       <join-request />
@@ -127,6 +128,9 @@ export default {
         alert("리더가 변경되었습니다. 잠시 뒤 다시 로그인해주세요.");
         // this.$router.push("/mypage");
       });
+    },
+    move(){
+      this.$router.push("/teamModify");
     },
   },
 };

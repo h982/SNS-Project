@@ -3,16 +3,16 @@
     <v-layout row justify-center align-center wrap class="mt-4 pt-2">
       <v-flex xs12 sm12 md6 lg6 xl6>
         <h2 class="pb-4 mb-4">
-          <span>Team</span>
-          <span class="green--text">Create</span>
+          <span>팀정보</span>
+          <span class="green--text">변경</span>
         </h2>
 
-        <form>
+        <form method="POST">
           <v-text-field
             name="team.name"
             color="green"
             background-color="transparent"
-            v-model="team.name"
+            v-model="managingTeam.name"
             label="팀이름"
           ></v-text-field>
 
@@ -24,21 +24,12 @@
           >
             중복검사
           </v-btn>
-
-          <v-select
-            v-model="team.sport"
-            :items="sportList"
-            label="종목"
-            item-text="name"
-            item-value="value"
-            return-object
-          ></v-select>
-
+          
           <v-text-field
             name="team.introduction"
             color="green"
             background-color="transparent"
-            v-model="team.introduction"
+            v-model="managingTeam.introduction"
             label="팀소개"
           ></v-text-field>
 
@@ -59,11 +50,11 @@
           <br>
           <div class="buttons">
             <v-btn
-              @click="submit"
+              @click="modify"
               type="button"
               color="green"
               class="white--text"
-              >생성하기</v-btn
+              >수정하기</v-btn
             >
             <v-btn @click="clear">clear</v-btn>
           </div>
@@ -73,14 +64,16 @@
   </v-container>
 </template>
 
-
 <script>
 import { createInstance } from "@/api/teamindex.js";
-import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
 
 export default {
-  computed: {
-    ...mapGetters(["memberInfo", "selectTeam", "SET_SELECT_TEAM"]),
+  computed:{
+    ...mapGetters(["managingTeam"]),
+  },
+  created(){
+    console.log(this.managingTeam);
   },
   data() {
     return {
@@ -110,61 +103,16 @@ export default {
       let preview = document.querySelector(".preview");
       preview.src = URL.createObjectURL(file.files[0]);
 
-      // console.log(file.files[0]);
-
       preview.style.width = "60%";
       preview.style.height = "60%";
       preview.style.maxHeight = "500px";
     },
-    submit() {
-      // this.team.sportDto.sportId = this.team.sport.value;
-      // this.team.member.memberId = this.memberInfo.memberId;
-      this.team.leader = this.memberInfo.name
-      this.team.member.memberId = this.memberInfo.memberId
-      this.team.sportDto.sportId = this.team.sport.value
-
-      console.log(this.team);
-
-      const formData = new FormData();
-      formData.append("name", JSON.stringify(this.team.name));
-      formData.append("introduction", JSON.stringify(this.team.introduction));
-      formData.append("leader", JSON.stringify(this.team.leader));
-      formData.append("memberId", JSON.stringify(this.team.member.memberId));
-      formData.append("sportId", JSON.stringify(this.team.sportDto.sportId));
-      if(document.getElementById("chooseFile").files[0] !=null){
-        formData.append("multipartFile", document.getElementById("chooseFile").files[0]);
-      }
-
-      for (var key of formData.keys()) {
-      console.log(key);
-      }
-
-      for (var value of formData.values()) {
-      console.log(value);
-      }
-      
-      const instance = createInstance();
-      instance
-        .post("/team", formData, {
-          Headers: {
-            "Content-Type": "multiart/form-data"
-          }
-        })
-        .then(response => {
-          if (response.data.data === "success") {
-            alert("팀생성완료 완료");
-            this.$router.push("/teamlist");
-          } else {
-            alert("팀생성 실패");
-          }
-        })
-        .catch(() => {
-          alert("에러발생!");
-        });
+    modify() {
+      console.log("변경")
     },
     clear() {
-      this.team.name = "";
-      this.team.introduction = "";
+      this.team.name = null;
+      this.team.introduction = null;
     },
     duplicateName() {
       const instance = createInstance();
@@ -177,10 +125,9 @@ export default {
         }
       });
     },
-  },
+  }
 };
 </script>
-
 
 <style scoped>
 .duplicate {
