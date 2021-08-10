@@ -18,23 +18,24 @@ export default {
     FeedItem
   },
   computed: {
-    ...mapGetters(["memberInfo","feeds"])
+    ...mapGetters(["memberInfo", "feeds"])
   },
-  mounted(){
-  
-    
-  },
+  mounted() {},
   created() {
     this.$store.dispatch("getFeeds");
-    this.$store.dispatch("GET_MY_TEAM_INFO",this.memberInfo.memberId);
+    console.log(this.feeds);
+    this.$store.dispatch("GET_MY_TEAM_INFO", this.memberInfo.memberId);
     this.$store.dispatch("getTeamLists");
     this.$store.dispatch("GET_ENTIRECHALLENGE_INFO", this.memberInfo.memberId);
   },
   methods: {
     mvWrite() {
-      this.$store.dispatch("GET_TEAMCHALLENGEING_INFO", this.memberInfo.memberId);
+      this.$store.dispatch(
+        "GET_TEAMCHALLENGEING_INFO",
+        this.memberInfo.memberId
+      );
       this.$router.push("/writefeed");
-    },
+    }
   }
 };
 </script>

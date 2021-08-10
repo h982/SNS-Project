@@ -57,7 +57,8 @@ export default {
       "myTeamList",
       "team_challenges",
       "feed_challenging",
-      "oneFeed"
+      "oneFeed",
+      "feedid"
     ])
   },
   created() {
@@ -65,6 +66,7 @@ export default {
 
     if (this.type === "update") {
       this.contents = this.oneFeed.contents;
+      console.log(this.oneFeed);
     }
   },
 
@@ -81,13 +83,14 @@ export default {
           this.challenge.text.teamChallenge.teamChallengeId
         );
       }
+
       formData.append("memberId", this.memberInfo.memberId);
       formData.append("teamId", this.myTeamList[0].text.teamId);
       formData.append("teamName", JSON.stringify(this.myTeamList[0].text.name));
       formData.append("contents", JSON.stringify(this.contents));
       formData.append("writer", JSON.stringify(this.memberInfo.name));
       formData.append("image", document.getElementById("chooseFile").files[0]);
-
+      console.log(formData.teamchallengeId);
       const instance = createInstance();
       instance
         .post("/feed", formData, {
@@ -112,7 +115,48 @@ export default {
         });
     },
     modify() {
-      alert("수정하자");
+      console.log(this.feedid);
+      var daily = document.querySelector(".dailyFeed");
+      const formData = new FormData();
+
+      if (daily.options[daily.selectedIndex].value == "일상글") {
+        formData.append("teamchallengeId", 0);
+      } else {
+        formData.append(
+          "teamchallengeId",
+          this.challenge.text.teamChallenge.teamChallengeId
+        );
+      }
+      formData.append("feedId", this.feedid);
+      formData.append("memberId", this.oneFeed.memberId);
+      formData.append("teamId", this.oneFeed.teamId);
+      formData.append("teamName", JSON.stringify(this.oneFeed.teamName));
+      formData.append("contents", JSON.stringify(this.contents));
+      formData.append("writer", JSON.stringify(this.oneFeed.writer));
+      formData.append("image", document.getElementById("chooseFile").files[0]);
+      console.log(formData);
+      const instance = createInstance();
+      instance
+        .put("/feed", formData, {
+          Headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        })
+        .then(response => {
+          if (response.data.data === "success") {
+            this.$store.dispatch(
+              "GET_TEAMCHALLENGEING_INFO",
+              this.memberInfo.memberId
+            );
+            alert("피드 수정 완료");
+            this.$router.push("/feed");
+          } else {
+            alert("피드 수정 실패");
+          }
+        })
+        .catch(() => {
+          // alert("에러발생!.");
+        });
     },
     loadf() {
       // console.log("되는가?");

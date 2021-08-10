@@ -66,6 +66,7 @@ export default {
       }
     },
     modifyFeed() {
+      this.$store.dispatch("SET_FEEDID", this.feed.feedId);
       const body = {
         memberId: this.memberInfo.memberId,
         teamId: this.myTeamList[0].text.teamId,
