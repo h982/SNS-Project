@@ -27,7 +27,7 @@ public class Feed {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int feedId;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "TEAMCHALLENGE_ID")
 	private TeamChallenge teamchallenge;
 
