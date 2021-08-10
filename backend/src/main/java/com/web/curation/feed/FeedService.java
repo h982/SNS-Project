@@ -100,10 +100,10 @@ public class FeedService {
                 .orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
         Team team = teamDao.findById(feedDto.getTeamId())
                 .orElseThrow(() -> new CustomException(TEAM_NOT_FOUND));
-        JoinTeam joinTeam = joinTeamDao.findByMemberAndTeam(member, team)
+        joinTeamDao.findByMemberAndTeam(member, team)
                 .orElseThrow(() -> new CustomException(JOIN_TEAM_NOT_FOUND));
+
         Feed feed = FeedAdaptor.dtoToEntity(feedDto);
-        feed.setJoinTeam(joinTeam);
         if (feedDto.getTeamchallengeId() != 0) {
             feed.setTeamchallenge(teamChallengeDao.findById(feedDto.getTeamchallengeId())
                     .orElseThrow(() -> new CustomException(TEAM_CHALLENGE_NOT_FOUND)));
@@ -113,8 +113,8 @@ public class FeedService {
     }
 
     @Transactional
-    public void deleteFeed(FeedDto feedDto) {
-        Feed feed = feedDao.findById(feedDto.getFeedId())
+    public void deleteFeed(int feedId) {
+        Feed feed = feedDao.findById(feedId)
                 .orElseThrow(() -> new CustomException(FEED_NOT_FOUND));
         for (Photo photo : feed.getPhotos()) {
             s3Uploader.deleteFile(photo.getImageName());
