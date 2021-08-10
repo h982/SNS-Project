@@ -97,6 +97,9 @@ export default new Vuex.Store({
     noticeItem(state) {
       return state.noticeItem;
     },
+    myFeeds(state) {
+      return state.myFeeds;
+    }
   },
   mutations: {
     setIsLogined(state, isLogin) {
@@ -314,10 +317,10 @@ export default new Vuex.Store({
           //alert("에러발생");
         });
     },
-    getMyFeeds({ commit }) {
+    getMyFeeds({ commit }, payload) {
       const instance = createInstance();
       instance
-        .get("/myfeed")
+        .get("/feed/member/"+ payload)
         .then(response => {
           console.log(response);
           commit("setMyFeeds", response.data.object);
