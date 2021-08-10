@@ -1,7 +1,7 @@
 <template>
   <div class="feed-item">
     <div class="feed_t">
-      <div class="feed_writer">{{ feed.writer.replaceAll('"', "") }}</div>
+      <div class="feed_writer">{{ feed.writer }}</div>
       <div class="feed_date">{{ feed.writeDate }}</div>
     </div>
     <div class="feed-card">
@@ -25,7 +25,7 @@
           <div class="likeBtn" @click="likeBtn"></div>
         </div>
         <div class="desc">
-          {{ feed.contents.replaceAll('"', "") }}
+          {{ feed.contents }}
         </div>
         <div class="showComment" @click="mvComment()">댓글보기</div>
       </div>
@@ -99,18 +99,6 @@ export default {
     },
     deleteFeed() {
       if (this.feed.writer.replaceAll('"', "") === this.memberInfo.name) {
-        console.log(this.feed.feedId);
-
-        // const formData = new FormData();
-        // formData.append("feedId", this.feed.feedId);
-        // formData.append("teamchallengeId", 0);
-        // formData.append("memberId", this.feed.member.memberId);
-        // formData.append("teamId", this.feed.team.teamId);
-        // formData.append("teamName", this.feed.teamName);
-        // formData.append("contents", this.feed.contents);
-        // formData.append("writer", this.feed.writer);
-        // formData.append("image", this.feed.photos[0]);
-
         const instance = createInstance();
         instance
           .delete("/feed/" + this.feed.feedId)
