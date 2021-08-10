@@ -30,6 +30,7 @@
     "vue-easy-range-date-picker": "^1.0.3",
     "vue-meta": "^1.6.0",
     "vue-mj-daterangepicker": "^0.1.11",
+    "vue-naver-login": "^1.0.4",
     "vue-plyr": "^5.1.3",
     "vue-router": "^3.1.3",
     "vue-sweet-calendar": "^0.4.1",

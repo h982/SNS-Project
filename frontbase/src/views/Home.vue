@@ -76,7 +76,11 @@
             class="white--text"
             >회원가입</v-btn
           >
+
+        
         </v-card-actions>
+
+    
 
         <v-card-actions class="hidden-md-and-up justify-center">
         </v-card-actions>
@@ -178,7 +182,8 @@ export default {
     onFailure() {
       console.log("failure");
       this.$router.push("/");
-    }
+    },
+    
   },
   computed: {
     kakaoLoginLink() {},

@@ -102,7 +102,7 @@ export default {
         },
     },
     created() {
-      console.log(this.selectTeam.teamId);
+        console.log(this.selectTeam.teamId);
         this.$store.dispatch("getNoticeItems",this.selectTeam.teamId);
     },
     methods: {

@@ -14,6 +14,7 @@ public class PhotoAndDtoAdapter {
 
     public static Photo dtoToEntity(PhotoDto photoDto){
         return Photo.builder()
+                .feed(photoDto.getFeed())
                 .originalName(photoDto.getOriginalName())
                 .filePath(photoDto.getFilePath())
                 .fileSize(photoDto.getFileSize())

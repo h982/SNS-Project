@@ -25,16 +25,17 @@ public class FeedlikeController {
 
     @PostMapping("/feedlike")
     ResponseEntity<?> createFeedlike(@RequestBody @Valid FeedlikeDto feedlikeDto){
-        feedlikeDto = feedlikeService.likeFeed(feedlikeDto);
+        FeedlikeDto savedFeedlike = feedlikeService.likeFeed(feedlikeDto);
 
         final BasicResponse result = new BasicResponse();
         result.status = true;
         result.data = "success";
-        result.object = feedlikeDto;
+        result.object = savedFeedlike;
+
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @GetMapping("/feedlike/{feed_id}")
+    @GetMapping("/feedlike/feed/{feed_id}")
     ResponseEntity<?> getFeedlikes(@PathVariable(value = "feed_id")int feedId){
         List<FeedlikeDto> feedlikeList = feedlikeService.getfeedlikeList(feedId);
 
@@ -42,6 +43,19 @@ public class FeedlikeController {
         result.status = true;
         result.data = "success";
         result.object = feedlikeList;
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @GetMapping("/feedlike/member/{member_id}")
+    ResponseEntity<?> getMyFeedlikes(@PathVariable(value = "member_id")int memberId){
+        List<FeedlikeDto> feedlikeList = feedlikeService.getMyFeedlikes(memberId);
+
+        final BasicResponse result = new BasicResponse();
+        result.status = true;
+        result.data = "success";
+        result.object = feedlikeList;
+
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -53,6 +67,7 @@ public class FeedlikeController {
         result.status = true;
         result.data = "success";
         result.object = feedlikeDto;
+
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -64,6 +79,7 @@ public class FeedlikeController {
         result.status = true;
         result.data = "success";
         result.object = feedlikeDto;
+
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 

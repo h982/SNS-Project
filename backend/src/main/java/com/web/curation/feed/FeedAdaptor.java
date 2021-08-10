@@ -7,8 +7,8 @@ public class FeedAdaptor {
                 .contents(feed.getContents())
                 .teamName(feed.getTeamName())
                 .writer(feed.getWriter())
-                .memberId(feed.getJoinTeam().getMember().getMemberId())
-                .teamId(feed.getJoinTeam().getTeam().getTeamId())
+                .memberId(feed.getMember().getMemberId())
+                .teamId(feed.getTeam().getTeamId())
                 .build();
     }
 
@@ -18,6 +18,8 @@ public class FeedAdaptor {
                 .contents(feedDto.getContents())
                 .teamName(feedDto.getTeamName())
                 .writer(feedDto.getWriter())
+                .member(feedDto.getMember())
+                .team(feedDto.getTeam())
                 .build();
     }
 }

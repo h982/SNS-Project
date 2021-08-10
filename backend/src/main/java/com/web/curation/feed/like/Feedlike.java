@@ -18,7 +18,8 @@ import lombok.*;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Feedlike {
 	
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "FEEDLIKE_ID")
 	private int feedlikeId;
 

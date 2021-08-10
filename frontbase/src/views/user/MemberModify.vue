@@ -3,48 +3,67 @@
     <v-layout row justify-center align-center wrap class="mt-4 pt-2">
       <v-flex xs12 sm12 md6 lg6 xl6>
         <h2 class="pb-4 mb-4">
-          <span>Modify</span>
-          <span class="green--text">Form</span>
+          <span>회원정보</span>
+          <span class="green--text">변경</span>
         </h2>
 
         <form method="POST">
-          
           <v-text-field
-            id="user.userpwd"
+            name="member.name"
             color="green"
             background-color="transparent"
-            v-model="user.userpwd"
-            label="Password"
-            required
-          ></v-text-field>
-          <v-text-field
-            name="user.username"
-            color="green"
-            background-color="transparent"
-            v-model="user.username"
-            :error-messages="nameErrors"
+            v-model="memberInfo.name"
             label="Name"
-            required
+            readonly
           ></v-text-field>
+
           <v-text-field
             type="email"
             color="green"
             background-color="transparent"
-            name="user.email"
-            v-model="user.email"
-            :error-messages="emailErrors"
+            name="member.email"
+            v-model="memberInfo.email"
             label="E-mail"
             required
           ></v-text-field>
+
+          <v-text-field
+            :type="'password'"
+            name="member.password"
+            color="green"
+            background-color="transparent"
+            v-model="member.password"
+            label="새로운 비밀번호"
+          ></v-text-field>
+
+          <v-text-field
+            :type="'password'"
+            name="passwordConfirm"
+            color="green"
+            background-color="transparent"
+            v-model="passwordConfirm"
+            label="새로운 비밀번호확인"
+          ></v-text-field>
+          <div style="color:red" v-if="error.passwordConfirm">{{error.passwordConfirm}}</div>
+
+          
           <v-text-field
             address="address"
             color="green"
             background-color="transparent"
-            v-model="user.address"
-            :error-messages="nameErrors"
-            label="Address"
+            v-model="member.address"
+            label="주소"
             required
           ></v-text-field>
+
+          <v-text-field
+            name="member.addressDetail"
+            color="green"
+            background-color="transparent"
+            v-model="member.addressDetail"
+            label="상세주소"
+          ></v-text-field>
+
           <b-button
             type="button"
             color="green"
@@ -59,56 +78,70 @@
 </template>
 
 <script>
-import { validationMixin } from "vuelidate";
 import { createInstance } from "@/api/index.js";
-import {
-  required,
-  maxLength,
-  email,
-} from "vuelidate/lib/validators";
 import { mapState } from "vuex";
+import { mapGetters } from "vuex";
+
 export default {
-  metaInfo: {
-    title: "",
-    titleTemplate: "ApartFinder",
+  computed: {
+    ...mapGetters(["memberInfo"]),
   },
-  mixins: [validationMixin],
-  validations: {
-    name: { required, maxLength: maxLength(20) },
-    email: { required, email },
+
+  created(){
+    this.member.name = this.memberInfo.name;
+    this.member.email = this.memberInfo.email;
+    this.member.phone =this.memberInfo.phone;
+    this.member.address = this.memberInfo.address;
+    this.member.addressDetail =this.memberInfo.addressDetail;
+    this.member.zonecode =this.memberInfo.zonecode;
+    this.member.sex =this.memberInfo.sex;
+    this.member.point =this.memberInfo.point;
+    this.member.mbti =this.memberInfo.mbti;
+    this.member.createDate =this.memberInfo.createdate;
+    this.member.authenticated =this.memberInfo.authenticated;
+    this.member.memberId =this.memberInfo.memberId;
   },
   data() {
     return {
-      user: {
-        userid:"",
-        userpwd:"",
-        username: "",
+      passwordConfirm:"",
+      member: {
+        memberId: 0,
+        name: "",
         email: "",
-        address: ""
+        phone: "",
+        password: "",
+        address: "",
+        addressDetail: null,
+        zonecode: "",
+        sex: "",
+        point: 0,
+        mbti: "",
+        createDate: null,
+        authenticated: "",
+      },
+      error: {
+        passwordConfirm: false,
       },
     };
   },
+  watch: {
+    passwordConfirm: function(v){
+      this.checkForm();
+    }
+  },
   methods: {
     clear() {
-      this.$v.$reset();
-      this.user.userid="";
-      this.user.userpwd="";
-      this.user.username = "";
-      this.user.email = "";
-      this.user.address = "";
+      console.log(this.memberInfo);      
     },
     modify() {
       const instance = createInstance();
-      this.user.userid=this.userInfo.userid;
-      instance.post("/user/confirm/modify", JSON.stringify(this.user))
+      console.log(this.member);
+      instance.put("/member", JSON.stringify(this.member))
       .then(
         (response) => {
           if (response.data.message === "success") {
             alert("회원변경 완료");
-            this.userInfo.userpwd= this.user.userpwd;
-            this.userInfo.username= this.user.username;
-            this.userInfo.email= this.user.email;
-            this.userInfo.address= this.user.address;
+            
             this.$router.push("/");
           } else {
             alert("회원변경 실패");
@@ -117,36 +150,20 @@ export default {
       )
       .catch();
     },
-  },
-  created() {
-    this.user.userpwd=userInfo.userpwd;
-  },
-  computed: {
-    ...mapState(["userInfo"]),
-    nameErrors() {
-      const errors = [];
-      if (!this.$v.name.$dirty) return errors;
-      !this.$v.name.maxLength &&
-        errors.push("Name must be at most 20 characters long");
-      !this.$v.name.required && errors.push("Name is required.");
-      return errors;
+    checkForm() {
+      if (this.member.password !== this.passwordConfirm)
+        this.error.passwordConfirm = "비밀번호가 다릅니다.";
+      else this.error.passwordConfirm = false;
+
+
+      let isSubmit = true;
+      Object.values(this.error).map(v => {
+        if (v) isSubmit = false;
+      });
+      this.isSubmit = isSubmit;
     },
-    emailErrors() {
-      const errors = [];
-      if (!this.$v.email.$dirty) return errors;
-      !this.$v.email.email && errors.push("Must be valid e-mail");
-      !this.$v.email.required && errors.push("E-mail is required");
-      return errors;
-    },
-    bodyErrors() {
-      const errors = [];
-      if (!this.$v.mbti.$dirty) return errors;
-      !this.$v.mbti.minLength &&
-        errors.push("mbti 4글자 입력");
-      !this.$v.mbti.required && errors.push("MBTI를 입력해주세요.");
-      return errors;
-    }
-  }
+  },
+ 
 };
 </script>
 

@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import static com.web.curation.error.ErrorCode.*;
 
@@ -44,14 +43,13 @@ public class FeedlikeService {
                 .feed(feed)
                 .feedLike(feedlikeDto.getFeedLike())
                 .build();
-        feedlike = feedLikeDao.save(feedlike);
-        feedlikeDto.setFeedlikeId(feedlike.getFeedlikeId());
+        Feedlike savedFeedlike = feedLikeDao.saveAndFlush(feedlike);
+        feedlikeDto.setFeedlikeId(savedFeedlike.getFeedlikeId());
 
         TeamChallenge teamChallenge = feed.getTeamchallenge();
         if(teamChallenge != null){
 
         }
-
         return feedlikeDto;
     }
 
@@ -75,6 +73,27 @@ public class FeedlikeService {
         return feedlikeDtos;
     }
 
+    public List<FeedlikeDto> getMyFeedlikes(int memberId) {
+        Member member = memberDao.findById(memberId)
+                .orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
+        List<Feedlike> feedlikeList = feedLikeDao.findFeedlikeByMember(member)
+                .orElse(Collections.emptyList());
+
+        List<FeedlikeDto> feedlikeDtos = new ArrayList<>();
+        for (Feedlike feedlike : feedlikeList) {
+            feedlikeDtos.add(FeedlikeDto.builder()
+                    .feedlikeId(feedlike.getFeedlikeId())
+                    .memberId(feedlike.getMember().getMemberId())
+                    .feedId(feedlike.getFeed().getFeedId())
+                    .feedLike(feedlike.getFeedLike())
+                    .build()
+            );
+        }
+
+        return feedlikeDtos;
+    }
+
+    @Transactional
     public void updateFeedlike(FeedlikeDto feedlikeDto) {
         Feedlike feedlike = feedLikeDao.findById(feedlikeDto.getFeedlikeId())
                 .orElseThrow(() -> new CustomException(FEEDLIKE_NOT_FOUND));
@@ -83,6 +102,7 @@ public class FeedlikeService {
         feedLikeDao.save(feedlike);
     }
 
+    @Transactional
     public void deleteFeedlike(FeedlikeDto feedlikeDto) {
         Feedlike feedlike = feedLikeDao.findById(feedlikeDto.getFeedlikeId())
                 .orElseThrow(() -> new CustomException(FEEDLIKE_NOT_FOUND));
