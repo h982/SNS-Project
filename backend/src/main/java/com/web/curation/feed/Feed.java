@@ -52,7 +52,6 @@ public class Feed {
 	private LocalDateTime writeDate;
 
 	@OneToMany(mappedBy = "feed")
-	@JoinColumn(name = "feed_id")
 	private List<Photo> photos = new ArrayList<>();
 
 }
