@@ -119,24 +119,32 @@ export default {
         formData.append("multipartFile", document.getElementById("chooseFile").files[0]);
       }
       
-      // const instance = createInstance();
-      // instance
-      //   .post("/team", formData, {
-      //     Headers: {
-      //       "Content-Type": "multiart/form-data"
-      //     }
-      //   })
-      //   .then(response => {
-      //     if (response.data.data === "success") {
-      //       alert("정보 변경 완료");
-      //       this.$router.push("/teamlist");
-      //     } else {
-      //       alert("정보 변경 실패");
-      //     }
-      //   })
-      //   .catch(() => {
-      //     alert("에러발생!");
-      //   });
+      for (var key of formData.keys()) {
+      console.log(key);
+      }
+
+      for (var value of formData.values()) {
+      console.log(value);
+      }
+
+      const instance = createInstance();
+      instance
+        .put("/team", formData, {
+          Headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        })
+        .then(response => {
+          if (response.data.data === "success") {
+            alert("정보 변경 완료");
+            // this.$router.push("/teamlist");
+          } else {
+            alert("정보 변경 실패");
+          }
+        })
+        .catch(() => {
+          alert("에러발생!");
+        });
     },
     clear() {
       this.team.name = null;
