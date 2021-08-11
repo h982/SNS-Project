@@ -20,6 +20,10 @@ public class JwtInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        String url = request.getRequestURI();
+        if (url.contains("swagger") || url.contains("api-docs") || url.contains("webjars")) {
+            return true;
+        }
         final String token = request.getHeader("access-token");
         if (StringUtils.equals(request.getMethod(), "OPTIONS")) {
             log.debug("if request options method is options, return true");
@@ -28,6 +32,9 @@ public class JwtInterceptor implements HandlerInterceptor {
         if(token != null && jwtService.isUsable(token)){
             log.info("Token Authorization Success");
             return true;
-        }else return false;
+        }else {
+            log.warn("Token Not Found");
+            return false;
+        }
     }
 }
