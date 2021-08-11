@@ -27,6 +27,8 @@ public class TeamAndDtoAdapter {
 
     public static Team dtoToEntityPhoto(TeamDto teamDto){
         return Team.builder()
+        		.teamId(teamDto.getTeamId())
+        		.createDate(teamDto.getCreateDate())
                 .name(teamDto.getName())
                 .introduction((teamDto.getIntroduction()))
                 .leader(teamDto.getLeader())
