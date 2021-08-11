@@ -44,7 +44,7 @@
               accept="image/*"
               @change="loadf"
             />
-            <img src="thumbnail" class="preview" />
+            <img v-bind:src="thumbnail" class="preview" />
           </div>
           
           <br>
@@ -118,7 +118,7 @@ export default {
       if(document.getElementById("chooseFile").files[0] !=null){
         formData.append("multipartFile", document.getElementById("chooseFile").files[0]);
       }
-
+      
       // const instance = createInstance();
       // instance
       //   .post("/team", formData, {
