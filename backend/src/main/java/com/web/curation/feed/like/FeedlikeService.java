@@ -12,6 +12,8 @@ import com.web.curation.team.challenge.TeamChallengeDao;
 import com.web.curation.team.challenger.TeamChallenger;
 import com.web.curation.team.challenger.TeamChallengerDao;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -135,8 +137,8 @@ public class FeedlikeService {
     }
 
     @Transactional
-    public void deleteFeedlike(FeedlikeDto feedlikeDto) {
-        Feedlike feedlike = feedLikeDao.findById(feedlikeDto.getFeedlikeId())
+    public void deleteFeedlike(int feedlike_id) {
+        Feedlike feedlike = feedLikeDao.findById(feedlike_id)
                 .orElseThrow(() -> new CustomException(FEEDLIKE_NOT_FOUND));
 
         feedLikeDao.delete(feedlike);

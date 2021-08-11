@@ -4,6 +4,8 @@ import com.web.curation.model.BasicResponse;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,10 +23,13 @@ import java.util.Optional;
 @RestController
 @AllArgsConstructor
 public class FeedlikeController {
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     private FeedlikeService feedlikeService;
 
     @PostMapping("/feedlike")
     ResponseEntity<?> createFeedlike(@RequestBody @Valid FeedlikeDto feedlikeDto){
+        logger.info("좋아요 생성 요청");
         feedlikeService.likeFeed(feedlikeDto);
 
         final BasicResponse result = new BasicResponse();
@@ -36,6 +41,7 @@ public class FeedlikeController {
 
     @GetMapping("/feedlike/feed/{feed_id}")
     ResponseEntity<?> getFeedlikes(@PathVariable(value = "feed_id")int feedId){
+        logger.info("피드별 좋아요 요청");
         List<FeedlikeDto> feedlikeList = feedlikeService.getfeedlikeList(feedId);
 
         final BasicResponse result = new BasicResponse();
@@ -48,6 +54,7 @@ public class FeedlikeController {
 
     @GetMapping("/feedlike/member/{member_id}")
     ResponseEntity<?> getMyFeedlikes(@PathVariable(value = "member_id")int memberId){
+        logger.info("멤버별 좋아요 요청");
         List<FeedlikeDto> feedlikeList = feedlikeService.getMyFeedlikes(memberId);
 
         final BasicResponse result = new BasicResponse();
@@ -60,6 +67,7 @@ public class FeedlikeController {
 
     @PutMapping("/feedlike")
     ResponseEntity<?> updateFeedlike(@RequestBody @Valid FeedlikeDto feedlikeDto){
+        logger.info("좋아요 수정 요청");
         feedlikeService.updateFeedlike(feedlikeDto);
 
         final BasicResponse result = new BasicResponse();
@@ -69,9 +77,10 @@ public class FeedlikeController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @DeleteMapping("/feedlike")
-    ResponseEntity<?> deleteFeedlike(@RequestBody @Valid FeedlikeDto feedlikeDto){
-        feedlikeService.deleteFeedlike(feedlikeDto);
+    @DeleteMapping("/feedlike/{feedlike_id}")
+    ResponseEntity<?> deleteFeedlike(@PathVariable(value = "feedlike_id") int feedlike_id){
+        logger.info("좋아요 삭제 요청");
+        feedlikeService.deleteFeedlike(feedlike_id);
 
         final BasicResponse result = new BasicResponse();
         result.status = true;
