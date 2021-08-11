@@ -12,8 +12,8 @@
             name="team.name"
             color="green"
             background-color="transparent"
-            v-model="managingTeam.name"
-            label="팀이름"
+            v-model="team.name"
+            label="새로운 팀이름"
           ></v-text-field>
 
           <v-btn
@@ -29,8 +29,8 @@
             name="team.introduction"
             color="green"
             background-color="transparent"
-            v-model="managingTeam.introduction"
-            label="팀소개"
+            v-model="team.introduction"
+            label="새로운 팀소개"
           ></v-text-field>
 
           <div class="img_wrap">
@@ -44,7 +44,7 @@
               accept="image/*"
               @change="loadf"
             />
-            <img src="" class="preview" />
+            <img src="thumbnail" class="preview" />
           </div>
           
           <br>
@@ -72,17 +72,9 @@ export default {
   computed:{
     ...mapGetters(["managingTeam"]),
   },
-  created(){
-    console.log(this.managingTeam);
-  },
   data() {
     return {
-      sportList: [
-        { name: "러닝", value: 1 },
-        { name: "헬스", value: 2 },
-        { name: "수영", value: 3 },
-        { name: "탁구", value: 4 },
-      ],
+      thumbnail: "",
       team: {
         name: "",
         introduction: "",
@@ -93,8 +85,17 @@ export default {
         sportDto: {
           sportId: Number()
         }
-      }
+      },
     };
+  },
+  created(){
+    this.thumbnail = this.managingTeam.photo.filePath.replaceAll("\"", "");
+    this.team.name = this.managingTeam.name.replaceAll("\"", "");
+    this.team.introduction = this.managingTeam.introduction.replaceAll("\"", "");
+    this.team.leader = this.managingTeam.leader.replaceAll("\"", "");
+    this.team.member.memberId = this.managingTeam.member.memberId;
+    this.team.sportDto.sportId = this.managingTeam.sport.sportId;
+    console.log(this.thumbnail);
   },
   methods: {
     loadf() {
@@ -108,7 +109,34 @@ export default {
       preview.style.maxHeight = "500px";
     },
     modify() {
-      console.log("변경")
+      const formData = new FormData();
+      formData.append("name", JSON.stringify(this.team.name));
+      formData.append("introduction", JSON.stringify(this.team.introduction));
+      formData.append("leader", JSON.stringify(this.team.leader));
+      formData.append("memberId", JSON.stringify(this.team.member.memberId));
+      formData.append("sportId", JSON.stringify(this.team.sportDto.sportId));
+      if(document.getElementById("chooseFile").files[0] !=null){
+        formData.append("multipartFile", document.getElementById("chooseFile").files[0]);
+      }
+
+      // const instance = createInstance();
+      // instance
+      //   .post("/team", formData, {
+      //     Headers: {
+      //       "Content-Type": "multiart/form-data"
+      //     }
+      //   })
+      //   .then(response => {
+      //     if (response.data.data === "success") {
+      //       alert("정보 변경 완료");
+      //       this.$router.push("/teamlist");
+      //     } else {
+      //       alert("정보 변경 실패");
+      //     }
+      //   })
+      //   .catch(() => {
+      //     alert("에러발생!");
+      //   });
     },
     clear() {
       this.team.name = null;
