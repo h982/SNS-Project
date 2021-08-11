@@ -76,17 +76,26 @@
             class="white--text"
             >회원가입</v-btn
           >
-
+        </v-card-actions>
+        <v-layout>
           <img
             src="//k.kakaocdn.net/14/dn/btqCn0WEmI3/nijroPfbpCa4at5EIsjyf0/o.jpg"
             width="222"
+            height="50"
+            hover
             @click="loginWithKakao"
           />
+        </v-layout>
 
-        
-        </v-card-actions>
-
-    
+        <v-layout>
+          <img 
+            width="222" 
+            height="50" 
+            @click="naverLogin" 
+            src='@/assets/images/naverid.png'
+            />
+        </v-layout> 
+          
 
         <v-card-actions class="hidden-md-and-up justify-center">
         </v-card-actions>
@@ -106,17 +115,24 @@ import banner1 from "@/assets/images/banner1.jpg";
 import banner2 from "@/assets/images/banner2.jpg";
 import banner3 from "@/assets/images/banner3.jpg";
 import banner4 from "@/assets/images/banner4.jpg";
-
+import naverid from "@/assets/images/naverid.png";
+import { createInstance } from "@/api/index.js";
 export default {
   components: {
     "vue-typer": VueTyper,
-    VueCompareImage
+    VueCompareImage,
+    naverid
   },
   computed: {
     ...mapGetters(["memberInfo"])
   },
+  created(){
+    this.naverimgsrc=naverid
+  },
+  
   data() {
     return {
+      naverimgsrc:"",
       member: {
         email: "",
         password: ""
@@ -191,7 +207,18 @@ export default {
       window.location.replace(
         `https://kauth.kakao.com/oauth/authorize?client_id=35246c4d76c9d177b219aeeb8d0f2579&redirect_uri=http://localhost:8081/kakaosignup&response_type=code`
       );
-      
+    },
+    naverLogin(){
+      const instance = createInstance();
+      instance.get("/member/naverlogin")
+          .then(response => {
+            console.log(response.data);
+            window.location.href=response.data;
+              
+          }).catch(error =>{
+            console.log(error);
+      })
+    
     }
   },
   computed: {

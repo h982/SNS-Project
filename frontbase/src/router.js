@@ -50,6 +50,12 @@ export default new Router({
         import(/* webpackChunkName: "about" */ "./views/KakaoSignUp.vue")
     },
     {
+      path: "/naversignup",
+      name: "naversignup",
+      component: () =>
+        import( /* webpackChunkName: "about" */ "./views/NaverSignUp.vue")
+    },
+    {
       path: "/myteam",
       name: "myteam",
       component: MyTeam,

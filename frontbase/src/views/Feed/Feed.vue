@@ -55,6 +55,36 @@ export default {
         this.memberInfo.memberId
       );
       this.$router.push("/writefeed");
+    },
+
+    check(){
+      console.log(this.feeds);
+      console.log(this.feedsList);
+    },
+
+    infiniteHandler($state){
+      const instance = createInstance();
+      this.page+=1
+      instance.get("/feed/"+this.memberInfo.memberId+"/"+this.page)
+          .then(response => {
+            console.log(response.data.object);
+            setTimeout(() =>{
+              if(response.data.object.length){
+                this.$store.commit("setFeeds",response.data.object);
+                //this.feedsList = this.feedsList.concat(response.data.object);
+                $state.loaded();
+                this.limit+=3
+                // if(this.feeds.length/10==0){
+                //   $state.complete();
+                // }
+              }else{
+                $state.complete();
+              }
+            },1400)
+
+          }).catch(error =>{
+            console.log(error);
+          })
     }
   }
 };
