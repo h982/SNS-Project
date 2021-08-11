@@ -6,11 +6,8 @@
     </div>
     <div class="feed-card">
       <div class="feed-btns">
-        <div class="feed-show-btn"></div>
-        <div class="feed-change">
-          <div @click="modifyFeed(feed.feedId)">수정</div>
-          <div @click="deleteFeed">삭제</div>
-        </div>
+        <div @click="modifyFeed(feed.feedId)" class="modiBtn"></div>
+        <div @click="deleteFeed" class="delBtn"></div>
       </div>
       <div class="feed-wrap">
         <div
@@ -65,15 +62,6 @@ export default {
       this.$store.dispatch("SET_FEEDID", this.feed.feedId);
       this.$router.replace("/comment");
     },
-    // showBtns() {
-    //   var showitem = document.querySelector(".feed-change");
-    //   showitem.style.display = "block";
-    //   // if (showitem.style.display == "none") {
-    //   //   showitem.style.display = "block";
-    //   // } else {
-    //   //   showitem.style.display = "none";
-    //   // }
-    // },
     modifyFeed(data) {
       console.log(data);
       if (this.feed.writer.replaceAll('"', "") === this.memberInfo.name) {
@@ -88,7 +76,8 @@ export default {
           teamName: this.myTeamList[0].text.name,
           contents: this.feed.contents,
           writer: this.feed.writer,
-          image: this.feed.photos[0].filePath
+          image: this.feed.photos[0].filePath,
+          photos: this.feed.photos[0]
         };
         console.log(body);
         this.$store.dispatch("SET_ONEFEED", body);

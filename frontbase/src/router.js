@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
-import Meta from 'vue-meta'
+import Meta from "vue-meta";
 import Login from "@/views/user/Login.vue";
 import TeamChallenge from "@/views/Challenge/TeamChallenge.vue";
 import Challenge from "@/views/Challenge/WholeChallenge.vue";
@@ -33,7 +33,7 @@ export default new Router({
       path: "/signup",
       name: "signup",
       component: () =>
-        import( /* webpackChunkName: "about" */ "./views/SignUp.vue")
+        import(/* webpackChunkName: "about" */ "./views/SignUp.vue")
     },
     {
       path: "/kakaosignup",
@@ -65,13 +65,13 @@ export default new Router({
       path: "/teammake",
       name: "teammake",
       component: () =>
-      import( /* webpackChunkName: "about" */ "./views/Team/TeamMake.vue")
+        import(/* webpackChunkName: "about" */ "./views/Team/TeamMake.vue")
     },
     {
       path: "/teamlist",
       name: "teamlist",
       component: () =>
-      import( /* webpackChunkName: "about" */ "./views/Team/Teamlist.vue")
+        import(/* webpackChunkName: "about" */ "./views/Team/Teamlist.vue")
     },
     {
       path: "/resume",
@@ -195,21 +195,26 @@ export default new Router({
       path: "/board/view",
       name: "BoardView",
       component: () =>
-        import(/* webpackChunkName: "about" */ "./components/board/BoardView.vue")
+        import(
+          /* webpackChunkName: "about" */ "./components/board/BoardView.vue"
+        )
     },
     {
       path: "/board/create",
       name: "BoardCreate",
       component: () =>
-        import(/* webpackChunkName: "about" */ "./components/board/BoardCreate.vue")
+        import(
+          /* webpackChunkName: "about" */ "./components/board/BoardCreate.vue"
+        )
     },
     {
       path: "/board/modify",
       name: "BoardModify",
       component: () =>
-        import(/* webpackChunkName: "about" */ "./components/board/BoardModify.vue")
+        import(
+          /* webpackChunkName: "about" */ "./components/board/BoardModify.vue"
+        )
     },
-
 
     {
       name: "board",
@@ -245,7 +250,6 @@ export default new Router({
       path: "/teamModify",
       name: "teamModify",
       component: TeamModify
-    },
-
+    }
   ]
 });
