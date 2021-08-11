@@ -76,7 +76,8 @@ export default {
           teamName: this.myTeamList[0].text.name,
           contents: this.feed.contents,
           writer: this.feed.writer,
-          image: this.feed.photos[0].filePath
+          image: this.feed.photos[0].filePath,
+          photos: this.feed.photos[0]
         };
         console.log(body);
         this.$store.dispatch("SET_ONEFEED", body);

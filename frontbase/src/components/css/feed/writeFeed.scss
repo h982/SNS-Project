@@ -49,6 +49,13 @@
     display: block;
     margin: 10px 0 25px;
   }
+
+  .oldpre {
+    width: 60%;
+    height: 60%;
+    max-height: 500px;
+    margin: 10px 0 25px;
+  }
 }
 
 @include mobile {

@@ -14,7 +14,10 @@
       </select>
     </div>
     <div class="img_wrap">
-      <label for="chooseFile" class="fileBtn">
+      <label v-if="this.type === 'update'" for="chooseFile" class="fileBtn">
+        👉 MODIFY IMAGE 👈
+      </label>
+      <label v-else for="chooseFile" class="fileBtn">
         👉 UPLOAD IMAGE 👈
       </label>
       <input
@@ -23,6 +26,11 @@
         name="chooseFile"
         accept="image/*"
         @change="loadf"
+      />
+      <img
+        v-if="this.type === 'update'"
+        v-bind:src="this.oneFeed.image"
+        class="oldpre"
       />
       <img src="" class="preview" />
     </div>
@@ -48,7 +56,8 @@ export default {
     return {
       contents: "",
       challenge: Number(),
-      file: null
+      file: null,
+      src: ""
     };
   },
   computed: {
@@ -62,6 +71,7 @@ export default {
     ])
   },
   created() {
+    console.log(this.oneFeed);
     this.$store.dispatch("GET_MY_TEAM_INFO", this.memberInfo.memberId);
 
     if (this.type === "update") {
@@ -74,6 +84,10 @@ export default {
       var daily = document.querySelector(".dailyFeed");
       const formData = new FormData();
 
+      if (daily.options[daily.selectedIndex] == null) {
+        alert("일상글, 챌린지 선택 필수");
+      }
+
       if (daily.options[daily.selectedIndex].value == "일상글") {
         formData.append("teamchallengeId", 0);
       } else {
@@ -82,7 +96,6 @@ export default {
           this.challenge.text.teamChallenge.teamChallengeId
         );
       }
-
       formData.append("memberId", this.memberInfo.memberId);
       formData.append("teamId", this.myTeamList[0].text.teamId);
       formData.append("teamName", this.myTeamList[0].text.name);
@@ -116,6 +129,9 @@ export default {
     modify() {
       var daily = document.querySelector(".dailyFeed");
       const formData = new FormData();
+      if (daily.options[daily.selectedIndex] == null) {
+        alert("일상글, 챌린지 선택 필수");
+      }
 
       if (daily.options[daily.selectedIndex].value == "일상글") {
         formData.append("teamchallengeId", 0);
@@ -131,41 +147,54 @@ export default {
       formData.append("teamName", this.oneFeed.teamName);
       formData.append("contents", this.contents);
       formData.append("writer", this.oneFeed.writer);
-      formData.append("image", document.getElementById("chooseFile").files[0]);
 
-      const instance = createInstance();
-      instance
-        .put("/feed", formData, {
-          Headers: {
-            "Content-Type": "multipart/form-data"
-          }
-        })
-        .then(response => {
-          if (response.data.data === "success") {
-            this.$store.dispatch(
-              "GET_TEAMCHALLENGEING_INFO",
-              this.memberInfo.memberId
-            );
-            alert("피드 수정 완료");
-            this.$router.push("/feed");
-          } else {
-            alert("피드 수정 실패");
-            // this.$router.push("/feed");
-          }
-        })
-        .catch(() => {
-          alert("에러발생!.");
-          // this.$store.dispatch(
-          //   "GET_TEAMCHALLENGEING_INFO",
-          //   this.memberInfo.memberId
-          // );
-          // this.$router.push("/feed");
-        });
+      console.log(document.getElementById("chooseFile").files[0]);
+      // if (document.getElementById("chooseFile").files[0] == null) {
+      //   formData.append("image", this.oneFeed.photos);
+      // } else {
+      //   formData.append(
+      //     "image",
+      //     document.getElementById("chooseFile").files[0]
+      //   );
+      // }
+
+      // const instance = createInstance();
+      // instance
+      //   .put("/feed", formData, {
+      //     Headers: {
+      //       "Content-Type": "multipart/form-data"
+      //     }
+      //   })
+      //   .then(response => {
+      //     if (response.data.data === "success") {
+      //       this.$store.dispatch(
+      //         "GET_TEAMCHALLENGEING_INFO",
+      //         this.memberInfo.memberId
+      //       );
+      //       alert("피드 수정 완료");
+      //       this.$router.push("/feed");
+      //     } else {
+      //       alert("피드 수정 실패");
+      //       // this.$router.push("/feed");
+      //     }
+      //   })
+      //   .catch(() => {
+      //     alert("에러발생!.");
+      //     // this.$store.dispatch(
+      //     //   "GET_TEAMCHALLENGEING_INFO",
+      //     //   this.memberInfo.memberId
+      //     // );
+      //     // this.$router.push("/feed");
+      //   });
     },
     loadf() {
+      if (this.type === "update") {
+        var oldpre = document.querySelector(".oldpre");
+        oldpre.style.display = "none";
+      }
       var file = document.getElementById("chooseFile");
 
-      let preview = document.querySelector(".preview");
+      var preview = document.querySelector(".preview");
       preview.src = URL.createObjectURL(file.files[0]);
 
       console.log(file.files[0]);
