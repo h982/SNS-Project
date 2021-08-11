@@ -19,6 +19,14 @@ import TeamModify from "@/views/user/TeamModify.vue";
 Vue.use(Router);
 Vue.use(Meta);
 
+const requireAuth = () => (to, from, next) => {
+  if (localStorage.getItem("access-token")) {
+    return next();
+  }
+  alert("로그인이 필요합니다.");
+  next('/');
+};
+
 export default new Router({
   mode: "history",
   base: process.env.BASE_URL,
@@ -45,43 +53,50 @@ export default new Router({
     {
       path: "/myteam",
       name: "myteam",
-      component: MyTeam
+      component: MyTeam,
+      beforeEnter: requireAuth()
 
     },
     {
       path: "/mypage",
       name: "mypage",
-      component: MyPage
+      component: MyPage,
+      beforeEnter: requireAuth()
 
     },
     {
       path: "/myfeed",
       name: "myfeed",
-      component: MyFeed
+      component: MyFeed,
+      beforeEnter: requireAuth()
 
     },
     {
       path: "/membermodify",
       name: "membermodify",
-      component: MemberModify
+      component: MemberModify,
+      beforeEnter: requireAuth()
     },
     {
       path: "/teammake",
       name: "teammake",
       component: () =>
-      import( /* webpackChunkName: "about" */ "./views/Team/TeamMake.vue")
+      import( /* webpackChunkName: "about" */ "./views/Team/TeamMake.vue"),
+      beforeEnter: requireAuth()
     },
     {
       path: "/teamlist",
       name: "teamlist",
       component: () =>
-      import( /* webpackChunkName: "about" */ "./views/Team/Teamlist.vue")
+      import( /* webpackChunkName: "about" */ "./views/Team/Teamlist.vue"),
+      beforeEnter: requireAuth()
     },
     {
       path: "/resume",
       name: "resume",
       component: () =>
-        import(/* webpackChunkName: "about" */ "./views/Resume.vue")
+        import(/* webpackChunkName: "about" */ "./views/Resume.vue"),
+        beforeEnter: requireAuth()
     },
     {
       path: "/blog",
@@ -133,13 +148,15 @@ export default new Router({
       path: "/feed",
       name: "feed",
       component: () =>
-        import(/* webpackChunkName: "about" */ "./views/Feed/Feed.vue")
+        import(/* webpackChunkName: "about" */ "./views/Feed/Feed.vue"),
+        beforeEnter: requireAuth()
     },
     {
       path: "/comment",
       name: "comment",
       component: () =>
-        import(/* webpackChunkName: "about" */ "./views/Feed/Comment.vue")
+        import(/* webpackChunkName: "about" */ "./views/Feed/Comment.vue"),
+        beforeEnter: requireAuth()
     },
     {
       path: "*",
@@ -155,37 +172,44 @@ export default new Router({
     {
       path: "/teamChallenge",
       name: "teamChallenge",
-      component: TeamChallenge
+      component: TeamChallenge,
+      beforeEnter: requireAuth()
     },
     {
       path: "/challenge",
       name: "challenge",
-      component: Challenge
+      component: Challenge,
+      beforeEnter: requireAuth()
     },
     {
       path: "/teammain",
       name: "teammain",
-      component: TeamMain
+      component: TeamMain,
+      beforeEnter: requireAuth()
     },
     {
       path: "/chattingroom",
       name: "chatting",
-      component: Chatting
+      component: Chatting,
+      beforeEnter: requireAuth()
     },
     {
       name: "board",
       path: "/board",
-      component: () => import("@/components/board/BoardList.vue")
+      component: () => import("@/components/board/BoardList.vue"),
+      beforeEnter: requireAuth()
     },
     {
       name: "TeamFeed",
       path: "/teamFeed",
-      component: TeamFeed
+      component: TeamFeed,
+      beforeEnter: requireAuth()
     },
     {
       name: "ChallengeMake",
       path: "/challengemake",
-      component: ChallengeMake
+      component: ChallengeMake,
+      beforeEnter: requireAuth()
 
     },
 
@@ -239,12 +263,14 @@ export default new Router({
     {
       path: "/teamManagement",
       name: "teamManagement",
-      component: TeamManagement
+      component: TeamManagement,
+      beforeEnter: requireAuth()
     },
     {
       path: "/teamModify",
       name: "teamModify",
-      component: TeamModify
+      component: TeamModify,
+      beforeEnter: requireAuth()
     },
 
   ]
