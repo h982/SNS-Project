@@ -186,6 +186,8 @@ public class MemberController {
         resultMap.put("message", "카카오 유저 정보");
         resultMap.put("data", userInfo);
         resultMap.put("member", dto);
+        String accessToken = jwtService.create("memberEmail", userInfo.get("email"), "access-token");
+        resultMap.put("access-token", accessToken);
 
         return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
     }
