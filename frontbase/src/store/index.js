@@ -125,9 +125,14 @@ export default new Vuex.Store({
       state.isLogin = false;
       state.memberInfo = null;
     },
-    setFeeds(state, payload) {
-      state.feeds = payload;
+    setFeeds(state, data) {
+      state.feeds = state.feeds.concat(data);;
     },
+    setInitFeeds(state, data) {
+      state.feeds.length = 0;
+      state.feeds = data;
+    },
+
     setMyFeeds(state, payload) {
       state.myFeeds = payload;
     },
@@ -330,16 +335,16 @@ export default new Vuex.Store({
         .get("/feed/" + payload.memberId + "/" + payload.page)
         .then(response => {
           console.log(response.data);
-          commit("setFeeds", response.data.object);
+          commit("setInitFeeds", response.data.object);
         })
         .catch(() => {
           //alert("에러발생");
         });
     },
-    getMyFeeds({ commit }) {
+    getMyFeeds({ commit },payload) {
       const instance = createInstance();
       instance
-        .get("/myfeed")
+        .get("/feed/member/"+payload)
         .then(response => {
           console.log(response);
           commit("setMyFeeds", response.data.object);
