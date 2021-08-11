@@ -7,10 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
 
 import com.web.curation.error.CustomException;
+import com.web.curation.error.ErrorCode;
 import com.web.curation.member.Member;
+import com.web.curation.member.MemberDao;
 import com.web.curation.team.Team;
 import com.web.curation.team.TeamDao;
 
@@ -22,6 +26,7 @@ public class JoinTeamService{
 	
 	JoinTeamDao joinTeamDao;
 	TeamDao teamDao;
+	MemberDao memberDao;
 
 	public void createJoin(JoinTeamDto joinTeam) {
 		joinTeamDao.save(JoinTeamAdapter.dtoToEntity(joinTeam));
@@ -48,6 +53,18 @@ public class JoinTeamService{
         }
         
         return list;
+	}
+	
+	@Transactional
+	public boolean deleteTeamMember(int teamId, int memberId){
+		Team team = teamDao.findById(teamId)
+                .orElseThrow(() -> new CustomException(TEAM_NOT_FOUND));
+		Member member = memberDao.findById(memberId)
+                .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
+
+        joinTeamDao.deleteByTeamAndMember(team, member);
+        
+        return true;
 	}
 
 }

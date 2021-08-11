@@ -15,4 +15,5 @@ public interface JoinTeamDao extends JpaRepository<JoinTeam, Integer> {
 	public int countByMember(Member member);
 
 	Optional<List<JoinTeam>> findJoinTeamsByTeam(Team team);
+	public void deleteByTeamAndMember(Team team, Member member);
 }

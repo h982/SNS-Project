@@ -41,4 +41,15 @@ public class JoinTeamController {
 		resultMap.put("message", "success");
 		return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
     }
+    
+    @DeleteMapping("/jointeam")
+    @ApiOperation(value = "팀 멤버 삭제")
+    public Object deleteTeamMember(@RequestParam int teamId, @RequestParam int memberId) {
+    	Map<String, Object> resultMap = new HashMap<>();
+		
+		joinTeamService.deleteTeamMember(teamId, memberId);
+		resultMap.put("message", "success");
+		
+		return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+    }
 }
