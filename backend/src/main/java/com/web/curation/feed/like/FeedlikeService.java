@@ -8,15 +8,18 @@ import com.web.curation.member.Member;
 import com.web.curation.member.MemberDao;
 import com.web.curation.team.Team;
 import com.web.curation.team.challenge.TeamChallenge;
+import com.web.curation.team.challenge.TeamChallengeDao;
 import com.web.curation.team.challenger.TeamChallenger;
 import com.web.curation.team.challenger.TeamChallengerDao;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static com.web.curation.error.ErrorCode.*;
 
@@ -26,10 +29,11 @@ public class FeedlikeService {
     private FeedlikeDao feedLikeDao;
     private FeedDao feedDao;
     private MemberDao memberDao;
+    private TeamChallengeDao teamChallengeDao;
     private TeamChallengerDao teamChallengerDao;
 
     @Transactional
-    public FeedlikeDto likeFeed(FeedlikeDto feedlikeDto) {
+    public void likeFeed(FeedlikeDto feedlikeDto) {
         Member member = memberDao.findById(feedlikeDto.getMemberId())
                 .orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
         Feed feed = feedDao.findById(feedlikeDto.getFeedId())
@@ -45,28 +49,42 @@ public class FeedlikeService {
                 .feed(feed)
                 .feedLike(feedlikeDto.getFeedLike())
                 .build();
-        Feedlike savedFeedlike = feedLikeDao.saveAndFlush(feedlike);
-        feedlikeDto.setFeedlikeId(savedFeedlike.getFeedlikeId());
+        feedLikeDao.saveAndFlush(feedlike);
 
         TeamChallenge teamChallenge = feed.getTeamchallenge();
-        if(teamChallenge != null){
-            checkTeamChallenge(feed);
+        if (teamChallenge != null) {
+            if (teamChallenge.getEndDate().isAfter(LocalDateTime.now())) {
+                checkTeamChallenge(feed);
+            }
         }
-        return feedlikeDto;
     }
 
-    private void checkTeamChallenge(Feed feed){
+    private void checkTeamChallenge(Feed feed) {
+        Optional<TeamChallenger> chkTeamChallenger = teamChallengerDao.findTeamChallengerByTeamChallengeAndMember(
+                feed.getTeamchallenge(), feed.getMember());
+        if (!chkTeamChallenger.isPresent()) {
+            return;
+        }
+
+        TeamChallenger teamChallenger = chkTeamChallenger.get();
+        if (teamChallenger.isDone()) {
+            return;
+        }
+
         List<Feedlike> feedlikes = feedLikeDao.findFeedlikeByFeed(feed);
         Team team = feed.getTeam();
         int member_count = team.getMemberCount();
-        if(feedlikes.size() < member_count / 3)
+        if (feedlikes.size() < member_count / 3)
             return;
 
-        TeamChallenger teamChallenger = teamChallengerDao.findTeamChallengerByTeamChallengeAndMember(
-                feed.getTeamchallenge(), feed.getMember()
-        ).orElseThrow(() -> new CustomException(TEAM_CHALLENGER_NOT_FOUND));
         teamChallenger.setDone(true);
         teamChallengerDao.save(teamChallenger);
+        updateGoalCount(feed.getTeamchallenge());
+    }
+
+    private void updateGoalCount(TeamChallenge teamChallenge) {
+        teamChallenge.setGoalCount(teamChallenge.getGoalCount() + 1);
+        teamChallengeDao.save(teamChallenge);
     }
 
     public List<FeedlikeDto> getfeedlikeList(int feedId) {

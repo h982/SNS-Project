@@ -25,12 +25,11 @@ public class FeedlikeController {
 
     @PostMapping("/feedlike")
     ResponseEntity<?> createFeedlike(@RequestBody @Valid FeedlikeDto feedlikeDto){
-        FeedlikeDto savedFeedlike = feedlikeService.likeFeed(feedlikeDto);
+        feedlikeService.likeFeed(feedlikeDto);
 
         final BasicResponse result = new BasicResponse();
         result.status = true;
         result.data = "success";
-        result.object = savedFeedlike;
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
@@ -66,7 +65,6 @@ public class FeedlikeController {
         final BasicResponse result = new BasicResponse();
         result.status = true;
         result.data = "success";
-        result.object = feedlikeDto;
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
@@ -78,7 +76,6 @@ public class FeedlikeController {
         final BasicResponse result = new BasicResponse();
         result.status = true;
         result.data = "success";
-        result.object = feedlikeDto;
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
