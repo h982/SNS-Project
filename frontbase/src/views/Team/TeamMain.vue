@@ -128,7 +128,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import TeamHeader from "@/components/TeamHeader.vue"
-import { createInstance } from "@/api/index.js";
+import { createInstance } from "@/api/teamindex.js";
 import thumbnail1 from "@/assets/images/thumbnail.jpg";
 import TeamHeader2 from '../../components/TeamHeader2.vue';
 // import { pop, render } from "@/api/event.js";
