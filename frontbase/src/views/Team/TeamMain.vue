@@ -253,11 +253,11 @@ export default {
         instance.delete("/jointeam?memberId="+this.memberInfo.memberId+"&teamId="+this.selectTeam.teamId)
         .then(
           (response) => {
-            if (response.data.message === "success") {
-              alert("팀 탈퇴");
+            if (response.message === "success") {
+              // alert("팀 탈퇴");
               console.log(response);
             } else {
-              alert("팀 탈퇴 실패");
+              // alert("팀 탈퇴 실패");
               console.log(response);
             }
           }
