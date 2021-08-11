@@ -3,14 +3,23 @@
 
     <v-layout >
       <v-bottom-navigation
-        v-if="teamcheck === true"
+        v-if="teamcheck === true | this.selectTeam.memberId === this.memberInfo.memberId"
         class="mx-auto"
         shift
         x-large
       >
       <team-header />
-        
       </v-bottom-navigation>
+      <v-bottom-navigation
+        v-else
+        class="mx-auto"
+        shift
+        x-large
+      >
+      <team-header-2 />
+      </v-bottom-navigation>
+
+      
     </v-layout>
     <v-layout column justify-center class="mt-4 pt-2">
       <h1 class="text-xs-center mb-4 pb-2">{{selectTeam.name.replaceAll("\"", "")}}</h1>
@@ -33,6 +42,49 @@
         <h2>팀장</h2>
         <p>{{selectTeam.leader.replaceAll("\"", "")}}</p>
         <br>
+
+        <h2>팀원</h2>
+        <template>
+          <v-card>
+            <v-card-title>
+              <v-text-field
+                v-model="search"
+                append-icon="search"
+                label="Search"
+                single-line
+                hide-details
+              ></v-text-field>
+            </v-card-title>
+            <v-data-table
+              :headers="headers"
+              :items="this.managingTeamMembers"
+              item-key="member.memberId"
+              hide-actions
+              :pagination.sync="pagination"
+              :search="search"
+              class="elevation-1"
+            >
+              <template v-slot:items="props">
+                <td>{{ props.item.member.memberId }}</td>
+                <td class="text-xs-right">{{ props.item.member.name }}</td>
+                <td class="text-xs-right">
+                  <v-chip
+                    :color="getColor(props.item.member.point)"
+                    dark
+                  >
+                    {{ props.item.member.point }}
+                  </v-chip>
+                </td>
+                <td class="text-xs-right">{{ props.item.member.email }}</td>
+                <td class="text-xs-right">{{ props.item.member.phone }}</td>
+                <td class="text-xs-right">{{ props.item.member.mbti }}</td>
+              </template>
+            </v-data-table>
+            <div class="text-xs-center pt-2">
+              <v-pagination v-model="pagination.page" :length="pages"></v-pagination>
+            </div>
+          </v-card>
+        </template>
         <br>
         <v-btn
           v-if="selectTeam.memberId != memberInfo.memberId && teamcheck === false"
@@ -41,6 +93,13 @@
           color="green"
           class="white--text"
         >가입하기
+        </v-btn>
+        <v-btn
+          v-else
+          type="button"
+          color="red"
+          class="white--text"
+        >팀탈퇴ㅠ 아직 안만듦
         </v-btn>
       </v-layout>
       <v-btn
@@ -71,33 +130,60 @@ import { mapGetters } from 'vuex';
 import TeamHeader from "@/components/TeamHeader.vue"
 import { createInstance } from "@/api/index.js";
 import thumbnail1 from "@/assets/images/thumbnail.jpg";
+import TeamHeader2 from '../../components/TeamHeader2.vue';
 
 export default {
+  name: "TeamMain",
   computed:{
-    ...mapGetters(["selectTeam","memberInfo","myTeamList","team_challenges","team_challenging"]),
+    ...mapGetters(["selectTeam","memberInfo","myTeamList","team_challenges","team_challenging", "managingTeamMembers"]),
+    pages () {
+      if (this.pagination.rowsPerPage == null ||
+        this.pagination.totalItems == null
+      ) return 0
+
+      return Math.ceil(this.pagination.totalItems / this.pagination.rowsPerPage)
+    },
   },
   created() {
     this.$store.dispatch("GET_MY_TEAM_INFO",this.memberInfo.memberId);
     this.teamchecking();
-    console.log(this.teamcheck);
-    // console.log(this.selectTeam);
+    // console.log(this.teamcheck);
+    console.log(this.selectTeam);
     // console.log(this.myTeamList);
     this.$store.dispatch("GET_TEAMCHALLENGE_INFO", this.memberInfo.memberId);
     const token={
       memberId: this.memberInfo.memberId,
       teamId:this.selectTeam.teamId
     };
-    this.$store.dispatch("GET_TEAMCHALLENGER_INFO", token);  
+    this.$store.dispatch("GET_TEAMCHALLENGER_INFO", token); 
+    this.$store.dispatch("getTeamMembers", this.selectTeam.teamId);
+    // console.log(this.managingTeamMembers);
 
   },
   data() {
     return {
       teamcheck: false,
       thumbnail1: thumbnail1,
+      pagination: {},
+      search: '',
+      headers: [
+        {
+          text: '멤버ID',
+          align: 'start',
+          sortable: false,
+          value: 'member.memberId',
+        },
+        { text: '이름', value: 'member.name' },
+        { text: '포인트', value: 'member.point' },
+        { text: '이메일', value: 'member.email' },
+        { text: '번호', value: 'member.phone' },
+        { text: 'mbti', value: 'member.mbti' },
+      ],
     };
   },
   components: {
-    TeamHeader
+    TeamHeader,
+    TeamHeader2,
   },
   methods: {
     join() {
@@ -153,7 +239,12 @@ export default {
     check(){
       console.log(this.selectTeam);
       console.log(this.team_challenging);
-    }
+    },
+    getColor (point) {
+      if (point > 100) return 'green'
+      else if (point > 50) return 'orange'
+      else return 'red'
+    },
   },
 }
 </script>

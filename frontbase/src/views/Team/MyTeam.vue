@@ -31,6 +31,7 @@ export default {
     ...mapGetters(["myTeamList","memberInfo"]),
   },
   created() {
+    this.$store.dispatch("GET_TEAMCHALLENGEING_INFO", this.memberInfo.memberId);
     this.$store.dispatch("GET_MY_TEAM_INFO",this.memberInfo.memberId);
     console.log(this.myTeamList);
   },

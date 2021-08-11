@@ -92,12 +92,10 @@ export default {
       
     },
     onSuccess(){
-      console.log("success");
       this.$store.commit("setMemberInfo", true);
       this.$router.push("/");
     },
     onFailure(){
-      console.log("failure");
       this.$router.push("/");
     },
     callbackFunction

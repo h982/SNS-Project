@@ -76,7 +76,17 @@
             class="white--text"
             >회원가입</v-btn
           >
+
+          <img
+            src="//k.kakaocdn.net/14/dn/btqCn0WEmI3/nijroPfbpCa4at5EIsjyf0/o.jpg"
+            width="222"
+            @click="loginWithKakao"
+          />
+
+        
         </v-card-actions>
+
+    
 
         <v-card-actions class="hidden-md-and-up justify-center">
         </v-card-actions>
@@ -171,13 +181,17 @@ export default {
       );
     },
     onSuccess() {
-      console.log("success");
       this.$store.commit("setMemberInfo", true);
       this.$router.push("/");
     },
     onFailure() {
-      console.log("failure");
       this.$router.push("/");
+    },
+    loginWithKakao(){
+      window.location.replace(
+        `https://kauth.kakao.com/oauth/authorize?client_id=35246c4d76c9d177b219aeeb8d0f2579&redirect_uri=http://localhost:8081/kakaosignup&response_type=code`
+      );
+      
     }
   },
   computed: {

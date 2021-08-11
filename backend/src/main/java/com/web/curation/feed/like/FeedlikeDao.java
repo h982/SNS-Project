@@ -8,10 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface FeedlikeDao extends JpaRepository<Feedlike, Integer>{
-//	List<Integer> findFeedLikeByMemberId(int memberId);
-//	List<Integer> findFeedLikeByFeed(Feed feed);
-
     Optional<Feedlike> findFeedlikeByMemberAndFeed(Member member, Feed feed);
-
-    Optional<List<Feedlike>> findFeedlikeByFeed(Feed feed);
+    List<Feedlike> findFeedlikeByFeed(Feed feed);
+    List<Feedlike> findFeedlikeByMember(Member member);
 }

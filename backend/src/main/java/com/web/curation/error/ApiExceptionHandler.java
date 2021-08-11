@@ -1,5 +1,7 @@
 package com.web.curation.error;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -10,6 +12,8 @@ import java.time.ZonedDateTime;
 
 @ControllerAdvice
 public class ApiExceptionHandler {
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @ExceptionHandler(value = {NotFoundDataException.class})
     public ResponseEntity<Object> handleNotFoundDataException(NotFoundDataException e){
         HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
@@ -26,6 +30,7 @@ public class ApiExceptionHandler {
     public ResponseEntity<Object> handleCustomException(CustomException e){
         HttpStatus httpStatus = e.getErrorCode().getHttpStatus();
 
+        logger.error(e.getErrorCode().getDetail());
         ApiException apiException = new ApiException(
                 e.getErrorCode().getDetail(),
                 e.getErrorCode().getHttpStatus(),

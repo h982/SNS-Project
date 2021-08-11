@@ -2,7 +2,17 @@
   <div class="feed newsfeed">
     <div class="wrapB">
       <feed-item v-for="(feed, idx) in feeds" :key="idx" :feed="feed" />
-      <div class="writebtn" @click="mvWrite" />
+      <v-btn
+          @click="mvWrite"
+          color="secondary"
+          elevation="7"
+          fab
+          large
+          x-large
+          x-small
+          class="create"
+          ><i class="fas fa-plus"></i>
+        </v-btn>
     </div>
   </div>
 </template>
@@ -14,26 +24,38 @@ import { mapGetters } from "vuex";
 import http from "@/util/http-common";
 
 export default {
+  data() {
+    return {
+      feedget: {
+        memberId: "",
+        page: ""
+      }
+    };
+  },
   components: {
     FeedItem
   },
   computed: {
-    ...mapGetters(["memberInfo","feeds"])
+    ...mapGetters(["memberInfo", "feeds"])
   },
+  mounted() {},
   created() {
-    this.$store.dispatch("getFeeds");
-    this.$store.dispatch("GET_MY_TEAM_INFO",this.memberInfo.memberId);
+    this.feedget.memberId = this.memberInfo.memberId;
+    this.feedget.page = 0;
+
+    this.$store.dispatch("getFeeds", this.feedget);
+    this.$store.dispatch("GET_MY_TEAM_INFO", this.memberInfo.memberId);
     this.$store.dispatch("getTeamLists");
     this.$store.dispatch("GET_ENTIRECHALLENGE_INFO", this.memberInfo.memberId);
-
-
-    //console.log(this.managingTeam.data.object[0].joinTeam.team.teamId);
-},
+  },
   methods: {
     mvWrite() {
-      this.$store.dispatch("GET_TEAMCHALLENGEING_INFO", this.memberInfo.memberId);
+      this.$store.dispatch(
+        "GET_TEAMCHALLENGEING_INFO",
+        this.memberInfo.memberId
+      );
       this.$router.push("/writefeed");
-    },
+    }
   }
 };
 </script>
@@ -51,4 +73,10 @@ export default {
 .writebtn:hover {
   cursor: pointer;
 }
+
+.create {
+  position: absolute;
+  right: 120px;
+  top: 150px;
+};
 </style>

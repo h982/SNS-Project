@@ -36,11 +36,11 @@ public class FeedController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @GetMapping("/feed")
+    @GetMapping("/feed/{memberId}/{page}")
     @ApiOperation(value = "피드 조회")
-    public ResponseEntity<?> getFeedList() {
+    public ResponseEntity<?> getFeedList(@PathVariable int memberId, @PathVariable int page) {
 
-        List<Feed> feedList = feedService.getFeedList();
+        List<Feed> feedList = feedService.getFeedList(memberId, page);
         final BasicResponse result = new BasicResponse();
         result.status = true;
         result.data = "success";
@@ -52,25 +52,23 @@ public class FeedController {
     @PutMapping("/feed")
     @ApiOperation(value = "피드 수정")
     public ResponseEntity<?> updateFeed(FeedDto feedDto) throws IOException {
-
         feedService.updateFeed(feedDto);
+
         final BasicResponse result = new BasicResponse();
         result.status = true;
         result.data = "success";
-        result.object = feedDto;
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @DeleteMapping("/feed")
+    @DeleteMapping("/feed/{feed_id}")
     @ApiOperation(value = "피드 삭제")
-    public ResponseEntity<?> deleteFeed(FeedDto feedDto) throws IOException {
+    public ResponseEntity<?> deleteFeed(@PathVariable(name = "feed_id") int feedId) throws IOException {
 
-        feedService.deleteFeed(feedDto);
+        feedService.deleteFeed(feedId);
         final BasicResponse result = new BasicResponse();
         result.status = true;
         result.data = "success";
-        result.object = feedDto;
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
@@ -80,6 +78,19 @@ public class FeedController {
     public ResponseEntity<?> getTeamFeeds(@PathVariable(name = "team_id") int teamId) {
 
         List<Feed> feedList = feedService.getTeamFeeds(teamId);
+        final BasicResponse result = new BasicResponse();
+        result.status = true;
+        result.data = "success";
+        result.object = feedList;
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+    
+    @GetMapping("/feed/member/{member_id}")
+    @ApiOperation(value = "멤버별 피드 받기")
+    public ResponseEntity<?> getMemberFeeds(@PathVariable(name = "member_id") int memberId) {
+
+        List<Feed> feedList = feedService.getMemberFeeds(memberId);
         final BasicResponse result = new BasicResponse();
         result.status = true;
         result.data = "success";

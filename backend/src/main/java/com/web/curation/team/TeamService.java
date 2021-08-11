@@ -2,6 +2,7 @@ package com.web.curation.team;
 
 
 import com.web.curation.amazonS3.S3Uploader;
+import com.web.curation.error.CustomException;
 import com.web.curation.error.NotFoundDataException;
 import com.web.curation.files.PhotoAndDtoAdapter;
 import com.web.curation.files.PhotoDao;
@@ -16,6 +17,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+
+import static com.web.curation.error.ErrorCode.*;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -84,15 +88,31 @@ public class TeamService {
         teamDto.setMemberCount(1);
         TeamDto resultTeamDto = TeamAndDtoAdapter.entityToDto(teamDao.save(team));
 
-        Optional<Team> chkTeam = Optional.ofNullable(teamDao.findById(resultTeamDto.getTeamId()).orElseThrow(NotFoundDataException::new));
-        Optional<Member> chkMember = Optional.ofNullable(memberDao.findById(resultTeamDto.getMemberId()).orElseThrow(NotFoundDataException::new));
+        Team chkTeam = teamDao.findById(resultTeamDto.getTeamId())
+                .orElseThrow(NotFoundDataException::new);
+        Member chkMember = memberDao.findById(resultTeamDto.getMemberId())
+                .orElseThrow(NotFoundDataException::new);
         JoinTeam jointeam = JoinTeam.builder()
-                .team(chkTeam.get())
-                .member(chkMember.get())
+                .team(chkTeam)
+                .member(chkMember)
                 .build();
         joinTeamDao.save(jointeam);
 
         return resultTeamDto;
     }
 
+    public boolean changeTeamLeader(int teamId, int memberId) {
+    	Member member = memberDao.findById(memberId)
+                .orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
+    	Team team = teamDao.findById(teamId)
+    			.orElseThrow(() -> new CustomException(TEAM_NOT_FOUND));
+    	
+    	TeamDto teamDto = TeamAndDtoAdapter.entityToDto(team);
+    	teamDto.setSportId(teamDto.getSportDto().getSportId());
+    	teamDto.setMemberId(member.getMemberId());
+    	teamDto.setLeader(member.getName());
+    	
+    	teamDao.save(TeamAndDtoAdapter.dtoToEntity(teamDto));
+    	return true;
+    }
 }

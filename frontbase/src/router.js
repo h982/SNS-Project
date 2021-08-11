@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
-import Meta from 'vue-meta'
+import Meta from "vue-meta";
 import Login from "@/views/user/Login.vue";
 import TeamChallenge from "@/views/Challenge/TeamChallenge.vue";
 import Challenge from "@/views/Challenge/WholeChallenge.vue";
@@ -11,14 +11,17 @@ import Chatting from "@/views/Team/TeamChattingRoom.vue";
 import TeamFeed from "@/views/Team/TeamFeed.vue";
 import MyTeam from "@/views/Team/MyTeam.vue";
 import MyPage from "@/views/user/MyPage.vue";
+import MyFeed from "@/views/user/MyFeed.vue";
+import MemberModify from "@/views/user/MemberModify.vue";
 import ChallengeMake from "@/views/Challenge/TeamChallengeMake.vue";
+import TeamManagement from "@/views/user/TeamManagement.vue";
+import TeamModify from "@/views/user/TeamModify.vue";
 Vue.use(Router);
 Vue.use(Meta);
 
 export default new Router({
   mode: "history",
   base: process.env.BASE_URL,
-
 
   routes: [
     {
@@ -30,31 +33,45 @@ export default new Router({
       path: "/signup",
       name: "signup",
       component: () =>
-        import( /* webpackChunkName: "about" */ "./views/SignUp.vue")
+        import(/* webpackChunkName: "about" */ "./views/SignUp.vue")
+    },
+    {
+      path: "/kakaosignup",
+      name: "kakaosignup",
+      component: () =>
+        import( /* webpackChunkName: "about" */ "./views/KakaoSignUp.vue")
     },
     {
       path: "/myteam",
       name: "myteam",
       component: MyTeam
-
     },
     {
       path: "/mypage",
       name: "mypage",
       component: MyPage
-
+    },
+    {
+      path: "/myfeed",
+      name: "myfeed",
+      component: MyFeed
+    },
+    {
+      path: "/membermodify",
+      name: "membermodify",
+      component: MemberModify
     },
     {
       path: "/teammake",
       name: "teammake",
       component: () =>
-      import( /* webpackChunkName: "about" */ "./views/Team/TeamMake.vue")
+        import(/* webpackChunkName: "about" */ "./views/Team/TeamMake.vue")
     },
     {
       path: "/teamlist",
       name: "teamlist",
       component: () =>
-      import( /* webpackChunkName: "about" */ "./views/Team/Teamlist.vue")
+        import(/* webpackChunkName: "about" */ "./views/Team/Teamlist.vue")
     },
     {
       path: "/resume",
@@ -107,6 +124,12 @@ export default new Router({
       name: "writefeed",
       component: () =>
         import(/* webpackChunkName: "about" */ "./views/Feed/WriteFeed.vue")
+    },
+    {
+      path: "/updatefeed",
+      name: "updatefeed",
+      component: () =>
+        import(/* webpackChunkName: "about" */ "./views/Feed/UpdateFeed.vue")
     },
     {
       path: "/feed",
@@ -172,21 +195,26 @@ export default new Router({
       path: "/board/view",
       name: "BoardView",
       component: () =>
-        import(/* webpackChunkName: "about" */ "./components/board/BoardView.vue")
+        import(
+          /* webpackChunkName: "about" */ "./components/board/BoardView.vue"
+        )
     },
     {
       path: "/board/create",
       name: "BoardCreate",
       component: () =>
-        import(/* webpackChunkName: "about" */ "./components/board/BoardCreate.vue")
+        import(
+          /* webpackChunkName: "about" */ "./components/board/BoardCreate.vue"
+        )
     },
     {
       path: "/board/modify",
       name: "BoardModify",
       component: () =>
-        import(/* webpackChunkName: "about" */ "./components/board/BoardModify.vue")
+        import(
+          /* webpackChunkName: "about" */ "./components/board/BoardModify.vue"
+        )
     },
-
 
     {
       name: "board",
@@ -207,14 +235,21 @@ export default new Router({
           path: "/view",
           name: "board-view",
           component: () => import("@/components/board/BoardView.vue")
-        },
-
-
+        }
       ],
       redirect: () => {
         return "/board";
       }
     },
-
+    {
+      path: "/teamManagement",
+      name: "teamManagement",
+      component: TeamManagement
+    },
+    {
+      path: "/teamModify",
+      name: "teamModify",
+      component: TeamModify
+    }
   ]
 });

@@ -2,6 +2,8 @@ package com.web.curation.feed;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.web.curation.files.Photo;
+import com.web.curation.member.Member;
+import com.web.curation.team.Team;
 import com.web.curation.team.challenge.TeamChallenge;
 import com.web.curation.team.join.JoinTeam;
 
@@ -25,13 +27,17 @@ public class Feed {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int feedId;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "TEAMCHALLENGE_ID")
 	private TeamChallenge teamchallenge;
 
 	@ManyToOne
-	@JoinColumn(name = "JOINTEAM_ID")
-	private JoinTeam joinTeam;
+	@JoinColumn(name = "TEAM_ID")
+	private Team team;
+
+	@ManyToOne
+	@JoinColumn(name = "MEMBER_ID")
+	private Member member;
 	
 	@Column(name = "team_name", nullable = false, length = 45)
 	private String teamName;
@@ -45,8 +51,7 @@ public class Feed {
 	@Column(name="write_date", insertable = false, updatable = false)
 	private LocalDateTime writeDate;
 
-	@OneToMany
-	@JoinColumn(name = "feed_id")
+	@OneToMany(mappedBy = "feed")
 	private List<Photo> photos = new ArrayList<>();
 
 }
