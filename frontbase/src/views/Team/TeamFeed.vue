@@ -34,12 +34,14 @@ import "@/components/css/feed/feed-item.scss";
 import "@/components/css/feed/newsfeed.scss";
 import FeedItem from "@/views/Feed/FeedItem.vue";
 import TeamHeader from "@/components/TeamHeader.vue";
+import TeamHeader2 from '../../components/TeamHeader2.vue';
 import { mapGetters } from "vuex";
 
 export default {
   components: {
     FeedItem,
-    TeamHeader
+    TeamHeader,
+    TeamHeader2,
   },
   data() {
     return {
