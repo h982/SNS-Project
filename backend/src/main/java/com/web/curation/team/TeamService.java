@@ -22,6 +22,7 @@ import javax.transaction.Transactional;
 import static com.web.curation.error.ErrorCode.*;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -120,6 +121,7 @@ public class TeamService {
     public boolean updateTeam(TeamDto teamDto) {
     	Team team = teamDao.findById(teamDto.getTeamId())
     			.orElseThrow(() -> new CustomException(TEAM_NOT_FOUND));
+    	teamDto.setCreateDate(team.getCreateDate());
     	
     	PhotoDto savedPhoto = new PhotoDto();
         if(teamDto.getMultipartFile() != null){
