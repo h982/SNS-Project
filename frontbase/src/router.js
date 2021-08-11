@@ -213,7 +213,6 @@ export default new Router({
       component: ChallengeMake,
       beforeEnter: requireAuth()
     },
-
     {
       path: "/board/view",
       name: "BoardView",
