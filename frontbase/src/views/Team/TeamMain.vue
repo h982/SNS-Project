@@ -248,6 +248,21 @@ export default {
     leave() {
       if (this.managingTeam.member.memberId == this.memberInfo.memberId) {
         alert("팀장을 넘겨주세요:)");
+      } else {
+        const instance = createInstance();
+        instance.delete("/jointeam?memberId="+this.memberInfo.memberId+"&teamId="+this.selectTeam.teamId)
+        .then(
+          (response) => {
+            if (response.data.message === "success") {
+              alert("팀 탈퇴");
+              console.log(response);
+            } else {
+              alert("팀 탈퇴 실패");
+              console.log(response);
+            }
+          }
+        )
+        .catch();
       }
     },
   },

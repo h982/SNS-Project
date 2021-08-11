@@ -138,11 +138,13 @@ export default {
           }
         })
         .then(response => {
-          if (response.data.data === "success") {
+          if (response.data.message === "success") {
             alert("정보 변경 완료");
+            console.log(response);
             // this.$router.push("/teamlist");
           } else {
             alert("정보 변경 실패");
+            console.log(response);
           }
         })
         .catch(() => {
