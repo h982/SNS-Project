@@ -91,7 +91,7 @@ export default {
               }else{
                 $state.complete();
               }
-            },1000)
+            },1400)
 
           }).catch(error =>{
             console.log(error);
