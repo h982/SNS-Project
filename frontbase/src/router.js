@@ -23,7 +23,6 @@ export default new Router({
   mode: "history",
   base: process.env.BASE_URL,
 
-
   routes: [
     {
       path: "/",
@@ -46,19 +45,16 @@ export default new Router({
       path: "/myteam",
       name: "myteam",
       component: MyTeam
-
     },
     {
       path: "/mypage",
       name: "mypage",
       component: MyPage
-
     },
     {
       path: "/myfeed",
       name: "myfeed",
       component: MyFeed
-
     },
     {
       path: "/membermodify",
@@ -128,6 +124,12 @@ export default new Router({
       name: "writefeed",
       component: () =>
         import(/* webpackChunkName: "about" */ "./views/Feed/WriteFeed.vue")
+    },
+    {
+      path: "/updatefeed",
+      name: "updatefeed",
+      component: () =>
+        import(/* webpackChunkName: "about" */ "./views/Feed/UpdateFeed.vue")
     },
     {
       path: "/feed",
@@ -228,9 +230,7 @@ export default new Router({
           path: "/view",
           name: "board-view",
           component: () => import("@/components/board/BoardView.vue")
-        },
-
-
+        }
       ],
       redirect: () => {
         return "/board";

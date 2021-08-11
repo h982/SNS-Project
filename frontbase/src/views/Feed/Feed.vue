@@ -14,7 +14,6 @@
           ><i class="fas fa-plus"></i>
         </v-btn>
     </div>
-    <infinite-loading @infinite="infiniteHandler" spinner="spinner"></infinite-loading>
   </div>
 </template>
 <script>
@@ -22,82 +21,41 @@ import "../../components/css/feed/newsfeed.scss";
 import FeedItem from "@/views/Feed/FeedItem.vue";
 import "../../components/css/feed/feed-item.scss";
 import { mapGetters } from "vuex";
-import { mapMutations } from 'vuex'
-import InfiniteLoading from 'vue-infinite-loading';
-import { createInstance } from "@/api/index.js";
+import http from "@/util/http-common";
 
 export default {
-  components: {
-    FeedItem,
-    InfiniteLoading
-  },
-  computed: {
-    ...mapGetters(["memberInfo","feeds"]),
-    ...mapMutations("setFeeds") 
-    
-  },
-  mounted(){
-    this.feedsList= this.feeds;
-  },
-  created() {
-    this.scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
-    
-    const body={
-      memberId:this.memberInfo.memberId,
-      page:0
-    }
-    this.$store.dispatch("getFeeds", body);
-    this.$store.dispatch("GET_MY_TEAM_INFO",this.memberInfo.memberId);
-    this.$store.dispatch("getTeamLists");
-    this.$store.dispatch("GET_ENTIRECHALLENGE_INFO", this.memberInfo.memberId);
-    this.$store.dispatch("getMyFeeds",this.memberInfo.memberId);
-  },
   data() {
     return {
-      limit:3,
-      page:0,
-      scrollHeight:0,
-      scrollTop:0,
-      clientHeight:0,
-      feedsList:[],
-    }
+      feedget: {
+        memberId: "",
+        page: ""
+      }
+    };
+  },
+  components: {
+    FeedItem
+  },
+  computed: {
+    ...mapGetters(["memberInfo", "feeds"])
+  },
+  mounted() {},
+  created() {
+    this.feedget.memberId = this.memberInfo.memberId;
+    this.feedget.page = 0;
+
+    this.$store.dispatch("getFeeds", this.feedget);
+    this.$store.dispatch("GET_MY_TEAM_INFO", this.memberInfo.memberId);
+    this.$store.dispatch("getTeamLists");
+    this.$store.dispatch("GET_ENTIRECHALLENGE_INFO", this.memberInfo.memberId);
   },
   methods: {
     mvWrite() {
-      this.$store.dispatch("GET_TEAMCHALLENGEING_INFO", this.memberInfo.memberId);
+      this.$store.dispatch(
+        "GET_TEAMCHALLENGEING_INFO",
+        this.memberInfo.memberId
+      );
       this.$router.push("/writefeed");
-    },
-
-    check(){
-      console.log(this.feeds);
-      console.log(this.feedsList);
-    },
-
-    infiniteHandler($state){
-      const instance = createInstance();
-      this.page+=1
-      instance.get("/feed/"+this.memberInfo.memberId+"/"+this.page)
-          .then(response => {
-            console.log(response.data.object);
-            setTimeout(() =>{
-              if(response.data.object.length){
-                this.$store.commit("setFeeds",response.data.object);
-                //this.feedsList = this.feedsList.concat(response.data.object);
-                $state.loaded();
-                this.limit+=3
-                // if(this.feeds.length/10==0){
-                //   $state.complete();
-                // }
-              }else{
-                $state.complete();
-              }
-            },1000)
-
-          }).catch(error =>{
-            console.log(error);
-          })
     }
-
   }
 };
 </script>
