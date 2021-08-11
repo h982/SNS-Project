@@ -26,7 +26,7 @@ public class JwtInterceptor implements HandlerInterceptor {
             return true;
         }
         if(token != null && jwtService.isUsable(token)){
-            System.out.println("인증롼료");
+            log.info("Token Authorization Success");
             return true;
         }else return false;
     }
