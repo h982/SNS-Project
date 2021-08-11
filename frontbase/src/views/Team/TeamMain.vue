@@ -160,6 +160,7 @@ export default {
     this.$store.dispatch("GET_TEAMCHALLENGER_INFO", token); 
     this.$store.dispatch("getTeamMembers", this.selectTeam.teamId);
     // console.log(this.managingTeamMembers);
+    console.log(this.memberInfo.memberId);
 
   },
   data() {
