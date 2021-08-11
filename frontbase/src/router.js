@@ -15,6 +15,7 @@ import MyFeed from "@/views/user/MyFeed.vue";
 import MemberModify from "@/views/user/MemberModify.vue";
 import ChallengeMake from "@/views/Challenge/TeamChallengeMake.vue";
 import TeamManagement from "@/views/user/TeamManagement.vue";
+import TeamModify from "@/views/user/TeamModify.vue";
 Vue.use(Router);
 Vue.use(Meta);
 
@@ -34,6 +35,12 @@ export default new Router({
       name: "signup",
       component: () =>
         import( /* webpackChunkName: "about" */ "./views/SignUp.vue")
+    },
+    {
+      path: "/kakaosignup",
+      name: "kakaosignup",
+      component: () =>
+        import( /* webpackChunkName: "about" */ "./views/KakaoSignUp.vue")
     },
     {
       path: "/myteam",
@@ -233,6 +240,11 @@ export default new Router({
       path: "/teamManagement",
       name: "teamManagement",
       component: TeamManagement
+    },
+    {
+      path: "/teamModify",
+      name: "teamModify",
+      component: TeamModify
     },
 
   ]

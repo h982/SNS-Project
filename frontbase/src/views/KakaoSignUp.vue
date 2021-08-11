@@ -4,7 +4,7 @@
       <v-flex xs12 sm12 md6 lg6 xl6>
         <h2 class="pb-4 mb-4">
           <span>Sign</span>
-          <span class="green--text">Up</span>
+          <span class="blue--text">Up</span>
         </h2>
 
         <form>
@@ -15,33 +15,18 @@
             v-model="member.name"
             :error-messages="nameErrors"
             label="이름"
-            
             required
           ></v-text-field>
-          
-          <v-layout row wrap justify-center align-center>
-            <v-text-field id ="nowrap-overflow"
-              type="email"
-              color="green"
-              background-color="transparent"
-              name="member.email"
-              v-model="member.email"
-              :error-messages="emailErrors"
-              label="E-mail"
-            ></v-text-field>
-          <v-btn @click="authentic()" color="green" class="white--text">인증하기</v-btn>
-          </v-layout>
-
-          <v-layout row wrap>
-            <v-text-field
-              name="num"
-              color="green"
-              background-color="transparent"
-              v-model="num"
-              label="인증번호"
-            ></v-text-field>
-            <v-btn @click="certify()" elevation="0" color="green" class="white--text">확인하기</v-btn>
-          </v-layout>
+          <v-text-field
+            type="email"
+            color="green"
+            background-color="transparent"
+            name="member.email"
+            v-model="member.email"
+            :error-messages="emailErrors"
+            label="E-mail"
+            disabled
+          ></v-text-field>
 
           <v-text-field
             name="member.phone"
@@ -125,6 +110,8 @@
 <script>
 import { validationMixin } from "vuelidate";
 import { createInstance } from "@/api/index.js";
+import { login } from "@/api/user.js";
+import axios from "axios";
 import {
   required,
   maxLength,
@@ -188,17 +175,54 @@ export default {
       },
     };
   },
+  created() {
+      console.log(this.$route.query.code);
+      this.getKakaoUserInfo();
+  },
   watch: {
     passwordConfirm: function(v){
       this.checkForm();
     }
   },
   methods: {
+    getKakaoUserInfo(){
+        axios
+            .get("http://localhost:8080/member/kakao?code=" + this.$route.query.code)
+            .then(response => {
+                if(response.data.member == null){
+                    this.member.email = response.data.data.email;
+                }
+                else{
+                    this.member = response.data.member;
+                    this.confirm();
+                }
+            })
+    },
+    confirm() {
+      localStorage.setItem("access-token", "");
+      console.log(this.member.email);
+      console.log(this.member.password);
+      login(
+        this.member,
+        response => {
+          if (response.data.message === "success") {
+            let token = response.data["access-token"];
+            this.$store.commit("setIsLogined", true);
+            localStorage.setItem("access-token", token);
+            console.log(token);
+            this.$store.dispatch("GET_MEMBER_INFO", token);
+            this.$router.push("/feed");
+          } else {
+            this.isLoginError = true;
+          }
+        },
+        error => {
+          console.error(error);
+          alert("에러입니다.");
+        }
+      );
+    },
     submit() {
-      if(!this.authenticFlag){
-        alert("인증먼저해주세요");
-        return;
-      }
       this.member.sex = this.sex.value;
       this.member.mbti = this.mbti.value;
       const instance = createInstance();
@@ -224,12 +248,6 @@ export default {
       this.$v.$reset();
       this.member.name = "";
       this.member.email = "";
-      this.passwordConfirm="";
-      this.member.password="";
-      this.member.phone="";
-      this.member.address="";
-      this.member.addressDetail="";
-      this.member.zonecode="";
     },
     showApi() {
       new window.daum.Postcode({
@@ -268,41 +286,6 @@ export default {
       });
       this.isSubmit = isSubmit;
     },
-    authentic(){
-      const instance = createInstance();
-      instance.post("/email/send?"+"member_email="+this.member.email)
-        .then(
-          (response) => {
-            console.log(response);
-            if (response.data.message === "success") {
-              alert("인증번호가 전송되었습니다.");
-            } else {
-              alert("인증번호 전송에 실패하였습니다.");
-            }
-          }
-        )
-        .catch(() =>{
-          alert("실패하셨습니다.");
-        });
-    },
-    certify(){
-      const instance = createInstance();
-      instance.get("/email/certified?"+"num="+this.num)
-        .then(
-          (response) => {
-            console.log(response);
-            if (response.data.message === "success") {
-              this.authenticFlag=true;
-              alert("인증완료 되었습니다");
-            } else {
-              alert("인증 실패하였습니다. 다시 인증해주세요.");
-            }
-          }
-        )
-        .catch(() =>{
-          alert("실패하셨습니다.");
-        });
-    },
     check(){
       console.log(this.authenticFlag);
     }
@@ -336,8 +319,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.nowrap-overflow {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-}
 </style>

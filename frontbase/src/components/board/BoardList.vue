@@ -27,7 +27,7 @@
                 <b-button pill class="btn-main" @click="movePage">글쓰기</b-button>
             </b-col>
         </b-row>
-        <div v-if="noticeItems.length" class="text-center">
+        <div v-if="noticeItems" class="text-center">
             <b-table
                 hover
                 id="list_table"

@@ -1,13 +1,31 @@
 <template>
   <div class="feed newsfeed">
     <v-layout>
-      <v-bottom-navigation class="mx-auto" shift x-large>
+      <v-bottom-navigation
+        v-if="teamcheck === true | this.selectTeam.memberId === this.memberInfo.memberId"
+        class="mx-auto"
+        shift x-large>
         <team-header />
       </v-bottom-navigation>
+
+      <v-bottom-navigation v-else class="mx-auto" shift x-large>
+        <team-header-2 />
+      </v-bottom-navigation>
     </v-layout>
+
     <div class="wrapB">
       <feed-item v-for="(feed, idx) in teamFeeds" :key="idx" :feed="feed" />
-      <!-- <div class="writebtn" @click="mvWrite" /> -->
+        <v-btn
+          @click="mvWrite"
+          color="secondary"
+          elevation="7"
+          fab
+          large
+          x-large
+          x-small
+          class="create"
+          ><i class="fas fa-plus"></i>
+        </v-btn>
     </div>
   </div>
 </template>
@@ -16,20 +34,39 @@ import "@/components/css/feed/feed-item.scss";
 import "@/components/css/feed/newsfeed.scss";
 import FeedItem from "@/views/Feed/FeedItem.vue";
 import TeamHeader from "@/components/TeamHeader.vue";
+import TeamHeader2 from '../../components/TeamHeader2.vue';
 import { mapGetters } from "vuex";
 
 export default {
   components: {
     FeedItem,
-    TeamHeader
+    TeamHeader,
+    TeamHeader2,
+  },
+  data() {
+    return {
+      teamcheck: false,
+    }
   },
   computed: {
-    ...mapGetters(["teamFeeds", "selectTeam"]),
+    ...mapGetters(["teamFeeds", "selectTeam", "myTeamList", "memberInfo"]),
   },
   created() {
     this.$store.dispatch("getMyTeamFeeds", this.selectTeam.teamId);
+    this.teamchecking();
+    console.log(this.selectTeam.memberId);
+    console.log(this.memberInfo.memberId);
+    console.log(this.teamcheck);
   },
   methods: {
+    teamchecking() {
+      for(let i=0; i<this.myTeamList.length; i++) {
+        if (this.myTeamList[i].value.teamId === this.selectTeam.teamId) {
+          this.teamcheck = true;
+          break;
+        }
+      }
+    },
     // mvWrite() {
     //   this.$router.push("/writefeed");
     // }
@@ -50,4 +87,11 @@ export default {
 .writebtn:hover {
   cursor: pointer;
 }
+
+.create {
+  position: absolute;
+  right: 120px;
+  top: 150px;
+};
+
 </style>
