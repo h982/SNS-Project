@@ -49,7 +49,7 @@ public class FeedController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @PostMapping("/feed/update")
+    @PutMapping("/feed")
     @ApiOperation(value = "피드 수정")
     public ResponseEntity<?> updateFeed(FeedDto feedDto) throws IOException {
         feedService.updateFeed(feedDto);
