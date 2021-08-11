@@ -112,7 +112,7 @@ public class TeamController {
     
     @PutMapping("/team")
     @ApiOperation(value = "팀 정보 변경")
-    public Object updateTeam(@RequestBody TeamDto teamDto) {
+    public Object updateTeam(@Valid TeamDto teamDto) {
     	Map<String, Object> resultMap = new HashMap<>();
 		
 		teamService.updateTeam(teamDto);
