@@ -128,7 +128,7 @@ export default {
       error: {
         passwordConfirm: false,
       },
-      checkingSocial :true,
+      checkingSocial :false,
     };
   },
   created() {

@@ -1,6 +1,6 @@
 <template>
   <v-container grid-list-xl>
-    <v-layout row justify-center align-center wrap class="mt-4 pt-2">
+    <v-layout row justify-center align-center wrap class="mt-4 pt-2" v-if="checkingSocial">
       <v-flex xs12 sm12 md6 lg6 xl6>
         <h2 class="pb-4 mb-4">
           <span>Sign</span>
@@ -17,17 +17,7 @@
             label="이름"
             required
           ></v-text-field>
-          <v-text-field
-            type="email"
-            color="green"
-            background-color="transparent"
-            name="member.email"
-            v-model="member.email"
-            :error-messages="emailErrors"
-            label="E-mail"
-            disabled
-          ></v-text-field>
-
+        
           <v-text-field
             name="member.phone"
             color="green"
@@ -36,23 +26,6 @@
             label="전화번호"
           ></v-text-field>
 
-          <v-text-field
-            :type="'password'"
-            name="member.password"
-            color="green"
-            background-color="transparent"
-            v-model="member.password"
-            label="비밀번호"
-          ></v-text-field>
-
-          <v-text-field
-            :type="'password'"
-            name="passwordConfirm"
-            color="green"
-            background-color="transparent"
-            v-model="passwordConfirm"
-            label="비밀번호확인"
-          ></v-text-field>
           <div style="color:red" v-if="error.passwordConfirm">{{error.passwordConfirm}}</div>
           <v-text-field
             name="member.zonecode"
@@ -173,11 +146,14 @@ export default {
       error: {
         passwordConfirm: false,
       },
+      checkingSocial :false,
+
     };
   },
   created() {
       console.log(this.$route.query.code);
       this.getKakaoUserInfo();
+      this.checkingSocial=false;
   },
   watch: {
     passwordConfirm: function(v){
@@ -190,18 +166,25 @@ export default {
             .get("http://localhost:8080/member/kakao?code=" + this.$route.query.code)
             .then(response => {
                 if(response.data.member == null){
+                    alert("추가정보를 입력하셔야합니다.");
+                    console.log(response.data);
                     this.member.email = response.data.data.email;
+                    this.checkingSocial = true;
                 }
                 else{
-                    this.member = response.data.member;
-                    this.confirm();
+                    //this.member = response.data.member;
+                    //this.confirm();
+                    let token = response.data["access-token"];
+                    this.$store.commit("setIsLogined", true);
+                    localStorage.setItem("access-token", token);
+                    console.log(token);
+                    this.$store.dispatch("GET_MEMBER_INFO", token);
+                    this.$router.push("/feed");
                 }
             })
     },
     confirm() {
       localStorage.setItem("access-token", "");
-      console.log(this.member.email);
-      console.log(this.member.password);
       login(
         this.member,
         response => {
@@ -225,6 +208,8 @@ export default {
     submit() {
       this.member.sex = this.sex.value;
       this.member.mbti = this.mbti.value;
+      this.member.password = "qwer1234";
+      this.passwordConfirm = "qwer1234";
       const instance = createInstance();
       instance.post("/member/signup", JSON.stringify(this.member))
         .then(
