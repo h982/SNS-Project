@@ -76,7 +76,6 @@
                   </v-chip>
                 </td>
                 <td class="text-xs-right">{{ props.item.member.email }}</td>
-                <td class="text-xs-right">{{ props.item.member.phone }}</td>
                 <td class="text-xs-right">{{ props.item.member.mbti }}</td>
               </template>
             </v-data-table>
@@ -96,10 +95,11 @@
         </v-btn>
         <v-btn
           v-else
+          @click="leave"
           type="button"
           color="red"
           class="white--text"
-        >팀탈퇴ㅠ 아직 안만듦
+        >팀탈퇴
         </v-btn>
       </v-layout>
       <v-btn
@@ -128,14 +128,15 @@
 <script>
 import { mapGetters } from 'vuex';
 import TeamHeader from "@/components/TeamHeader.vue"
-import { createInstance } from "@/api/index.js";
+import { createInstance } from "@/api/teamindex.js";
 import thumbnail1 from "@/assets/images/thumbnail.jpg";
 import TeamHeader2 from '../../components/TeamHeader2.vue';
+// import { pop, render } from "@/api/event.js";
 
 export default {
   name: "TeamMain",
   computed:{
-    ...mapGetters(["selectTeam","memberInfo","myTeamList","team_challenges","team_challenging", "managingTeamMembers"]),
+    ...mapGetters(["selectTeam","memberInfo","myTeamList","team_challenges","team_challenging", "managingTeamMembers", "managingTeam"]),
     pages () {
       if (this.pagination.rowsPerPage == null ||
         this.pagination.totalItems == null
@@ -148,7 +149,8 @@ export default {
     this.$store.dispatch("GET_MY_TEAM_INFO",this.memberInfo.memberId);
     this.teamchecking();
     // console.log(this.teamcheck);
-    console.log(this.selectTeam);
+    console.log(this.managingTeam.member.memberId);
+    console.log(this.memberInfo.memberId);
     // console.log(this.myTeamList);
     this.$store.dispatch("GET_TEAMCHALLENGE_INFO", this.memberInfo.memberId);
     const token={
@@ -158,6 +160,7 @@ export default {
     this.$store.dispatch("GET_TEAMCHALLENGER_INFO", token); 
     this.$store.dispatch("getTeamMembers", this.selectTeam.teamId);
     // console.log(this.managingTeamMembers);
+    console.log(this.memberInfo.memberId);
 
   },
   data() {
@@ -176,7 +179,6 @@ export default {
         { text: '이름', value: 'member.name' },
         { text: '포인트', value: 'member.point' },
         { text: '이메일', value: 'member.email' },
-        { text: '번호', value: 'member.phone' },
         { text: 'mbti', value: 'member.mbti' },
       ],
     };
@@ -208,7 +210,6 @@ export default {
         }
       )
       .catch(() => {
-        alert("요청된 신청입니다");
       });
     },
     moveMain(){
@@ -244,6 +245,26 @@ export default {
       if (point > 100) return 'green'
       else if (point > 50) return 'orange'
       else return 'red'
+    },
+    leave() {
+      if (this.managingTeam.member.memberId == this.memberInfo.memberId) {
+        alert("팀장을 넘겨주세요:)");
+      } else {
+        const instance = createInstance();
+        instance.delete("/jointeam?memberId="+this.memberInfo.memberId+"&teamId="+this.selectTeam.teamId)
+        .then(
+          (response) => {
+            if (response.message === "success") {
+              // alert("팀 탈퇴");
+              console.log(response);
+            } else {
+              // alert("팀 탈퇴 실패");
+              console.log(response);
+            }
+          }
+        )
+        .catch();
+      }
     },
   },
 }
