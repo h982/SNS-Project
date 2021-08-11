@@ -35,7 +35,10 @@ export default new Vuex.Store({
     noticeItem: {},
 
     oneFeed: null,
-    myFeeds: []
+    myFeeds: [],
+
+    //TOken
+    token: ""
   },
 
   getters: {
@@ -101,6 +104,13 @@ export default new Vuex.Store({
     },
     oneFeed(state) {
       return state.oneFeed;
+    },
+    myFeeds(state) {
+      return state.myFeeds;
+    },
+    //TOken
+    getToken(state) {
+      return state.token;
     }
   },
   mutations: {
@@ -198,6 +208,10 @@ export default new Vuex.Store({
     },
     SET_MANAGING_TEAM_MEMBERS(state, payload) {
       state.managingTeamMembers = payload;
+    },
+    //Token
+    setToken(state, token) {
+      state.token = token;
     }
   },
   actions: {
@@ -208,6 +222,7 @@ export default new Vuex.Store({
         response => {
           if (response.data.message === "success") {
             commit("setMemberInfo", response.data.memberInfo);
+            commit("setToken", token);
           } else {
             console.log("유저 정보 없음!!");
           }
@@ -229,7 +244,8 @@ export default new Vuex.Store({
     },
 
     GET_TEAMCHALLENGE_INFO(context, payload) {
-      http
+      const instance = createInstance();
+      instance
         .get("/my_teamchallenge_list/" + "{member_id}?member_id=" + payload)
         .then(data => {
           context.commit("SET_TEAMCHALLENGE", data.data.object);
@@ -238,7 +254,8 @@ export default new Vuex.Store({
     },
 
     GET_TEAMCHALLENGER_INFO(context, payload) {
-      http
+      const instance = createInstance();
+      instance
         .get(
           "/my_teamchallenger_list?" +
             "member_id=" +
@@ -253,7 +270,8 @@ export default new Vuex.Store({
     },
 
     GET_TEAMCHALLENGEING_INFO(context, payload) {
-      http
+      const instance = createInstance();
+      instance
         .get("/my_teamchalleging_list?" + "member_id=" + payload)
         .then(response => {
           console.log(response);
@@ -263,7 +281,8 @@ export default new Vuex.Store({
     },
 
     async GET_WHOLECHALLENGE_INFO({ commit }) {
-      await http
+      const instance = createInstance();
+      await instance
         .get("/challenge/whole_challenge_list")
         .then(data => {
           commit("SET_WHOLETEAMCHALLENGE", data.data);
@@ -274,7 +293,8 @@ export default new Vuex.Store({
     },
 
     async GET_MY_TEAM_INFO({ commit, dispatch, state }, payload) {
-      await http
+      const instance = createInstance();
+      await instance
         .get("/team/my_team_list/" + payload)
         .then(data => {
           commit("SET_MY_TEAMLIST", data.data.object);
@@ -341,7 +361,8 @@ export default new Vuex.Store({
         });
     },
     getComments(context) {
-      http
+      const instance = createInstance();
+      instance
         .get("")
         .then(({ data }) => {
           context.commit("setComments", data);
@@ -351,7 +372,8 @@ export default new Vuex.Store({
         });
     },
     getRequests(context, teamId) {
-      http
+      const instance = createInstance();
+      instance
         .get("/request/" + teamId)
         .then(({ data }) => {
           console.log("request send");
@@ -362,7 +384,8 @@ export default new Vuex.Store({
         });
     },
     GET_COMMENTS(context, payload) {
-      http
+      const instance = createInstance();
+      instance
         .get("/comment/" + payload)
         .then(data => {
           context.commit("SET_COMMENTS", data.data.object);
@@ -374,7 +397,8 @@ export default new Vuex.Store({
       context.commit("SET_FEEDID", payload);
     },
     GET_ENTIRECHALLENGE_INFO(context, memberId) {
-      http
+      const instance = createInstance();
+      instance
         .get("/member/challenge/" + memberId)
         .then(({ data }) => {
           console.log(data);
@@ -385,12 +409,14 @@ export default new Vuex.Store({
         });
     },
     getNoticeItems({ commit }, teamId) {
-      http.get("/board/list/" + teamId).then(({ data }) => {
+      const instance = createInstance();
+      instance.get("/board/list/" + teamId).then(({ data }) => {
         commit("setNoticeItems", data.object);
       });
     },
     getNoticeItem({ commit }, boardid) {
-      http.get("/board" + boardid).then(({ data }) => {
+      const instance = createInstance();
+      instance.get("/board" + boardid).then(({ data }) => {
         //console.log("getItem : " + data)
         commit("setNoticeItem", data.object);
       });
@@ -399,8 +425,9 @@ export default new Vuex.Store({
       context.commit("SET_ONEFEED", payload);
     },
     getTeamMembers({ commit }, teamId) {
-      http.get("/jointeam/member/" + teamId).then(({ data }) => {
-        console.log("getTeamMembers : " + data.message);
+      const instance = createInstance();
+      instance.get("/jointeam/member/" + teamId).then(({ data }) => {
+        //console.log("getTeamMembers : " + data.message)
         commit("SET_MANAGING_TEAM_MEMBERS", data.data);
       });
     },

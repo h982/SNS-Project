@@ -10,6 +10,7 @@ import com.web.curation.files.PhotoDto;
 import com.web.curation.member.Member;
 import com.web.curation.member.MemberAdapter;
 import com.web.curation.member.MemberDao;
+import com.web.curation.member.MemberDto;
 import com.web.curation.team.join.JoinTeam;
 import com.web.curation.team.join.JoinTeamDao;
 import com.web.curation.team.join.JoinTeamDto;
@@ -21,6 +22,7 @@ import javax.transaction.Transactional;
 import static com.web.curation.error.ErrorCode.*;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -113,6 +115,34 @@ public class TeamService {
     	teamDto.setLeader(member.getName());
     	
     	teamDao.save(TeamAndDtoAdapter.dtoToEntity(teamDto));
+    	return true;
+    }
+    
+    public boolean updateTeam(TeamDto teamDto) {
+    	Team team = teamDao.findById(teamDto.getTeamId())
+    			.orElseThrow(() -> new CustomException(TEAM_NOT_FOUND));
+    	teamDto.setCreateDate(team.getCreateDate());
+    	
+    	PhotoDto savedPhoto = new PhotoDto();
+        if(teamDto.getMultipartFile() != null){
+            PhotoDto uploadPhoto;
+			try {
+				uploadPhoto = s3Uploader.upload(teamDto.getMultipartFile(),"static");
+				savedPhoto = PhotoAndDtoAdapter.entityToDto(photoDao.save(PhotoAndDtoAdapter.dtoToEntity(uploadPhoto)));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+        }
+        
+        if(savedPhoto.getPhotoId() != null){
+            teamDto.setPhotoId(savedPhoto.getPhotoId());
+            team = TeamAndDtoAdapter.dtoToEntityPhoto(teamDto);
+        }else{
+            teamDto.setPhotoId(null);
+            team = TeamAndDtoAdapter.dtoToEntity(teamDto);
+        }
+        teamDao.save(team);
+        
     	return true;
     }
 }
