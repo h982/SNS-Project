@@ -76,6 +76,7 @@ export default {
     return {
       thumbnail: "",
       team: {
+        teamId: "",
         name: "",
         introduction: "",
         leader: "",
@@ -95,7 +96,8 @@ export default {
     this.team.leader = this.managingTeam.leader.replaceAll("\"", "");
     this.team.member.memberId = this.managingTeam.member.memberId;
     this.team.sportDto.sportId = this.managingTeam.sport.sportId;
-    console.log(this.thumbnail);
+    this.team.teamId = this.managingTeam.teamId;
+    console.log(this.managingTeam);
   },
   methods: {
     loadf() {
@@ -110,6 +112,7 @@ export default {
     },
     modify() {
       const formData = new FormData();
+      formData.append("teamId", JSON.stringify(this.team.teamId));
       formData.append("name", JSON.stringify(this.team.name));
       formData.append("introduction", JSON.stringify(this.team.introduction));
       formData.append("leader", JSON.stringify(this.team.leader));
