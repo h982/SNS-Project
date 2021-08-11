@@ -58,6 +58,19 @@
   }
 }
 
+.oldwrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+
+  .old {
+    position: absolute;
+    font-weight: 700;
+    font-size: 1.2em;
+  }
+}
 @include mobile {
   .contents_wrap {
     width: 80%;
