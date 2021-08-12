@@ -77,28 +77,26 @@
             >회원가입</v-btn
           >
         </v-card-actions>
-        <v-layout>
+        <v-card hover>
           <img
             src="//k.kakaocdn.net/14/dn/btqCn0WEmI3/nijroPfbpCa4at5EIsjyf0/o.jpg"
-            width="222"
+            width="250"
             height="50"
             hover
             @click="loginWithKakao"
           />
-        </v-layout>
+        </v-card>
 
         <GoogleLogin :params="params" :renderParams="renderParams" :onSuccess="onSuccess" :onFailure="onFailure"></GoogleLogin>
 
-        <v-layout>
+        <v-card hover>
           <img 
-            width="222" 
             height="50" 
             @click="naverLogin" 
             src='@/assets/images/naverid.png'
-            />
-        </v-layout>
+          />
+        </v-card>
         
-        </v-card-actions>
 
         <v-card-actions class="hidden-md-and-up justify-center">
         </v-card-actions>
@@ -112,9 +110,6 @@ import { VueTyper } from "vue-typer";
 import { login } from "@/api/user.js";
 import { mapState } from "vuex";
 import { mapGetters } from "vuex";
-import index from "@/api/index.js"
-// import { createInstance } from "../api/teamindex";
-
 import VueCompareImage from "vue-compare-image";
 import banner1 from "@/assets/images/banner1.jpg";
 import banner2 from "@/assets/images/banner2.jpg";

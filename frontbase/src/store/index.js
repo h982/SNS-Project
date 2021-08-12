@@ -225,10 +225,13 @@ export default new Vuex.Store({
   actions: {
     async GET_MEMBER_INFO({ commit }, token) {
       let decode = jwt_decode(token);
+      console.log(decode);
       await findById(
         decode.memberEmail,
         response => {
           if (response.data.message === "success") {
+            console.log("유저정보 있음: ");
+            console.log(response.data.memberInfo);
             commit("setMemberInfo", response.data.memberInfo);
             commit("setToken", token);
           } else {

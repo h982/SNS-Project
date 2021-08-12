@@ -13,8 +13,8 @@
           class="create"
           ><i class="fas fa-plus"></i>
         </v-btn>
-      </div>
-      <infinite-loading @infinite="infiniteHandler" spinner="spinner"></infinite-loading>
+    </div>
+    <infinite-loading @infinite="infiniteHandler" spinner="spinner"></infinite-loading>
 
   </div>
 </template>
@@ -25,9 +25,6 @@ import "../../components/css/feed/feed-item.scss";
 import { mapGetters } from "vuex";
 import InfiniteLoading from 'vue-infinite-loading';
 import { createInstance } from "@/api/teamindex.js";
-
-
->>>>>>> frontbase/src/views/Feed/Feed.vue
 export default {
   data() {
     return {
