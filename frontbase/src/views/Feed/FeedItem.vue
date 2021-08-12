@@ -1,7 +1,10 @@
 <template>
   <div class="feed-item">
     <div class="feed_t">
-      <div class="feed_writer">{{ feed.writer }}</div>
+      <div class="user_wrap">
+        <div class="profile"></div>
+        <div class="feed_writer">{{ feed.writer }}</div>
+      </div>
       <div class="feed_date">{{ feed.writeDate }}</div>
     </div>
     <div class="feed-card">
