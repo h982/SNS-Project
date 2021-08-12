@@ -43,10 +43,10 @@
           </v-list-tile-content>
         </v-list-tile>
 
-        <v-list-tile v-if="this.requestCount!=0" active-class="green--text" to="/myfeed">
+        <v-list-tile v-if="this.waitingReqests && this.waitingReqests!=0" active-class="green--text" to="/myfeed">
           <v-list-tile-content>
             <v-list-tile-title>
-              MYPAGE &nbsp;<b-badge pill variant="danger">{{requestCount}}</b-badge>
+              MYPAGE &nbsp;<b-badge pill variant="danger">{{ waitingReqests.length }}</b-badge>
             </v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
@@ -104,11 +104,11 @@
         <v-btn flat to="/challenge" active-class="green--text headline"
           >Challenges</v-btn
         >
-        <v-btn v-if="this.requestCount!=0" flat to="/myfeed" active-class="green--text headline"
+        <v-btn v-if="this.waitingReqests && this.waitingReqests!=0" flat to="/myfeed" active-class="green--text headline"
           >
           <v-badge color="red" overlab>
             <template v-slot:badge>
-              <span class="badge">{{requestCount}}</span>
+              <span class="badge">{{ waitingReqests.length }}</span>
             </template>
             <span>MyPAGE</span>
           </v-badge>
@@ -143,16 +143,18 @@ export default {
   data() {
     return {
       drawer: null,
-      requestCount: 0,
     };
   },
   computed: {
-    ...mapState(["memberInfo", "isLogin", "joinRequests"])
+    waitingReqests: function() {
+      if (this.managingTeam.member.memberId == this.memberInfo.memberId) {
+        return this.joinRequests.filter(i => i.status.includes("WAITING"));
+      }
+    },
+    ...mapState(["memberInfo", "isLogin", "managingTeam", "joinRequests"]),
   },
   created() {
-    console.log(this.joinRequests);
-    this.requestchecking();
-
+    console.log(this.waitingReqests);
   },
   methods: {
     changeTheme() {
@@ -168,13 +170,6 @@ export default {
         .catch(() => {
           console.log("로그아웃 에러입니다.");
         });
-    },
-    requestchecking() {
-      for(let i=0; i<this.joinRequests.length; i++) {
-        if (this.joinRequests[i].status === "WAITING") {
-          this.requestCount += 1;
-        }
-      }
     },
   }
 };
