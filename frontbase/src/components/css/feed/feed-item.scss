@@ -141,9 +141,16 @@
       right: 0;
       width: 30px;
       height: 30px;
+      margin: 0.5em 0;
+      z-index: 10;
+    }
+    .likeBtn_on {
       background-image: url('../../../assets/heart.png');
       background-size: cover;
-      margin: 0.5em 0;
+    }
+    .likeBtn_off {
+      background-image: url('../../../assets/heart_b.png');
+      background-size: cover;
     }
   }
 

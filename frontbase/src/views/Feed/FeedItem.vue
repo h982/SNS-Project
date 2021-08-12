@@ -49,11 +49,52 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["memberInfo", "myTeamList"])
+    ...mapGetters(["memberInfo", "myTeamList", "feedLike"])
+  },
+  created() {
+    this.$store.dispatch("GET_FEEDLIKE", this.feed.feedId);
   },
   methods: {
     likeBtn() {
-      alert("like");
+      console.log(this.feedLike);
+      if (this.feedLike.length == 0) {
+        var feedlike = {
+          feedId: this.feed.feedId,
+          feedLike: 1,
+          memberId: this.memberInfo.memberId
+        };
+        const instance = createInstance();
+        instance
+          .post("/feedlike", feedlike)
+          .then(response => {
+            if (response.data.data === "success") {
+              var likeimg = document.querySelector(".likeBtn");
+              likeimg.classList.remove("likeBtn_off");
+              likeimg.classList.add("likeBtn_on");
+              this.$store.dispatch("GET_FEEDLIKE", this.feed.feedId);
+              alert("좋아요!");
+            } else {
+              alert("좋아요실패");
+            }
+          })
+          .catch();
+      } else {
+        const instance = createInstance();
+        instance
+          .delete("/feedlike/" + this.feedLike[0].feedlikeId)
+          .then(response => {
+            if (response.data.data === "success") {
+              var likeimg = document.querySelector(".likeBtn");
+              likeimg.classList.remove("likeBtn_on");
+              likeimg.classList.add("likeBtn_off");
+              this.$store.dispatch("GET_FEEDLIKE", this.feed.feedId);
+              alert("좋아요취소!");
+            } else {
+              alert("좋아요 취소실패");
+            }
+          })
+          .catch();
+      }
     },
     mvComment() {
       console.log("피드아이디");

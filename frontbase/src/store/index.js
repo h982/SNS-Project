@@ -38,7 +38,9 @@ export default new Vuex.Store({
     myFeeds: [],
 
     //TOken
-    token: ""
+    token: "",
+
+    feedLike: "" // 현재 피드의 좋아요 상태
   },
 
   getters: {
@@ -111,6 +113,9 @@ export default new Vuex.Store({
     //TOken
     getToken(state) {
       return state.token;
+    },
+    feedLike(state) {
+      return state.feedLike;
     }
   },
   mutations: {
@@ -212,6 +217,9 @@ export default new Vuex.Store({
     //Token
     setToken(state, token) {
       state.token = token;
+    },
+    SET_FEEDLIKE(state, payload) {
+      state.feedLike = payload;
     }
   },
   actions: {
@@ -437,11 +445,23 @@ export default new Vuex.Store({
         .then(({ data }) => {
           console.log("changeTeamLeader : " + data.message);
         });
-    }
+    },
     // changeTeamLeader({commit}, {teamId, memberId}) {
     //   http.put("/team/leader/"+memberId+"?teamId="+teamId).then(({ data }) => {
     //     console.log("changeTeamLeader : " + data.message);
     //   });
     // },
+    GET_FEEDLIKE(context, feedId) {
+      const instance = createInstance();
+      instance
+        .get("/feedlike/feed/" + feedId)
+        .then(({ data }) => {
+          console.log(data.object);
+          context.commit("SET_FEEDLIKE", data.object);
+        })
+        .catch(() => {
+          console.log("에러발생");
+        });
+    }
   }
 });
