@@ -120,8 +120,12 @@
         <v-btn large flat to="/teamlist" class="green--text">
           <v-icon>arrow_back</v-icon>Back to Teamlist
         </v-btn>
+        <v-btn @click="check()">
+          
+        </v-btn>
       </v-layout>
     </v-layout>
+
   </v-container>
 </template>
 
@@ -238,8 +242,7 @@ export default {
       }
     },
     check(){
-      console.log(this.selectTeam);
-      console.log(this.team_challenging);
+      console.log(this.memberInfo);
     },
     getColor (point) {
       if (point > 100) return 'green'

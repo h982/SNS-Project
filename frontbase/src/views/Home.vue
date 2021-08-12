@@ -91,15 +91,12 @@
 
         <v-card hover>
           <img 
-            
             height="50" 
             @click="naverLogin" 
             src='@/assets/images/naverid.png'
-            
-            />
+          />
         </v-card>
         
-        </v-card-actions>
 
         <v-card-actions class="hidden-md-and-up justify-center">
         </v-card-actions>
