@@ -16,6 +16,10 @@ import MemberModify from "@/views/user/MemberModify.vue";
 import ChallengeMake from "@/views/Challenge/TeamChallengeMake.vue";
 import TeamManagement from "@/views/user/TeamManagement.vue";
 import TeamModify from "@/views/user/TeamModify.vue";
+import PayHome from "@/views/Pay/PayHome.vue";
+import Payment from "@/views/Pay/Payment.vue";
+import Result from "@/views/Pay/Result.vue";
+import Certification from "@/views/Pay/Certification.vue";
 Vue.use(Router);
 Vue.use(Meta);
 
@@ -280,6 +284,26 @@ export default new Router({
       name: "teamModify",
       component: TeamModify,
       beforeEnter: requireAuth()
-    }
+    },
+    {
+      path: '/payhome',
+      name: 'PayHome',
+      component: PayHome,
+    },
+    {
+      path: '/payment',
+      name: 'Payment',
+      component: Payment,
+    },
+    {
+      path: '/certification',
+      name: 'Certification',
+      component: Certification,
+    },
+    {
+      path: '/result',
+      name: 'Result',
+      component: Result,
+    },
   ]
 });

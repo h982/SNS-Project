@@ -116,8 +116,12 @@ export default new Vuex.Store({
     setIsLogined(state, isLogin) {
       state.isLogin = isLogin;
     },
+    SET_AUTHENTICATED(state, authenticated) {
+      state.memberInfo.authenticated = authenticated;
+    },
     setMemberInfo(state, memberInfo) {
       state.isLogin = true;
+      state.memberInfo=null;
       state.memberInfo = memberInfo;
     },
     logout(state) {
@@ -210,6 +214,7 @@ export default new Vuex.Store({
     SET_ONEFEED(state, data) {
       state.oneFeed = data;
     },
+    
     SET_MANAGING_TEAM_MEMBERS(state, payload) {
       state.managingTeamMembers = payload;
     },
