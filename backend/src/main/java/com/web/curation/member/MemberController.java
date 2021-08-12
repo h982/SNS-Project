@@ -277,6 +277,19 @@ public class MemberController {
 
         return userInfo;
     }
+	
+	@ApiOperation(value = "구글 로그인 사용자 체크")
+    @GetMapping("/google")
+    public ResponseEntity<Map<String, Object>> googleLogin(@RequestParam String email){
+        Map<String, Object> resultMap = new HashMap<>();
+        
+        Optional<MemberDto> dto = memberService.getMemberByEmail(email);
+        
+        resultMap.put("message", "카카오 유저 정보");
+        resultMap.put("data", dto);
+
+        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+    }
 
     @RequestMapping(value = "/naverlogin", method = {RequestMethod.GET, RequestMethod.POST})
     public String login(Model model, HttpSession session) {

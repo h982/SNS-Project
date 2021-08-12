@@ -151,9 +151,14 @@ export default {
     };
   },
   created() {
-      console.log(this.$route.query.code);
-      this.getKakaoUserInfo();
-      this.checkingSocial=false;
+      if(this.$route.query.email != null){
+        this.member.email = this.$route.query.email;
+      }
+      else{
+        console.log(this.$route.query.code);
+        this.getKakaoUserInfo();
+        this.checkingSocial=false;
+      }
   },
   watch: {
     passwordConfirm: function(v){
