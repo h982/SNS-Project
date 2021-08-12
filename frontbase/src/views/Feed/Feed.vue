@@ -23,13 +23,11 @@ import "../../components/css/feed/newsfeed.scss";
 import FeedItem from "@/views/Feed/FeedItem.vue";
 import "../../components/css/feed/feed-item.scss";
 import { mapGetters } from "vuex";
-import http from "@/util/http-common";
-import { mapMutations } from 'vuex'
 import InfiniteLoading from 'vue-infinite-loading';
-// import { createInstance } from "@/api/index.js";
 import { createInstance } from "@/api/teamindex.js";
 
 
+>>>>>>> frontbase/src/views/Feed/Feed.vue
 export default {
   data() {
     return {
@@ -61,6 +59,8 @@ export default {
     this.$store.dispatch("GET_MY_TEAM_INFO", this.memberInfo.memberId);
     this.$store.dispatch("getTeamLists");
     this.$store.dispatch("GET_ENTIRECHALLENGE_INFO", this.memberInfo.memberId);
+    this.$store.dispatch("getMyFeeds", this.memberInfo.memberId);
+
   },
   methods: {
     mvWrite() {
@@ -92,7 +92,7 @@ export default {
               }else{
                 $state.complete();
               }
-            },1400)
+            },1300)
 
           }).catch(error =>{
             console.log(error);
