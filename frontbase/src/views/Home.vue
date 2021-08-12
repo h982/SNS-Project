@@ -113,7 +113,7 @@ import { login } from "@/api/user.js";
 import { mapState } from "vuex";
 import { mapGetters } from "vuex";
 import index from "@/api/index.js"
-import { createInstance } from "../api/teamindex";
+// import { createInstance } from "../api/teamindex";
 
 import VueCompareImage from "vue-compare-image";
 import banner1 from "@/assets/images/banner1.jpg";
