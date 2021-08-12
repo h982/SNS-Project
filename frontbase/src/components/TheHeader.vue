@@ -42,12 +42,20 @@
             <v-list-tile-title>MYTEAM</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile active-class="green--text" to="/myfeed">
+
+        <v-list-tile v-if="this.requestCount!=0" active-class="green--text" to="/myfeed">
+          <v-list-tile-content>
+            <v-list-tile-title>
+              MYPAGE &nbsp;<b-badge pill variant="danger">{{requestCount}}</b-badge>
+            </v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-list-tile v-else active-class="green--text" to="/myfeed">
           <v-list-tile-content>
             <v-list-tile-title>MYPAGE</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-      
+
         <v-list-tile active-class="" @click.prevent="onClickLogout" to="/">
           <v-list-tile-content>
             <v-list-tile-title>LOGOUT</v-list-tile-title>
@@ -96,7 +104,17 @@
         <v-btn flat to="/challenge" active-class="green--text headline"
           >Challenges</v-btn
         >
-        <v-btn flat to="/myfeed" active-class="green--text headline"
+        <v-btn v-if="this.requestCount!=0" flat to="/myfeed" active-class="green--text headline"
+          >
+          <v-badge color="red" overlab>
+            <template v-slot:badge>
+              <span class="badge">{{requestCount}}</span>
+            </template>
+            <span>MyPAGE</span>
+          </v-badge>
+          </v-btn
+        >
+        <v-btn v-else flat to="/myfeed" active-class="green--text headline"
           >MyPAGE</v-btn
         >
       
@@ -124,11 +142,17 @@ export default {
   },
   data() {
     return {
-      drawer: null
+      drawer: null,
+      requestCount: 0,
     };
   },
   computed: {
-    ...mapState(["memberInfo", "isLogin"])
+    ...mapState(["memberInfo", "isLogin", "joinRequests"])
+  },
+  created() {
+    console.log(this.joinRequests);
+    this.requestchecking();
+
   },
   methods: {
     changeTheme() {
@@ -144,11 +168,22 @@ export default {
         .catch(() => {
           console.log("로그아웃 에러입니다.");
         });
-    }
+    },
+    requestchecking() {
+      for(let i=0; i<this.joinRequests.length; i++) {
+        if (this.joinRequests[i].status === "WAITING") {
+          this.requestCount += 1;
+        }
+      }
+    },
   }
 };
 </script>
 
-<style>
+<style scope>
+.badge {
+  text-align: center;
+  text-justify: center;
+}
 
 </style>
