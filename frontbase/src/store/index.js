@@ -40,7 +40,8 @@ export default new Vuex.Store({
     //TOken
     token: "",
 
-    feedLike: "" // 현재 피드의 좋아요 상태
+    feedLike: "", // 현재 피드의 좋아요 상태
+    likeList: [] // 내가 좋아요한 피드들
   },
 
   getters: {
@@ -116,6 +117,9 @@ export default new Vuex.Store({
     },
     feedLike(state) {
       return state.feedLike;
+    },
+    likeList(state) {
+      return state.likeList;
     }
   },
   mutations: {
@@ -220,6 +224,9 @@ export default new Vuex.Store({
     },
     SET_FEEDLIKE(state, payload) {
       state.feedLike = payload;
+    },
+    SET_LIKELIST(state, payload) {
+      state.likeList = payload;
     }
   },
   actions: {
@@ -456,8 +463,19 @@ export default new Vuex.Store({
       instance
         .get("/feedlike/feed/" + feedId)
         .then(({ data }) => {
-          console.log(data.object);
+          // console.log(data.object);
           context.commit("SET_FEEDLIKE", data.object);
+        })
+        .catch(() => {
+          console.log("에러발생");
+        });
+    },
+    GET_LIKELIST(context, memberId) {
+      const instance = createInstance();
+      instance
+        .get("/feedlike/member/" + memberId)
+        .then(({ data }) => {
+          context.commit("SET_LIKELIST", data.object);
         })
         .catch(() => {
           console.log("에러발생");

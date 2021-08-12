@@ -18,9 +18,15 @@
         ></div>
       </div>
       <div class="contentsWrap">
-        <div class="like_wrap">
-          <div class="likeBtn" @click="likeBtn"></div>
+        <div class="like_wrap" @click="changeLike">
+          <img
+            class="likeBtn"
+            v-if="this.isLike == true"
+            src="../../assets/heart.png"
+          />
+          <img class="likeBtn" v-else src="../../assets/heart_b.png" />
         </div>
+
         <div class="desc">
           {{ feed.contents }}
         </div>
@@ -37,7 +43,7 @@ import defaultImage from "../../assets/images/img-placeholder.png";
 import defaultProfile from "../../assets/images/profile_default.png";
 
 export default {
-  props: ["feed"],
+  props: ["feed", "index"],
   data: () => {
     return {
       defaultImage,
@@ -45,19 +51,31 @@ export default {
       feedget: {
         memberId: "",
         page: ""
-      }
+      },
+      isLike: null,
+      feedlikeId: ""
     };
   },
   computed: {
-    ...mapGetters(["memberInfo", "myTeamList", "feedLike"])
+    ...mapGetters(["memberInfo", "myTeamList", "feedLike", "likeList"])
   },
   created() {
-    this.$store.dispatch("GET_FEEDLIKE", this.feed.feedId);
+    for (let index = 0; index < this.likeList.length; index++) {
+      if (
+        this.feed.feedId == this.likeList[index].feedId &&
+        this.likeList[index].feedLike == 1
+      ) {
+        this.feedlikeId = this.likeList[index].feedlikeId;
+        this.isLike = true;
+        break;
+      } else {
+        this.isLike = false;
+      }
+    }
   },
   methods: {
-    likeBtn() {
-      console.log(this.feedLike);
-      if (this.feedLike.length == 0) {
+    changeLike() {
+      if (!this.isLike) {
         var feedlike = {
           feedId: this.feed.feedId,
           feedLike: 1,
@@ -68,10 +86,7 @@ export default {
           .post("/feedlike", feedlike)
           .then(response => {
             if (response.data.data === "success") {
-              var likeimg = document.querySelector(".likeBtn");
-              likeimg.classList.remove("likeBtn_off");
-              likeimg.classList.add("likeBtn_on");
-              this.$store.dispatch("GET_FEEDLIKE", this.feed.feedId);
+              this.isLike = true;
               alert("좋아요!");
             } else {
               alert("좋아요실패");
@@ -81,13 +96,10 @@ export default {
       } else {
         const instance = createInstance();
         instance
-          .delete("/feedlike/" + this.feedLike[0].feedlikeId)
+          .delete("/feedlike/" + this.feedlikeId)
           .then(response => {
             if (response.data.data === "success") {
-              var likeimg = document.querySelector(".likeBtn");
-              likeimg.classList.remove("likeBtn_on");
-              likeimg.classList.add("likeBtn_off");
-              this.$store.dispatch("GET_FEEDLIKE", this.feed.feedId);
+              this.isLike = false;
               alert("좋아요취소!");
             } else {
               alert("좋아요 취소실패");
@@ -142,7 +154,6 @@ export default {
               this.feedget.memberId = this.memberInfo.memberId;
               this.feedget.page = 0;
               this.$store.dispatch("getFeeds", this.feedget);
-              this.$router.push("/feed");
             } else {
               alert("피드 삭제 실패");
             }
