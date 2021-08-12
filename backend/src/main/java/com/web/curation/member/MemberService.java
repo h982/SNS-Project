@@ -71,4 +71,8 @@ public class MemberService {
 		return responseMemberDto;
 	}
 
+	public void updateMemberAuthenticate(String email) {
+		memberDao.updateAuthentication(email);
+	}
+
 }

@@ -55,7 +55,12 @@
             <v-list-tile-title>MYPAGE</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-
+        <v-list-tile active-class="green--text" to="/payhome">
+          <v-list-tile-content>
+            <v-list-tile-title>PREMIUM</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      
         <v-list-tile active-class="" @click.prevent="onClickLogout" to="/">
           <v-list-tile-content>
             <v-list-tile-title>LOGOUT</v-list-tile-title>
@@ -116,6 +121,10 @@
         >
         <v-btn v-else flat to="/myfeed" active-class="green--text headline"
           >MyPAGE</v-btn
+        >
+
+        <v-btn flat to="/payhome" active-class="green--text headline"
+          >PREMIUM</v-btn
         >
       
         <v-btn flat to="/" active-class="" @click.prevent="onClickLogout"
