@@ -1,32 +1,13 @@
 <template>
   <v-container grid-list-xl>
-    <v-layout row justify-center align-center wrap class="mt-4 pt-2" v-if="checkingSocial">
+    <v-layout row justify-center align-center wrap class="mt-4 pt-2"  v-if="checkingSocial">
       <v-flex xs12 sm12 md6 lg6 xl6>
         <h2 class="pb-4 mb-4">
-          <span>Sign</span>
+          <span>NaverSign</span>
           <span class="blue--text">Up</span>
         </h2>
 
         <form>
-          <v-text-field
-            name="member.name"
-            color="green"
-            background-color="transparent"
-            v-model="member.name"
-            :error-messages="nameErrors"
-            label="이름"
-            required
-          ></v-text-field>
-        
-          <v-text-field
-            name="member.phone"
-            color="green"
-            background-color="transparent"
-            v-model="member.phone"
-            label="전화번호"
-          ></v-text-field>
-
-          <div style="color:red" v-if="error.passwordConfirm">{{error.passwordConfirm}}</div>
           <v-text-field
             name="member.zonecode"
             color="green"
@@ -85,6 +66,7 @@ import { validationMixin } from "vuelidate";
 import { createInstance } from "@/api/index.js";
 import { login } from "@/api/user.js";
 import axios from "axios";
+
 import {
   required,
   maxLength,
@@ -147,18 +129,11 @@ export default {
         passwordConfirm: false,
       },
       checkingSocial :false,
-
     };
   },
   created() {
-      if(this.$route.query.email != null){
-        this.member.email = this.$route.query.email;
-      }
-      else{
-        console.log(this.$route.query.code);
-        this.getKakaoUserInfo();
-        this.checkingSocial=false;
-      }
+      console.log(this.$route.query.code);
+      this.getNaverMemberInfo();
   },
   watch: {
     passwordConfirm: function(v){
@@ -166,30 +141,34 @@ export default {
     }
   },
   methods: {
-    getKakaoUserInfo(){
-        axios
-            .get("http://localhost:8080/member/kakao?code=" + this.$route.query.code)
+  
+    getNaverMemberInfo(){
+        const instance = createInstance();
+        instance
+            .get("/member/navercallback?code=" + this.$route.query.code
+            +"&state=" +this.$route.query.state)
             .then(response => {
-                if(response.data.member == null){
-                    alert("추가정보를 입력하셔야합니다.");
-                    console.log(response.data);
-                    this.member.email = response.data.data.email;
-                    this.checkingSocial = true;
-                }
-                else{
-                    //this.member = response.data.member;
-                    //this.confirm();
-                    let token = response.data["access-token"];
-                    this.$store.commit("setIsLogined", true);
-                    localStorage.setItem("access-token", token);
-                    console.log(token);
-                    this.$store.dispatch("GET_MEMBER_INFO", token);
-                    this.$router.push("/feed");
-                }
+              if(response.data.message=="nocreate"){
+                let token = response.data["access-token"];
+                this.$store.commit("setIsLogined", true);
+                localStorage.setItem("access-token", token);
+                console.log(token);
+                this.$store.dispatch("GET_MEMBER_INFO", token);
+                this.$router.push("/feed");
+              }else if(response.data.message=="needcreate"){
+                alert("추가정보를 입력하셔야합니다.");
+                this.checkingSocial=true;
+                this.member.email = response.data.email;
+                this.member.name = response.data.name;
+                this.member.phone = response.data.phone;
+              
+              }
             })
     },
     confirm() {
       localStorage.setItem("access-token", "");
+      console.log(this.member.email);
+      console.log(this.member.password);
       login(
         this.member,
         response => {
@@ -221,7 +200,7 @@ export default {
           (response) => {
             console.log(response);
             if (response.data.message === "success") {
-              alert("회원가입 완료");
+              alert("회원가입 완료 가입된 아이디로 로그인 해주세요.");
               this.$router.push("/");
             } else {
               alert("회원가입 실패");
@@ -236,8 +215,9 @@ export default {
     
     clear() {
       this.$v.$reset();
-      this.member.name = "";
-      this.member.email = "";
+      this.member.address="";
+      this.member.addressDetail="";
+      this.member.zonecode="";
     },
     showApi() {
       new window.daum.Postcode({

@@ -79,7 +79,6 @@ import http from "@/util/http-common";
 import JoinRequest from "@/views/user/JoinRequest";
 
 export default {
-  name: "TeamManagement",
   components: {
     JoinRequest
   },

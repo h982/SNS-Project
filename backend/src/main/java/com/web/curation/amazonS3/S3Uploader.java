@@ -1,6 +1,8 @@
 package com.web.curation.amazonS3;
 
+import com.amazonaws.SdkClientException;
 import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
@@ -34,22 +36,30 @@ public class S3Uploader {
         return upload(uploadFile, dirName);
     }
 
-    public void deleteFile(String fileName){
-        amazonS3Client.deleteObject(bucket, fileName);
+    public void deleteFile(String fileName) {
+        try {
+            DeleteObjectRequest deleteObjectRequest = new DeleteObjectRequest(this.bucket, "static/" + fileName);
+            this.amazonS3Client.deleteObject(deleteObjectRequest);
+        } catch (AmazonS3Exception e) {
+            e.printStackTrace();
+        } catch (SdkClientException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private PhotoDto upload(File uploadFile, String dirName) {
         String fileName = dirName
                 + "/"
                 + UUID.randomUUID().toString()
-                +"."
+                + "."
                 + FilenameUtils.getExtension(uploadFile.getName());
         String uploadUrl = putS3(uploadFile, fileName);
 
         PhotoDto dto = PhotoDto.builder()
                 .originalName(uploadFile.getName())
                 .filePath(uploadUrl)
-                .imageName(uploadUrl.substring(uploadUrl.lastIndexOf("/")+1,uploadUrl.lastIndexOf(".")))
+                .imageName(uploadUrl.substring(uploadUrl.lastIndexOf("/") + 1, uploadUrl.lastIndexOf(".")))
                 .imageExtension(FilenameUtils.getExtension(uploadFile.getName()))
                 .build();
 
@@ -71,7 +81,7 @@ public class S3Uploader {
     }
 
     private Optional<File> convert(MultipartFile multipartFile) throws IOException {
-        File convertedFile = new File( multipartFile.getOriginalFilename());
+        File convertedFile = new File(multipartFile.getOriginalFilename());
         System.out.println(convertedFile);
         boolean success = convertedFile.createNewFile();
         System.out.println(success);
@@ -84,9 +94,9 @@ public class S3Uploader {
         return Optional.empty();
     }
 
-    public boolean validateType(MultipartFile file){
+    public boolean validateType(MultipartFile file) {
         String mimeType = file.getContentType();
-        if(mimeType.contains("image/")){
+        if (mimeType.contains("image/")) {
             return true;
         }
         return false;

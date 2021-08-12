@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
-import Meta from 'vue-meta'
+import Meta from "vue-meta";
 import Login from "@/views/user/Login.vue";
 import TeamChallenge from "@/views/Challenge/TeamChallenge.vue";
 import Challenge from "@/views/Challenge/WholeChallenge.vue";
@@ -24,13 +24,12 @@ const requireAuth = () => (to, from, next) => {
     return next();
   }
   alert("로그인이 필요합니다.");
-  next('/');
+  next("/");
 };
 
 export default new Router({
   mode: "history",
   base: process.env.BASE_URL,
-
 
   routes: [
     {
@@ -42,34 +41,37 @@ export default new Router({
       path: "/signup",
       name: "signup",
       component: () =>
-        import( /* webpackChunkName: "about" */ "./views/SignUp.vue")
+        import(/* webpackChunkName: "about" */ "./views/SignUp.vue")
     },
     {
       path: "/kakaosignup",
       name: "kakaosignup",
       component: () =>
-        import( /* webpackChunkName: "about" */ "./views/KakaoSignUp.vue")
+        import(/* webpackChunkName: "about" */ "./views/KakaoSignUp.vue")
+    },
+    {
+      path: "/naversignup",
+      name: "naversignup",
+      component: () =>
+        import( /* webpackChunkName: "about" */ "./views/NaverSignUp.vue")
     },
     {
       path: "/myteam",
       name: "myteam",
       component: MyTeam,
       beforeEnter: requireAuth()
-
     },
     {
       path: "/mypage",
       name: "mypage",
       component: MyPage,
       beforeEnter: requireAuth()
-
     },
     {
       path: "/myfeed",
       name: "myfeed",
       component: MyFeed,
       beforeEnter: requireAuth()
-
     },
     {
       path: "/membermodify",
@@ -81,14 +83,14 @@ export default new Router({
       path: "/teammake",
       name: "teammake",
       component: () =>
-      import( /* webpackChunkName: "about" */ "./views/Team/TeamMake.vue"),
+        import(/* webpackChunkName: "about" */ "./views/Team/TeamMake.vue"),
       beforeEnter: requireAuth()
     },
     {
       path: "/teamlist",
       name: "teamlist",
       component: () =>
-      import( /* webpackChunkName: "about" */ "./views/Team/Teamlist.vue"),
+        import(/* webpackChunkName: "about" */ "./views/Team/Teamlist.vue"),
       beforeEnter: requireAuth()
     },
     {
@@ -96,7 +98,7 @@ export default new Router({
       name: "resume",
       component: () =>
         import(/* webpackChunkName: "about" */ "./views/Resume.vue"),
-        beforeEnter: requireAuth()
+      beforeEnter: requireAuth()
     },
     {
       path: "/blog",
@@ -145,24 +147,30 @@ export default new Router({
         import(/* webpackChunkName: "about" */ "./views/Feed/WriteFeed.vue")
     },
     {
+      path: "/updatefeed",
+      name: "updatefeed",
+      component: () =>
+        import(/* webpackChunkName: "about" */ "./views/Feed/UpdateFeed.vue")
+    },
+    {
       path: "/feed",
       name: "feed",
       component: () =>
         import(/* webpackChunkName: "about" */ "./views/Feed/Feed.vue"),
-        beforeEnter: requireAuth()
+      beforeEnter: requireAuth()
     },
     {
       path: "/comment",
       name: "comment",
       component: () =>
         import(/* webpackChunkName: "about" */ "./views/Feed/Comment.vue"),
-        beforeEnter: requireAuth()
+      beforeEnter: requireAuth()
     },
     {
       path: "*",
       name: "Error",
       component: () =>
-      import( /* webpackChunkName: "about" */ "./views/Error.vue")
+        import(/* webpackChunkName: "about" */ "./views/Error.vue")
     },
     {
       path: "/login",
@@ -210,28 +218,31 @@ export default new Router({
       path: "/challengemake",
       component: ChallengeMake,
       beforeEnter: requireAuth()
-
     },
-
     {
       path: "/board/view",
       name: "BoardView",
       component: () =>
-        import(/* webpackChunkName: "about" */ "./components/board/BoardView.vue")
+        import(
+          /* webpackChunkName: "about" */ "./components/board/BoardView.vue"
+        )
     },
     {
       path: "/board/create",
       name: "BoardCreate",
       component: () =>
-        import(/* webpackChunkName: "about" */ "./components/board/BoardCreate.vue")
+        import(
+          /* webpackChunkName: "about" */ "./components/board/BoardCreate.vue"
+        )
     },
     {
       path: "/board/modify",
       name: "BoardModify",
       component: () =>
-        import(/* webpackChunkName: "about" */ "./components/board/BoardModify.vue")
+        import(
+          /* webpackChunkName: "about" */ "./components/board/BoardModify.vue"
+        )
     },
-
 
     {
       name: "board",
@@ -252,9 +263,7 @@ export default new Router({
           path: "/view",
           name: "board-view",
           component: () => import("@/components/board/BoardView.vue")
-        },
-
-
+        }
       ],
       redirect: () => {
         return "/board";
@@ -271,7 +280,6 @@ export default new Router({
       name: "teamModify",
       component: TeamModify,
       beforeEnter: requireAuth()
-    },
-
+    }
   ]
 });

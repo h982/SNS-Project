@@ -49,8 +49,28 @@
     display: block;
     margin: 10px 0 25px;
   }
+
+  .oldpre {
+    width: 60%;
+    height: 60%;
+    max-height: 500px;
+    margin: 10px 0 25px;
+  }
 }
 
+.oldwrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+
+  .old {
+    position: absolute;
+    font-weight: 700;
+    font-size: 1.2em;
+  }
+}
 @include mobile {
   .contents_wrap {
     width: 80%;
