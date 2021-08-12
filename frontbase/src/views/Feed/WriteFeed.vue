@@ -139,9 +139,6 @@ export default {
       const formData = new FormData();
       if (daily.options[daily.selectedIndex] == null) {
         alert("일상글, 챌린지 선택 필수");
-      } else if (document.getElementById("chooseFile").files[0] == null) {
-        // formData.append("image", this.oneFeed.photos);
-        alert("사진을 다시 넣어주세요");
       } else {
         if (daily.options[daily.selectedIndex].value == "일상글") {
           formData.append("teamchallengeId", 0);
@@ -157,10 +154,6 @@ export default {
         formData.append("teamName", this.oneFeed.teamName);
         formData.append("contents", this.contents);
         formData.append("writer", this.oneFeed.writer);
-        formData.append(
-          "image",
-          document.getElementById("chooseFile").files[0]
-        );
 
         const instance = createInstance();
         instance
