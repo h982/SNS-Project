@@ -24,6 +24,7 @@
             name="member.email"
             v-model="memberInfo.email"
             label="E-mail"
+            readonly
             required
           ></v-text-field>
 
