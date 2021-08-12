@@ -20,7 +20,8 @@
 
 <script>
 import { mapState } from "vuex";
-import http from "@/util/http-common";
+// import http from "@/util/http-common";
+import { createInstance } from "@/api/teamindex.js";
 
 export default {
   name: "JoinRequest",
@@ -37,14 +38,16 @@ export default {
   },
   methods: {
     rejectRequest: function(requestId) {
-      http
+      const instance = createInstance();
+      instance
         .put("/request/reject/" + requestId)
         .then(() =>
           this.$store.dispatch("getRequests", this.managingTeam.teamId)
         );
     },
     acceptRequest: function(requestId, memberId) {
-      http
+      const instance = createInstance();
+      instance
         .put("/request/accept/" + requestId)
         .then(() =>
           this.$store.dispatch("getRequests", this.managingTeam.teamId)

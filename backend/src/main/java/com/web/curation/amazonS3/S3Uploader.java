@@ -38,9 +38,8 @@ public class S3Uploader {
 
     public void deleteFile(String fileName) {
         try {
-            DeleteObjectRequest deleteObjectRequest = new DeleteObjectRequest(this.bucket, fileName);
+            DeleteObjectRequest deleteObjectRequest = new DeleteObjectRequest(this.bucket, "static/" + fileName);
             this.amazonS3Client.deleteObject(deleteObjectRequest);
-            System.out.println("이미지 삭제 완료");
         } catch (AmazonS3Exception e) {
             e.printStackTrace();
         } catch (SdkClientException e) {

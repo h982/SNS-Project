@@ -147,7 +147,7 @@ export default {
       instance
         .post("/team", formData, {
           Headers: {
-            "Content-Type": "multiart/form-data"
+            "Content-Type": "multipart/form-data"
           }
         })
         .then(response => {
