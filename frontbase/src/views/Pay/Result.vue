@@ -47,10 +47,7 @@ export default {
           .then(response => {
             console.log(response);
             if(response.data.message==="success"){
-              console.log("결제성공success");
               this.$store.commit("SET_AUTHENTICATED", true);
-
-              console.log(this.memberInfo);
             }
           }).catch(error =>{
             console.log(error);

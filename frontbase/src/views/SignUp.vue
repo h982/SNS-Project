@@ -30,6 +30,11 @@
               label="E-mail"
             ></v-text-field>
           <v-btn @click="authentic()" color="green" class="white--text">인증하기</v-btn>
+          <div class="timer" v-if="resetButton">
+            <span class="minute">{{ minutes }}</span>
+            <span>:</span>
+            <span class="seconds">{{ seconds }}</span>
+          </div>
           </v-layout>
 
           <v-layout row wrap>
@@ -125,6 +130,8 @@
 <script>
 import { validationMixin } from "vuelidate";
 import { createInstance } from "@/api/index.js";
+import Countdown from 'vuejs-countdown'
+
 import {
   required,
   maxLength,
@@ -138,6 +145,9 @@ export default {
     email: { required, email },
     body: { required, minLength: minLength(20) },
   },
+  components: { 
+    Countdown 
+  },
   data() {
     return {
       num:"",
@@ -147,6 +157,8 @@ export default {
         { name: "남자", value: "M" },
         { name: "여자", value: "W" },
       ],
+      resTimeData : '',
+
       mbtiList: [
         { name: "istj", value: "istj" },
         { name: "isfj", value: "isfj" },
@@ -186,6 +198,11 @@ export default {
       error: {
         passwordConfirm: false,
       },
+      timer: null,
+      totalTime: (3 * 60),
+      resetButton: false,
+      title: "Countdown to rest time!",
+      edit: false
     };
   },
   watch: {
@@ -269,6 +286,7 @@ export default {
       this.isSubmit = isSubmit;
     },
     authentic(){
+      this.startTimer();
       const instance = createInstance();
       instance.post("/email/send?"+"member_email="+this.member.email)
         .then(
@@ -305,7 +323,32 @@ export default {
     },
     check(){
       console.log(this.authenticFlag);
+    },
+    startTimer: function() {
+      this.timer = setInterval(() => this.countdown(), 1000); //1000ms = 1 second
+      this.resetButton = true;
+    },
+    stopTimer: function() {
+      clearInterval(this.timer);
+      this.timer = null;
+      this.resetButton = true;
+    },
+    resetTimer: function() {
+      this.totalTime = (3 * 60);
+      clearInterval(this.timer);
+      this.timer = null;
+      this.resetButton = false;
+    },
+    editTimer: function() {
+      this.edit = true;
+    },
+    padTime: function(time){
+      return (time < 10 ? '0' : '') + time;
+    },
+    countdown: function() {
+      this.totalTime--;
     }
+  
   },
   computed: {
     nameErrors() {
@@ -331,6 +374,14 @@ export default {
     //   !this.$v.body.required && errors.push("Text is required");
     //   return errors;
     // },
+    minutes: function(){
+      const minutes = Math.floor(this.totalTime / 60);
+      return this.padTime(minutes);
+    },
+    seconds: function() {
+      const seconds = this.totalTime - (this.minutes * 60);
+      return this.padTime(seconds);
+    },
   },
 };
 </script>
