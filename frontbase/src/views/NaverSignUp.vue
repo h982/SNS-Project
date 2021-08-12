@@ -152,7 +152,7 @@ export default {
                 let token = response.data["access-token"];
                 this.$store.commit("setIsLogined", true);
                 localStorage.setItem("access-token", token);
-                console.log(token);
+
                 this.$store.dispatch("GET_MEMBER_INFO", token);
                 this.$router.push("/feed");
               }else if(response.data.message=="needcreate"){
@@ -176,7 +176,6 @@ export default {
             let token = response.data["access-token"];
             this.$store.commit("setIsLogined", true);
             localStorage.setItem("access-token", token);
-            console.log(token);
             this.$store.dispatch("GET_MEMBER_INFO", token);
             this.$router.push("/feed");
           } else {

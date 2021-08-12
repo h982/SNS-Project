@@ -78,10 +78,8 @@ public class FeedService {
                 .orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
         List<JoinTeam> joinTeamList = joinTeamDao.findJoinTeamByMember(chkMember);
         List<Team> teamForSearch = new ArrayList<>();
-//        for (JoinTeam joinTeam : joinTeamList) {
-//            teamForSearch.add(joinTeam.getTeam());
-//        }
         joinTeamList.forEach(joinTeam -> teamForSearch.add(joinTeam.getTeam()));
+        if(teamForSearch.isEmpty()) return Collections.emptyList();
         List<Feed> feeds = feedDao.findAllJoinFetch(teamForSearch, pageRequest);
         if (feeds == null) {
             return Collections.emptyList();
