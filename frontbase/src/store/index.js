@@ -1,11 +1,15 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import jwt_decode from "jwt-decode";
+import createPersistedState from 'vuex-persistedstate';
 import { findById } from "@/api/user.js";
 import { createInstance } from "../api/teamindex";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
+  plugins: [
+    createPersistedState(),
+  ],
   state: {
     isLogin: false, // 로그인 여부
     memberInfo: null,
