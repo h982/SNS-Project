@@ -19,6 +19,8 @@ public interface FeedDao extends JpaRepository<Feed, Integer>{
 
 //	List<Feed> findFeedsByJoinTeamIn(List<JoinTeam> joinTeams);
 	List<Feed> findByMember(Member member);
+
+	@Query("SELECT f FROM Feed f join fetch f.photos where f.team in ?1 ORDER BY f.writeDate DESC")
 	List<Feed> findByTeam(Team team);
 }
 // where f.joinTeam in ?1 ORDER BY f.writeDate DESC
