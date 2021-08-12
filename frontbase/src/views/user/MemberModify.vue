@@ -77,7 +77,8 @@
 </template>
 
 <script>
-import { createInstance } from "@/api/index.js";
+// import { createInstance } from "@/api/index.js";
+import { createInstance } from "@/api/teamindex.js";
 import { mapState } from "vuex";
 import { mapGetters } from "vuex";
 
