@@ -26,8 +26,8 @@ public class RequestController {
     						@ApiResponse(code = 409, message = "이미 요청한 적이 있음")})
     public Object sendRequest(@RequestBody RequestDto requestDto) {
         requestService.makeRequest(requestDto);
-
-    	return new ResponseEntity<>(HttpStatus.CONFLICT);
+        System.out.println(requestDto.getMember().getMemberId());
+    	return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/{teamId}")

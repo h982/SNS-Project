@@ -24,8 +24,10 @@ import FeedItem from "@/views/Feed/FeedItem.vue";
 import "../../components/css/feed/feed-item.scss";
 import { mapGetters } from "vuex";
 import InfiniteLoading from 'vue-infinite-loading';
-//import { createInstance } from "@/api/index.js";
 import { createInstance } from "@/api/teamindex.js";
+
+
+>>>>>>> frontbase/src/views/Feed/Feed.vue
 export default {
   data() {
     return {

@@ -31,7 +31,8 @@
 import TeamHeader from '@/components/TeamHeader.vue';
 import Stomp from 'webstomp-client'
 import SockJS from 'sockjs-client'
-import http from "@/util/http-common";
+// import http from "@/util/http-common";
+import { createInstance } from "@/api/teamindex.js";
 import { mapState} from "vuex";
 
 export default {
@@ -59,7 +60,8 @@ export default {
         console.log(this.selectTeam)
 
         //채팅방 내용 불러오기
-        http
+        const instance = createInstance();
+        instance
             .get('/message/'+this.selectTeam.teamId+'?page=0', )
             .then(res=>{
                 this.msg = []

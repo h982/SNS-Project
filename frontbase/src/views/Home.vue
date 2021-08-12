@@ -87,6 +87,8 @@
           />
         </v-layout>
 
+        <GoogleLogin :params="params" :renderParams="renderParams" :onSuccess="onSuccess" :onFailure="onFailure"></GoogleLogin>
+
         <v-layout>
           <img 
             width="222" 
@@ -94,8 +96,9 @@
             @click="naverLogin" 
             src='@/assets/images/naverid.png'
             />
-        </v-layout> 
-          
+        </v-layout>
+        
+        </v-card-actions>
 
         <v-card-actions class="hidden-md-and-up justify-center">
         </v-card-actions>
@@ -109,18 +112,23 @@ import { VueTyper } from "vue-typer";
 import { login } from "@/api/user.js";
 import { mapState } from "vuex";
 import { mapGetters } from "vuex";
+import index from "@/api/index.js"
+import { createInstance } from "../api/teamindex";
 
 import VueCompareImage from "vue-compare-image";
 import banner1 from "@/assets/images/banner1.jpg";
 import banner2 from "@/assets/images/banner2.jpg";
 import banner3 from "@/assets/images/banner3.jpg";
 import banner4 from "@/assets/images/banner4.jpg";
+import GoogleLogin from 'vue-google-login';
 import naverid from "@/assets/images/naverid.png";
 import { createInstance } from "@/api/index.js";
+
 export default {
   components: {
     "vue-typer": VueTyper,
     VueCompareImage,
+    GoogleLogin,
     naverid
   },
   computed: {
@@ -168,7 +176,17 @@ export default {
       rightImage2: banner4,
       sliderLine: 0,
       hSize: 0,
-      sliderPosition: 0.5
+      sliderPosition: 0.5,
+      params: {
+        client_id: "1011124741177-02ief3em5ve5bj13s93nvvq33dd7et9v.apps.googleusercontent.com",
+        ux_mode: "popup",
+        redirect_uri: "http://localhost:8081/",
+      },
+      renderParams: {
+          width: 250,
+          height: 50,
+          longtitle: true
+      }
     };
   },
   methods: {
@@ -196,13 +214,39 @@ export default {
         }
       );
     },
-    onSuccess() {
-      this.$store.commit("setMemberInfo", true);
-      this.$router.push("/");
+    onSuccess(googleUser) {
+      console.log("google")
+      console.log(googleUser);
+
+      // This only gets the user information: id, name, imageUrl and email
+      console.log(googleUser.getBasicProfile().Et);
+
+      const instance = createInstance();
+      instance
+        .get("/member/google?email=" + googleUser.getBasicProfile().Et)
+        .then(response => {
+          console.log(response);
+          if(response.data.data == null){
+            this.$router.push("/kakaosignup?email=" + googleUser.getBasicProfile().Et);
+          }
+          else{
+            this.member.email = response.data.data.email;
+            this.member.password = response.data.data.password;
+
+            this.confirm();
+          }
+        })
     },
-    onFailure() {
-      this.$router.push("/");
+    onFailure(){
+
     },
+    // onSuccess() {
+    //   this.$store.commit("setMemberInfo", true);
+    //   this.$router.push("/");
+    // },
+    // onFailure() {
+    //   this.$router.push("/");
+    // },
     loginWithKakao(){
       window.location.replace(
         `https://kauth.kakao.com/oauth/authorize?client_id=35246c4d76c9d177b219aeeb8d0f2579&redirect_uri=http://localhost:8081/kakaosignup&response_type=code`
@@ -218,7 +262,6 @@ export default {
           }).catch(error =>{
             console.log(error);
       })
-    
     }
   },
   computed: {

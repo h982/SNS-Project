@@ -41,8 +41,7 @@ public class FeedDto {
 
     @ApiModelProperty(required = true)
     private String writer;
-
-    @ApiModelProperty(required = true)
+    
     private MultipartFile image;
 
     private List<PhotoDto> photos;

@@ -75,11 +75,11 @@
 
 <script>
 import { mapGetters } from "vuex";
-import http from "@/util/http-common";
+// import http from "@/util/http-common";
+import { createInstance } from "@/api/teamindex.js";
 import JoinRequest from "@/views/user/JoinRequest";
 
 export default {
-  name: "TeamManagement",
   components: {
     JoinRequest
   },
@@ -123,7 +123,8 @@ export default {
       else return 'red'
     },
     chageleader() {
-      http.put("/team/leader/"+this.selected[0].member.memberId+"?teamId="+this.managingTeam.teamId).then(({ data }) => {
+      const instance = createInstance();
+      instance.put("/team/leader/"+this.selected[0].member.memberId+"?teamId="+this.managingTeam.teamId).then(({ data }) => {
         console.log("changeTeamLeader : " + data.message);
         alert("리더가 변경되었습니다. 잠시 뒤 다시 로그인해주세요.");
         // this.$router.push("/mypage");

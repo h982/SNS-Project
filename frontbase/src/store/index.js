@@ -3,7 +3,6 @@ import Vuex from "vuex";
 import jwt_decode from "jwt-decode";
 import { findById } from "@/api/user.js";
 import { createInstance } from "../api/teamindex";
-import http from "@/util/http-common";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -436,17 +435,5 @@ export default new Vuex.Store({
         commit("SET_MANAGING_TEAM_MEMBERS", data.data);
       });
     },
-    changeTeamLeader({ teamId, memberId }) {
-      http
-        .get("/team/leader/" + memberId + "?teamId=" + teamId)
-        .then(({ data }) => {
-          console.log("changeTeamLeader : " + data.message);
-        });
-    }
-    // changeTeamLeader({commit}, {teamId, memberId}) {
-    //   http.put("/team/leader/"+memberId+"?teamId="+teamId).then(({ data }) => {
-    //     console.log("changeTeamLeader : " + data.message);
-    //   });
-    // },
   }
 });
