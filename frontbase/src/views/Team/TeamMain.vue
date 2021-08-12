@@ -207,9 +207,9 @@ export default {
         (response) => {
           console.log(response);
           if (response.status === 201) {
-            alert("가입 요청 완료");
+            // alert("가입 요청 완료");
           } else {
-            alert("가입 요청 실패");
+            // alert("가입 요청 실패");
           }
         }
       )
