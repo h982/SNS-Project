@@ -97,13 +97,7 @@ export default new Router({
         import(/* webpackChunkName: "about" */ "./views/Team/Teamlist.vue"),
       beforeEnter: requireAuth()
     },
-    {
-      path: "/resume",
-      name: "resume",
-      component: () =>
-        import(/* webpackChunkName: "about" */ "./views/Resume.vue"),
-      beforeEnter: requireAuth()
-    },
+    
     {
       path: "/blog",
       name: "blog",
@@ -111,12 +105,7 @@ export default new Router({
         import(/* webpackChunkName: "about" */ "./views/Blog.vue")
     },
 
-    {
-      path: "/services",
-      name: "services",
-      component: () =>
-        import(/* webpackChunkName: "about" */ "./views/Services.vue")
-    },
+    
     {
       path: "/portfolio",
       name: "portfolio",
