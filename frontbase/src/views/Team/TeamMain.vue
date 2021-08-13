@@ -57,7 +57,7 @@
             </v-card-title>
             <v-data-table
               :headers="headers"
-              :items="this.managingTeamMembers"
+              :items="this.selectTeamMembers"
               item-key="member.memberId"
               hide-actions
               :pagination.sync="pagination"
@@ -120,9 +120,9 @@
         <v-btn large flat to="/teamlist" class="green--text">
           <v-icon>arrow_back</v-icon>Back to Teamlist
         </v-btn>
-        <v-btn @click="check()">
+        <!-- <v-btn @click="check()">
           
-        </v-btn>
+        </v-btn> -->
       </v-layout>
     </v-layout>
 
@@ -140,7 +140,7 @@ import TeamHeader2 from '../../components/TeamHeader2.vue';
 export default {
   name: "TeamMain",
   computed:{
-    ...mapGetters(["selectTeam","memberInfo","myTeamList","team_challenges","team_challenging", "managingTeamMembers", "managingTeam"]),
+    ...mapGetters(["selectTeam","memberInfo","myTeamList","team_challenges","team_challenging", "managingTeam", "selectTeamMembers"]),
     pages () {
       if (this.pagination.rowsPerPage == null ||
         this.pagination.totalItems == null
@@ -152,19 +152,15 @@ export default {
   created() {
     this.$store.dispatch("GET_MY_TEAM_INFO",this.memberInfo.memberId);
     this.teamchecking();
-    // console.log(this.teamcheck);
-    console.log(this.managingTeam.member.memberId);
-    console.log(this.memberInfo.memberId);
-    // console.log(this.myTeamList);
     this.$store.dispatch("GET_TEAMCHALLENGE_INFO", this.memberInfo.memberId);
     const token={
       memberId: this.memberInfo.memberId,
       teamId:this.selectTeam.teamId
     };
     this.$store.dispatch("GET_TEAMCHALLENGER_INFO", token); 
-    this.$store.dispatch("getTeamMembers", this.selectTeam.teamId);
+    this.$store.dispatch("getSelectTeamMembers", this.selectTeam.teamId);
+    console.log(this.selectTeamMembers);
     // console.log(this.managingTeamMembers);
-    console.log(this.memberInfo.memberId);
 
   },
   data() {
