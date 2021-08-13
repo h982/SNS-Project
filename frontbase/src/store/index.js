@@ -13,13 +13,13 @@ export default new Vuex.Store({
   state: {
     isLogin: false, // 로그인 여부
     memberInfo: null,
-    teamLists: [], // 팀 정보
+    teamLists: [], // 모든팀 정보
     feeds: [],
     teamFeeds: [],
     comments: [],
-    whole_challenges: [],
+    whole_challenges: [], // 전체 챌린지
     team_challenges: [],
-    team: [],
+    team: [], // 해당팀 관련
     teamInfo: null,
     myTeamList: [],
     managingTeam: {}, // 내가 팀장으로 있는 팀의 정보
@@ -32,6 +32,7 @@ export default new Vuex.Store({
     team_challenging: [], //내가 진행중인 챌린지
     entire_challenge: [], // 공통 챌린지
     feed_challenging: [], //feed 입력시 넣는 챌린지 목록
+    selectTeamMembers: [], //선택한 팀의 멤버 정보
 
     // 공지사항
     noticeItems: [],
@@ -114,7 +115,10 @@ export default new Vuex.Store({
     //TOken
     getToken(state) {
       return state.token;
-    }
+    },
+    selectTeamMembers(state) {
+      return state.selectTeamMembers
+    },
   },
   mutations: {
     setIsLogined(state, isLogin) {
@@ -225,7 +229,10 @@ export default new Vuex.Store({
     //Token
     setToken(state, token) {
       state.token = token;
-    }
+    },
+    SET_SELECT_TEAM_MEMBERS(state, payload) {
+      state.selectTeamMembers = payload;
+    },
   },
   actions: {
     async GET_MEMBER_INFO({ commit }, token) {
@@ -445,6 +452,12 @@ export default new Vuex.Store({
       instance.get("/jointeam/member/" + teamId).then(({ data }) => {
         //console.log("getTeamMembers : " + data.message)
         commit("SET_MANAGING_TEAM_MEMBERS", data.data);
+      });
+    },
+    getSelectTeamMembers({ commit }, teamId) {
+      const instance = createInstance();
+      instance.get("/jointeam/member/" + teamId).then(({ data }) => {
+        commit("SET_SELECT_TEAM_MEMBERS", data.data);
       });
     },
   }
