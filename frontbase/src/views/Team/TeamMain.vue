@@ -22,7 +22,7 @@
       
     </v-layout>
     <v-layout column justify-center class="mt-4 pt-2">
-      <h1 class="text-xs-center mb-4 pb-2">{{selectTeam.name.replaceAll("\"", "")}}</h1>
+      <p class="text-xs-center mb-4 pb-2" style="font-size: x-large;">{{selectTeam.name.replaceAll("\"", "")}}</p>
       <br>
       <div v-if="selectTeam.photoDto === null">
         <v-img :src="thumbnail1" aspect-ratio="2.75" height="330" contain></v-img>
@@ -31,19 +31,19 @@
         <v-img :src="selectTeam.photoDto.filePath" aspect-ratio="2.75" height="330" contain></v-img>
       </div>
       <v-layout column justify-center align-center class="mt-4 pt-2">
-        <h2>팀 소개</h2>
+        <h2 style="color:green">팀 소개</h2>
         <v-flex wrap justify-center align-center class="textbox">
-          <h3>
-            {{selectTeam.introduction.replaceAll("\"", "")}}
-          </h3>
+        
+            <p>{{selectTeam.introduction.replaceAll("\"", "")}}</p>
+          
         </v-flex>
         <br>
 
-        <h2>팀장</h2>
+        <h2 style="color:green">팀장</h2>
         <p>{{selectTeam.leader.replaceAll("\"", "")}}</p>
         <br>
 
-        <h2>팀원</h2>
+        <h2 style="color:green">팀원</h2>
         <template>
           <v-card>
             <v-card-title>

@@ -15,6 +15,9 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
 import Antd from 'ant-design-vue';
 import 'ant-design-vue/dist/antd.css';
+import AOS from 'aos';
+import "aos/dist/aos.css";
+
 
 library.add(faUserSecret)
 
@@ -38,6 +41,9 @@ new Vue({
     if (store.state.memberInfo == null && token) {
       await store.dispatch("GET_MEMBER_INFO", token);
     }
+  },
+  created() {
+    AOS.init();
   },
   render: h => h(App),
 }).$mount('#app')

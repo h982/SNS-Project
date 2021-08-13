@@ -1,14 +1,14 @@
 <template>
   <v-container grid-list-xl>
-    <h2 class="pl-4">
+    <v-toolbar-title class="headline">
       <span>My</span>
       <span class="green--text">Feed</span>
-    </h2>
+    </v-toolbar-title>
     <v-layout justify-center align-center wrap class="mt-4 pt-2">
       <v-card   elevation="0">
-        <h5>{{memberInfo.name}}   <v-btn @click="move()" icon elevation="0"><v-icon>settings</v-icon></v-btn></h5>
+        <p>{{memberInfo.name}}   <v-btn @click="move()" icon elevation="0"><v-icon>settings</v-icon></v-btn></p>
         <br>
-        <h6>게시물: {{myFeeds.length}} &nbsp&nbsp 가입된그룹:{{myTeamList.length}} &nbsp&nbsp  도전중인 챌린지: {{feed_challenging.length}}</h6>
+        <p>게시물: {{myFeeds.length}} &nbsp&nbsp 가입된그룹:{{myTeamList.length}} &nbsp&nbsp  도전중인 챌린지: {{feed_challenging.length}}</p>
       </v-card>
     </v-layout>
     <hr style="height:1px;border:none;color:#333;background-color:#333;" />
@@ -37,9 +37,9 @@
           <v-img :src="myFeed.photos[0].filePath"></v-img>
           
           <v-card-text>
-            <h3 class="headline mb-3">
+            <p class="headline mb-3">
               <span>{{myFeed.contents}}</span>
-            </h3>
+            </p>
             <v-chip color="green" text-color="white">{{myFeed.contents}}</v-chip>
             <v-chip color="green" text-color="white">{{myFeed.writeDate}}</v-chip>
 

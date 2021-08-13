@@ -4,11 +4,12 @@
       <b-row>
         <b-col></b-col>
         <b-col cols="8">
-          <h1>My Page</h1>
+          <span style="font-size:x-large;">My </span>
+          <span class="green--text" style="font-size:x-large;">page </span>
 
-            <h3>
+            <p>
               내 정보 확인페이지입니다.
-            </h3>
+            </p>
 
           <hr class="my-4" />
 
