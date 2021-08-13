@@ -1,6 +1,5 @@
 package com.web.curation.member;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -8,7 +7,6 @@ import java.util.Optional;
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -21,16 +19,12 @@ import com.web.curation.member.Member;
 import com.web.curation.member.challenge.ChallengeService;
 
 import io.swagger.annotations.ApiParam;
-import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.http.HttpStatus;
 
 import com.web.curation.model.BasicResponse;
 
@@ -38,7 +32,6 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
-import static java.time.LocalDateTime.now;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -70,6 +63,7 @@ public class MemberController {
 
     private NaverLoginBO naverLoginBO;
     private String apiResult = null;
+
     private void setNaverLoginBO(NaverLoginBO naverLoginBO) {
         this.naverLoginBO = naverLoginBO;
     }
@@ -81,7 +75,7 @@ public class MemberController {
     @ApiOperation(value = "회원가입")
     @ApiResponses(value = {@ApiResponse(code = 201, message = "회원이 생성됨", response = BasicResponse.class),
             @ApiResponse(code = 409, message = "중복된 값이 있음", response = BasicResponse.class)})
-    public ResponseEntity<Map<String, Object>> signup(@RequestBody MemberDto memberDto) throws IOException{
+    public ResponseEntity<Map<String, Object>> signup(@RequestBody MemberDto memberDto) throws IOException {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = HttpStatus.ACCEPTED;
 
@@ -156,7 +150,7 @@ public class MemberController {
 
     @ApiOperation(value = "회원정보 수정")
     @PutMapping
-    public ResponseEntity<Map<String, Object>> updateInfo(@RequestBody MemberDto memberDto) throws IOException{
+    public ResponseEntity<Map<String, Object>> updateInfo(@RequestBody MemberDto memberDto) throws IOException {
         Map<String, Object> resultMap = new HashMap<>();
 
         MemberDto responseMemberDto = memberService.updateMember(memberDto);

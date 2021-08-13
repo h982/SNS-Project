@@ -1,24 +1,17 @@
 package com.web.curation.member;
 
 import java.io.*;
-import java.nio.file.Files;
 import java.util.Optional;
 
 import com.web.curation.amazonS3.S3Uploader;
 import com.web.curation.error.CustomException;
-import com.web.curation.error.ErrorCode;
-import com.web.curation.feed.Feed;
 import com.web.curation.files.Photo;
 import com.web.curation.files.PhotoAndDtoAdapter;
 import com.web.curation.files.PhotoDao;
 import com.web.curation.files.PhotoDto;
 import lombok.AllArgsConstructor;
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.disk.DiskFileItem;
-import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import static com.web.curation.error.ErrorCode.MEMBER_NOT_FOUND;
 
@@ -38,23 +31,12 @@ public class MemberService {
     }
 
     public MemberDto registMember(MemberDto memberDto) throws IOException {
-        memberDto.setPhoto(makeDefaultImg());
+        memberDto.setPhoto(photoDao.findById(1).get());
         memberDao.save(MemberAdapter.dtoToEntity(memberDto));
         Member member = memberDao.getMemberByEmail(memberDto.getEmail()).get();
         return MemberAdapter.entityToDto(member);
     }
 
-    private Photo makeDefaultImg() throws IOException {
-        File file = new File("classpath:/static/img/default.png");
-        FileItem fileItem = new DiskFileItem("file", Files.probeContentType(file.toPath()), false, file.getName(), (int) file.length() , file.getParentFile());
-
-        InputStream input = new FileInputStream(file);
-        OutputStream os = fileItem.getOutputStream();
-        IOUtils.copy(input, os);
-        MultipartFile image = new CommonsMultipartFile(fileItem);
-
-        return insertImage(image);
-    }
 
     public Optional<MemberDto> getUser(String email) {
         Optional<Member> member = memberDao.getMemberByEmail(email);
@@ -98,8 +80,6 @@ public class MemberService {
         memberDto.setCreateDate(member.getCreateDate());
         if (memberDto.getImage() != null) {
             memberDto.setPhoto(insertImage(memberDto.getImage()));
-        } else {
-            memberDto.setPhoto(member.getPhoto());
         }
         memberDao.save(MemberAdapter.dtoToEntity(memberDto));
 
