@@ -43,10 +43,16 @@
           </v-list-tile-content>
         </v-list-tile>
 
-        <v-list-tile v-if="this.waitingReqests && this.waitingReqests!=0" active-class="green--text" to="/myfeed">
+        <v-list-tile
+          v-if="this.waitingReqests && this.waitingReqests != 0"
+          active-class="green--text"
+          to="/myfeed"
+        >
           <v-list-tile-content>
             <v-list-tile-title>
-              MYPAGE &nbsp;<b-badge pill variant="danger">{{ waitingReqests.length }}</b-badge>
+              MYPAGE &nbsp;<b-badge pill variant="danger">{{
+                waitingReqests.length
+              }}</b-badge>
             </v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
@@ -60,7 +66,7 @@
             <v-list-tile-title>PREMIUM</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-      
+
         <v-list-tile active-class="" @click.prevent="onClickLogout" to="/">
           <v-list-tile-content>
             <v-list-tile-title>LOGOUT</v-list-tile-title>
@@ -94,12 +100,9 @@
         </v-btn>
       </v-toolbar-items>
 
-      
-
       <v-toolbar-items class="hidden-sm-and-down" v-else>
-
         <v-btn flat to="/feed" active-class="green--text headline">Feed</v-btn>
-        
+
         <v-btn flat to="/teamlist" active-class="green--text headline"
           >Teamlist</v-btn
         >
@@ -109,16 +112,19 @@
         <v-btn flat to="/challenge" active-class="green--text headline"
           >Challenges</v-btn
         >
-        <v-btn v-if="this.waitingReqests && this.waitingReqests!=0" flat to="/myfeed" active-class="green--text headline"
-          >
+        <v-btn
+          v-if="this.waitingReqests && this.waitingReqests != 0"
+          flat
+          to="/myfeed"
+          active-class="green--text headline"
+        >
           <v-badge color="red" overlab>
             <template v-slot:badge>
               <span class="badge">{{ waitingReqests.length }}</span>
             </template>
             <span>MyPAGE</span>
           </v-badge>
-          </v-btn
-        >
+        </v-btn>
         <v-btn v-else flat to="/myfeed" active-class="green--text headline"
           >MyPAGE</v-btn
         >
@@ -126,7 +132,7 @@
         <v-btn flat to="/payhome" active-class="green--text headline"
           >PREMIUM</v-btn
         >
-      
+
         <v-btn flat to="/" active-class="" @click.prevent="onClickLogout"
           >Logout</v-btn
         >
@@ -151,16 +157,19 @@ export default {
   },
   data() {
     return {
-      drawer: null,
+      drawer: null
     };
   },
   computed: {
     waitingReqests: function() {
-      if (this.managingTeam.member.memberId == this.memberInfo.memberId) {
+      if (
+        !$.isEmptyObject(this.managingTeam) &&
+        this.managingTeam.member.memberId == this.memberInfo.memberId
+      ) {
         return this.joinRequests.filter(i => i.status.includes("WAITING"));
       }
     },
-    ...mapState(["memberInfo", "isLogin", "managingTeam", "joinRequests"]),
+    ...mapState(["memberInfo", "isLogin", "managingTeam", "joinRequests"])
   },
   created() {
     console.log(this.waitingReqests);
@@ -179,7 +188,7 @@ export default {
         .catch(() => {
           console.log("로그아웃 에러입니다.");
         });
-    },
+    }
   }
 };
 </script>
@@ -189,5 +198,4 @@ export default {
   text-align: center;
   text-justify: center;
 }
-
 </style>
