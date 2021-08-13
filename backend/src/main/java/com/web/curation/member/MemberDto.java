@@ -2,9 +2,11 @@ package com.web.curation.member;
 
 import java.time.LocalDateTime;
 
+import com.web.curation.files.Photo;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter
@@ -23,4 +25,6 @@ public class MemberDto {
 	private String mbti;
 	private LocalDateTime createDate;
 	private Boolean authenticated;
+	private MultipartFile image;
+	private Photo photo;
 }

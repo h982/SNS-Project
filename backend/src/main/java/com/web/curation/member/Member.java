@@ -2,6 +2,7 @@ package com.web.curation.member;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.web.curation.files.Photo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -52,7 +53,11 @@ public class Member {
 	
 	@Column(nullable = false, length = 5)
 	private String mbti;
-	
+
+	@OneToOne
+	@JoinColumn(name = "PHOTO_ID")
+	private Photo photo;
+
 	@CreationTimestamp
     @JsonIgnore
 	private LocalDateTime createDate;

@@ -15,6 +15,7 @@ public class MemberAdapter {
 				.point(member.getPoint())
 				.mbti(member.getMbti())
 				.authenticated(member.getAuthenticated())
+				.photo(member.getPhoto())
 				.build();
 	}
 	
@@ -33,6 +34,7 @@ public class MemberAdapter {
 				.mbti(memberDto.getMbti())
 				.createDate(memberDto.getCreateDate())
 				.authenticated(memberDto.getAuthenticated())
+				.photo(memberDto.getPhoto())
 				.build();
 	}
 }
