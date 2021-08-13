@@ -20,6 +20,7 @@ import PayHome from "@/views/Pay/PayHome.vue";
 import Payment from "@/views/Pay/Payment.vue";
 import Result from "@/views/Pay/Result.vue";
 import Certification from "@/views/Pay/Certification.vue";
+import MemberDetail from "@/views/user/MemberDetail.vue";
 Vue.use(Router);
 Vue.use(Meta);
 
@@ -293,6 +294,12 @@ export default new Router({
       path: '/result',
       name: 'Result',
       component: Result,
+    },
+    {
+      path: '/memberdetail',
+      name: 'MemberDetail',
+      component: MemberDetail,
+      beforeEnter: requireAuth()
     },
   ]
 });
