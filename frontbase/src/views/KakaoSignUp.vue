@@ -152,9 +152,12 @@ export default {
   },
   created() {
       if(this.$route.query.email != null){
+        console.log("Google Login");
         this.member.email = this.$route.query.email;
+        this.checkingSocial=true;
       }
       else{
+        console.log("Kakao Login");
         console.log(this.$route.query.code);
         this.getKakaoUserInfo();
         this.checkingSocial=false;
