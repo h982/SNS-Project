@@ -1,12 +1,13 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import jwt_decode from "jwt-decode";
+import createPersistedState from "vuex-persistedstate";
 import { findById } from "@/api/user.js";
 import { createInstance } from "../api/teamindex";
-import http from "@/util/http-common";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
+  plugins: [createPersistedState()],
   state: {
     isLogin: false, // 로그인 여부
     memberInfo: null,
@@ -38,7 +39,10 @@ export default new Vuex.Store({
     myFeeds: [],
 
     //TOken
-    token: ""
+    token: "",
+
+    feedLike: "", // 현재 피드의 좋아요 상태
+    likeList: [] // 내가 좋아요한 피드들
   },
 
   getters: {
@@ -111,23 +115,38 @@ export default new Vuex.Store({
     //TOken
     getToken(state) {
       return state.token;
+    },
+    feedLike(state) {
+      return state.feedLike;
+    },
+    likeList(state) {
+      return state.likeList;
     }
   },
   mutations: {
     setIsLogined(state, isLogin) {
       state.isLogin = isLogin;
     },
+    SET_AUTHENTICATED(state, authenticated) {
+      state.memberInfo.authenticated = authenticated;
+    },
     setMemberInfo(state, memberInfo) {
       state.isLogin = true;
+      state.memberInfo=null;
       state.memberInfo = memberInfo;
     },
     logout(state) {
       state.isLogin = false;
       state.memberInfo = null;
     },
-    setFeeds(state, payload) {
-      state.feeds = payload;
+    setFeeds(state, data) {
+      state.feeds = state.feeds.concat(data);
     },
+    setInitFeeds(state, data) {
+      state.feeds.length = 0;
+      state.feeds = data;
+    },
+
     setMyFeeds(state, payload) {
       state.myFeeds = payload;
     },
@@ -206,21 +225,31 @@ export default new Vuex.Store({
     SET_ONEFEED(state, data) {
       state.oneFeed = data;
     },
+    
     SET_MANAGING_TEAM_MEMBERS(state, payload) {
       state.managingTeamMembers = payload;
     },
     //Token
     setToken(state, token) {
       state.token = token;
+    },
+    SET_FEEDLIKE(state, payload) {
+      state.feedLike = payload;
+    },
+    SET_LIKELIST(state, payload) {
+      state.likeList = payload;
     }
   },
   actions: {
     async GET_MEMBER_INFO({ commit }, token) {
       let decode = jwt_decode(token);
+      console.log(decode);
       await findById(
         decode.memberEmail,
         response => {
           if (response.data.message === "success") {
+            console.log("유저정보 있음: ");
+            console.log(response.data.memberInfo);
             commit("setMemberInfo", response.data.memberInfo);
             commit("setToken", token);
           } else {
@@ -330,16 +359,16 @@ export default new Vuex.Store({
         .get("/feed/" + payload.memberId + "/" + payload.page)
         .then(response => {
           console.log(response.data);
-          commit("setFeeds", response.data.object);
+          commit("setInitFeeds", response.data.object);
         })
         .catch(() => {
           //alert("에러발생");
         });
     },
-    getMyFeeds({ commit }) {
+    getMyFeeds({ commit }, payload) {
       const instance = createInstance();
       instance
-        .get("/myfeed")
+        .get("/feed/member/" + payload)
         .then(response => {
           console.log(response);
           commit("setMyFeeds", response.data.object);
@@ -437,11 +466,34 @@ export default new Vuex.Store({
         .then(({ data }) => {
           console.log("changeTeamLeader : " + data.message);
         });
-    }
+    },
     // changeTeamLeader({commit}, {teamId, memberId}) {
     //   http.put("/team/leader/"+memberId+"?teamId="+teamId).then(({ data }) => {
     //     console.log("changeTeamLeader : " + data.message);
     //   });
     // },
+    GET_FEEDLIKE(context, feedId) {
+      const instance = createInstance();
+      instance
+        .get("/feedlike/feed/" + feedId)
+        .then(({ data }) => {
+          // console.log(data.object);
+          context.commit("SET_FEEDLIKE", data.object);
+        })
+        .catch(() => {
+          console.log("에러발생");
+        });
+    },
+    GET_LIKELIST(context, memberId) {
+      const instance = createInstance();
+      instance
+        .get("/feedlike/member/" + memberId)
+        .then(({ data }) => {
+          context.commit("SET_LIKELIST", data.object);
+        })
+        .catch(() => {
+          console.log("에러발생");
+        });
+    }
   }
 });

@@ -72,7 +72,8 @@
 </template>
 
 <script>
-import http from "@/util/http-common";
+// import http from "@/util/http-common";
+import { createInstance } from "@/api/teamindex.js";
 import { mapGetters } from "vuex";
 import TeamHeader from '@/components/TeamHeader.vue';
 export default {
@@ -122,8 +123,9 @@ export default {
         },
         createHandler() {
             // 공지사항 글쓰기
+            const instance = createInstance(); 
             this.teamId = this.selectTeam.teamId;
-                http.post("/board", {
+                instance.post("/board", {
                     teamId: this.teamId,
                     title: this.title,
                     contents: this.contents,
@@ -145,9 +147,10 @@ export default {
         },
         updateHandler() {
             // 공지사항 글수정
+            const instance = createInstance(); 
             console.log(this.boardId);
                 //console.log("공지사항글수정");
-                http.put(`/board`, {
+                instance.put(`/board`, {
                     boardId: this.boardId,
                     writer: this.writer,
                     title: this.title,
@@ -179,7 +182,8 @@ export default {
     if (this.type === "modify") {
         // 공지사항 게시글 하나 불러오기
             //console.log("공지사항 하나 get");
-            http.get(`/board/${this.$route.query.boardId}`)
+            const instance = createInstance();
+            instance.get(`/board/${this.$route.query.boardId}`)
                 .then(({ data }) => {
                     this.boardId = data.object.boardId;
                     this.writeDate = data.object.writeDate;

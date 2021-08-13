@@ -120,8 +120,12 @@
         <v-btn large flat to="/teamlist" class="green--text">
           <v-icon>arrow_back</v-icon>Back to Teamlist
         </v-btn>
+        <v-btn @click="check()">
+          
+        </v-btn>
       </v-layout>
     </v-layout>
+
   </v-container>
 </template>
 
@@ -203,9 +207,9 @@ export default {
         (response) => {
           console.log(response);
           if (response.status === 201) {
-            alert("가입 요청 완료");
+            // alert("가입 요청 완료");
           } else {
-            alert("가입 요청 실패");
+            // alert("가입 요청 실패");
           }
         }
       )
@@ -238,8 +242,7 @@ export default {
       }
     },
     check(){
-      console.log(this.selectTeam);
-      console.log(this.team_challenging);
+      console.log(this.memberInfo);
     },
     getColor (point) {
       if (point > 100) return 'green'

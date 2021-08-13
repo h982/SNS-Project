@@ -114,6 +114,20 @@
     width: calc(100% - 50px);
     display: flex;
     justify-content: space-between;
+    .user_wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 0.5em;
+    }
+    .profile {
+      width: 28px;
+      height: 28px;
+      background-image: url('../../../assets/images/profile_default.png');
+      background-size: cover;
+      border-radius: 50%;
+      margin-right: 0.5em;
+    }
   }
   .content {
     p {
@@ -137,13 +151,15 @@
     position: absolute;
     top: 0;
     right: 1em;
+
     .likeBtn {
+      display: block;
       right: 0;
       width: 30px;
       height: 30px;
-      background-image: url('../../../assets/heart.png');
-      background-size: cover;
       margin: 0.5em 0;
+      z-index: 10;
+      background-size: cover;
     }
   }
 

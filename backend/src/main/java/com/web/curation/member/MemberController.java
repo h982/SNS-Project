@@ -148,6 +148,31 @@ public class MemberController {
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
 
+    @ApiOperation(value = "회원결제", notes = "회원 authenticated 변경한다.", response = Map.class)
+    @GetMapping("/{email}")
+    public ResponseEntity<Map<String, Object>> updateAuthenticate(
+            @PathVariable("email") @ApiParam(value = "인증할 회원의 이메일.", required = true) String memberEmail,
+            HttpServletRequest request) {
+        System.out.println("회원결제");
+        Map<String, Object> resultMap = new HashMap<>();
+        HttpStatus status = HttpStatus.ACCEPTED;
+
+        if (jwtService.isUsable(request.getHeader("access-token"))) {
+            try {
+                memberService.updateMemberAuthenticate(memberEmail);
+                resultMap.put("message", "success");
+                status = HttpStatus.ACCEPTED;
+            } catch (Exception e) {
+                resultMap.put("message", e.getMessage());
+                status = HttpStatus.INTERNAL_SERVER_ERROR;
+            }
+        } else {
+            resultMap.put("message", "fail");
+            status = HttpStatus.CONFLICT;
+        }
+        return new ResponseEntity<Map<String, Object>>(resultMap, status);
+    }
+
     @ApiOperation(value = "회원정보 수정")
     @PutMapping
     public ResponseEntity<Map<String, Object>> updateInfo(@RequestBody MemberDto memberDto) throws IOException {
@@ -265,6 +290,19 @@ public class MemberController {
         }
 
         return userInfo;
+    }
+	
+	@ApiOperation(value = "구글 로그인 사용자 체크")
+    @GetMapping("/google")
+    public ResponseEntity<Map<String, Object>> googleLogin(@RequestParam String email){
+        Map<String, Object> resultMap = new HashMap<>();
+        
+        Optional<MemberDto> dto = memberService.getMemberByEmail(email);
+        
+        resultMap.put("message", "카카오 유저 정보");
+        resultMap.put("data", dto);
+
+        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/naverlogin", method = {RequestMethod.GET, RequestMethod.POST})

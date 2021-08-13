@@ -93,4 +93,8 @@ public class MemberService {
     }
 
 
+	public void updateMemberAuthenticate(String email) {
+		memberDao.updateAuthentication(email);
+	}
+
 }

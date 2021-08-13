@@ -111,7 +111,8 @@
 import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
 import { mapGetters, mapState } from 'vuex';
-import { createInstance } from "@/api/index.js";
+// import { createInstance } from "@/api/index.js";
+import { createInstance } from "@/api/teamindex.js";
 import ListRowWholeChallenge from "@/components/ListRowWholeChallenge.vue";
 import ListRowTeamChallenge from "@/components/ListRowTeamChallenge.vue";
 import TeamHeader from "@/components/TeamHeader.vue"

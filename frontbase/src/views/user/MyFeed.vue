@@ -8,7 +8,7 @@
       <v-card   elevation="0">
         <h5>{{memberInfo.name}}   <v-btn @click="move()" icon elevation="0"><v-icon>settings</v-icon></v-btn></h5>
         <br>
-        <h6>게시물: {{feeds.length}} &nbsp&nbsp 가입된그룹:{{myTeamList.length}} &nbsp&nbsp  도전중인 챌린지: {{feed_challenging.length}}</h6>
+        <h6>게시물: {{myFeeds.length}} &nbsp&nbsp 가입된그룹:{{myTeamList.length}} &nbsp&nbsp  도전중인 챌린지: {{feed_challenging.length}}</h6>
       </v-card>
     </v-layout>
     <hr style="height:1px;border:none;color:#333;background-color:#333;" />

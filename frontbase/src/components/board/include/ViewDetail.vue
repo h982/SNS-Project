@@ -54,7 +54,8 @@
 
 <script>
 import { mapGetters } from "vuex";
-import http from "@/util/http-common";
+// import http from "@/util/http-common";
+import { createInstance } from "@/api/teamindex.js";
 import TeamHeader from '@/components/TeamHeader.vue';
 
 export default {
@@ -72,8 +73,9 @@ export default {
     },
   methods: {
    deleteBoard() {
+            const instance = createInstance();
             if (confirm("삭제하시겠습니까?")) {
-                    http.delete(`/board/${this.boardId}`).then(({ data }) => {
+                    instance.delete(`/board/${this.boardId}`).then(({ data }) => {
                         let msg = "삭제 처리시 문제가 발생했습니다.";
                         if (data.data === "success") {
                             msg = "삭제가 완료되었습니다.";
