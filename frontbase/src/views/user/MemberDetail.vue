@@ -6,7 +6,7 @@
     </h2>
     <v-layout justify-center align-center wrap class="mt-4 pt-2">
       <v-card   elevation="0">
-        <h5>{{memberInfo.name}}   <v-btn @click="move()" icon elevation="0"><v-icon>settings</v-icon></v-btn></h5>
+        <h5>{{memberInfo.name}}</h5>
         <br>
         <h6>게시물: {{myFeeds.length}} &nbsp;&nbsp; 가입된그룹:{{myTeamList.length}} &nbsp;&nbsp;  도전중인 챌린지: {{feed_challenging.length}}</h6>
       </v-card>
@@ -68,12 +68,9 @@ export default {
     };
   },
   methods:{
-    move(){
-      this.$router.push("/mypage");
-    },
     check(){
       console.log(this.myFeeds);
-    }
+    },
   }
 };
 </script>
