@@ -1,15 +1,13 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import jwt_decode from "jwt-decode";
-import createPersistedState from 'vuex-persistedstate';
+import createPersistedState from "vuex-persistedstate";
 import { findById } from "@/api/user.js";
 import { createInstance } from "../api/teamindex";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  plugins: [
-    createPersistedState(),
-  ],
+  plugins: [createPersistedState()],
   state: {
     isLogin: false, // 로그인 여부
     memberInfo: null,
@@ -41,7 +39,10 @@ export default new Vuex.Store({
     myFeeds: [],
 
     //TOken
-    token: ""
+    token: "",
+
+    feedLike: "", // 현재 피드의 좋아요 상태
+    likeList: [] // 내가 좋아요한 피드들
   },
 
   getters: {
@@ -114,6 +115,12 @@ export default new Vuex.Store({
     //TOken
     getToken(state) {
       return state.token;
+    },
+    feedLike(state) {
+      return state.feedLike;
+    },
+    likeList(state) {
+      return state.likeList;
     }
   },
   mutations: {
@@ -133,7 +140,7 @@ export default new Vuex.Store({
       state.memberInfo = null;
     },
     setFeeds(state, data) {
-      state.feeds = state.feeds.concat(data);;
+      state.feeds = state.feeds.concat(data);
     },
     setInitFeeds(state, data) {
       state.feeds.length = 0;
@@ -225,6 +232,12 @@ export default new Vuex.Store({
     //Token
     setToken(state, token) {
       state.token = token;
+    },
+    SET_FEEDLIKE(state, payload) {
+      state.feedLike = payload;
+    },
+    SET_LIKELIST(state, payload) {
+      state.likeList = payload;
     }
   },
   actions: {
@@ -352,10 +365,10 @@ export default new Vuex.Store({
           //alert("에러발생");
         });
     },
-    getMyFeeds({ commit },payload) {
+    getMyFeeds({ commit }, payload) {
       const instance = createInstance();
       instance
-        .get("/feed/member/"+payload)
+        .get("/feed/member/" + payload)
         .then(response => {
           console.log(response);
           commit("setMyFeeds", response.data.object);
@@ -447,5 +460,40 @@ export default new Vuex.Store({
         commit("SET_MANAGING_TEAM_MEMBERS", data.data);
       });
     },
+    changeTeamLeader({ teamId, memberId }) {
+      http
+        .get("/team/leader/" + memberId + "?teamId=" + teamId)
+        .then(({ data }) => {
+          console.log("changeTeamLeader : " + data.message);
+        });
+    },
+    // changeTeamLeader({commit}, {teamId, memberId}) {
+    //   http.put("/team/leader/"+memberId+"?teamId="+teamId).then(({ data }) => {
+    //     console.log("changeTeamLeader : " + data.message);
+    //   });
+    // },
+    GET_FEEDLIKE(context, feedId) {
+      const instance = createInstance();
+      instance
+        .get("/feedlike/feed/" + feedId)
+        .then(({ data }) => {
+          // console.log(data.object);
+          context.commit("SET_FEEDLIKE", data.object);
+        })
+        .catch(() => {
+          console.log("에러발생");
+        });
+    },
+    GET_LIKELIST(context, memberId) {
+      const instance = createInstance();
+      instance
+        .get("/feedlike/member/" + memberId)
+        .then(({ data }) => {
+          context.commit("SET_LIKELIST", data.object);
+        })
+        .catch(() => {
+          console.log("에러발생");
+        });
+    }
   }
 });
