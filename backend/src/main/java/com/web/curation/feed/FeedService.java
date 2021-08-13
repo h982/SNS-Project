@@ -79,7 +79,7 @@ public class FeedService {
         List<JoinTeam> joinTeamList = joinTeamDao.findJoinTeamByMember(chkMember);
         List<Team> teamForSearch = new ArrayList<>();
         joinTeamList.forEach(joinTeam -> teamForSearch.add(joinTeam.getTeam()));
-        if(teamForSearch.isEmpty()) return Collections.emptyList();
+        if (teamForSearch.isEmpty()) return Collections.emptyList();
         List<Feed> feeds = feedDao.findAllJoinFetch(teamForSearch, pageRequest);
         if (feeds == null) {
             return Collections.emptyList();
@@ -128,7 +128,7 @@ public class FeedService {
 
     @Transactional
     public void updateFeedWithNoImg(FeedDto feedDto) throws IOException {
-        feedDao.findById(feedDto.getFeedId())
+        Feed oldFeed = feedDao.findById(feedDto.getFeedId())
                 .orElseThrow(() -> new CustomException(FEED_NOT_FOUND));
         Member member = memberDao.findById(feedDto.getMemberId())
                 .orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
@@ -138,6 +138,8 @@ public class FeedService {
         feedDto.setMember(member);
         feedDto.setTeam(team);
         Feed feed = FeedAdaptor.dtoToEntity(feedDto);
+        feed.setPhotos(oldFeed.getPhotos());
+
         if (feedDto.getTeamchallengeId() != 0) {
             feed.setTeamchallenge(teamChallengeDao.findById(feedDto.getTeamchallengeId())
                     .orElseThrow(() -> new CustomException(TEAM_CHALLENGE_NOT_FOUND)));
