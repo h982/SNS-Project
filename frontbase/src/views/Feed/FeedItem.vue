@@ -63,6 +63,7 @@ export default {
     ...mapGetters(["memberInfo", "myTeamList", "feedLike", "likeList"])
   },
   created() {
+    this.likeLists = this.likeList;
     for (let index = 0; index < this.likeList.length; index++) {
       if (
         this.feed.feedId == this.likeList[index].feedId &&
@@ -90,6 +91,13 @@ export default {
           .then(response => {
             if (response.data.data === "success") {
               this.isLike = true;
+              const instance = createInstance();
+              instance
+                .get("/feedlike/feed/" + this.feed.feedId)
+                .then(({ data }) => {
+                  this.feedlikeId = data.object[0].feedlikeId;
+                })
+                .catch(() => {});
               alert("좋아요!");
             } else {
               alert("좋아요실패");

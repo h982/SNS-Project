@@ -43,8 +43,7 @@ export default {
       page: 0,
       scrollHeight: 0,
       scrollTop: 0,
-      clientHeight: 0,
-      feedsList: []
+      clientHeight: 0
     };
   },
   components: {
@@ -60,10 +59,10 @@ export default {
     this.feedget.page = 0;
     this.page = 0;
     this.$store.dispatch("getFeeds", this.feedget);
+    this.$store.dispatch("GET_LIKELIST", this.memberInfo.memberId);
     this.$store.dispatch("GET_MY_TEAM_INFO", this.memberInfo.memberId);
     this.$store.dispatch("getTeamLists");
     this.$store.dispatch("GET_ENTIRECHALLENGE_INFO", this.memberInfo.memberId);
-    this.$store.dispatch("GET_LIKELIST", this.memberInfo.memberId);
     this.$store.dispatch("getMyFeeds", this.memberInfo.memberId);
   },
   methods: {
