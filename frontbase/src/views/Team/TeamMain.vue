@@ -120,9 +120,9 @@
         <v-btn large flat to="/teamlist" class="green--text">
           <v-icon>arrow_back</v-icon>Back to Teamlist
         </v-btn>
-        <v-btn @click="check()">
+        <!-- <v-btn @click="check()">
           
-        </v-btn>
+        </v-btn> -->
       </v-layout>
     </v-layout>
 
