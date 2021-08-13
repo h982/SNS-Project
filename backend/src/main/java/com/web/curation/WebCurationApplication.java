@@ -8,7 +8,7 @@ import org.springframework.boot.context.ApplicationPidFileWriter;
 public class WebCurationApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(WebCurationApplication.class, args);
+		SpringApplication app = new SpringApplication(WebCurationApplication.class);
 		app.addListeners(new ApplicationPidFileWriter()); // pid 파일을 생성하는 writer 등록
 		app.run(args);
 	}
