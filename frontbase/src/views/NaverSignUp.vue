@@ -33,6 +33,14 @@
             label="상세주소"
           ></v-text-field>
 
+          <v-text-field
+            name="member.phone"
+            color="green"
+            background-color="transparent"
+            v-model="member.phone"
+            label="전화번호"
+          ></v-text-field>
+
           <v-select
             v-model="sex"
             :items="sexList"
@@ -160,8 +168,6 @@ export default {
                 this.checkingSocial=true;
                 this.member.email = response.data.email;
                 this.member.name = response.data.name;
-                this.member.phone = response.data.phone;
-              
               }
             })
     },

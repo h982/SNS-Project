@@ -118,13 +118,12 @@ import banner4 from "@/assets/images/banner4.jpg";
 import GoogleLogin from 'vue-google-login';
 import naverid from "@/assets/images/naverid.png";
 import { createInstance } from "@/api/index.js";
-
 export default {
   components: {
     "vue-typer": VueTyper,
     VueCompareImage,
     GoogleLogin,
-    naverid
+    naverid,
   },
   computed: {
     ...mapGetters(["memberInfo"])

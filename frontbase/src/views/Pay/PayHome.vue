@@ -1,44 +1,49 @@
 <template>
   <div>
-    <div class="exp-container">
+    <div data-aos="fade-down">
       <br>
       <h1>프리미엄 서비스</h1>
-    
     </div>
+
+    <div data-aos="fade-right"></div>
+
+
+
     <div class="imp-home">
-      <div class="nav-container">
+      <div>
         <router-link to="/payment">
           <a-icon type="credit-card" />
           결제
         </router-link>
-        
       </div>
     </div>
   </div>
 </template>
+<script>
+export default {
+  data() {
+    return {
+    
+    };
+  },
+  components: {
+  },
+  computed: {
+  },
+  mounted() {},
+  created() {
+  
+
+  },
+  methods: {
+    
+  }
+};
+</script>
 
 <style>
-.exp-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 50%;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
 
-}
 
-.imp-home {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #fff;
-}
   .nav-container {
     display: flex;
     align-items: center;

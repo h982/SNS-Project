@@ -335,9 +335,7 @@ public class MemberController {
         JSONObject jsonObj = (JSONObject) obj;
         JSONObject response_obj = (JSONObject) jsonObj.get("response");
         String email = (String) response_obj.get("email");
-        String phone = (String) response_obj.get("mobile");
         String name = (String) response_obj.get("name");
-        phone = phone.replaceAll("-", "");
 
         session.setAttribute("sessionId", email);
         model.addAttribute("result", apiResult);
@@ -355,7 +353,6 @@ public class MemberController {
             resultMap.put("message", "needcreate");
             resultMap.put("email", email);
             resultMap.put("name", name);
-            resultMap.put("phone", phone);
             status = HttpStatus.CREATED;
         }
 
