@@ -23,7 +23,7 @@
 
     <br />
 
-    <vue-typer class="headline" :repeat="0" text="혼자 뭐하니?"></vue-typer>
+    <vue-typer class="headline" :repeat="0" text="혼자 뭐하니?2"></vue-typer>
     <vue-typer
       :text="text1"
       :repeat="Infinity"
