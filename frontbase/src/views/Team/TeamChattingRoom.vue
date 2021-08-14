@@ -22,7 +22,7 @@
             </div>
         </div>
         <hr />
-        <input type="text" v-model="content" placeholder="보낼 메시지" size="100" />
+        <input type="text" @keyup.enter="sendMessage()" v-model="content" placeholder="보낼 메시지" size="100" />
         <button @click="sendMessage()"> SEND</button>  
     </div>
 </template>
@@ -74,6 +74,9 @@ export default {
                         'writeDate': resMsg[i].writeDate
                     }
                     this.msg.push(m)
+                    if(this.msg.length>10){
+                        this.msg.shift();
+                    }
                 }
 
                 console.log(this.msg);
@@ -88,7 +91,6 @@ export default {
         this.stompClient.connect({}, frame=>{
             console.log("success", frame)
             this.stompClient.subscribe("/sub/"+this.selectTeam.teamId, res=>{
-                console.log("aa");
                 let jsonBody = JSON.parse(res.body)
                 let m={
                     'senderNickname':jsonBody.writer,
@@ -97,6 +99,9 @@ export default {
                     'writeDate': jsonBody.writeDate
                 }
                 this.msg.push(m)
+                if(this.msg.length>10){
+                    this.msg.shift();
+                }
             })
         }, err=>{
             console.log("fail", err)

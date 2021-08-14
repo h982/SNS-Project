@@ -6,37 +6,34 @@
     </div>
 
     <div data-aos="fade-right"></div>
-
-
-
     <div class="imp-home">
       <div>
-        <router-link to="/payment">
+        <v-btn @click="goPay()">
           <a-icon type="credit-card" />
           결제
-        </router-link>
+        </v-btn>
       </div>
     </div>
   </div>
 </template>
 <script>
-export default {
-  data() {
-    return {
-    
-    };
-  },
-  components: {
-  },
-  computed: {
-  },
-  mounted() {},
-  created() {
-  
+import { mapGetters } from 'vuex';
 
+export default {
+  
+  computed: {
+    ...mapGetters(["memberInfo"]),
   },
+  
+  
   methods: {
-    
+    goPay(){
+      if(!this.memberInfo.authenticated){
+        this.$router.push("/payment");
+      }else{
+        alert("이미 프리미엄 회원입니다.")
+      }
+    }
   }
 };
 </script>

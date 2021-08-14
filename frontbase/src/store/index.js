@@ -142,6 +142,9 @@ export default new Vuex.Store({
     logout(state) {
       state.isLogin = false;
       state.memberInfo = null;
+      state.team_challenging.length = 0;
+      state.feed_challenging.length = 0;
+      state.whole_challenges.length = 0;
     },
     setFeeds(state, data) {
       state.feeds = state.feeds.concat(data);
