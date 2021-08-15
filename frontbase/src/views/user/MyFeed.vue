@@ -3,6 +3,7 @@
     <v-toolbar-title class="headline">
       <span><b>My</b></span>
       <span class="green--text"><b>Feed</b></span>
+      <v-btn @click="check()"></v-btn>
     </v-toolbar-title>
     <v-layout justify-center align-center wrap class="mt-4 pt-2">
       <v-card   elevation="0">

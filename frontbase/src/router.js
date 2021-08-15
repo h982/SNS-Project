@@ -299,7 +299,6 @@ export default new Router({
       path: '/memberdetail',
       name: 'MemberDetail',
       component: MemberDetail,
-      beforeEnter: requireAuth()
     },
   ]
 });

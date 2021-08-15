@@ -43,7 +43,9 @@ export default new Vuex.Store({
     token: "",
 
     feedLike: "", // 현재 피드의 좋아요 상태
-    likeList: [] // 내가 좋아요한 피드들
+    likeList: [], // 내가 좋아요한 피드들
+    yourFeeds: [],
+    yourInfo: null,
   },
 
   getters: {
@@ -76,6 +78,9 @@ export default new Vuex.Store({
     },
     memberInfo(state) {
       return state.memberInfo;
+    },
+    yourInfo(state) {
+      return state.yourInfo;
     },
     joinRequests(state) {
       return state.joinRequests;
@@ -112,6 +117,9 @@ export default new Vuex.Store({
     },
     myFeeds(state) {
       return state.myFeeds;
+    },
+    yourFeeds(state) {
+      return state.yourFeeds;
     },
     //TOken
     getToken(state) {
@@ -156,6 +164,10 @@ export default new Vuex.Store({
 
     setMyFeeds(state, payload) {
       state.myFeeds = payload;
+    },
+    setYourFeeds(state, payload) {
+      state.yourFeeds.length = 0;
+      state.yourFeeds = payload;
     },
     setTeamFeeds(state, payload) {
       state.teamFeeds = payload;
@@ -248,6 +260,9 @@ export default new Vuex.Store({
     },
     SET_SELECT_TEAM_MEMBERS(state, payload) {
       state.selectTeamMembers = payload;
+    },
+    SET_INFO(state, payload) {
+      state.yourInfo = payload;
     },
   },
   actions: {
@@ -385,6 +400,29 @@ export default new Vuex.Store({
         })
         .catch(() => {
           //alert("에러발생");
+        });
+    },
+    async getYourFeeds({ commit }, payload) {
+      const instance = createInstance();
+      await instance
+        .get("/feed/member/" + payload)
+        .then(response => {
+          console.log(response);
+          commit("setYourFeeds", response.data.object);
+        })
+        .catch(() => {
+          //alert("에러발생");
+        });
+    },
+    getMemberByEmail({ commit }, payload) {
+      const instance = createInstance();
+      instance
+        .get("/member/your/" + payload)
+        .then(response => {
+          commit("SET_INFO", response.data.object);
+        })
+        .catch(() => {
+          alert("에러발생");
         });
     },
     getMyTeamFeeds({ commit }, teamId) {
