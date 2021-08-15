@@ -144,7 +144,7 @@ export default new Vuex.Store({
     },
     setMemberInfo(state, memberInfo) {
       state.isLogin = true;
-      state.memberInfo=null;
+      state.memberInfo = null;
       state.memberInfo = memberInfo;
     },
     logout(state) {

@@ -3,8 +3,8 @@
     <v-layout row justify-center align-center wrap class="mt-4 pt-2">
       <v-flex xs12 sm12 md6 lg6 xl6>
         <h2 class="pb-4 mb-4">
-          <span>회원정보</span>
-          <span class="green--text">변경</span>
+          <span><b>회원정보</b></span>
+          <span class="green--text"><b>변경</b></span>
         </h2>
 
         <form method="POST">
@@ -65,13 +65,28 @@
             label="상세주소"
           ></v-text-field>
 
+          <v-select
+            v-model="mbti"
+            :items="mbtiList"
+            label="MBTI"
+            item-text="name"
+            item-value="value"
+            return-object
+          ></v-select>
+
+          
+
           <v-btn
             type="button"
             color="green" class="white--text"
             @click="modify"
-          >SEND MESSAGE</v-btn>
-          <v-btn @click="clear">clear</v-btn>
+          >회원 변경</v-btn>
+          <v-btn @click="clear">초기화</v-btn>
+          <v-btn large flat to="/mypage" class="green--text">
+          <v-icon>arrow_back</v-icon>뒤로가기
+        </v-btn>
         </form>
+        
       </v-flex>
     </v-layout>
   </v-container>
@@ -93,17 +108,35 @@ export default {
     this.member.email = this.memberInfo.email;
     this.member.phone =this.memberInfo.phone;
     this.member.address = this.memberInfo.address;
-    this.member.addressDetail =this.memberInfo.addressDetail;
-    this.member.zonecode =this.memberInfo.zonecode;
-    this.member.sex =this.memberInfo.sex;
-    this.member.point =this.memberInfo.point;
-    this.member.mbti =this.memberInfo.mbti;
+    this.member.addressDetail = this.memberInfo.addressDetail;
+    this.member.zonecode = this.memberInfo.zonecode;
+    this.member.sex = this.memberInfo.sex;
+    this.member.point = this.memberInfo.point;
+    this.member.mbti = this.memberInfo.mbti;
+    this.mbti = this.memberInfo.mbti;
     this.member.createDate =this.memberInfo.createdate;
     this.member.authenticated =this.memberInfo.authenticated;
     this.member.memberId =this.memberInfo.memberId;
   },
   data() {
     return {
+      mbtiList: [
+        { name: "istj", value: "istj" },
+        { name: "isfj", value: "isfj" },
+        { name: "infj", value: "infj" },
+        { name: "intj", value: "intj" },
+        { name: "istp", value: "istp" },
+        { name: "isfp", value: "isfp" },
+        { name: "infp", value: "infp" },
+        { name: "intp", value: "intp" },
+        { name: "estp", value: "estp" },
+        { name: "esfp", value: "esfp" },
+        { name: "entp", value: "entp" },
+        { name: "estj", value: "estj" },
+        { name: "esfj", value: "esfj" },
+        { name: "enfj", value: "enfj" },
+        { name: "entj", value: "entj" },
+      ],
       passwordConfirm:"",
       member: {
         memberId: 0,
@@ -132,17 +165,22 @@ export default {
   },
   methods: {
     clear() {
-      console.log(this.memberInfo);      
+      this.mbti.name = this.memberInfo.mbti;
+      this.mbti.value = this.memberInfo.mbti;
+      this.member.address = this.memberInfo.address;
+      this.member.addressDetail = this.memberInfo.addressDetail;
     },
     modify() {
       const instance = createInstance();
       console.log(this.member);
+      this.member.mbti = this.mbti.name;
+
       instance.put("/member", JSON.stringify(this.member))
       .then(
         (response) => {
           if (response.data.message === "success") {
             alert("회원변경 완료");
-            
+            this.$store.commit("setMemberInfo", this.member);
             this.$router.push("/");
           } else {
             alert("회원변경 실패");
