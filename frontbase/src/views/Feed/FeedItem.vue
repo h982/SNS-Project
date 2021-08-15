@@ -20,7 +20,7 @@
           }"
         ></div>
       </div>
-      <div class="contentsWrap" style="border-color:red">
+      <div class="contentsWrap">
         <div class="like_wrap" @click="changeLike">
           <img
             class="likeBtn"
