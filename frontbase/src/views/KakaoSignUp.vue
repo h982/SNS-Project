@@ -151,6 +151,7 @@ export default {
     };
   },
   created() {
+    alert("추가정보를 입력하셔야합니다.");
       if(this.$route.query.email != null){
         console.log("Google Login");
         this.member.email = this.$route.query.email;

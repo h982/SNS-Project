@@ -2,12 +2,30 @@
   <v-container grid-list-xl>
     <v-layout row justify-center align-center wrap class="mt-4 pt-2">
       <v-flex xs12 sm12 md6 lg6 xl6>
-        <h2 class="pb-4 mb-4">
-          <span>팀정보</span>
-          <span class="green--text">변경</span>
-        </h2>
+        <v-layout justify-start align-center data-aos="fade-up">
+          <v-toolbar-title class="headline">
+              <span><b>팀 </b></span>
+              <span class="green--text"><b>&nbsp;정보변경</b></span>
+          </v-toolbar-title>
+          <br><br><br><br>
+        </v-layout>
 
         <form method="POST">
+          <div class="img_wrap">
+            <v-btn color="green"
+            class="white--text"><label for="chooseFile">
+              팀 이미지
+            </label></v-btn>
+            <input
+              type="file"
+              id="chooseFile"
+              name="chooseFile"
+              accept="image/*"
+              @change="loadf"
+            />
+            <img v-bind:src="thumbnail" class="preview" />
+          </div>
+
           <v-text-field
             name="team.name"
             color="green"
@@ -19,7 +37,7 @@
           <v-btn
             @click="duplicateName"
             type="button"
-            color="blue"
+            color="green"
             class="white--text duplicate"
           >
             중복검사
@@ -33,20 +51,6 @@
             label="새로운 팀소개"
           ></v-text-field>
 
-          <div class="img_wrap">
-            <label for="chooseFile" class="fileBtn">
-              팀 썸네일
-            </label>
-            <input
-              type="file"
-              id="chooseFile"
-              name="chooseFile"
-              accept="image/*"
-              @change="loadf"
-            />
-            <img v-bind:src="thumbnail" class="preview" />
-          </div>
-          
           <br>
           <div class="buttons">
             <v-btn
