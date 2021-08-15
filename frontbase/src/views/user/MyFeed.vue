@@ -1,14 +1,20 @@
 <template>
   <v-container grid-list-xl>
     <v-toolbar-title class="headline">
-      <span>My</span>
-      <span class="green--text">Feed</span>
+      <span><b>My</b></span>
+      <span class="green--text"><b>Feed</b></span>
     </v-toolbar-title>
     <v-layout justify-center align-center wrap class="mt-4 pt-2">
       <v-card   elevation="0">
-        <p>{{memberInfo.name}}   <v-btn @click="move()" icon elevation="0"><v-icon>settings</v-icon></v-btn></p>
+        <v-chip :color="nameColor" dark>{{memberInfo.name}}<v-btn @click="move()" icon elevation="0"><v-icon>settings</v-icon></v-btn></v-chip>
         <br>
-        <p>게시물: {{myFeeds.length}} &nbsp&nbsp 가입된그룹:{{myTeamList.length}} &nbsp&nbsp  도전중인 챌린지: {{feed_challenging.length}}</p>
+        <p id ="nameColor"><b>
+            게시물: {{myFeeds.length}} &nbsp;&nbsp; 
+            가입된그룹:{{myTeamList.length}} &nbsp;&nbsp; 
+            포인트: {{memberInfo.point}} &nbsp;&nbsp;
+            Grade: {{grade}}
+          </b></p>
+        
       </v-card>
     </v-layout>
     <hr style="height:1px;border:none;color:#333;background-color:#333;" />
@@ -57,14 +63,32 @@ import { mapGetters } from "vuex";
 
 export default {
   computed:{
-    ...mapGetters(["memberInfo","feeds","myTeamList","feed_challenging","myFeeds"])
+    ...mapGetters(["memberInfo","feeds","myTeamList","team_challenging","myFeeds"])
+    
   },
   created(){
-  
+    if(this.memberInfo.authenticated){
+      this.grade ="Premium";
+    }
+  },
+  mounted(){
+    if(this.memberInfo.point>=100){
+      this.nameColor = "#9400D3"
+    }else if(this.memberInfo.point>=75){
+      this.nameColor = "#7AD7BE"
+    }else if(this.memberInfo.point>=50){
+      this.nameColor = "#FFA500"
+    }else if(this.memberInfo.point>=25){
+      this.nameColor = "#52478B"
+    }
+    var domObj = document.getElementById("nameColor");
+    domObj.style.color = this.nameColor;
   },
   data() {
     return {
       dialog: false,
+      grade : "Normal",
+      nameColor: "#8B4513"
     };
   },
   methods:{
@@ -79,4 +103,5 @@ export default {
 </script>
 
 <style  scoped>
+
 </style>

@@ -2,7 +2,7 @@
   <v-container grid-list-xl>
     <v-layout justify-center align-center class="mt-4 pt-2">
       <v-layout row wrap class="mt-4 pt-2">
-        <PostPreview2
+        <PostPreview
           v-for="post in myTeamList"
           :key="post.text.teamId"
           :name="post.text.name"
@@ -21,11 +21,11 @@
 
 <script>
 import { mapGetters } from "vuex";
-import PostPreview2 from "@/components/PostPreview2";
+import PostPreview from "@/components/PostPreview";
 
 export default {
   components: {
-    PostPreview2
+    PostPreview
   },
   computed: {
     ...mapGetters(["myTeamList","memberInfo"]),

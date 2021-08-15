@@ -10,20 +10,27 @@
             </v-bottom-navigation>
         </v-layout>
         
-        <h1>{{title}}</h1>
+        <v-layout align-center data-aos="fade-right">
+            <v-toolbar-title class="headline">
+                <span><b>채팅방</b></span>
+            </v-toolbar-title>
+            <br><br><br><br>
+        </v-layout>
         <hr />
         <div v-for="(m, idx) in msg" :key="idx">
             <div v-bind:class="m.style">
-                <h5 style="margin:3px">
+                <p style="margin:3px">
                     {{m.senderNickname}}
-                    </h5>
+                </p>
                 {{m.content}}
                 {{m.writeDate}}
             </div>
         </div>
         <hr />
-        <input type="text" v-model="content" placeholder="보낼 메시지" size="100" />
+        <v-layout justify-center align-center wrap class="mt-4 pt-2">
+        <input type="text" style="width:240px;" @keyup.enter="sendMessage()" v-model="content" placeholder="보낼 메시지" size="100" />
         <button @click="sendMessage()"> SEND</button>  
+        </v-layout>
     </div>
 </template>
 
@@ -74,6 +81,9 @@ export default {
                         'writeDate': resMsg[i].writeDate
                     }
                     this.msg.push(m)
+                    if(this.msg.length>10){
+                        this.msg.shift();
+                    }
                 }
 
                 console.log(this.msg);
@@ -88,7 +98,6 @@ export default {
         this.stompClient.connect({}, frame=>{
             console.log("success", frame)
             this.stompClient.subscribe("/sub/"+this.selectTeam.teamId, res=>{
-                console.log("aa");
                 let jsonBody = JSON.parse(res.body)
                 let m={
                     'senderNickname':jsonBody.writer,
@@ -97,6 +106,9 @@ export default {
                     'writeDate': jsonBody.writeDate
                 }
                 this.msg.push(m)
+                if(this.msg.length>10){
+                    this.msg.shift();
+                }
             })
         }, err=>{
             console.log("fail", err)
@@ -123,7 +135,7 @@ export default {
 <style scoped>
 .myMsg{
 text-align: right;
-color : gray;
+color : #FFA500;
 }
 .otherMsg{
     text-align: left;

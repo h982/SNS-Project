@@ -1,25 +1,12 @@
 <template>
   <div class="wrap">
-    <div class="challenge_wrap">
-      <label for="challenge" class="feedType">▼일상글|챌린지▼</label>
-      <select id="challenge" v-model="challenge" class="dailyFeed">
-        <option>일상글</option>
-        <option
-          v-for="(challenge, idx) in feed_challenging"
-          :key="idx"
-          :value="challenge"
-        >
-          {{ challenge.text.teamChallenge.title }}
-        </option>
-      </select>
-    </div>
     <div class="img_wrap">
-      <label v-if="this.type === 'update'" for="chooseFile" class="fileBtn">
+      <v-btn><label v-if="this.type === 'update'" for="chooseFile" class="fileBtn">
         👉 MODIFY IMAGE 👈
       </label>
       <label v-else for="chooseFile" class="fileBtn">
         👉 UPLOAD IMAGE 👈
-      </label>
+      </label></v-btn>
       <input
         type="file"
         id="chooseFile"
@@ -37,6 +24,21 @@
       </div>
       <img src="" class="preview" />
     </div>
+    <div class="challenge_wrap">
+      <v-btn><label for="challenge" class="feedType">▼일상글|챌린지▼</label></v-btn>
+      <select id="challenge" v-model="challenge" class="dailyFeed" >
+        <option>일상글</option>
+        <option
+          v-for="(challenge, idx) in feed_challenging"
+          :key="idx"
+          :value="challenge"
+        >
+          {{ challenge.text.teamChallenge.title }}
+        </option>
+      </select>
+
+    </div>
+   
     <div class="contents_wrap">
       <textarea v-model="contents" class="contents"></textarea>
     </div>
@@ -73,6 +75,7 @@ export default {
       "feedid"
     ])
   },
+  
   created() {
     console.log(this.oneFeed);
     this.$store.dispatch("GET_MY_TEAM_INFO", this.memberInfo.memberId);
@@ -196,10 +199,10 @@ export default {
       preview.style.width = "60%";
       preview.style.height = "60%";
       preview.style.maxHeight = "500px";
+    },
+    check() {
+      console.log(this.feed_challenging);
     }
-    // check() {
-    //   console.log(this.feed_challenging);
-    // }
   }
 };
 </script>
