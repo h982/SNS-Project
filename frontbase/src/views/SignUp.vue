@@ -6,7 +6,6 @@
           <span>Sign</span>
           <span class="green--text">Up</span>
         </h2>
-
         <form>
           <v-text-field
             name="member.name"
@@ -130,7 +129,7 @@
 <script>
 import { validationMixin } from "vuelidate";
 import { createInstance } from "@/api/index.js";
-import Countdown from 'vuejs-countdown'
+import Countdown from 'vuejs-countdown';
 
 import {
   required,
@@ -146,10 +145,19 @@ export default {
     body: { required, minLength: minLength(20) },
   },
   components: { 
-    Countdown 
+    Countdown,
   },
   data() {
     return {
+      show: true,
+			params: {
+				token: '123456798',
+				name: 'avatar'
+			},
+			headers: {
+				smail: '*_~'
+			},
+			imgDataUrl: '',
       num:"",
       authenticFlag:false,
       passwordConfirm:"",
@@ -334,7 +342,7 @@ export default {
       this.resetButton = true;
     },
     resetTimer: function() {
-      this.totalTime = (3 * 60);
+      this.totalTime = (5 * 60);
       clearInterval(this.timer);
       this.timer = null;
       this.resetButton = false;
@@ -347,8 +355,7 @@ export default {
     },
     countdown: function() {
       this.totalTime--;
-    }
-  
+    },
   },
   computed: {
     nameErrors() {

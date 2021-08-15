@@ -1,6 +1,12 @@
 <template>
     <div>
-        <h2>팀 가입 신청</h2>
+      <v-layout justify-start align-center data-aos="fade-up">
+        <v-toolbar-title class="headline">
+            <span><b>팀</b></span>
+            <span class="green--text"><b>&nbsp;가입신청</b></span>
+        </v-toolbar-title>
+        <br><br><br><br>
+      </v-layout>
         <table v-if="waitingReqests.length !== 0">
 
             <tr v-for="request in waitingReqests" v-bind:key="request.requestId" >
@@ -11,9 +17,9 @@
         </table>
 
     <table v-else>
-      <tr>
+      <tr><b>
         가입 요청이 존재하지 않습니다.
-      </tr>
+      </b></tr>
     </table>
   </div>
 </template>

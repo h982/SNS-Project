@@ -29,7 +29,7 @@
         </b-row>
         <div v-if="noticeItems" class="text-center">
             <b-table
-            style="cursor:pointer;"
+                style="cursor:pointer;"
                 hover
                 id="list_table"
                 :items="filtered"

@@ -1,13 +1,25 @@
 <template>
   <div>
     <br>
-    <h1>내 팀 관리  <v-btn @click="move()" icon elevation="0"><v-icon>settings</v-icon></v-btn></h1>
     <br>
+    <v-layout align-center data-aos="fade-right">
+      <v-toolbar-title class="headline">
+          <span><b>내 팀</b></span>
+          <span class="green--text"><b>&nbsp;관리<v-btn @click="move()" icon elevation="0"><v-icon>settings</v-icon></v-btn></b></span>
+      </v-toolbar-title>
+      <br><br><br><br>
+    </v-layout>
     <v-row>
       <join-request />
     </v-row>
     <br>
-    <h3>팀원 조회</h3>
+    <v-layout justify-start align-center data-aos="fade-up">
+      <v-toolbar-title class="headline">
+          <span><b>팀원</b></span>
+          <span class="green--text"><b>&nbsp;조회</b></span>
+      </v-toolbar-title>
+      <br><br><br><br>
+    </v-layout>
     <div>
       <template>
         <v-card>
@@ -93,12 +105,13 @@ export default {
         align: 'start',
         sortable: false,
         value: 'member.memberId',
+        width: '100'
       },
-      { text: '이름', value: 'member.name' },
-      { text: '포인트', value: 'member.point' },
-      { text: '이메일', value: 'member.email' },
-      { text: '번호', value: 'member.phone' },
-      { text: 'mbti', value: 'member.mbti' },
+      { text: '이름', value: 'member.name' ,width: '0'},
+      { text: '포인트', value: 'member.point', width: '0'},
+      { text: '이메일', value: 'member.email',width: '-10'},
+      { text: '번호', value: 'member.phone', width: '0'},
+      { text: 'mbti', value: 'member.mbti', width: '0'},
     ],
   }),
   computed: {
@@ -112,22 +125,19 @@ export default {
       },
   },
   methods: {
-    // chageleader() {
-    //   this.$store.dispatch("changeTeamLeader", { teamId: this.managingTeam.teamId, memberId: this.selected[0].member.memberId });
-      // console.log(this.selected[0].member.memberId);
-      // console.log(this.managingTeam.teamId);
-    // },
+    
     getColor (point) {
-      if (point > 100) return 'green'
-      else if (point > 50) return 'orange'
-      else return 'red'
+      if (point >= 100) return '#9400D3'
+      else if (point >= 75) return '#7AD7BE'
+      else if (point >= 50) return '#FFA500'
+      else if (point >= 25) return '#52478B'
+      else return '#8B4513'
     },
     chageleader() {
       const instance = createInstance();
       instance.put("/team/leader/"+this.selected[0].member.memberId+"?teamId="+this.managingTeam.teamId).then(({ data }) => {
         console.log("changeTeamLeader : " + data.message);
         alert("리더가 변경되었습니다. 잠시 뒤 다시 로그인해주세요.");
-        // this.$router.push("/mypage");
       });
     },
     move(){

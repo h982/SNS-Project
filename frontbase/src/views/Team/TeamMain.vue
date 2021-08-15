@@ -224,14 +224,13 @@ export default {
       .then(
         (response) => {
           console.log(response);
-          if (response.status === 201) {
-            // alert("가입 요청 완료");
-          } else {
-            // alert("가입 요청 실패");
+          if (response.status === 200) {
+            alert("가입 요청 완료");
           }
         }
       )
       .catch(() => {
+        alert("이미 가입된 요청입니다.");
       });
     },
     moveMain(){
