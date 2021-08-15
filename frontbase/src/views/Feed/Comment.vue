@@ -50,7 +50,7 @@ export default {
         .post("/comment/", JSON.stringify(body))
         .then(response => {
           if (response.data.data === "success") {
-            // document.querySelector("#writeC").value = "";
+            this.inputC = "";
             alert("댓글 등록 완료");
             this.$store.dispatch("GET_COMMENTS", this.feedid);
           } else {
