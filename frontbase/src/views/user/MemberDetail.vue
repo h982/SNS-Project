@@ -1,12 +1,12 @@
 <template>
   <v-container grid-list-xl>
-    <v-toolbar-title class="headline">
+    <h2 class="pl-4">
       <span>My</span>
       <span class="green--text">Feed</span>
-    </v-toolbar-title>
+    </h2>
     <v-layout justify-center align-center wrap class="mt-4 pt-2">
       <v-card   elevation="0">
-        <p>{{memberInfo.name}}   <v-btn @click="move()" icon elevation="0"><v-icon>settings</v-icon></v-btn></p>
+        <h5>{{memberInfo.name}}</h5>
         <br>
         <h6>게시물: {{myFeeds.length}} &nbsp;&nbsp; 가입된그룹:{{myTeamList.length}} &nbsp;&nbsp;  도전중인 챌린지: {{feed_challenging.length}}</h6>
       </v-card>
@@ -37,9 +37,9 @@
           <v-img :src="myFeed.photos[0].filePath"></v-img>
           
           <v-card-text>
-            <p class="headline mb-3">
+            <h3 class="headline mb-3">
               <span>{{myFeed.contents}}</span>
-            </p>
+            </h3>
             <v-chip color="green" text-color="white">{{myFeed.contents}}</v-chip>
             <v-chip color="green" text-color="white">{{myFeed.writeDate}}</v-chip>
 
@@ -68,12 +68,9 @@ export default {
     };
   },
   methods:{
-    move(){
-      this.$router.push("/mypage");
-    },
     check(){
       console.log(this.myFeeds);
-    }
+    },
   }
 };
 </script>

@@ -179,7 +179,9 @@ export default {
       this.$emit("changeTheme", this.goDark);
     },
     onClickLogout() {
-      alert("로그아웃 하시겠습니까?");
+      let checkLogout=confirm("로그아웃 하시겠습니까?");
+      console.log(checkLogout);
+      if(checkLogout){
       this.$store
         .dispatch("LOGOUT")
         .then(() => {
@@ -188,6 +190,7 @@ export default {
         .catch(() => {
           console.log("로그아웃 에러입니다.");
         });
+      }
     }
   }
 };

@@ -22,7 +22,7 @@
       
     </v-layout>
     <v-layout column justify-center class="mt-4 pt-2">
-      <h1 class="text-xs-center mb-4 pb-2">{{selectTeam.name.replaceAll("\"", "")}}</h1>
+      <p class="text-xs-center mb-4 pb-2" style="font-size: x-large;">{{selectTeam.name.replaceAll("\"", "")}}</p>
       <br>
       <div v-if="selectTeam.photoDto === null">
         <v-img :src="thumbnail1" aspect-ratio="2.75" height="330" contain></v-img>
@@ -31,19 +31,19 @@
         <v-img :src="selectTeam.photoDto.filePath" aspect-ratio="2.75" height="330" contain></v-img>
       </div>
       <v-layout column justify-center align-center class="mt-4 pt-2">
-        <h2>팀 소개</h2>
+        <h2 style="color:green">팀 소개</h2>
         <v-flex wrap justify-center align-center class="textbox">
-          <h3>
-            {{selectTeam.introduction.replaceAll("\"", "")}}
-          </h3>
+        
+            <p>{{selectTeam.introduction.replaceAll("\"", "")}}</p>
+          
         </v-flex>
         <br>
 
-        <h2>팀장</h2>
+        <h2 style="color:green">팀장</h2>
         <p>{{selectTeam.leader.replaceAll("\"", "")}}</p>
         <br>
 
-        <h2>팀원</h2>
+        <h2 style="color:green">팀원</h2>
         <template>
           <v-card>
             <v-card-title>
@@ -57,7 +57,7 @@
             </v-card-title>
             <v-data-table
               :headers="headers"
-              :items="this.managingTeamMembers"
+              :items="this.selectTeamMembers"
               item-key="member.memberId"
               hide-actions
               :pagination.sync="pagination"
@@ -120,9 +120,9 @@
         <v-btn large flat to="/teamlist" class="green--text">
           <v-icon>arrow_back</v-icon>Back to Teamlist
         </v-btn>
-        <v-btn @click="check()">
+        <!-- <v-btn @click="check()">
           
-        </v-btn>
+        </v-btn> -->
       </v-layout>
     </v-layout>
 
@@ -140,7 +140,7 @@ import TeamHeader2 from '../../components/TeamHeader2.vue';
 export default {
   name: "TeamMain",
   computed:{
-    ...mapGetters(["selectTeam","memberInfo","myTeamList","team_challenges","team_challenging", "managingTeamMembers", "managingTeam"]),
+    ...mapGetters(["selectTeam","memberInfo","myTeamList","team_challenges","team_challenging", "managingTeam", "selectTeamMembers"]),
     pages () {
       if (this.pagination.rowsPerPage == null ||
         this.pagination.totalItems == null
@@ -152,19 +152,15 @@ export default {
   created() {
     this.$store.dispatch("GET_MY_TEAM_INFO",this.memberInfo.memberId);
     this.teamchecking();
-    // console.log(this.teamcheck);
-    console.log(this.managingTeam.member.memberId);
-    console.log(this.memberInfo.memberId);
-    // console.log(this.myTeamList);
     this.$store.dispatch("GET_TEAMCHALLENGE_INFO", this.memberInfo.memberId);
     const token={
       memberId: this.memberInfo.memberId,
       teamId:this.selectTeam.teamId
     };
     this.$store.dispatch("GET_TEAMCHALLENGER_INFO", token); 
-    this.$store.dispatch("getTeamMembers", this.selectTeam.teamId);
+    this.$store.dispatch("getSelectTeamMembers", this.selectTeam.teamId);
+    console.log(this.selectTeamMembers);
     // console.log(this.managingTeamMembers);
-    console.log(this.memberInfo.memberId);
 
   },
   data() {
