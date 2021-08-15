@@ -6,7 +6,23 @@
           <span>Sign</span>
           <span class="green--text">Up</span>
         </h2>
+        
         <form>
+          <div class="img_wrap">
+          <img src="" class="preview" />
+            <v-btn color="green"
+            class="white--text"><label for="chooseFile">
+              프로필 이미지
+            </label></v-btn>
+            <input
+              type="file"
+              id="chooseFile"
+              name="chooseFile"
+              accept="image/*"
+              @change="loadf"
+            />
+            
+        </div>
           <v-text-field
             name="member.name"
             color="green"
@@ -210,6 +226,18 @@ export default {
     }
   },
   methods: {
+    loadf() {
+      var file = document.getElementById("chooseFile");
+
+      let preview = document.querySelector(".preview");
+      preview.src = URL.createObjectURL(file.files[0]);
+
+      // console.log(file.files[0]);
+
+      preview.style.width = "60%";
+      preview.style.height = "60%";
+      preview.style.maxHeight = "500px";
+    },
     submit() {
       if(!this.authenticFlag){
         alert("인증먼저해주세요");
@@ -389,4 +417,15 @@ export default {
     flex-wrap: nowrap;
     overflow-x: auto;
 }
+.img_wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.preview {
+  display: block;
+  margin: 20px 0;
+}
+
 </style>
