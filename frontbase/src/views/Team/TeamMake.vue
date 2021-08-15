@@ -8,6 +8,21 @@
         </h2>
 
         <form>
+          <div class="img_wrap">
+            <v-btn color="green"
+            class="white--text"><label for="chooseFile">
+              팀 썸네일 이미지
+            </label></v-btn>
+            <input
+              type="file"
+              id="chooseFile"
+              name="chooseFile"
+              accept="image/*"
+              @change="loadf"
+            />
+            <img src="" class="preview" />
+          </div>
+
           <v-text-field
             name="team.name"
             color="green"
@@ -19,7 +34,7 @@
           <v-btn
             @click="duplicateName"
             type="button"
-            color="blue"
+            color="green"
             class="white--text duplicate"
           >
             중복검사
@@ -42,20 +57,6 @@
             label="팀소개"
           ></v-text-field>
 
-          <div class="img_wrap">
-            <label for="chooseFile" class="fileBtn">
-              팀 썸네일
-            </label>
-            <input
-              type="file"
-              id="chooseFile"
-              name="chooseFile"
-              accept="image/*"
-              @change="loadf"
-            />
-            <img src="" class="preview" />
-          </div>
-          
           <br>
           <div class="buttons">
             <v-btn

@@ -18,32 +18,36 @@
       >
       <team-header-2 />
       </v-bottom-navigation>
-
-      
     </v-layout>
-    <v-layout column justify-center class="mt-4 pt-2">
-      <p class="text-xs-center mb-4 pb-2" style="font-size: x-large;">{{selectTeam.name.replaceAll("\"", "")}}</p>
-      <br>
+
+    <v-layout align-center data-aos="fade-right">
+      <v-toolbar-title class="headline">
+          <span><b>{{selectTeam.name.replaceAll("\"", "")}}</b></span>
+      </v-toolbar-title>
+      <br><br><br><br>
+    </v-layout>
+
+    <v-layout justify-end data-aos="fade-right">
+      <v-toolbar-title class="headline">
+          <span class="text-xs-center mb-4 pb-2" style="color:green"><b>팀장 &nbsp;</b></span>
+          <span class="text-xs-center mb-4 pb-2"><b>{{selectTeam.leader.replaceAll("\"", "")}}</b></span>
+      </v-toolbar-title>
+    </v-layout>
+
+    <v-layout row column justify-center class="mt-4 pt-2">
+      
+      
       <div v-if="selectTeam.photoDto === null">
         <v-img :src="thumbnail1" aspect-ratio="2.75" height="330" contain></v-img>
       </div>
       <div v-else>
-        <v-img :src="selectTeam.photoDto.filePath" aspect-ratio="2.75" height="330" contain></v-img>
+        <v-img :src="selectTeam.photoDto.filePath" aspect-ratio="2.75" height="330" contain data-aos="fade-up"></v-img>
       </div>
       <v-layout column justify-center align-center class="mt-4 pt-2">
-        <h2 style="color:green">팀 소개</h2>
         <v-flex wrap justify-center align-center class="textbox">
-        
-            <p>{{selectTeam.introduction.replaceAll("\"", "")}}</p>
-          
+          <p><b>{{selectTeam.introduction.replaceAll("\"", "")}}</b></p>
         </v-flex>
-        <br>
-
-        <h2 style="color:green">팀장</h2>
-        <p>{{selectTeam.leader.replaceAll("\"", "")}}</p>
-        <br>
-
-        <h2 style="color:green">팀원</h2>
+        
         <template>
           <v-card>
             <v-card-title>
@@ -57,6 +61,7 @@
             </v-card-title>
             <v-data-table
               :headers="headers"
+              :align=end
               :items="this.selectTeamMembers"
               item-key="member.memberId"
               hide-actions
@@ -65,8 +70,21 @@
               class="elevation-1"
             >
               <template v-slot:items="props">
-                <td>{{ props.item.member.memberId }}</td>
-                <td class="text-xs-right">{{ props.item.member.name }}</td>
+                <v-chip
+                    :color="getColor(props.item.member.point)"
+                    dark
+                  >
+                    {{ props.item.member.memberId }}
+                  </v-chip>
+                
+                <td class="text-xs-right">
+                  <v-chip
+                    :color="getColor(props.item.member.point)"
+                    dark
+                  >
+                    {{ props.item.member.name }}
+                  </v-chip>
+                </td>
                 <td class="text-xs-right">
                   <v-chip
                     :color="getColor(props.item.member.point)"
@@ -75,8 +93,8 @@
                     {{ props.item.member.point }}
                   </v-chip>
                 </td>
-                <td class="text-xs-right">{{ props.item.member.email }}</td>
-                <td class="text-xs-right">{{ props.item.member.mbti }}</td>
+                <!-- <td class="text-xs-right">{{ props.item.member.email }}</td>
+                <td class="text-xs-right">{{ props.item.member.mbti }}</td> -->
               </template>
             </v-data-table>
             <div class="text-xs-center pt-2">
@@ -149,6 +167,21 @@ export default {
       return Math.ceil(this.pagination.totalItems / this.pagination.rowsPerPage)
     },
   },
+  mounted(){
+    if(this.memberInfo.point>100){
+      this.nameColor = "#9400D3"
+    }else if(this.memberInfo.point>75){
+      this.nameColor = "#7AD7BE"
+    }else if(this.memberInfo.point>50){
+      this.nameColor = "#FFA01E"
+    }else if(this.memberInfo.point>25){
+      this.nameColor = "#52478B"
+    }else{
+      this.nameColor ="#8B4513"
+    }
+    var domObj = document.getElementById("nameColor");
+    domObj.style.color = this.nameColor;
+  },
   created() {
     this.$store.dispatch("GET_MY_TEAM_INFO",this.memberInfo.memberId);
     this.teamchecking();
@@ -169,17 +202,19 @@ export default {
       thumbnail1: thumbnail1,
       pagination: {},
       search: '',
+      nameColor: "#8B4513",
       headers: [
         {
           text: '멤버ID',
           align: 'start',
           sortable: false,
           value: 'member.memberId',
+          width: '100'
         },
-        { text: '이름', value: 'member.name' },
-        { text: '포인트', value: 'member.point' },
-        { text: '이메일', value: 'member.email' },
-        { text: 'mbti', value: 'member.mbti' },
+        { text: '이름', value: 'member.name',  width: '100'},
+        { text: '포인트', value: 'member.point',  width: '100'},
+        // { text: '이메일', value: 'member.email' },
+        // { text: 'mbti', value: 'member.mbti' },
       ],
     };
   },
@@ -216,7 +251,6 @@ export default {
       this.$router.push("/teammain");
     },
     moveTeamChallenge(){
-      //alert(this.memberInfo.memberId);
       this.$store.dispatch("GET_TEAMCHALLENGE_INFO", this.memberInfo.memberId);
       this.$router.push("/teamChallenge");
     },
@@ -241,9 +275,11 @@ export default {
       console.log(this.memberInfo);
     },
     getColor (point) {
-      if (point > 100) return 'green'
-      else if (point > 50) return 'orange'
-      else return 'red'
+      if (point >= 100) return '#9400D3'
+      else if (point >= 75) return '#7AD7BE'
+      else if (point >= 50) return '#FFA500'
+      else if (point >= 25) return '#52478B'
+      else return '#8B4513'
     },
     leave() {
       if (this.managingTeam.member.memberId == this.memberInfo.memberId) {

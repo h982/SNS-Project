@@ -1,12 +1,14 @@
 <template>
   <v-container grid-list-xl>
+   
+      <v-layout align-center data-aos="fade-right">
+        <v-toolbar-title class="headline">
+            <span><b>공통</b></span>
+            <span class="green--text"><b>&nbsp;챌린지</b></span>
+        </v-toolbar-title>
+        <br><br><br><br>
+      </v-layout>
     <v-layout row justify-center align-center wrap class="mt-4 pt-2">
-      <v-flex xs12 sm12 md12 lg12 xl12>
-        <h2 class="pl-4">
-          <span><b>공통</b></span>
-          <span class="green--text"><b>&nbsp;챌린지</b></span>
-        </h2>
-      </v-flex>
       <v-flex v-for="(challenge,idx) in newChallenges" :key=idx xs6 sm3 md3 lg3 xl3>
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
@@ -49,6 +51,9 @@ import security_b from "@/assets/images/security_b.png";
 import heart_b from "@/assets/images/heart_b.png";
 
 export default {
+  created(){
+    this.newChallenges();
+  },
   computed: {
     ...mapGetters(["memberInfo", "entire_challenge"]),
 
