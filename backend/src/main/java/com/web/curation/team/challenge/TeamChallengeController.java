@@ -89,7 +89,7 @@ public class TeamChallengeController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @DeleteMapping("/team_challenge_giveup")
+    @PostMapping("/team_challenge_giveup")
     @ApiOperation("챌린지 포기하기")
     public ResponseEntity giveUpTeamChallenge(@Valid @RequestBody TeamChallengerDto teamChallengerDto) {
 
