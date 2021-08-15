@@ -57,6 +57,7 @@
             background-color="transparent"
             v-model="member.password"
             label="비밀번호"
+            @keydown.enter="confirm"
           ></v-text-field>
         </form>
 
