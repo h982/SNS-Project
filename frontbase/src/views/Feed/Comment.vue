@@ -1,6 +1,5 @@
 <template>
   <div class="wrap">
-    <h3>댓글창</h3>
     <div class="comments">
       <comment-item
         v-for="(comment, idx) in comments"
@@ -16,7 +15,7 @@
   </div>
 </template>
 <script>
-// import { createInstance } from "@/api/index.js";
+import "../../components/css/feed/comment.scss";
 import { createInstance } from "@/api/teamindex.js";
 import CommentItem from "@/views/Feed/CommentItem.vue";
 import { mapGetters } from "vuex";
@@ -62,21 +61,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-h3 {
-  text-align: center;
-}
-.comments {
-  margin: 0 auto;
-  background: lavender;
-  padding: 15px;
-}
-.writeC {
-  width: 80%;
-  margin: 2em auto 0;
-}
-.writeC input {
-  border: 1px solid black;
-}
-</style>

@@ -4,15 +4,15 @@
     <div>
       <div class="content">
         <div>{{ comment.member.name }}</div>
-        <div>{{ comment.contents }}</div>
+        <div class="desc">{{ comment.contents }}</div>
       </div>
-      <div @click="makeCom">
+      <span @click="makeCom" class="coco_btn">
         답글달기
-        <div v-if="this.parentId == null"></div>
-        <div v-else class="writeCom">
-          <input type="text" v-model="inputCom" class="inputSpace" />
-          <div @click="writeComment">작성</div>
-        </div>
+      </span>
+      <div v-if="this.parentId == null"></div>
+      <div v-else class="writeCom">
+        <input type="text" v-model="inputCom" class="inputSpace" />
+        <div @click="writeComment">작성</div>
       </div>
       <div class="reCom">
         <inner-item
@@ -36,7 +36,8 @@ export default {
   data: () => {
     return {
       parentId: null,
-      inputCom: ""
+      inputCom: "",
+      showTemp: false
     };
   },
   components: {
@@ -47,7 +48,13 @@ export default {
   },
   methods: {
     makeCom() {
-      this.parentId = this.comment.commentId;
+      if (!this.showTemp) {
+        this.showTemp = true;
+        this.parentId = this.comment.commentId;
+      } else {
+        this.showTemp = false;
+        this.parentId = null;
+      }
     },
     writeComment() {
       const instance = createInstance();
@@ -77,41 +84,3 @@ export default {
   }
 };
 </script>
-<style scoped>
-.comment {
-  display: flex;
-  width: calc(100% - 50px);
-  margin: 0 auto;
-  background: #ffffff;
-  padding: 0.5em 1em;
-}
-.profile {
-  border: 1px solid black;
-  border-radius: 50%;
-  width: 2.5em;
-  height: 2.5em;
-  margin-right: 1em;
-}
-.content {
-  width: 100%;
-}
-button {
-  margin: 0.5em;
-  padding: 0.2em;
-  border: 1px solid black;
-}
-.writeCom input,
-.writeCom div {
-  display: inline-block;
-}
-.writeCom div:hover {
-  cursor: pointer;
-}
-
-.contents {
-  font-weight: 700;
-}
-.inputSpace {
-  border: 1px solid black;
-}
-</style>
