@@ -61,15 +61,16 @@
             </v-card-title>
             <v-data-table
               :headers="headers"
-              :align=end
               :items="this.selectTeamMembers"
               item-key="member.memberId"
               hide-actions
               :pagination.sync="pagination"
               :search="search"
+              tr:hover
               class="elevation-1"
             >
               <template v-slot:items="props">
+                <tr style="cursor:pointer;" @click="sendMemberId(props.item.member)">
                 <v-chip
                     :color="getColor(props.item.member.point)"
                     dark
@@ -93,6 +94,7 @@
                     {{ props.item.member.point }}
                   </v-chip>
                 </td>
+                </tr>
                 <!-- <td class="text-xs-right">{{ props.item.member.email }}</td>
                 <td class="text-xs-right">{{ props.item.member.mbti }}</td> -->
               </template>
@@ -158,7 +160,7 @@ import TeamHeader2 from '../../components/TeamHeader2.vue';
 export default {
   name: "TeamMain",
   computed:{
-    ...mapGetters(["selectTeam","memberInfo","myTeamList","team_challenges","team_challenging", "managingTeam", "selectTeamMembers"]),
+    ...mapGetters(["yourInfo","selectTeam","memberInfo","myTeamList","team_challenges","team_challenging", "managingTeam", "selectTeamMembers"]),
     pages () {
       if (this.pagination.rowsPerPage == null ||
         this.pagination.totalItems == null
@@ -168,19 +170,7 @@ export default {
     },
   },
   mounted(){
-    if(this.memberInfo.point>100){
-      this.nameColor = "#9400D3"
-    }else if(this.memberInfo.point>75){
-      this.nameColor = "#7AD7BE"
-    }else if(this.memberInfo.point>50){
-      this.nameColor = "#FFA01E"
-    }else if(this.memberInfo.point>25){
-      this.nameColor = "#52478B"
-    }else{
-      this.nameColor ="#8B4513"
-    }
-    var domObj = document.getElementById("nameColor");
-    domObj.style.color = this.nameColor;
+    
   },
   created() {
     this.$store.dispatch("GET_MY_TEAM_INFO",this.memberInfo.memberId);
@@ -192,9 +182,6 @@ export default {
     };
     this.$store.dispatch("GET_TEAMCHALLENGER_INFO", token); 
     this.$store.dispatch("getSelectTeamMembers", this.selectTeam.teamId);
-    console.log(this.selectTeamMembers);
-    // console.log(this.managingTeamMembers);
-
   },
   data() {
     return {
@@ -271,8 +258,13 @@ export default {
         }
       }
     },
-    check(){
-      console.log(this.memberInfo);
+    sendMemberId(member) {
+      console.log("sendMemberId");
+      console.log(member.email);
+      this.$store.dispatch("getMemberByEmail", member.email);
+      this.$store.dispatch("getYourFeeds", member.memberId);
+      //console.log(this.yourInfo);
+      this.$router.push("/memberdetail");
     },
     getColor (point) {
       if (point >= 100) return '#9400D3'
