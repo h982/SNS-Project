@@ -75,7 +75,6 @@
 import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
 import { mapState } from 'vuex';
-// import { createInstance } from "@/api/index.js";
 import { createInstance } from "@/api/teamindex.js";
 
 

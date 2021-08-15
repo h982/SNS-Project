@@ -39,7 +39,7 @@ import TeamHeader from '@/components/TeamHeader.vue';
 import Stomp from 'webstomp-client'
 import SockJS from 'sockjs-client'
 // import http from "@/util/http-common";
-import { createInstance } from "@/api/teamindex.js";
+import { createInstance, url} from "@/api/teamindex.js";
 import { mapState} from "vuex";
 
 export default {
@@ -63,11 +63,8 @@ export default {
             }
     },
     created(){
-        console.log(this.memberInfo)
-        console.log(this.selectTeam)
-
-        //채팅방 내용 불러오기
         const instance = createInstance();
+
         instance
             .get('/message/'+this.selectTeam.teamId+'?page=0', )
             .then(res=>{
@@ -93,7 +90,7 @@ export default {
             })
 
         // socket 연결
-        let socket = new SockJS('http://localhost:8080/ws')
+        let socket = new SockJS(url+'/ws')
         this.stompClient = Stomp.over(socket)
         this.stompClient.connect({}, frame=>{
             console.log("success", frame)

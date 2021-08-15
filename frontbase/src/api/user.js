@@ -1,4 +1,4 @@
-import { createInstance } from "./index.js";
+import { createInstance } from "./teamindex.js";
 
 const instance = createInstance();
 // const config = {

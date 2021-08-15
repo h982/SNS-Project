@@ -128,7 +128,7 @@
 
 <script>
 import { validationMixin } from "vuelidate";
-import { createInstance } from "@/api/index.js";
+import { createInstance } from "@/api/teamindex.js";
 import Countdown from 'vuejs-countdown';
 
 import {
@@ -149,15 +149,6 @@ export default {
   },
   data() {
     return {
-      show: true,
-			params: {
-				token: '123456798',
-				name: 'avatar'
-			},
-			headers: {
-				smail: '*_~'
-			},
-			imgDataUrl: '',
       num:"",
       authenticFlag:false,
       passwordConfirm:"",
@@ -207,7 +198,7 @@ export default {
         passwordConfirm: false,
       },
       timer: null,
-      totalTime: (3 * 60),
+      totalTime: (5 * 60),
       resetButton: false,
       title: "Countdown to rest time!",
       edit: false

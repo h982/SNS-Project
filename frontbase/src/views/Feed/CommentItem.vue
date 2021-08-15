@@ -30,7 +30,6 @@
 <script>
 import InnerItem from "@/views/Feed/InnerItem.vue";
 import { mapGetters } from "vuex";
-// import { createInstance } from "@/api/index.js";
 import { createInstance } from "@/api/teamindex.js";
 
 
