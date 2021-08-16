@@ -4,7 +4,12 @@
       <span><b>Other</b></span>
       <span class="green--text"><b>Info</b></span>
     </v-toolbar-title>
-    <v-layout justify-center align-center wrap class="mt-4 pt-2">
+    <v-layout justify-center align-center wrap >
+      <img
+          v-bind:src="yourInfo.photo.filePath"
+          style="border-radius: 50%;"
+          height="200"
+        />      &nbsp;&nbsp;&nbsp;&nbsp;
       <v-card   elevation="0">
         <v-chip :color="nameColor" dark>{{yourInfo.name}}</v-chip>
         <br>
