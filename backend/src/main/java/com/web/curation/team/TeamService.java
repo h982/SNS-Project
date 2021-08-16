@@ -37,6 +37,7 @@ public class TeamService {
     private final MemberDao memberDao;
     private final S3Uploader s3Uploader;
     private final PhotoDao photoDao;
+    private final static int TEAM_DEFAULT_IMAGE = 2;
 
     
 //    private FileHandler fileHandler;
@@ -69,10 +70,10 @@ public class TeamService {
     	for(JoinTeam joinTeam : joinTeams) {
     		teamList.add(joinTeam.getTeam());
     	}
-    	
+
     	return teamList;
     }
-
+    
     public TeamDto registerTeam(TeamDto teamDto) throws IOException {
         PhotoDto savedPhoto = new PhotoDto();
         if(teamDto.getMultipartFile() != null){
@@ -80,14 +81,14 @@ public class TeamService {
             savedPhoto = PhotoAndDtoAdapter.entityToDto(photoDao.save(PhotoAndDtoAdapter.dtoToEntity(uploadPhoto)));
         }
         Team team = null;
+        teamDto.setMemberCount(1);
         if(savedPhoto.getPhotoId() != null){
             teamDto.setPhotoId(savedPhoto.getPhotoId());
             team = TeamAndDtoAdapter.dtoToEntityPhoto(teamDto);
         }else{
-            teamDto.setPhotoId(null);
-            team = TeamAndDtoAdapter.dtoToEntity(teamDto);
+            teamDto.setPhotoId(TEAM_DEFAULT_IMAGE);
+            team = TeamAndDtoAdapter.dtoToEntityPhoto(teamDto);
         }
-        teamDto.setMemberCount(1);
         TeamDto resultTeamDto = TeamAndDtoAdapter.entityToDto(teamDao.save(team));
 
         Team chkTeam = teamDao.findById(resultTeamDto.getTeamId())
