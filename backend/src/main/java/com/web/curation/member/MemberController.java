@@ -81,7 +81,7 @@ public class MemberController {
 
         memberDto.setAuthenticated(false);
         if (!memberService.hasSameEmail(memberDto.getEmail())) {
-            MemberDto responseMemberDto = memberService.registMember(memberDto);
+            MemberDto responseMemberDto = memberService.registerMember(memberDto);
             challengeService.createChallenge(responseMemberDto.getMemberId());
 
             resultMap.put("message", "success");
@@ -175,7 +175,7 @@ public class MemberController {
 
     @ApiOperation(value = "회원정보 수정")
     @PutMapping
-    public ResponseEntity<Map<String, Object>> updateInfo(@RequestBody MemberDto memberDto) throws IOException {
+    public ResponseEntity<Map<String, Object>> updateInfo(MemberDto memberDto) throws IOException {
         Map<String, Object> resultMap = new HashMap<>();
 
         MemberDto responseMemberDto = memberService.updateMember(memberDto);

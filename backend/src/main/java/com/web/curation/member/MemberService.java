@@ -10,11 +10,14 @@ import com.web.curation.files.PhotoAndDtoAdapter;
 import com.web.curation.files.PhotoDao;
 import com.web.curation.files.PhotoDto;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import static com.web.curation.error.ErrorCode.MEMBER_NOT_FOUND;
+import static com.web.curation.error.ErrorCode.PHOTO_NOT_FOUND;
 
+@Slf4j
 @AllArgsConstructor
 @Service
 public class MemberService {
@@ -30,10 +33,11 @@ public class MemberService {
         return false;
     }
 
-    public MemberDto registMember(MemberDto memberDto) throws IOException {
-        memberDto.setPhoto(photoDao.findById(1).get());
-        memberDao.save(MemberAdapter.dtoToEntity(memberDto));
-        Member member = memberDao.getMemberByEmail(memberDto.getEmail()).get();
+    public MemberDto registerMember(MemberDto memberDto) throws IOException {
+        memberDto.setPhoto(photoDao.findById(1)
+            .orElseThrow(() -> new CustomException(PHOTO_NOT_FOUND))
+        );
+        Member member = memberDao.save(MemberAdapter.dtoToEntity(memberDto));
         return MemberAdapter.entityToDto(member);
     }
 
@@ -73,15 +77,25 @@ public class MemberService {
     }
 
     public MemberDto updateMember(MemberDto memberDto) throws IOException {
+        log.info(memberDto.toString());
         Member member = memberDao.getMemberByEmail(memberDto.getEmail())
                 .orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
 
         memberDto.setMemberId(member.getMemberId());
         memberDto.setCreateDate(member.getCreateDate());
         if (memberDto.getImage() != null) {
+            Photo prevPhoto = member.getPhoto();
             memberDto.setPhoto(insertImage(memberDto.getImage()));
+            memberDao.save(MemberAdapter.dtoToEntity(memberDto));
+            if(prevPhoto.getPhotoId() > 2){
+                s3Uploader.deleteFile(prevPhoto.getImageName() + "." + prevPhoto.getImageExtension());
+                photoDao.delete(prevPhoto);
+            }
+        }else{
+            memberDto.setPhoto(member.getPhoto());
+            memberDao.save(MemberAdapter.dtoToEntity(memberDto));
         }
-        memberDao.save(MemberAdapter.dtoToEntity(memberDto));
+        memberDto.setImage(null);
 
         return memberDto;
     }
