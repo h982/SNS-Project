@@ -9,10 +9,10 @@
       </v-layout>
         <table v-if="waitingReqests.length !== 0">
 
-            <tr v-for="request in waitingReqests" v-bind:key="request.requestId" >
-                <td>{{request.member.name}}</td>
-                <td><b-button variant="primary" v-on:click="acceptRequest(request.requestId, request.member.memberId)">수락</b-button></td>
-                <td><b-button variant="danger" v-on:click="rejectRequest(request.requestId)">거절</b-button></td>
+            <tr v-for="request in waitingReqests" v-bind:key="request.requestId">
+                <td @click ="sendMemberId(request.member)" style="display:inline;cursor:pointer;"><b>{{request.member.name}}</b></td> &nbsp;
+                <b-button variant="primary" v-on:click="acceptRequest(request.requestId, request.member.memberId)">수락</b-button>
+                <b-button variant="danger" v-on:click="rejectRequest(request.requestId)">거절</b-button>
             </tr>
         </table>
 
@@ -58,6 +58,7 @@ export default {
         .then(() =>
           this.$store.dispatch("getRequests", this.managingTeam.teamId)
         );
+        this.$store.dispatch("getTeamMembers", this.managingTeam.teamId)
         alert("요청이 승인되었습니다. 잠시 뒤 반영됩니다.");
       let joinTeam = {
         member: {
@@ -67,6 +68,12 @@ export default {
           teamId: this.managingTeam.teamId
         }
       };
+    },
+    sendMemberId(payload){
+      console.log(payload);
+      this.$store.dispatch("getMemberByEmail", payload.email);
+      this.$store.dispatch("getYourFeeds", payload.memberId);
+      this.$router.push("/memberdetail");
     }
   }
 };

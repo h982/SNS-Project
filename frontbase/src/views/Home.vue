@@ -23,7 +23,7 @@
 
     <br />
 
-    <vue-typer class="headline" :repeat="0" text="혼자 뭐하니?3"></vue-typer>
+    <vue-typer class="headline" :repeat="0" text="혼자 뭐하니?"></vue-typer>
     <vue-typer
       :text="text1"
       :repeat="Infinity"
@@ -118,7 +118,7 @@ import banner3 from "@/assets/images/banner3.jpg";
 import banner4 from "@/assets/images/banner4.jpg";
 import GoogleLogin from 'vue-google-login';
 import naverid from "@/assets/images/naverid.png";
-import { createInstance } from "@/api/teamindex.js";
+import { createInstance, url } from "@/api/teamindex.js";
 export default {
   components: {
     "vue-typer": VueTyper,
@@ -142,7 +142,7 @@ export default {
       },
       isLoginError: false,
       client_id: "916d7a1087ccb6494372f576d3911baf",
-      redirect_uri: "http://localhost:8080",
+      redirect_uri: url,
       icons: [
         { href: "https://github.com/EldinZaimovic", icon: "fab fa-github" },
         {

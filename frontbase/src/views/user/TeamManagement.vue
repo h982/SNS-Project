@@ -8,6 +8,7 @@
           <span class="green--text"><b>&nbsp;관리<v-btn @click="move()" icon elevation="0"><v-icon>settings</v-icon></v-btn></b></span>
       </v-toolbar-title>
       <br><br><br><br>
+      <v-btn @click="check()"></v-btn>
     </v-layout>
     <v-row>
       <join-request />
@@ -52,7 +53,13 @@
                   hide-details
                 ></v-checkbox>
               </td>
-              <td>{{ props.item.member.memberId }}</td>
+              <td>
+                <img
+                    v-bind:src="props.item.member.photo.filePath"
+                    style="border-radius: 50%;"
+                    height="30"
+                  /> 
+              </td>
               <td class="text-xs-right">{{ props.item.member.name }}</td>
               <td class="text-xs-right">
                 <v-chip
@@ -101,7 +108,7 @@ export default {
     search: '',
     headers: [
       {
-        text: '멤버ID',
+        text: '프로필',
         align: 'start',
         sortable: false,
         value: 'member.memberId',
@@ -143,6 +150,9 @@ export default {
     move(){
       this.$router.push("/teamModify");
     },
+    check(){
+      console.log(this.managingTeamMembers);
+    }
   },
 };
 </script>

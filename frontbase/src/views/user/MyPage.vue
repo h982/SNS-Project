@@ -130,7 +130,7 @@ export default {
       alert("아직 안만듬");
     },
     check(){
-      console.log(this.managingTeam);
+      alert("관리자에게 삭제요청이 전송되었습니다.");
     },
     teamManagement() {
       this.$router.push("/teamManagement");

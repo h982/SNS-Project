@@ -19,7 +19,7 @@
       <team-header-2 />
       </v-bottom-navigation>
     </v-layout>
-
+    <v-btn @click="check()"></v-btn>
     <v-layout align-center data-aos="fade-right">
       <v-toolbar-title class="headline">
           <span><b>{{selectTeam.name.replaceAll("\"", "")}}</b></span>
@@ -47,7 +47,6 @@
         <v-flex wrap justify-center align-center class="textbox">
           <p><b>{{selectTeam.introduction.replaceAll("\"", "")}}</b></p>
         </v-flex>
-        
         <template>
           <v-card>
             <v-card-title>
@@ -71,13 +70,19 @@
             >
               <template v-slot:items="props">
                 <tr style="cursor:pointer;" @click="sendMemberId(props.item.member)">
-                <v-chip
-                    :color="getColor(props.item.member.point)"
-                    dark
-                  >
-                    {{ props.item.member.memberId }}
-                  </v-chip>
                 
+                
+                
+                <td class="text-xs-right">
+                  
+                  <img
+                    v-bind:src="props.item.member.photo.filePath"
+                    style="border-radius: 50%;"
+                    height="30"
+                  /> 
+                  
+                
+                </td>
                 <td class="text-xs-right">
                   <v-chip
                     :color="getColor(props.item.member.point)"
@@ -191,13 +196,8 @@ export default {
       search: '',
       nameColor: "#8B4513",
       headers: [
-        {
-          text: '멤버ID',
-          align: 'start',
-          sortable: false,
-          value: 'member.memberId',
-          width: '100'
-        },
+      
+        { text: '프로필', value: 'member.photo.filePath',  width: '30', sortable: false,},
         { text: '이름', value: 'member.name',  width: '100'},
         { text: '포인트', value: 'member.point',  width: '100'},
         // { text: '이메일', value: 'member.email' },
@@ -273,18 +273,20 @@ export default {
       else return '#8B4513'
     },
     leave() {
-      if (this.managingTeam.member.memberId == this.memberInfo.memberId) {
+      if (this.selectTeam.memberId == this.memberInfo.memberId) {
         alert("팀장을 넘겨주세요:)");
       } else {
         const instance = createInstance();
         instance.delete("/jointeam?memberId="+this.memberInfo.memberId+"&teamId="+this.selectTeam.teamId)
         .then(
           (response) => {
-            if (response.message === "success") {
-              // alert("팀 탈퇴");
+            if (response.data.message === "success") {
+              this.$store.dispatch("GET_MY_TEAM_INFO",this.memberInfo.memberId);
+              alert("팀 탈퇴가 완료되었습니다.");
+              this.$router.push("/feed");
               console.log(response);
             } else {
-              // alert("팀 탈퇴 실패");
+              alert("팀 탈퇴 실패하였습니다.");
               console.log(response);
             }
           }
@@ -292,6 +294,10 @@ export default {
         .catch();
       }
     },
+    check(){
+      console.log(this.selectTeam);
+    },
+    
   },
 }
 </script>

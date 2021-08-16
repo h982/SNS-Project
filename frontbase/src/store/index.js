@@ -518,9 +518,9 @@ export default new Vuex.Store({
     SET_ONEFEED(context, payload) {
       context.commit("SET_ONEFEED", payload);
     },
-    getTeamMembers({ commit }, teamId) {
+    async getTeamMembers({ commit }, teamId) {
       const instance = createInstance();
-      instance.get("/jointeam/member/" + teamId).then(({ data }) => {
+      await instance.get("/jointeam/member/" + teamId).then(({ data }) => {
         //console.log("getTeamMembers : " + data.message)
         commit("SET_MANAGING_TEAM_MEMBERS", data.data);
       });
