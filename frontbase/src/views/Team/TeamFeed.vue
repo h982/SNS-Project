@@ -68,6 +68,10 @@ export default {
       }
     },
     mvWrite() {
+      this.$store.dispatch(
+                "GET_TEAMCHALLENGEING_INFO",
+                this.memberInfo.memberId
+      );
       this.$router.push("/writefeed");
     }
   }

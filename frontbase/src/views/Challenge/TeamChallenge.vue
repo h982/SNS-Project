@@ -183,6 +183,10 @@ export default {
         .then(
           (response) => {
             if (response.data.message === "success") {
+              this.$store.dispatch(
+                "GET_TEAMCHALLENGEING_INFO",
+                this.memberInfo.memberId
+              );
               alert("팀 챌린지 리스트 등록 완료");
               
             } else {
