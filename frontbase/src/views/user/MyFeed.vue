@@ -4,12 +4,12 @@
       <span><b>My</b></span>
       <span class="green--text"><b>Feed</b></span>
     </v-toolbar-title>
-
-    <!-- /<v-layout justify-center align-center > -->
-
     <v-layout justify-center align-center wrap>
-      <v-img max-width="200" contain :src="memberInfo.photo.filePath" />
-      &nbsp;&nbsp;
+        <img
+          v-bind:src="memberInfo.photo.filePath"
+          style="border-radius: 50%;"
+          height="200"
+        />      &nbsp;&nbsp;&nbsp;&nbsp;
       <v-card elevation="0">
         <v-chip :color="nameColor" dark
           >{{ memberInfo.name
@@ -29,7 +29,6 @@
         </p>
       </v-card>
     </v-layout>
-    <!-- </v-layout> -->
 
     <hr style="height:1px;border:none;color:#333;background-color:#333;" />
     <v-layout row justify-center align-center wrap class="mt-4 pt-2">
