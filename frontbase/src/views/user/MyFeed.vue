@@ -32,7 +32,6 @@
     <!-- </v-layout> -->
 
     <hr style="height:1px;border:none;color:#333;background-color:#333;" />
-    <v-btn @click="check()"></v-btn>
     <v-layout row justify-center align-center wrap class="mt-4 pt-2">
       <v-dialog
         lazy

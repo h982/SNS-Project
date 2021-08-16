@@ -17,7 +17,7 @@
             </b></p>
 
           <hr class="my-4" />
-
+          
           <v-text-field
             name="member.name"
             color="green"
@@ -137,6 +137,24 @@ export default {
     },
     memberModify(){
       this.$router.push("/membermodify");
+    },
+    loadf() {
+      if (this.type === "update") {
+        var oldpre = document.querySelector(".oldpre");
+        oldpre.style.display = "none";
+        var old = document.querySelector(".old");
+        old.style.display = "none";
+      }
+      var file = document.getElementById("chooseFile");
+
+      var preview = document.querySelector(".preview");
+      preview.src = URL.createObjectURL(file.files[0]);
+
+      console.log(file.files[0]);
+
+      preview.style.width = "60%";
+      preview.style.height = "60%";
+      preview.style.maxHeight = "500px";
     },
   },
 };
