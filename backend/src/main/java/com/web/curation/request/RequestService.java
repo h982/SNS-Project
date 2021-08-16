@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.List;
 
 import com.web.curation.error.CustomException;
+import com.web.curation.recommendation.Mbti;
+import com.web.curation.recommendation.MbtiDao;
 import com.web.curation.team.join.JoinTeam;
 import com.web.curation.team.join.JoinTeamDao;
 import lombok.AllArgsConstructor;
@@ -25,6 +27,7 @@ public class RequestService {
     MemberDao memberdao;
     TeamDao teamDao;
     JoinTeamDao joinTeamDao;
+    MbtiDao mbtiDao;
 
     public void makeRequest(RequestDto requestDto) {
         Team team = teamDao.findById(requestDto.getTeam().getTeamId())
@@ -69,6 +72,7 @@ public class RequestService {
         requestDto.setStatus(Status.ACCEPTED);
         requestDao.save(RequestAdapter.updateDtoToEntity(requestDto));
         increaseMemberCount(requestDto.getTeam().getTeamId());
+        increaseTeamMbti(requestDto.getTeam().getTeamId(), requestDto.getMember().getMbti());
         makeJoinTeam(requestDto);
 
         return requestDto;
@@ -92,6 +96,62 @@ public class RequestService {
                 .build();
 
         teamDao.save(team);
+    }
+
+    private void increaseTeamMbti(int teamId, String myMbti){
+        Mbti mbti = mbtiDao.findById(teamId)
+                .orElseThrow(() -> new CustomException(MBTI_NOT_FOUND));
+
+        switch (myMbti){
+            case "infp":
+                mbti.setInfp(mbti.getInfp() + 1);
+                break;
+            case "enfp":
+                mbti.setEnfp(mbti.getEnfp() + 1);
+                break;
+            case "infj":
+                mbti.setInfj(mbti.getInfj() + 1);
+                break;
+            case "enfj":
+                mbti.setEnfj(mbti.getEnfj() + 1);
+                break;
+            case "intj":
+                mbti.setIntj(mbti.getIntj() + 1);
+                break;
+            case "entj":
+                mbti.setEntj(mbti.getEntj() + 1);
+                break;
+            case "intp":
+                mbti.setIntp(mbti.getIntp() + 1);
+                break;
+            case "entp":
+                mbti.setEntp(mbti.getEntp() + 1);
+                break;
+            case "isfp":
+                mbti.setIsfp(mbti.getIsfp() + 1);
+                break;
+            case "esfp":
+                mbti.setEsfp(mbti.getEsfp() + 1);
+                break;
+            case "istp":
+                mbti.setIstp(mbti.getIstp() + 1);
+                break;
+            case "estp":
+                mbti.setEstp(mbti.getEstp() + 1);
+                break;
+            case "isfj":
+                mbti.setIsfj(mbti.getIsfj() + 1);
+                break;
+            case "esfj":
+                mbti.setEsfj(mbti.getEsfj() + 1);
+                break;
+            case "istj":
+                mbti.setIstj(mbti.getIstj() + 1);
+                break;
+            case "estj":
+                mbti.setEstj(mbti.getEstj() + 1);
+                break;
+        }
     }
 
     private void makeJoinTeam(RequestDto requestDto){

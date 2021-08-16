@@ -1,15 +1,15 @@
 package com.web.curation.recommendation;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
+import org.springframework.stereotype.Service;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
+@Setter
+@ToString
 @Table(name = "Mbti")
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,7 +17,6 @@ import javax.persistence.*;
 @Builder
 public class Mbti {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "team_id")
     private Integer teamId;
 
@@ -69,7 +68,8 @@ public class Mbti {
     @Column(name = "ESTJ")
     private int estj;
 
-    public Mbti(String mbti){
+    public Mbti(int teamId, String mbti){
+        this.teamId = teamId;
         switch (mbti){
             case "infp":
                 this.infp = 1;

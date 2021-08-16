@@ -105,7 +105,7 @@ public class TeamService {
                 .build();
         joinTeamDao.save(jointeam);
 
-        Mbti mbti = new Mbti(team.getMember().getMbti());
+        Mbti mbti = new Mbti(chkTeam.getTeamId(), chkMember.getMbti());
         mbtiDao.save(mbti);
 
         return resultTeamDto;
