@@ -5,7 +5,7 @@
         <div class="profile"></div>
         <div class="feed_writer">{{ feed.writer }}</div>
       </div>
-      <div class="feed_date">{{ feed.writeDate }}</div>
+      <div class="feed_date">{{ getFormatDate(feed.writeDate) }}</div>
     </div>
     <div class="feed-card">
       <div class="feed-btns">
@@ -45,6 +45,7 @@ import { mapGetters } from "vuex";
 import { createInstance } from "@/api/teamindex.js";
 import defaultImage from "../../assets/images/img-placeholder.png";
 import defaultProfile from "../../assets/images/profile_default.png";
+import moment from 'moment';
 
 export default {
   props: ["feed", "index"],
@@ -88,6 +89,9 @@ export default {
       .catch(() => {});
   },
   methods: {
+    getFormatDate(writeDate) {
+      return moment(new Date(writeDate)).format('YYYY년MM월DD일 HH:mm');
+    },
     changeLike() {
       if (!this.isLike) {
         var feedlike = {
