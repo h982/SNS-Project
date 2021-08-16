@@ -47,6 +47,19 @@
       font-size: 0.714em;
       color: rgba(0, 0, 0, 0.5);
     }
+    .likeCnt,
+    .feed_date {
+      font-size: 0.8em;
+    }
+
+    .showComment {
+      width: 50%;
+      margin-bottom: 0.2em;
+    }
+
+    .showComment:hover {
+      cursor: pointer;
+    }
   }
 }
 
@@ -77,6 +90,7 @@
     width: calc(100% - 50px);
     display: flex;
     justify-content: space-between;
+    align-items: center;
     .user_wrap {
       display: flex;
       justify-content: center;
@@ -84,52 +98,46 @@
       margin-bottom: 0.5em;
     }
     .profile {
-      width: 28px;
-      height: 28px;
+      width: 25px;
+      height: 25px;
       background-image: url("../../../assets/images/profile_default.png");
       background-size: cover;
       border-radius: 50%;
       margin-right: 0.5em;
     }
   }
-  .top_wrap {
+
+  .feed-btns {
     display: flex;
+    justify-content: center;
     align-items: center;
-    .feed-btns {
-      // position: absolute;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      // top: 0.5em;
-      // right: 0.5em;
-    }
+  }
 
-    .feed-btns div {
-      margin: 0.1em 0.2em;
-    }
+  .feed-btns div {
+    margin: 0.1em 0.2em;
+  }
 
-    .feed-btns:hover {
-      cursor: pointer;
-    }
+  .feed-btns:hover {
+    cursor: pointer;
+  }
 
-    .modiBtn {
-      width: 25px;
-      height: 25px;
-      background-image: url("../../../assets/images/edit.png");
-      background-size: cover;
-    }
+  .modiBtn {
+    width: 25px;
+    height: 25px;
+    background-image: url("../../../assets/images/edit.png");
+    background-size: cover;
+  }
 
-    .delBtn {
-      width: 25px;
-      height: 25px;
-      background-image: url("../../../assets/images/delete.png");
-      background-size: cover;
-    }
+  .delBtn {
+    width: 25px;
+    height: 25px;
+    background-image: url("../../../assets/images/delete.png");
+    background-size: cover;
+  }
 
-    .modiBtn:hover,
-    .delBtn:hover {
-      transform: scale(1.08);
-    }
+  .modiBtn:hover,
+  .delBtn:hover {
+    transform: scale(1.08);
   }
 
   .content {
@@ -173,14 +181,6 @@
   .likeBtn:hover {
     cursor: pointer;
     transform: scale(1.1);
-  }
-
-  .showComment {
-    width: 50%;
-  }
-
-  .showComment:hover {
-    cursor: pointer;
   }
 
   .comment-btn {
@@ -263,6 +263,13 @@
   .desc {
     font-size: 1.1em;
     margin-bottom: 0.5em;
+  }
+  .feed-item {
+    .modiBtn,
+    .delBtn {
+      width: 20px;
+      height: 20px;
+    }
   }
 }
 @include tablet {

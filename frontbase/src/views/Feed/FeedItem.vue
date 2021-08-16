@@ -5,8 +5,7 @@
         <div class="profile"></div>
         <div class="feed_writer">{{ feed.writer }}</div>
       </div>
-      <div class="top_wrap">
-        <div class="feed_date">{{ feed.writeDate }}</div>
+      <div>
         <div class="feed-btns">
           <div @click="modifyFeed(feed.feedId)" class="modiBtn"></div>
           <div @click="deleteFeed" class="delBtn"></div>
@@ -30,13 +29,14 @@
             src="../../assets/heart.png"
           />
           <img class="likeBtn" v-else src="../../assets/heart_b.png" />
-          <div>좋아요 {{ this.likeCount }}개</div>
+          <div class="likeCnt">좋아요 {{ this.likeCount }}개</div>
         </div>
 
         <div class="desc">
           {{ feed.contents }}
         </div>
         <div class="showComment" @click="mvComment()">댓글보기</div>
+        <div class="feed_date">{{ feed.writeDate }}</div>
       </div>
     </div>
   </div>
