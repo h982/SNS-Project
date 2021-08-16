@@ -1,6 +1,6 @@
 <template>
   <v-container grid-list-xl>
-    <v-layout >
+    <v-layout>
       <v-bottom-navigation
         class="mx-auto"
         shift
@@ -27,8 +27,18 @@
         </v-btn>
       </v-bottom-navigation>
     </v-layout>
+    <br><br>
     <div v-if="this.teamLists">
-      <v-layout row justify-center align-center wrap class="mt-4 pt-2">
+      <v-layout column justify-center align-center data-aos="fade-right">
+        <v-toolbar-title class="headline">
+            <span><b>전체</b></span>
+            <span class="green--text"><b>&nbsp;팀</b></span>
+        </v-toolbar-title>
+        <br>
+      </v-layout>
+
+      <v-layout row justify-center align-center wrap class="mt-0 pt-0">
+          
           <v-flex
           v-for="(teamList, idx) in this.filteredTeam"
           :key="idx"
@@ -49,22 +59,61 @@
             <v-card-title primary-title class="justify-center">
               <v-flex text-xs-center subheading font-weight-bold>{{teamList.name.replaceAll("\"", "")}}
                 <br>
-                <div v-if="teamList.introduction.length >16 " class="txt_line">{{teamList.introduction.replaceAll("\"", "").slice(0,13)+"..."}}</div>                
-                <div v-else class="txt_line">{{teamList.introduction.replaceAll("\"", "")}}</div>                
+                <div v-if="teamList.introduction.length >10 " class="txt_line">{{teamList.introduction.replaceAll("\"", "").slice(0,13)+"..."}}</div>                
+                <div v-else class="txt_line">{{teamList.introduction.replaceAll("\"", "")}}</div>            
               </v-flex>
             </v-card-title> 
           </v-card>
         </v-flex>
       </v-layout>
-
-      <v-layout column justify-center align-center data-aos="fade-up">
+      <br>
+      <v-layout column justify-center align-center data-aos="fade-up" v-if="!this.recommendFlag">
         <v-toolbar-title class="headline">
             <span><b>어떤 팀이 나와 맞을지</b></span>
             <span class="green--text"><b>&nbsp;모르시겠다구요?</b></span>
         </v-toolbar-title>
         <br><br>
-        <v-btn color:blue @click="recommend">팀 추천받기</v-btn>
+        <v-btn color="primary" @click="recommend">팀 추천받기</v-btn>
       </v-layout>
+
+      <br><br>
+
+      <div v-if="this.memberInfo.authenticated&&this.recommendFlag==true">
+        <v-layout column justify-center align-center data-aos="fade-right">
+        <v-toolbar-title class="headline">
+            <span><b>추천</b></span>
+            <span class="green--text"><b>&nbsp;팀</b></span>
+        </v-toolbar-title>
+      </v-layout>
+
+      <v-layout row justify-center align-center wrap class="mt-4 pt-2" data-aos="fade-down">
+          <v-flex
+          v-for="(recomendTeam, idx) in this.filteredRecomendTeam"
+          :key="idx"
+          xs12 sm6 md4 lg3 xl3
+          >
+          <v-card
+            hover
+            flat
+            height="230"
+            @click="confirm(recomendTeam)"
+          >
+            <div v-if="recomendTeam.photoDto === null">
+              <v-img v-bind:src="thumbnail" aspect-ratio="2.75" height="130" contain></v-img>
+            </div>
+            <div v-else>
+              <v-img :src="recomendTeam.photoDto.filePath" aspect-ratio="2.75" height="130" contain></v-img>
+            </div>
+            <v-card-title primary-title class="justify-center">
+              <v-flex text-xs-center subheading font-weight-bold>{{recomendTeam.name.replaceAll("\"", "")}}
+                <br>
+                <div class="txt_line">팀과의 궁합도 {{recomendTeam.score*100/5}}%</div>                
+              </v-flex>
+            </v-card-title> 
+          </v-card>
+        </v-flex>
+      </v-layout>
+      </div>
 
       <v-btn
         v-if="leadercheck===false"
@@ -106,11 +155,19 @@ export default {
     
   },
   computed: {
-    ...mapGetters(["teamLists", "memberInfo"]),
+    ...mapGetters(["teamLists", "memberInfo", "myRecomendTeams"]),
     
     filteredTeam : function() { /* 배열의 아이템중 조건을 만족하는 아이템을 모아서 새로운 배열을 만들어 리턴함 */
         var cname = this.name.trim();
         return this.teamLists.filter(function(item,index) {
+        if (item.sportDto.name.indexOf(cname) >-1) {
+            return true;
+        }
+      });
+    },
+    filteredRecomendTeam : function() { /* 배열의 아이템중 조건을 만족하는 아이템을 모아서 새로운 배열을 만들어 리턴함 */
+        var cname = this.name.trim();
+        return this.myRecomendTeams.filter(function(item,index) {
         if (item.sportDto.name.indexOf(cname) >-1) {
             return true;
         }
@@ -127,6 +184,7 @@ export default {
       thumbnail: thumbnail,
       name: "",
       leadercheck: false,
+      recommendFlag: false,
     };
   },
   methods: {
@@ -151,7 +209,6 @@ export default {
     tableTennis() {
       this.name="탁구";
       console.log("탁구");
-      // this.selected = 4;
     },
     confirm(data){
       this.$store.dispatch("SET_SELECT_TEAM", data).then(()=>{
@@ -169,8 +226,14 @@ export default {
     recommend(){
       if(this.memberInfo.authenticated!=true){
         alert("프리미엄회원에게만 제공되는 서비스입니다.");
+        this.$router.push(`/payhome`);
+
         return;
       }
+      this.recommendFlag=true;
+    },
+    check(){
+      console.log(this.myRecomendTeams);
     }
   },
 };
