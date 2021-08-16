@@ -5,13 +5,15 @@
         <div class="profile"></div>
         <div class="feed_writer">{{ feed.writer }}</div>
       </div>
-      <div class="feed_date">{{ feed.writeDate }}</div>
+      <div class="top_wrap">
+        <div class="feed_date">{{ feed.writeDate }}</div>
+        <div class="feed-btns">
+          <div @click="modifyFeed(feed.feedId)" class="modiBtn"></div>
+          <div @click="deleteFeed" class="delBtn"></div>
+        </div>
+      </div>
     </div>
     <div class="feed-card">
-      <div class="feed-btns">
-        <div @click="modifyFeed(feed.feedId)" class="modiBtn"></div>
-        <div @click="deleteFeed" class="delBtn"></div>
-      </div>
       <div class="feed-wrap">
         <div
           class="img"

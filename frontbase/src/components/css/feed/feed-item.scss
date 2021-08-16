@@ -48,43 +48,6 @@
       color: rgba(0, 0, 0, 0.5);
     }
   }
-
-  .feed-btns {
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    top: 0.5em;
-    right: 0.5em;
-    z-index: 10;
-  }
-
-  .feed-btns div {
-    margin: 0.1em 0.2em;
-  }
-
-  .feed-btns:hover {
-    cursor: pointer;
-  }
-
-  .modiBtn {
-    width: 25px;
-    height: 25px;
-    background-image: url("../../../assets/images/edit.png");
-    background-size: cover;
-  }
-
-  .delBtn {
-    width: 25px;
-    height: 25px;
-    background-image: url("../../../assets/images/delete.png");
-    background-size: cover;
-  }
-
-  .modiBtn:hover,
-  .delBtn:hover {
-    transform: scale(1.08);
-  }
 }
 
 .feed-wrap {
@@ -129,6 +92,46 @@
       margin-right: 0.5em;
     }
   }
+  .top_wrap {
+    display: flex;
+    align-items: center;
+    .feed-btns {
+      // position: absolute;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      // top: 0.5em;
+      // right: 0.5em;
+    }
+
+    .feed-btns div {
+      margin: 0.1em 0.2em;
+    }
+
+    .feed-btns:hover {
+      cursor: pointer;
+    }
+
+    .modiBtn {
+      width: 25px;
+      height: 25px;
+      background-image: url("../../../assets/images/edit.png");
+      background-size: cover;
+    }
+
+    .delBtn {
+      width: 25px;
+      height: 25px;
+      background-image: url("../../../assets/images/delete.png");
+      background-size: cover;
+    }
+
+    .modiBtn:hover,
+    .delBtn:hover {
+      transform: scale(1.08);
+    }
+  }
+
   .content {
     p {
       display: -webkit-box;
