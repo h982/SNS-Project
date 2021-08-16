@@ -1,5 +1,8 @@
 <template>
   <div class>
+    <v-container>
+    <v-layout column align-center data-aos="fade-left">
+    <br><br>
     <a-icon
       v-if="success"
       type="check-circle"
@@ -10,6 +13,7 @@
       type="exclamation-circle"
       :style="{ fontSize: '200px', color: '#f5222d' }"
     />
+    <br><br>
     <h1>{{ type === 'payment' ? '결제' : '본인인증' }}에 {{ success ? '성공' : '실패'}}하였습니다</h1>
     <ul>
       <li>
@@ -28,6 +32,8 @@
     <a-button size="large" @click="handleGoBack">
       뒤로가기
     </a-button>
+    </v-layout>
+    </v-container>
   </div>
 </template>
 

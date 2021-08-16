@@ -118,7 +118,7 @@ import banner3 from "@/assets/images/banner3.jpg";
 import banner4 from "@/assets/images/banner4.jpg";
 import GoogleLogin from 'vue-google-login';
 import naverid from "@/assets/images/naverid.png";
-import { createInstance } from "@/api/index.js";
+import { createInstance } from "@/api/teamindex.js";
 export default {
   components: {
     "vue-typer": VueTyper,

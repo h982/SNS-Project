@@ -11,7 +11,6 @@
 
 <script>
 import { mapGetters, mapState } from 'vuex';
-// import { createInstance } from "@/api/index.js";
 import { createInstance } from "@/api/teamindex.js";
 
 
