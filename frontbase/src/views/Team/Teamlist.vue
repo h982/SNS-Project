@@ -29,11 +29,11 @@
     </v-layout>
     <div v-if="this.teamLists">
       <v-layout row justify-center align-center wrap class="mt-4 pt-2">
-        <v-flex
-        v-for="(teamList, idx) in this.filteredTeam"
-        :key="idx"
-        xs12 sm6 md4 lg3 xl3
-        >
+          <v-flex
+          v-for="(teamList, idx) in this.filteredTeam"
+          :key="idx"
+          xs12 sm6 md4 lg3 xl3
+          >
           <v-card
             hover
             flat
@@ -56,6 +56,16 @@
           </v-card>
         </v-flex>
       </v-layout>
+
+      <v-layout column justify-center align-center data-aos="fade-up">
+        <v-toolbar-title class="headline">
+            <span><b>어떤 팀이 나와 맞을지</b></span>
+            <span class="green--text"><b>&nbsp;모르시겠다구요?</b></span>
+        </v-toolbar-title>
+        <br><br>
+        <v-btn color:blue @click="recommend">팀 추천받기</v-btn>
+      </v-layout>
+
       <v-btn
         v-if="leadercheck===false"
         @click="mvTeam"
@@ -156,6 +166,12 @@ export default {
         }
       }
     },
+    recommend(){
+      if(this.memberInfo.authenticated!=true){
+        alert("프리미엄회원에게만 제공되는 서비스입니다.");
+        return;
+      }
+    }
   },
 };
 </script>
