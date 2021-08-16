@@ -8,21 +8,6 @@
         </h2>
         
         <form>
-          <div class="img_wrap">
-          <img src="" class="preview" />
-            <v-btn color="green"
-            class="white--text"><label for="chooseFile">
-              프로필 이미지
-            </label></v-btn>
-            <input
-              type="file"
-              id="chooseFile"
-              name="chooseFile"
-              accept="image/*"
-              @change="loadf"
-            />
-            
-        </div>
           <v-text-field
             name="member.name"
             color="green"
