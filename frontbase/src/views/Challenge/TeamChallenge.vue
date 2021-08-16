@@ -163,39 +163,6 @@ export default {
         console.log(this.team_challenges);
         console.log(this.team_challenging);
       },
-      enroll(data) {
-        let start_date = JSON.stringify(data.date[0]).replaceAll('"', "");
-        let end_date = JSON.stringify(data.date[1]).replaceAll('"', "");
-        const instance = createInstance();
-        start_date = start_date.replaceAll('\\', "");
-        end_date = end_date.replaceAll('\\',"");
-        console.log(this.selectTeam);
-        const body = {
-          "contents":data.contents,
-          "endDate":end_date,
-          "startDate":start_date,
-          "teamChallengeId":0,
-          "teamId": this.selectTeam.teamId,
-          "title": data.title
-        }; 
-        console.log(JSON.stringify(body));
-        instance.put("/team_challenge_enroll", JSON.stringify(body))
-        .then(
-          (response) => {
-            if (response.data.message === "success") {
-              this.$store.dispatch(
-                "GET_TEAMCHALLENGEING_INFO",
-                this.memberInfo.memberId
-              );
-              alert("팀 챌린지 리스트 등록 완료");
-              
-            } else {
-              alert("팀 챌린지 리스트 등록 실패");
-            }
-          }
-        )
-        .catch();
-      },
     },
       
 };

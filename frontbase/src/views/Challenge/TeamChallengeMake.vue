@@ -102,12 +102,19 @@ export default {
         alert(this.team_challenges);
       },
       enroll() {
+        var today = new Date();   
+        var start = new Date(this.challenge.date[0]);
+        
+        if(today>start){
+          alert("오늘이나 이전날짜에는 등록할 수 없습니다.");
+          return;
+        }
         let start_date = JSON.stringify(this.challenge.date[0]).replaceAll('"', "");
         let end_date = JSON.stringify(this.challenge.date[1]).replaceAll('"', "");
         start_date = start_date.replaceAll('\\', "");
         end_date = end_date.replaceAll('\\',"");
         const instance = createInstance();
-
+        
         const body = {
           "contents":this.challenge.contents,
           "endDate":end_date,
@@ -130,6 +137,7 @@ export default {
           }
         )
         .catch();
+
       },
       
       moveMain(){
