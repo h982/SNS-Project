@@ -19,7 +19,7 @@
         >
         <br />
         <p id="nameColor">
-          <b>
+          <b>&nbsp;&nbsp;
             게시물: {{ myFeeds.length }} &nbsp;&nbsp; 가입된그룹:{{
               myTeamList.length
             }}
@@ -47,9 +47,9 @@
                 height="230"
                 lazy-src="https://cdn.dribbble.com/users/503653/screenshots/3143656/fluid-loader.gif"
               ></v-img>
-              <v-card-title primary-title class="justify-center">{{
+              <v-card-title primary-title class="justify-center"><b>{{
                 myFeed.contents
-              }}</v-card-title>
+              }}</b></v-card-title>
             </v-card>
           </v-flex>
         </template>
@@ -58,13 +58,16 @@
 
           <v-card-text>
             <p class="headline mb-3">
-              <span>{{ myFeed.contents }}</span>
+              <span><b>{{ myFeed.contents }}</b></span>
             </p>
             <v-chip color="green" text-color="white">{{
-              myFeed.contents
+              myFeed.team.sport.name
             }}</v-chip>
             <v-chip color="green" text-color="white">{{
-              myFeed.writeDate
+              myFeed.teamchallenge.contents
+            }}</v-chip>
+                <v-chip color="green" text-color="white">{{
+              getFormatDate(myFeed.writeDate)
             }}</v-chip>
           </v-card-text>
         </v-card>
@@ -75,6 +78,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+import moment from 'moment';
 
 export default {
   computed: {
@@ -116,8 +120,11 @@ export default {
       this.$router.push("/mypage");
     },
     check() {
-      console.log(this.memberInfo);
-    }
+      console.log(this.myFeeds);
+    },
+    getFormatDate(writeDate) {
+      return moment(new Date(writeDate)).format('YYYY년 MM월 DD일 HH:mm');
+    },
   }
 };
 </script>

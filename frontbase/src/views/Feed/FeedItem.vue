@@ -2,10 +2,16 @@
   <div class="feed-item">
     <div class="feed_t">
       <div class="user_wrap">
-        <div class="profile"></div>
-        <div class="feed_writer">{{ feed.writer }}</div>
+        <div class="profile">
+          <img
+          v-bind:src="feed.member.photo.filePath"
+          style="border-radius: 50%;"
+          height="30"
+          />
+        </div>
+        <div class="feed_writer"><b>{{ feed.writer }}</b></div>
       </div>
-      <div class="feed_date">{{ getFormatDate(feed.writeDate) }}</div>
+      <div class="feed_date"><b>{{ getFormatDate(feed.writeDate)}}</b></div>
     </div>
     <div class="feed-card">
       <div class="feed-btns">
@@ -78,6 +84,7 @@ export default {
       } else {
         this.isLike = false;
       }
+      console.log()
     }
 
     const instance = createInstance();
@@ -90,7 +97,7 @@ export default {
   },
   methods: {
     getFormatDate(writeDate) {
-      return moment(new Date(writeDate)).format('YYYY년MM월DD일 HH:mm');
+      return moment(new Date(writeDate)).format('YYYY년 MM월 DD일 HH:mm');
     },
     changeLike() {
       if (!this.isLike) {

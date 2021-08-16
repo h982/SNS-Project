@@ -1,7 +1,12 @@
 <template>
   <v-container grid-list-xl>
-    <v-layout justify-center align-center class="mt-4 pt-2">
-      <v-layout row wrap class="mt-4 pt-2">
+      <v-layout column justify-center align-center data-aos="fade-right">
+        <v-toolbar-title class="headline">
+            <span><b>현재</b></span>
+            <span class="green--text"><b>&nbsp;가입한팀</b></span>
+        </v-toolbar-title>
+      </v-layout>
+      <v-layout justify-center row wrap class="mt-0 pt-2" data-aos="fade-down">
         <PostPreview
           v-for="post in myTeamList"
           :key="post.text.teamId"
@@ -14,7 +19,6 @@
         />
 
       </v-layout>
-    </v-layout>
   </v-container>
   
 </template>

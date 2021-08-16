@@ -1,10 +1,10 @@
 <template>
     <tr>
-      <td>{{ no }}</td>
-      <td>{{ title }}</td>
-      <td>{{ contents }}</td>
-      <td>{{ endDate }}</td>
-      <td><v-btn @click="participate">챌린지신청</v-btn></td>
+      <td><b>{{ no }}</b></td>
+      <td><b>{{ title }}</b></td>
+      <td><b>{{ contents }}</b></td>
+      <td><b>{{ date }}</b></td>
+      <td><v-btn color="primary" @click="participate">도전</v-btn></td>
     </tr>
 </template>
 
@@ -23,8 +23,15 @@ export default {
   },
   data() {
     return {
-    
+      date:"",
     }
+  },
+  created(){
+    var today = new Date(this.endDate);
+    var year = today.getFullYear();
+    var month = ('0' + (today.getMonth() + 1)).slice(-2);
+    var day = ('0' + today.getDate()).slice(-2);
+    this.date=year +"-"+month  +"-"+day;
   },
   computed:{
     ...mapState(["memberInfo","teamInfo","selectTeam","team_challenges","team_challenging"])
