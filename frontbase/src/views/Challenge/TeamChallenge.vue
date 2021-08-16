@@ -12,13 +12,16 @@
       </v-bottom-navigation>
     </v-layout>
     <br><br><br>
-    <h2 class="pl-4">
-      <span>현재 도전중인</span>
-      <span class="green--text">챌린지</span>
-    </h2>
+    <v-layout align-center data-aos="fade-right">
+      <v-toolbar-title class="headline">
+          <span><b>현재 도전중인</b></span>
+          <span class="green--text"><b>&nbsp;챌린지</b></span>
+      </v-toolbar-title>
+      <br><br><br><br>
+    </v-layout>
     
     <br>
-
+    <v-btn @click="check()"></v-btn>
     <div v-if="team_challenging.length">
       <table id="book-list">
         <colgroup>
@@ -56,10 +59,13 @@
     <br><br>
 
     <br>
-    <h2 class="pl-4">
-      <span>팀에서 진행중인 </span>
-      <span class="green--text">챌린지</span>
-    </h2>
+    <v-layout align-center data-aos="fade-right">
+      <v-toolbar-title class="headline">
+          <span><b>팀에서 진행중인</b></span>
+          <span class="green--text"><b>&nbsp;챌린지</b></span>
+      </v-toolbar-title>
+      <br><br><br><br>
+    </v-layout>
     
     <br>
 
@@ -97,13 +103,9 @@
 
     <br><br>
 
-    /
-
-    <v-btn flat large dark color="black" target="_blank" @click="check()">
-      확인하기
-    </v-btn>
-    <v-btn flat to="/challengemake" active-class="green--text headline">챌린지 만들기</v-btn>
-
+    <v-layout justify-end data-aos="fade-right">
+    <v-btn flat to="/challengemake" active-class="green--text headline"><i class="fas fa-plus"></i>챌린지 만들기</v-btn>
+    </v-layout>
   </v-container>
 </template>
 
@@ -111,7 +113,6 @@
 import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
 import { mapGetters, mapState } from 'vuex';
-// import { createInstance } from "@/api/index.js";
 import { createInstance } from "@/api/teamindex.js";
 import ListRowWholeChallenge from "@/components/ListRowWholeChallenge.vue";
 import ListRowTeamChallenge from "@/components/ListRowTeamChallenge.vue";

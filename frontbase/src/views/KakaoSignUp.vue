@@ -82,7 +82,7 @@
 
 <script>
 import { validationMixin } from "vuelidate";
-import { createInstance } from "@/api/index.js";
+import { createInstance } from "@/api/teamindex.js";
 import { login } from "@/api/user.js";
 import axios from "axios";
 import {
@@ -153,6 +153,7 @@ export default {
   created() {
       if(this.$route.query.email != null){
         console.log("Google Login");
+        alert("추가정보를 입력하셔야합니다.");
         this.member.email = this.$route.query.email;
         this.checkingSocial=true;
       }

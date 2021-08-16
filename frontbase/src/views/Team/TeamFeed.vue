@@ -67,9 +67,9 @@ export default {
         }
       }
     },
-    // mvWrite() {
-    //   this.$router.push("/writefeed");
-    // }
+    mvWrite() {
+      this.$router.push("/writefeed");
+    }
   }
 };
 </script>
@@ -89,9 +89,9 @@ export default {
 }
 
 .create {
-  position: absolute;
+  position: fixed;
   right: 120px;
-  top: 150px;
+  bottom: 150px;
 };
 
 </style>

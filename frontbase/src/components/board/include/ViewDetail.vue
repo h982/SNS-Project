@@ -29,15 +29,15 @@
                 <col style="width: 20%" />
             </colgroup>
             <tr>
-                <th colspan="3" class="text-center view-title">{{ title }}</th>
+                <th colspan="3" class="text-center view-title" style="color:green">{{ title }}</th>
             </tr>
             <tr>
-                <th>게시자</th>
-                <td>{{ writer }}</td>
-                <td>{{ writeDate}}</td>
+                <th style="color:green">게시자</th>
+                <td style="color:green">{{ writer }}</td>
+                <td style="color:green">{{ writeDate}}</td>
             </tr>
             <tr>
-                <td colspan="3" class="content-row" v-html="enterToBr(contents)"></td>
+                <td colspan="3" class="content-row" v-html="enterToBr(contents)" style="color:green"></td>
             </tr>
         </table>
         <hr />

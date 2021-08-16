@@ -71,7 +71,7 @@
 
 <script>
 import { validationMixin } from "vuelidate";
-import { createInstance } from "@/api/index.js";
+import { createInstance } from "@/api/teamindex.js";
 import { login } from "@/api/user.js";
 import axios from "axios";
 

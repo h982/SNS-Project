@@ -7,17 +7,7 @@
         :feed="feed"
         :index="index"
       />
-      <v-btn
-        @click="mvWrite"
-        color="secondary"
-        elevation="7"
-        fab
-        large
-        x-large
-        x-small
-        class="create"
-        ><i class="fas fa-plus"></i>
-      </v-btn>
+    
     </div>
     <infinite-loading
       @infinite="infiniteHandler"

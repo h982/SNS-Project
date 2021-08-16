@@ -29,6 +29,7 @@
         </b-row>
         <div v-if="noticeItems" class="text-center">
             <b-table
+                style="cursor:pointer;"
                 hover
                 id="list_table"
                 :items="filtered"
@@ -38,6 +39,8 @@
                 :sort-by.sync="sortBy"
                 :sort-desc.sync="sortDesc"
                 @row-clicked="moveDetail"
+                thead-class="green-bg bg-dark text-white"
+                tbody-class="green-bg bg-dark text-white"
             >
             </b-table>
             <b-pagination

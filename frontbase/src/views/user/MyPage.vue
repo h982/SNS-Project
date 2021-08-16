@@ -4,12 +4,17 @@
       <b-row>
         <b-col></b-col>
         <b-col cols="8">
-          <span style="font-size:x-large;">My </span>
-          <span class="green--text" style="font-size:x-large;">page </span>
+        <v-layout align-center data-aos="fade-right">
+          <v-toolbar-title class="headline">
+              <span><b>My</b></span>
+              <span class="green--text"><b>&nbsp;page</b></span>
+          </v-toolbar-title>
+          <br><br><br><br>
+        </v-layout>
 
-            <p>
+            <p data-aos="fade-left"><b>
               내 정보 확인페이지입니다.
-            </p>
+            </b></p>
 
           <hr class="my-4" />
 
@@ -20,6 +25,7 @@
             v-model="memberInfo.name"
             label="Name"
             readonly
+            data-aos="fade-right"
           ></v-text-field>
 
           <v-text-field
@@ -31,6 +37,7 @@
             label="E-mail"
             readonly
             required
+            data-aos="fade-left"
           ></v-text-field>
 
           <v-text-field
@@ -42,6 +49,7 @@
             label="Point"
             readonly
             required
+            data-aos="fade-right"
           ></v-text-field>
 
           
@@ -53,6 +61,7 @@
             label="주소"
             readonly
             required
+            data-aos="fade-left"
           ></v-text-field>
 
           <v-text-field
@@ -62,6 +71,7 @@
             v-model="memberInfo.addressDetail"
             label="상세주소"
             readonly
+            data-aos="fade-right"
           ></v-text-field>
 
           <v-text-field
@@ -73,11 +83,12 @@
             label="MBTI"
             readonly
             required
+            data-aos="fade-left"
           ></v-text-field>
             
           <hr class="my-4" />
 
-          <v-layout row justify-center align-center wrap class="mt-4 pt-2">
+          <v-layout row justify-center align-center wrap class="mt-4 pt-2" data-aos="fade-up">
             <v-btn color="blue" class="white--text" @click="memberModify">정보수정</v-btn>
             <div v-if="memberInfo.memberId === managingTeam.member.memberId">
               <v-btn color="green" class="white--text" @click="teamManagement">팀 관리</v-btn>

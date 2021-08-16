@@ -1,8 +1,6 @@
 package com.web.curation.member;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +12,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.web.curation.feed.Feed;
 import com.web.curation.member.JwtServiceImpl;
 import com.web.curation.member.Member;
 import com.web.curation.member.challenge.ChallengeService;
@@ -21,10 +20,12 @@ import com.web.curation.member.challenge.ChallengeService;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus;
 
 import com.web.curation.model.BasicResponse;
 
@@ -32,6 +33,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
+import static java.time.LocalDateTime.now;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -51,6 +53,7 @@ import org.json.simple.parser.ParseException;
 @RestController
 @RequestMapping("/member")
 public class MemberController {
+    // test1
     @Autowired
     MemberService memberService;
 
@@ -60,16 +63,18 @@ public class MemberController {
     @Autowired
     private JwtServiceImpl jwtService;
 
-
     private NaverLoginBO naverLoginBO;
     private String apiResult = null;
 
+    @Autowired
     private void setNaverLoginBO(NaverLoginBO naverLoginBO) {
         this.naverLoginBO = naverLoginBO;
     }
 
-    private HttpSession rootSession;
-    private EntityManager em;
+    HttpSession rootSession;
+
+
+    EntityManager em;
 
     @PostMapping("/signup")
     @ApiOperation(value = "회원가입")
@@ -86,12 +91,12 @@ public class MemberController {
 
             resultMap.put("message", "success");
             status = HttpStatus.CREATED;
+            System.out.println(resultMap.get("message"));
         } else {
             resultMap.put("message", "fail");
             status = HttpStatus.CONFLICT;
         }
         log.info(resultMap.get("message").toString());
-
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
 
@@ -185,7 +190,22 @@ public class MemberController {
         resultMap.put("message", "success");
 
         return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+    }
 
+    @GetMapping("/your/{email}")
+    @ApiOperation(value = "이메일로 멤버 받기")
+    public ResponseEntity<?> getMemberFeeds(@PathVariable(name = "email") String email) {
+        System.out.println(email);
+        System.out.println("이메일로 멤버받기"+email);
+
+        Optional<MemberDto> member = memberService.getMemberByEmail(email);
+        final BasicResponse result = new BasicResponse();
+        System.out.println(email);
+        result.status = true;
+        result.data = "success";
+        result.object = member;
+        System.out.println("멤버는: "+member.get().getMemberId());
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @ApiOperation(value = "카카오 로그인")
