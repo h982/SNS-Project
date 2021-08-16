@@ -1,6 +1,12 @@
 <template>
   <div class="comment">
-    <div class="profile"></div>
+    <div class="profile">
+      <img
+        v-bind:src="comment.member.photo.filePath"
+        style="border-radius: 50%;"
+        height="40"
+      />
+    </div>
     <div>
       <div class="content">
         <div>{{ comment.member.name }}</div>
@@ -11,7 +17,7 @@
       </span>
       <div v-if="this.parentId == null"></div>
       <div v-else class="writeCom">
-        <input type="text" v-model="inputCom" class="inputSpace" />
+        <input type="text" v-model="inputCom" class="inputSpace" @keyup.enter="writeComment()"/>
         <div @click="writeComment">작성</div>
       </div>
       <div class="reCom">
@@ -72,10 +78,10 @@ export default {
           if (response.data.data === "success") {
             this.parentId = null;
             this.inputCom = "";
-            alert("대댓글 등록 완료");
+            //alert("대댓글 등록 완료");
             this.$store.dispatch("GET_COMMENTS", this.feedid);
           } else {
-            alert("대댓글 등록 실패");
+            //alert("대댓글 등록 실패");
           }
         })
         .catch();

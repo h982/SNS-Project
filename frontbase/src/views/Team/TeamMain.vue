@@ -19,7 +19,6 @@
       <team-header-2 />
       </v-bottom-navigation>
     </v-layout>
-    <v-btn @click="check()"></v-btn>
     <v-layout align-center data-aos="fade-right">
       <v-toolbar-title class="headline">
           <span><b>{{selectTeam.name.replaceAll("\"", "")}}</b></span>

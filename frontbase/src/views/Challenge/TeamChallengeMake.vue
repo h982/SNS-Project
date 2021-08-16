@@ -34,10 +34,13 @@
       </v-bottom-navigation>
     </v-layout>
     <br>
-    <h2 class="pl-4">
-      <span>챌린지 </span>
-      <span class="green--text">등록하기</span>
-    </h2>
+    <v-layout justify-center align-center data-aos="fade-right">
+      <v-toolbar-title class="headline">
+          <span><b>챌린지</b></span>
+          <span class="green--text"><b>&nbsp;등록하기</b></span>
+      </v-toolbar-title>
+      <br><br><br><br>
+    </v-layout>
     <v-layout row justify-center align-center wrap class="mt-4 pt-2">
       <form>
           <v-text-field
@@ -59,15 +62,13 @@
 
           <date-picker v-model="challenge.date" range></date-picker>
       </form>
-          
-          
-    
-
-
     </v-layout>
+    <v-layout justify-center align-center data-aos="fade-top">
     <v-btn flat large dark color="black" target="_blank" @click="enroll()">
         등록하기
     </v-btn>
+          </v-layout>
+
   </v-container>
 </template>
 

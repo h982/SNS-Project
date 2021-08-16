@@ -21,7 +21,6 @@
     </v-layout>
     
     <br>
-    <v-btn @click="check()"></v-btn>
     <div v-if="team_challenging.length">
       <table id="book-list">
         <colgroup>

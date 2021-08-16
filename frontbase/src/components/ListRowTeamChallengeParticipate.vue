@@ -1,11 +1,11 @@
 <template>
   <tr>
-    <td>{{ no }}</td>
-    <td>{{ title }}</td>
-    <td>{{ contents }}</td>
-    <td>{{ endDate }}</td>
-    <td>{{doneFlag}}</td>
-    <td><v-btn @click="giveUp">챌린지포기</v-btn></td>
+    <td><b>{{ no }}</b></td>
+    <td><b>{{ title }}</b></td>
+    <td><b>{{ contents }}</b></td>
+    <td><b>{{ date }}</b></td>
+    <td><b>{{doneFlag}}</b></td>
+    <td><v-btn color="error" @click="giveUp">포기</v-btn></td>
   </tr>
 </template>
 
@@ -34,6 +34,11 @@ export default {
     }else{
       this.doneFlag="달성"
     }
+    var today = new Date(this.endDate);
+    var year = today.getFullYear();
+    var month = ('0' + (today.getMonth() + 1)).slice(-2);
+    var day = ('0' + today.getDate()).slice(-2);
+    this.date=year +"-"+month  +"-"+day;
   },
   computed:{
     ...mapGetters(["team_challenging"]),
