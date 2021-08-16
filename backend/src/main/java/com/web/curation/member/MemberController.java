@@ -5,7 +5,6 @@ import java.util.*;
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -19,6 +18,7 @@ import com.web.curation.member.Member;
 import com.web.curation.member.challenge.ChallengeService;
 
 import io.swagger.annotations.ApiParam;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -48,7 +48,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-
+@Slf4j
 @CrossOrigin(origins = {"*"}, maxAge = 6000)
 @RestController
 @RequestMapping("/member")
@@ -80,13 +80,13 @@ public class MemberController {
     @ApiOperation(value = "회원가입")
     @ApiResponses(value = {@ApiResponse(code = 201, message = "회원이 생성됨", response = BasicResponse.class),
             @ApiResponse(code = 409, message = "중복된 값이 있음", response = BasicResponse.class)})
-    public ResponseEntity<Map<String, Object>> signup(@RequestBody MemberDto memberDto) {
+    public ResponseEntity<Map<String, Object>> signup(@RequestBody MemberDto memberDto) throws IOException {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = HttpStatus.ACCEPTED;
 
         memberDto.setAuthenticated(false);
         if (!memberService.hasSameEmail(memberDto.getEmail())) {
-            MemberDto responseMemberDto = memberService.registMember(memberDto);
+            MemberDto responseMemberDto = memberService.registerMember(memberDto);
             challengeService.createChallenge(responseMemberDto.getMemberId());
 
             resultMap.put("message", "success");
@@ -96,7 +96,7 @@ public class MemberController {
             resultMap.put("message", "fail");
             status = HttpStatus.CONFLICT;
         }
-        System.out.println(resultMap.get("message"));
+        log.info(resultMap.get("message").toString());
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
 
@@ -180,21 +180,16 @@ public class MemberController {
 
     @ApiOperation(value = "회원정보 수정")
     @PutMapping
-    public ResponseEntity<Map<String, Object>> updateInfo(@RequestBody MemberDto memberDto) {
+    public ResponseEntity<Map<String, Object>> updateInfo(MemberDto memberDto) throws IOException {
         Map<String, Object> resultMap = new HashMap<>();
-        Optional<MemberDto> responseMemberDto = memberService.updateMember(memberDto);
 
-        if (responseMemberDto.isPresent()) {
-            Map<String, Object> dataMap = new HashMap<>();
-            dataMap.put("memberInfo", responseMemberDto);
-            resultMap.put("data", dataMap);
-            resultMap.put("message", "success");
+        MemberDto responseMemberDto = memberService.updateMember(memberDto);
+        Map<String, Object> dataMap = new HashMap<>();
+        dataMap.put("memberInfo", responseMemberDto);
+        resultMap.put("data", dataMap);
+        resultMap.put("message", "success");
 
-            return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
-        }
-
-        resultMap.put("message", "해당하는 email이 없습니다.");
-        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
     }
 
     @GetMapping("/your/{email}")

@@ -46,6 +46,8 @@ public class Photo {
         this.feed = feed;
     }
 
+
+
     public Photo(int photoId){
         this.photoId = photoId;
     }
