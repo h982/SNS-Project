@@ -55,6 +55,8 @@
     .showComment {
       width: 50%;
       margin-bottom: 0.2em;
+      color: green;
+      font-weight: 700;
     }
 
     .showComment:hover {
@@ -91,11 +93,11 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 0.5em;
     .user_wrap {
       display: flex;
       justify-content: center;
       align-items: center;
-      margin-bottom: 0.5em;
     }
     .profile {
       width: 25px;

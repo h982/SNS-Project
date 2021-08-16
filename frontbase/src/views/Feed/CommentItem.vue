@@ -1,18 +1,20 @@
 <template>
   <div class="comment">
     <div class="profile"></div>
-    <div>
+    <div class="content_wrap">
       <div class="content">
-        <div>{{ comment.member.name }}</div>
-        <div class="desc">{{ comment.contents }}</div>
+        <div class="writer">{{ comment.member.name }}</div>
+        <div class="content_btn_wrap">
+          <div class="desc">{{ comment.contents }}</div>
+          <span @click="makeCom" class="coco_btn">
+            답글달기
+          </span>
+        </div>
       </div>
-      <span @click="makeCom" class="coco_btn">
-        답글달기
-      </span>
       <div v-if="this.parentId == null"></div>
       <div v-else class="writeCom">
         <input type="text" v-model="inputCom" class="inputSpace" />
-        <div @click="writeComment">작성</div>
+        <div @click="writeComment" class="write_comment"></div>
       </div>
       <div class="reCom">
         <inner-item
@@ -72,7 +74,7 @@ export default {
           if (response.data.data === "success") {
             this.parentId = null;
             this.inputCom = "";
-            alert("대댓글 등록 완료");
+            // alert("대댓글 등록 완료");
             this.$store.dispatch("GET_COMMENTS", this.feedid);
           } else {
             alert("대댓글 등록 실패");
