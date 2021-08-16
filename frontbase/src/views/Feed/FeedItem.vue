@@ -28,6 +28,7 @@
             src="../../assets/heart.png"
           />
           <img class="likeBtn" v-else src="../../assets/heart_b.png" />
+          <div>좋아요 {{ this.likeCount }}개</div>
         </div>
 
         <div class="desc">
@@ -56,7 +57,8 @@ export default {
         page: ""
       },
       isLike: null,
-      feedlikeId: ""
+      feedlikeId: "",
+      likeCount: ""
     };
   },
   computed: {
@@ -76,6 +78,14 @@ export default {
         this.isLike = false;
       }
     }
+
+    const instance = createInstance();
+    instance
+      .get("/feedlike/feed/" + this.feed.feedId)
+      .then(({ data }) => {
+        this.likeCount = data.object.length;
+      })
+      .catch(() => {});
   },
   methods: {
     changeLike() {
@@ -96,6 +106,7 @@ export default {
                 .get("/feedlike/feed/" + this.feed.feedId)
                 .then(({ data }) => {
                   this.feedlikeId = data.object[0].feedlikeId;
+                  this.likeCount = data.object.length;
                 })
                 .catch(() => {});
               alert("좋아요!");
@@ -111,6 +122,13 @@ export default {
           .then(response => {
             if (response.data.data === "success") {
               this.isLike = false;
+              const instance = createInstance();
+              instance
+                .get("/feedlike/feed/" + this.feed.feedId)
+                .then(({ data }) => {
+                  this.likeCount = data.object.length;
+                })
+                .catch(() => {});
               alert("좋아요취소!");
             } else {
               alert("좋아요 취소실패");

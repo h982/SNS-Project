@@ -149,6 +149,10 @@
 
   .like_wrap {
     position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     top: 0;
     right: 1em;
 
@@ -157,7 +161,7 @@
       right: 0;
       width: 30px;
       height: 30px;
-      margin: 0.5em 0;
+      margin: 0.2em 0 0 0;
       z-index: 10;
       background-size: cover;
     }
@@ -166,6 +170,10 @@
   .likeBtn:hover {
     cursor: pointer;
     transform: scale(1.1);
+  }
+
+  .showComment {
+    width: 50%;
   }
 
   .showComment:hover {
