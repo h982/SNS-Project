@@ -61,6 +61,7 @@
 import { mapGetters } from "vuex";
 import ListRow from "@/components/board/include/ListRow.vue";
 import TeamHeader from '@/components/TeamHeader.vue';
+import moment from 'moment';
 
 export default {
   name: "board",
@@ -123,9 +124,9 @@ export default {
             // console.log(e);
             this.$router.push(`/board/view?boardId=` + e.boardId);
         },
-        // getFormatDate(regtime) {
-        //     return moment(new Date(regtime)).format("YYYY.MM.DD");
-        // },
+        getFormatDate(regtime) {
+            return moment(new Date(regtime)).format("YYYY년 MM월 DD일");
+        },
 
         moveMain(){
           this.$router.push("/teammain");

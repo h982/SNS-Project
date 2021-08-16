@@ -23,7 +23,6 @@ public class Board {
 
     private String contents;
 
-    @JsonIgnore
     @Column(name = "write_date", insertable = false, updatable = false)
     private LocalDateTime writeDate;
 

@@ -5,13 +5,14 @@
     <b-td v-if="boardtype == 'notice'">
       <router-link :to="`/notice-view?boardid=${boardId}`" boardtype="notice" class="list-title">{{ title }}</router-link>
     </b-td>
-    <b-td>{{ writeDate }}</b-td>
+    <b-td>{{ getFormatDate(writeDate) }}</b-td>
     <!-- <b-td v-if="ansYes">Y</b-td>
     <b-td v-else></b-td> -->
   </b-tr>
 </template>
 
 <script>
+import moment from 'moment';
 export default {
   name: "listrow",
   props: {
@@ -23,7 +24,7 @@ export default {
   },
   methods: {
     getFormatDate(writeDate) {
-      return moment(new Date(writeDate)).format('YYYY.MM.DD');
+      return moment(new Date(writeDate)).format('YYYY년MM월DD일 HH시 mm분');
     },
   },
 };
