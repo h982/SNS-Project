@@ -39,9 +39,10 @@ public class TeamService {
     private final MemberDao memberDao;
     private final S3Uploader s3Uploader;
     private final PhotoDao photoDao;
+    private final static int TEAM_DEFAULT_IMAGE = 2;
     private final MbtiDao mbtiDao;
 
-
+    
 //    private FileHandler fileHandler;
 //    private PhotoService photoService;
 
@@ -83,12 +84,13 @@ public class TeamService {
             savedPhoto = PhotoAndDtoAdapter.entityToDto(photoDao.save(PhotoAndDtoAdapter.dtoToEntity(uploadPhoto)));
         }
         Team team = null;
-        if (savedPhoto.getPhotoId() != null) {
+        teamDto.setMemberCount(1);
+        if(savedPhoto.getPhotoId() != null){
             teamDto.setPhotoId(savedPhoto.getPhotoId());
             team = TeamAndDtoAdapter.dtoToEntityPhoto(teamDto);
-        } else {
-            teamDto.setPhotoId(null);
-            team = TeamAndDtoAdapter.dtoToEntity(teamDto);
+        }else{
+            teamDto.setPhotoId(TEAM_DEFAULT_IMAGE);
+            team = TeamAndDtoAdapter.dtoToEntityPhoto(teamDto);
         }
         teamDto.setMemberCount(1);
         TeamDto resultTeamDto = TeamAndDtoAdapter.entityToDto(teamDao.save(team));
@@ -102,6 +104,7 @@ public class TeamService {
                 .member(chkMember)
                 .build();
         joinTeamDao.save(jointeam);
+
         Mbti mbti = new Mbti(team.getMember().getMbti());
         mbtiDao.save(mbti);
 
@@ -109,45 +112,45 @@ public class TeamService {
     }
 
     public boolean changeTeamLeader(int teamId, int memberId) {
-        Member member = memberDao.findById(memberId)
+    	Member member = memberDao.findById(memberId)
                 .orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
-        Team team = teamDao.findById(teamId)
-                .orElseThrow(() -> new CustomException(TEAM_NOT_FOUND));
-
-        TeamDto teamDto = TeamAndDtoAdapter.entityToDto(team);
-        teamDto.setSportId(teamDto.getSportDto().getSportId());
-        teamDto.setMemberId(member.getMemberId());
-        teamDto.setLeader(member.getName());
-
-        teamDao.save(TeamAndDtoAdapter.dtoToEntity(teamDto));
-        return true;
+    	Team team = teamDao.findById(teamId)
+    			.orElseThrow(() -> new CustomException(TEAM_NOT_FOUND));
+    	
+    	TeamDto teamDto = TeamAndDtoAdapter.entityToDto(team);
+    	teamDto.setSportId(teamDto.getSportDto().getSportId());
+    	teamDto.setMemberId(member.getMemberId());
+    	teamDto.setLeader(member.getName());
+    	
+    	teamDao.save(TeamAndDtoAdapter.dtoToEntity(teamDto));
+    	return true;
     }
-
+    
     public boolean updateTeam(TeamDto teamDto) {
-        Team team = teamDao.findById(teamDto.getTeamId())
-                .orElseThrow(() -> new CustomException(TEAM_NOT_FOUND));
-        teamDto.setCreateDate(team.getCreateDate());
-
-        PhotoDto savedPhoto = new PhotoDto();
-        if (teamDto.getMultipartFile() != null) {
+    	Team team = teamDao.findById(teamDto.getTeamId())
+    			.orElseThrow(() -> new CustomException(TEAM_NOT_FOUND));
+    	teamDto.setCreateDate(team.getCreateDate());
+    	
+    	PhotoDto savedPhoto = new PhotoDto();
+        if(teamDto.getMultipartFile() != null){
             PhotoDto uploadPhoto;
-            try {
-                uploadPhoto = s3Uploader.upload(teamDto.getMultipartFile(), "static");
-                savedPhoto = PhotoAndDtoAdapter.entityToDto(photoDao.save(PhotoAndDtoAdapter.dtoToEntity(uploadPhoto)));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+			try {
+				uploadPhoto = s3Uploader.upload(teamDto.getMultipartFile(),"static");
+				savedPhoto = PhotoAndDtoAdapter.entityToDto(photoDao.save(PhotoAndDtoAdapter.dtoToEntity(uploadPhoto)));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
         }
-
-        if (savedPhoto.getPhotoId() != null) {
+        
+        if(savedPhoto.getPhotoId() != null){
             teamDto.setPhotoId(savedPhoto.getPhotoId());
             team = TeamAndDtoAdapter.dtoToEntityPhoto(teamDto);
-        } else {
+        }else{
             teamDto.setPhotoId(null);
             team = TeamAndDtoAdapter.dtoToEntity(teamDto);
         }
         teamDao.save(team);
-
-        return true;
+        
+    	return true;
     }
 }

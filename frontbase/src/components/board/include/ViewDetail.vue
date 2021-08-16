@@ -34,7 +34,7 @@
             <tr>
                 <th style="color:green">게시자</th>
                 <td style="color:green">{{ writer }}</td>
-                <td style="color:green">{{ writeDate}}</td>
+                <td style="color:green">{{ getFormatDate(writeDate) }}</td>
             </tr>
             <tr>
                 <td colspan="3" class="content-row" v-html="enterToBr(contents)" style="color:green"></td>
@@ -57,6 +57,7 @@ import { mapGetters } from "vuex";
 // import http from "@/util/http-common";
 import { createInstance } from "@/api/teamindex.js";
 import TeamHeader from '@/components/TeamHeader.vue';
+import moment from 'moment';
 
 export default {
   name: "viewdetail",
@@ -72,6 +73,9 @@ export default {
         writeDate: { type: String }
     },
   methods: {
+    getFormatDate(writeDate) {
+      return moment(new Date(writeDate)).format('YYYY년MM월DD일 HH시 mm분');
+    },
    deleteBoard() {
             const instance = createInstance();
             if (confirm("삭제하시겠습니까?")) {

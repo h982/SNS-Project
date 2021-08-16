@@ -1,7 +1,8 @@
 <template>
-  <div class="wrap">
+  <div class="mini_wrap">
+    <div class="mini_profile"></div>
     <div>{{ inner.member.name }}</div>
-    <div class="contents">{{ inner.contents }}</div>
+    <div class="mini_contents">{{ inner.contents }}</div>
   </div>
 </template>
 
@@ -13,13 +14,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-.wrap {
-  display: flex;
-}
-.contents {
-  margin-left: 10px;
-  font-weight: 700;
-}
-</style>

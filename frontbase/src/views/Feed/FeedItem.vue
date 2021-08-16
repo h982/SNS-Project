@@ -5,7 +5,7 @@
         <div class="profile"></div>
         <div class="feed_writer">{{ feed.writer }}</div>
       </div>
-      <div class="feed_date">{{ feed.writeDate }}</div>
+      <div class="feed_date">{{ getFormatDate(feed.writeDate) }}</div>
     </div>
     <div class="feed-card">
       <div class="feed-btns">
@@ -28,6 +28,7 @@
             src="../../assets/heart.png"
           />
           <img class="likeBtn" v-else src="../../assets/heart_b.png" />
+          <div>좋아요 {{ this.likeCount }}개</div>
         </div>
 
         <div class="desc">
@@ -44,6 +45,7 @@ import { mapGetters } from "vuex";
 import { createInstance } from "@/api/teamindex.js";
 import defaultImage from "../../assets/images/img-placeholder.png";
 import defaultProfile from "../../assets/images/profile_default.png";
+import moment from 'moment';
 
 export default {
   props: ["feed", "index"],
@@ -56,7 +58,8 @@ export default {
         page: ""
       },
       isLike: null,
-      feedlikeId: ""
+      feedlikeId: "",
+      likeCount: ""
     };
   },
   computed: {
@@ -76,8 +79,19 @@ export default {
         this.isLike = false;
       }
     }
+
+    const instance = createInstance();
+    instance
+      .get("/feedlike/feed/" + this.feed.feedId)
+      .then(({ data }) => {
+        this.likeCount = data.object.length;
+      })
+      .catch(() => {});
   },
   methods: {
+    getFormatDate(writeDate) {
+      return moment(new Date(writeDate)).format('YYYY년MM월DD일 HH:mm');
+    },
     changeLike() {
       if (!this.isLike) {
         var feedlike = {
@@ -96,6 +110,7 @@ export default {
                 .get("/feedlike/feed/" + this.feed.feedId)
                 .then(({ data }) => {
                   this.feedlikeId = data.object[0].feedlikeId;
+                  this.likeCount = data.object.length;
                 })
                 .catch(() => {});
               alert("좋아요!");
@@ -111,6 +126,13 @@ export default {
           .then(response => {
             if (response.data.data === "success") {
               this.isLike = false;
+              const instance = createInstance();
+              instance
+                .get("/feedlike/feed/" + this.feed.feedId)
+                .then(({ data }) => {
+                  this.likeCount = data.object.length;
+                })
+                .catch(() => {});
               alert("좋아요취소!");
             } else {
               alert("좋아요 취소실패");

@@ -1,0 +1,80 @@
+.comments {
+  width: 80%;
+  margin: 0 auto;
+  padding: 15px;
+}
+.writeC {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  margin: 2em auto 0;
+}
+label {
+  margin: 0;
+}
+.writeC input {
+  border: 1px solid black;
+}
+.comment {
+  display: flex;
+  width: calc(100% - 100px);
+  margin: 0 auto;
+  background: #ffffff;
+  padding: 1em 2em;
+}
+.profile {
+  background-image: url("../../../assets/images/profile_default.png");
+  background-size: cover;
+  border-radius: 50%;
+  width: 2.5em;
+  height: 2.5em;
+  margin-right: 1em;
+}
+.content {
+  width: 100%;
+}
+.writeCom input,
+.writeCom div {
+  display: inline-block;
+  margin-right: 0.2em;
+}
+.writeCom div:hover {
+  cursor: pointer;
+}
+.contents {
+  font-weight: 700;
+}
+.inputSpace {
+  border: 1px solid black;
+}
+.mini_wrap {
+  display: flex;
+  margin: 0.3em 0;
+}
+.mini_profile {
+  background-image: url("../../../assets/images/profile_default.png");
+  background-size: cover;
+  border-radius: 50%;
+  width: 1.5em;
+  height: 1.5em;
+  margin-right: 1em;
+}
+.mini_contents {
+  margin-left: 10px;
+  font-weight: 700;
+}
+.desc,
+.mini_contents {
+  margin-bottom: 0;
+  font-weight: 700;
+}
+.coco_btn {
+  display: inline-block;
+  border: 1px solid black;
+  padding: 0.2em 0.5em;
+  margin: 0.2em 0;
+}
+.coco_btn:hover {
+  cursor: pointer;
+}
