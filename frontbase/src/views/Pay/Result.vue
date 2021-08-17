@@ -46,20 +46,19 @@ export default {
     ...mapGetters(["memberInfo"])
   },
   mounted(){
-    if(this.success===true){
+    if(this.success==true){
           const instance = createInstance();
           console.log(this.memberInfo.email);
           instance.get("/member/"+this.memberInfo.email)
           .then(response => {
             console.log(response);
-            if(response.data.message==="success"){
+            if(response.data.message=="success"){
               this.$store.commit("SET_AUTHENTICATED", true);
             }
           }).catch(error =>{
             console.log(error);
           })
-
-    }
+      }
   },
   data() {
     const { query } = this.$router.history.current;

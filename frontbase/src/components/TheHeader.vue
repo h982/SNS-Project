@@ -84,33 +84,33 @@
         <span class="green--text font-weight-bold">뭐하니?</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn @click="changeTheme" depressed small icon class="hidden-md-and-up">
+      <!--<v-btn @click="changeTheme" depressed small icon class="hidden-md-and-up">
         <v-icon v-if="goDark == true">fas fa-sun</v-icon>
         <v-icon v-else>fas fa-moon</v-icon>
-      </v-btn>
+      </v-btn>-->
 
       <v-toolbar-items class="hidden-sm-and-down" v-if="memberInfo === null">
-        <v-btn flat to="/" active-class="green--text headline">Home</v-btn>
+        <v-btn flat to="/" active-class="green--text headline"><b>Home</b></v-btn>
         <v-btn flat to="/signup" active-class="green--text headline"
-          >SignUp</v-btn
+          ><b>SignUp</b></v-btn
         >
-        <v-btn @click="changeTheme" depressed small icon>
+        <!--<v-btn @click="changeTheme" depressed small icon>
           <v-icon v-if="goDark == true">fas fa-sun</v-icon>
           <v-icon v-else>fas fa-moon</v-icon>
-        </v-btn>
+        </v-btn>-->
       </v-toolbar-items>
 
       <v-toolbar-items class="hidden-sm-and-down" v-else>
-        <v-btn flat to="/feed" active-class="green--text headline">Feed</v-btn>
+        <v-btn flat to="/feed" active-class="green--text headline"><b>Feed</b></v-btn>
 
         <v-btn flat to="/teamlist" active-class="green--text headline"
-          >Teamlist</v-btn
+          ><b>Teamlist</b></v-btn
         >
         <v-btn flat to="/myteam" active-class="green--text headline"
-          >MyTeam</v-btn
+          ><b>MyTeam</b></v-btn
         >
         <v-btn flat to="/challenge" active-class="green--text headline"
-          >Challenges</v-btn
+          ><b>Challenges</b></v-btn
         >
         <v-btn
           v-if="this.waitingReqests && this.waitingReqests != 0"
@@ -122,25 +122,25 @@
             <template v-slot:badge>
               <span class="badge">{{ waitingReqests.length }}</span>
             </template>
-            <span>MyPAGE</span>
+            <span><b>MyPAGE</b></span>
           </v-badge>
         </v-btn>
         <v-btn v-else flat to="/myfeed" active-class="green--text headline"
-          >MyPAGE</v-btn
+          ><b>MyPAGE</b></v-btn
         >
 
         <v-btn flat to="/payhome" active-class="green--text headline"
-          >PREMIUM</v-btn
+          ><b>PREMIUM</b></v-btn
         >
 
         <v-btn flat to="/" active-class="" @click.prevent="onClickLogout"
-          >Logout</v-btn
+          ><b>Logout</b></v-btn
         >
 
-        <v-btn @click="changeTheme" depressed small icon>
+        <!--<v-btn @click="changeTheme" depressed small icon>
           <v-icon v-if="goDark == true">fas fa-sun</v-icon>
           <v-icon v-else>fas fa-moon</v-icon>
-        </v-btn>
+        </v-btn>-->
       </v-toolbar-items>
     </v-toolbar>
   </div>
