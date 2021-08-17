@@ -13,9 +13,11 @@
           height="200"
         />&nbsp;&nbsp;&nbsp;&nbsp;
       <v-card elevation="0">
+
         <v-chip :color="nameColor" dark>
           {{ memberInfo.name}}
           <v-btn @click="move()" icon elevation="0"><v-icon>settings</v-icon></v-btn>
+
         </v-chip>
 
         <div v-if="managingTeam">
@@ -70,7 +72,6 @@
             <v-chip color="green" text-color="white">{{
               myFeed.team.sport.name
             }}</v-chip>
-
                 <v-chip color="green" text-color="white">{{
               getFormatDate(myFeed.writeDate)
             }}</v-chip>
@@ -98,6 +99,7 @@ export default {
   },
   created() {
     this.$store.dispatch("GET_MY_TEAM_INFO", this.memberInfo.memberId);
+    this.$store.dispatch("getMemberByMemberId",this.memberInfo.memberId);
     if (this.memberInfo.authenticated) {
       this.grade = "Premium";
     }
