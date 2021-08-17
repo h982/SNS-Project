@@ -15,12 +15,12 @@ public interface MemberDao extends JpaRepository<Member, Integer> {
 	public Optional<Member> getMemberByEmailAndPassword(String email, String password);
 
     @Modifying
-    @Query(value = "update Member set authenticated = 1 where email = :email", nativeQuery = true)
+    @Query(value = "update member set authenticated = 1 where email = :email", nativeQuery = true)
     @Transactional
     int updateAuthentication(@Param("email") String email);
 
     @Modifying
-    @Query(value = "update Member set password = :password where email = :email", nativeQuery = true)
+    @Query(value = "update member set password = :password where email = :email", nativeQuery = true)
     @Transactional
     int updatePassword(@Param("email") String email, @Param("password") String password);
 }
