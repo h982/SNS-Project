@@ -82,10 +82,8 @@ public class TeamController {
     public ResponseEntity getMyTeamList(@PathVariable(name = "member_id") int memberId) {
 
     	 ResponseEntity response = null;
-    	 List<Team> team_list = teamService.getMyTeamList(memberId);
-    	 
-    	 for(Team team: team_list)
-    		 System.out.println(team);
+    	 List<TeamDto> team_list = teamService.getMyTeamList(memberId);
+
     	 final BasicResponse result = new BasicResponse();
     	 if(team_list.isEmpty()) {
     		 result.status = true;
