@@ -1,24 +1,25 @@
 <template>
   <div class="comment">
-    <div class="profile">
-      <img
-        v-bind:src="comment.member.photo.filePath"
-        style="border-radius: 50%;"
-        height="40"
-      />
-    </div>
-    <div>
+    <img v-bind:src="comment.member.photo.filePath" class="profile" />
+    <div class="co_wrap">
       <div class="content">
-        <div>{{ comment.member.name }}</div>
-        <div class="desc">{{ comment.contents }}</div>
+        <div class="writer">{{ comment.member.name }}</div>
+        <div class="content_btn_wrap">
+          <div class="desc">{{ comment.contents }}</div>
+          <span @click="makeCom" class="coco_btn">
+            답글달기
+          </span>
+        </div>
       </div>
-      <span @click="makeCom" class="coco_btn">
-        답글달기
-      </span>
       <div v-if="this.parentId == null"></div>
       <div v-else class="writeCom">
-        <input type="text" v-model="inputCom" class="inputSpace" @keyup.enter="writeComment()"/>
-        <div @click="writeComment">작성</div>
+        <input
+          type="text"
+          v-model="inputCom"
+          class="inputSpace"
+          @keyup.enter="writeComment()"
+        />
+        <div @click="writeComment" class="write_comment"></div>
       </div>
       <div class="reCom">
         <inner-item
