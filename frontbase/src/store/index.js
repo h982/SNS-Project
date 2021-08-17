@@ -1,5 +1,5 @@
 import Vue from "vue";
-import Vuex from "vuex";
+import Vuex, { Store } from "vuex";
 import jwt_decode from "jwt-decode";
 import createPersistedState from "vuex-persistedstate";
 import { findById } from "@/api/user.js";
@@ -155,11 +155,29 @@ export default new Vuex.Store({
     logout(state) {
       state.isLogin = false;
       state.memberInfo = null;
-      state.team_challenging.length = 0;
-      state.feed_challenging.length = 0;
-      state.whole_challenges.length = 0;
+      state.team_challenging = [];
+      state.feed_challenging = [];
+      state.whole_challenges = [];
       state.managingTeam = null;
-      state.managingTeamMembers.length = 0;
+      state.managingTeamMembers = [];
+      state.comments= [];
+      state.entire_challenge = null;
+      state.feedid = {};
+      state.joinRequests = [];
+      state.myRecomendTeams = [];
+      state.noticeItem = [];
+      state.oneFeed = null;
+      state.selectTeam = null;
+      state.selectTeamMembers = [];
+      state.teamFeeds = [];
+      state.teamLists = [];
+      state.team_challenges = [];
+      state.yourInfo = null;
+      state.myTeamList = [];
+      state.myFeeds = [];
+      state.feeds = [];
+      state.likeList = [];
+      //window.localstorage.clear();
     },
     setFeeds(state, data) {
       state.feeds = state.feeds.concat(data);
@@ -299,7 +317,7 @@ export default new Vuex.Store({
 
     LOGOUT({ commit }) {
       commit("logout");
-      this.state.myTeamList.length = 0;
+      //this.state.myTeamList.length = 0;
       localStorage.removeItem("access-token");
     },
     SET_SELECT_TEAM(context, payload) {
@@ -362,14 +380,18 @@ export default new Vuex.Store({
         .get("/team/my_team_list/" + payload)
         .then(data => {
           commit("SET_MY_TEAMLIST", data.data.object);
-          data.data.object.forEach(element => {
+          console.log("내 모든 팀정보");
+          console.log(data.data.object);
+          /*data.data.object.forEach(element => {
             let managerId = element.member.memberId;
+            console.log("리더");
+            console.log(memberId);
             if (managerId === state.memberInfo.memberId) {
               commit("SET_MANAGING_TEAM", element);
               dispatch("getRequests", element.teamId);
               dispatch("getTeamMembers", element.teamId);
             }
-          });
+          });*/
         })
         .catch(() => {
           //alert("에러발생!");
@@ -516,7 +538,10 @@ export default new Vuex.Store({
     },
     async getTeamMembers({ commit }, teamId) {
       const instance = createInstance();
+      console.log("매니저 팀원들구하기");
+      console.log(teamId);
       await instance.get("/jointeam/member/" + teamId).then(({ data }) => {
+        console.log(data.data);
         commit("SET_MANAGING_TEAM_MEMBERS", data.data);
       });
     },
@@ -566,6 +591,20 @@ export default new Vuex.Store({
         .get("/member/id/"+memberId)
         .then(({data}) => {
           commit("setMemberInfo",data.object);
+        });
+    },
+    GET_MANAGE_TEAM({ commit, dispatch }, payload) {
+      console.log("매니지팀 호출");
+      const instance = createInstance();
+      instance
+        .get("/team/"+payload)
+        .then(({ data }) => {
+          if (data.object) {
+            commit("SET_MANAGING_TEAM", data.object);
+            console.log(data.object.teamId);
+            dispatch("getRequests", data.object.teamId);
+            dispatch("getTeamMembers", data.object.teamId);
+          }
         });
     }
   }

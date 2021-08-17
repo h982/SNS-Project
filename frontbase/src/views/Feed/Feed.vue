@@ -55,8 +55,8 @@ export default {
     this.$store.dispatch("GET_ENTIRECHALLENGE_INFO", this.memberInfo.memberId);
     this.$store.dispatch("getMyFeeds", this.memberInfo.memberId);
     this.$store.dispatch("GET_RECOMEND_TEAMS", this.memberInfo.memberId);
-    
-  },
+    this.$store.dispatch("GET_MANAGE_TEAM", this.memberInfo.memberId);
+    },
   methods: {
     mvWrite() {
       this.$store.dispatch(

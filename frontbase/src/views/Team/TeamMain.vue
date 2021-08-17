@@ -69,9 +69,6 @@
             >
               <template v-slot:items="props">
                 <tr style="cursor:pointer;" @click="sendMemberId(props.item.member)">
-
-
-
                 <td class="text-xs-right">
 
                   <img

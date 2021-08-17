@@ -97,12 +97,12 @@ export default {
     };
   },
   created(){
-    this.thumbnail = this.managingTeam.photo.filePath.replaceAll("\"", "");
+    this.thumbnail = this.managingTeam.photoDto.filePath.replaceAll("\"", "");
     this.team.name = this.managingTeam.name.replaceAll("\"", "");
     this.team.introduction = this.managingTeam.introduction.replaceAll("\"", "");
     this.team.leader = this.managingTeam.leader.replaceAll("\"", "");
-    this.team.member.memberId = this.managingTeam.member.memberId;
-    this.team.sportDto.sportId = this.managingTeam.sport.sportId;
+    this.team.member.memberId = this.managingTeam.memberId;
+    this.team.sportDto.sportId = this.managingTeam.sportDto.sportId;
     this.team.teamId = this.managingTeam.teamId;
     console.log(this.managingTeam);
   },

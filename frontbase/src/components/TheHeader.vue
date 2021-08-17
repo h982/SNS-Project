@@ -164,7 +164,7 @@ export default {
     waitingReqests: function() {
       if (
         !$.isEmptyObject(this.managingTeam) &&
-        this.managingTeam.member.memberId == this.memberInfo.memberId
+        this.managingTeam.memberId == this.memberInfo.memberId
       ) {
         return this.joinRequests.filter(i => i.status.includes("WAITING"));
       }

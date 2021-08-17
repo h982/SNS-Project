@@ -51,6 +51,7 @@ export default {
   computed: {
     ...mapGetters(["memberInfo"]),
   },
+  
 
   created(){
     this.member.name = this.memberInfo.name;
