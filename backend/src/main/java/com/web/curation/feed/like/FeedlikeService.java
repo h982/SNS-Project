@@ -5,7 +5,9 @@ import com.web.curation.error.NotFoundDataException;
 import com.web.curation.feed.Feed;
 import com.web.curation.feed.FeedDao;
 import com.web.curation.member.Member;
+import com.web.curation.member.MemberAdapter;
 import com.web.curation.member.MemberDao;
+import com.web.curation.member.MemberDto;
 import com.web.curation.team.Team;
 import com.web.curation.team.challenge.TeamChallenge;
 import com.web.curation.team.challenge.TeamChallengeDao;
@@ -56,32 +58,38 @@ public class FeedlikeService {
         TeamChallenge teamChallenge = feed.getTeamchallenge();
         if (teamChallenge != null) {
             if (teamChallenge.getEndDate().isAfter(LocalDateTime.now())) {
-                checkTeamChallenge(feed);
+                if(checkTeamChallenge(feed)){
+                    MemberDto memberDto = MemberAdapter.entityToDto(member);
+                    memberDto.setPoint(member.getPoint() + 1);
+                    memberDto.setCreateDate(member.getCreateDate());
+                    memberDao.save(MemberAdapter.dtoToEntity(memberDto));
+                }
             }
         }
     }
 
-    private void checkTeamChallenge(Feed feed) {
+    private boolean checkTeamChallenge(Feed feed) {
         Optional<TeamChallenger> chkTeamChallenger = teamChallengerDao.findTeamChallengerByTeamChallengeAndMember(
                 feed.getTeamchallenge(), feed.getMember());
         if (!chkTeamChallenger.isPresent()) {
-            return;
+            return false;
         }
 
         TeamChallenger teamChallenger = chkTeamChallenger.get();
         if (teamChallenger.isDone()) {
-            return;
+            return false;
         }
 
         List<Feedlike> feedlikes = feedLikeDao.findFeedlikeByFeed(feed);
         Team team = feed.getTeam();
         int member_count = team.getMemberCount();
         if (feedlikes.size() < member_count / 3)
-            return;
+            return false;
 
         teamChallenger.setDone(true);
         teamChallengerDao.save(teamChallenger);
         updateGoalCount(feed.getTeamchallenge());
+        return true;
     }
 
     private void updateGoalCount(TeamChallenge teamChallenge) {

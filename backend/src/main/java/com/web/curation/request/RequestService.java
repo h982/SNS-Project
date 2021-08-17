@@ -171,16 +171,12 @@ public class RequestService {
         joinTeamDao.save(joinTeam);
     }
 
-    public RequestDto rejectRequest(int requestId) {
+    public void rejectRequest(int requestId) {
         Request request = requestDao.findById(requestId)
                 .orElseThrow(() -> new CustomException(REQUEST_NOT_FOUND));
         if (request.getStatus() != Status.WAITING) {
             throw new CustomException(REQUEST_PROCESSED_RESOURCE);
         }
-        RequestDto requestDto = RequestAdapter.EntityToDto(request);
-        requestDto.setStatus(Status.REJECTED);
-        requestDao.save(RequestAdapter.updateDtoToEntity(requestDto));
-
-        return requestDto;
+        requestDao.delete(request);
     }
 }

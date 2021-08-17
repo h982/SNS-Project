@@ -244,7 +244,7 @@ export default {
     // },
     loginWithKakao(){
       window.location.replace(
-        `https://kauth.kakao.com/oauth/authorize?client_id=35246c4d76c9d177b219aeeb8d0f2579&redirect_uri=http://localhost:8081/kakaosignup&response_type=code`
+        `https://kauth.kakao.com/oauth/authorize?client_id=35246c4d76c9d177b219aeeb8d0f2579&redirect_uri=http://i5c105.p.ssafy.io/kakaosignup&response_type=code`
       );
     },
     naverLogin(){

@@ -90,9 +90,6 @@
 
           <v-layout row justify-center align-center wrap class="mt-4 pt-2" data-aos="fade-up">
             <v-btn color="blue" class="white--text" @click="memberModify">정보수정</v-btn>
-            <div v-if="memberInfo.memberId === managingTeam.member.memberId">
-              <v-btn color="green" class="white--text" @click="teamManagement">팀 관리</v-btn>
-            </div>
             <v-btn color="red" class="white--text" @click.prevent="check()">회원탈퇴</v-btn>
           </v-layout>
           <br>
@@ -131,9 +128,6 @@ export default {
     },
     check(){
       alert("관리자에게 삭제요청이 전송되었습니다.");
-    },
-    teamManagement() {
-      this.$router.push("/teamManagement");
     },
     memberModify(){
       this.$router.push("/membermodify");

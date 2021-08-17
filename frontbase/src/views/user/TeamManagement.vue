@@ -4,7 +4,7 @@
     <br>
     <v-layout align-center data-aos="fade-right">
       <v-toolbar-title class="headline">
-          <span><b>내 팀</b></span>
+          <span><b>{{managingTeam.name.replaceAll("\"", "")}}팀</b></span>
           <span class="green--text"><b>&nbsp;관리<v-btn @click="move()" icon elevation="0"><v-icon>settings</v-icon></v-btn></b></span>
       </v-toolbar-title>
       <br><br><br><br>
@@ -28,7 +28,7 @@
             <v-text-field
               v-model="search"
               append-icon="search"
-              label="Search"
+              label="검색"
               single-line
               hide-details
             ></v-text-field>
@@ -141,11 +141,17 @@ export default {
       else return '#8B4513'
     },
     chageleader() {
-      const instance = createInstance();
-      instance.put("/team/leader/"+this.selected[0].member.memberId+"?teamId="+this.managingTeam.teamId).then(({ data }) => {
-        console.log("changeTeamLeader : " + data.message);
-        alert("리더가 변경되었습니다. 잠시 뒤 다시 로그인해주세요.");
-      });
+      if (this.selected.length == 0) {
+        alert("팀장을 선택해 주세요");
+      } else if (this.selected.length != 1) {
+        alert("한명만 선택해 주세요");
+      } else {
+        const instance = createInstance();
+        instance.put("/team/leader/"+this.selected[0].member.memberId+"?teamId="+this.managingTeam.teamId).then(({ data }) => {
+          console.log("changeTeamLeader : " + data.message);
+          alert("리더가 변경되었습니다. 잠시 뒤 다시 로그인해주세요.");
+        });
+      }
     },
     move(){
       this.$router.push("/teamModify");
