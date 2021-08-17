@@ -14,6 +14,7 @@ import com.web.curation.team.challenge.TeamChallengeDao;
 import com.web.curation.team.challenger.TeamChallenger;
 import com.web.curation.team.challenger.TeamChallengerDao;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,7 @@ import java.util.Optional;
 
 import static com.web.curation.error.ErrorCode.*;
 
+@Slf4j
 @Service
 @AllArgsConstructor
 public class FeedlikeService {
@@ -83,9 +85,9 @@ public class FeedlikeService {
         List<Feedlike> feedlikes = feedLikeDao.findFeedlikeByFeed(feed);
         Team team = feed.getTeam();
         int member_count = team.getMemberCount();
-        if (feedlikes.size() < member_count / 3)
+        log.info("멤버수 : " + member_count + ", 피드 좋아요 수 :" + feedlikes.size());
+        if (feedlikes.size() < (float)member_count / 3)
             return false;
-
         teamChallenger.setDone(true);
         teamChallengerDao.save(teamChallenger);
         updateGoalCount(feed.getTeamchallenge());
