@@ -1,6 +1,7 @@
 <template>
   <div class="wrap">
     <div class="img_wrap">
+      <v-btn @click="check()"></v-btn>
       <v-btn><label v-if="this.type === 'update'" for="chooseFile" class="fileBtn">
         👉 MODIFY IMAGE 👈
       </label>
@@ -72,7 +73,8 @@ export default {
       "team_challenges",
       "feed_challenging",
       "oneFeed",
-      "feedid"
+      "feedid",
+      "selectTeam"
     ])
   },
   
@@ -104,8 +106,8 @@ export default {
           );
         }
         formData.append("memberId", this.memberInfo.memberId);
-        formData.append("teamId", this.myTeamList[0].text.teamId);
-        formData.append("teamName", this.myTeamList[0].text.name);
+        formData.append("teamId", this.selectTeam.teamId);
+        formData.append("teamName", this.selectTeam.name);
         formData.append("contents", this.contents);
         formData.append("writer", this.memberInfo.name);
         formData.append(
@@ -201,7 +203,7 @@ export default {
       preview.style.maxHeight = "500px";
     },
     check() {
-      console.log(this.feed_challenging);
+      console.log(this.selectTeam);
     }
   }
 };
