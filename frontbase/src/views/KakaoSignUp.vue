@@ -172,7 +172,7 @@ export default {
   methods: {
     getKakaoUserInfo(){
         axios
-            .get("http://localhost:8080/member/kakao?code=" + this.$route.query.code)
+            .get("http://i5c105.p.ssafy.io/api/member/kakao?code=" + this.$route.query.code)
             .then(response => {
                 if(response.data.member == null){
                     alert("추가정보를 입력하셔야합니다.");
