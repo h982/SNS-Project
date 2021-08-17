@@ -192,6 +192,15 @@ public class MemberController {
         return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
     }
 
+    @ApiOperation(value = "비밀번호 수정")
+    @PostMapping("/password")
+    public ResponseEntity<Map<String, Object>> updatePassword(@RequestBody MemberDto memberDto) throws IOException {
+        Map<String, Object> resultMap = new HashMap<>();
+        memberService.updateMemberPassword(memberDto.getEmail(),memberDto.getPassword());
+        resultMap.put("message", "success");
+        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+    }
+
     @GetMapping("/your/{email}")
     @ApiOperation(value = "이메일로 멤버 받기")
     public ResponseEntity<?> getMemberFeeds(@PathVariable(name = "email") String email) {

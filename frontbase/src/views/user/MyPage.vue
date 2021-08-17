@@ -90,6 +90,7 @@
 
           <v-layout row justify-center align-center wrap class="mt-4 pt-2" data-aos="fade-up">
             <v-btn color="blue" class="white--text" @click="memberModify">정보수정</v-btn>
+            <v-btn color="green" class="white--text" @click="memberPasswordModify">비밀번호변경</v-btn>
             <v-btn color="red" class="white--text" @click.prevent="check()">회원탈퇴</v-btn>
           </v-layout>
           <br>
@@ -131,6 +132,9 @@ export default {
     },
     memberModify(){
       this.$router.push("/membermodify");
+    },
+    memberPasswordModify(){
+      this.$router.push("/memberpasswordmodify");
     },
     loadf() {
       if (this.type === "update") {

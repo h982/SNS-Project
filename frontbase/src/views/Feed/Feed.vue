@@ -74,11 +74,9 @@ export default {
     infiniteHandler($state) {
       const instance = createInstance();
       this.page += 1;
-      console.log(this.page);
       instance
         .get("/feed/" + this.memberInfo.memberId + "/" + this.page)
         .then(response => {
-          console.log(response);
           setTimeout(() => {
             if (response.data.object.length) {
               this.$store.commit("setFeeds", response.data.object);

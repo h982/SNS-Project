@@ -205,7 +205,7 @@ export default {
         },
         error => {
           console.error(error);
-          alert("에러입니다.");
+          alert("이메일이나 비밀번호를 잘못 입력하셨습니다.");
         }
       );
     },

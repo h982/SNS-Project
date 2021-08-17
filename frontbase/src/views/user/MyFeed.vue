@@ -3,6 +3,7 @@
     <v-toolbar-title class="headline">
       <span><b>My</b></span>
       <span class="green--text"><b>Feed</b></span>
+      <v-btn @click="check()"></v-btn>
     </v-toolbar-title>
     <v-layout justify-center align-center wrap elevation="0">
         <img
@@ -12,15 +13,19 @@
           height="200"
         />&nbsp;&nbsp;&nbsp;&nbsp;
       <v-card elevation="0">
-        <v-chip :color="nameColor" dark
-          >{{ memberInfo.name
-          }}<v-btn @click="move()" icon elevation="0"
-            ><v-icon>settings</v-icon></v-btn
-          ></v-chip
-        >
-        <v-chip :color="nameColor" dark v-if="managingTeam && memberInfo.memberId === managingTeam.member.memberId">
-          <v-btn @click="teamManagement" icon elevation="0">팀 관리</v-btn>
+
+        <v-chip :color="nameColor" dark>
+          {{ memberInfo.name}}
+          <v-btn @click="move()" icon elevation="0"><v-icon>settings</v-icon></v-btn>
+
         </v-chip>
+
+        <div v-if="managingTeam">
+          <v-chip :color="nameColor" dark>
+            팀 관리
+            <v-btn @click="teamManagement" icon elevation="0"><v-icon>settings</v-icon></v-btn>
+          </v-chip>
+        </div>
         <br />
         <p id="nameColor">
           <b>&nbsp;&nbsp;
@@ -93,6 +98,7 @@ export default {
     ])
   },
   created() {
+    this.$store.dispatch("GET_MY_TEAM_INFO", this.memberInfo.memberId);
     this.$store.dispatch("getMemberByMemberId",this.memberInfo.memberId);
     if (this.memberInfo.authenticated) {
       this.grade = "Premium";
@@ -123,7 +129,7 @@ export default {
       this.$router.push("/mypage");
     },
     check() {
-      console.log(this.myFeeds);
+      console.log(this.managingTeam);
     },
     getFormatDate(writeDate) {
       return moment(new Date(writeDate)).format('YYYY년 MM월 DD일 HH:mm');

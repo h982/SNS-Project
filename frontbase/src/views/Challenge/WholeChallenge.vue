@@ -52,12 +52,10 @@ import heart_b from "@/assets/images/heart_b.png";
 
 export default {
   created(){
-    this.newChallenges();
   },
   computed: {
     ...mapGetters(["memberInfo", "entire_challenge"]),
-
-    newChallenges: function () {
+    newChallenges() {
       if(this.entire_challenge.data.attendance < 30) {
         this.challenges[0].src = attendance_b
       } else {
@@ -94,7 +92,8 @@ export default {
         this.challenges[5].src = security
       }
       return this.challenges
-    },
+    }
+    
   },
   data() {
     return {
@@ -137,6 +136,9 @@ export default {
         // },
       ]
     };
+  },
+  methods(){
+    
   }
 };
 </script>

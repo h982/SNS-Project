@@ -22,7 +22,7 @@
           <div class="img_wrap">
             <img src="" class="preview" />
               <v-btn color="green" class="white--text"><label for="chooseFile">
-                팀 썸네일 이미지
+                Upload yor Image
               </label></v-btn>
               <input
                 type="file"
@@ -53,26 +53,6 @@
             required
           ></v-text-field>
 
-          <v-text-field
-            type="password"
-            name="member.password"
-            color="green"
-            background-color="transparent"
-            v-model="member.password"
-            label="새로운 비밀번호"
-          ></v-text-field>
-
-          <v-text-field
-            type="password"
-            name="passwordConfirm"
-            color="green"
-            background-color="transparent"
-            v-model="passwordConfirm"
-            label="새로운 비밀번호확인"
-          ></v-text-field>
-          <div style="color:red" v-if="error.passwordConfirm">{{error.passwordConfirm}}</div>
-
-          
           <v-text-field
             address="address"
             color="green"
@@ -130,6 +110,7 @@ export default {
 
   created(){
     this.member.name = this.memberInfo.name;
+    this.member.password = this.memberInfo.password;
     this.member.email = this.memberInfo.email;
     this.member.phone =this.memberInfo.phone;
     this.member.address = this.memberInfo.address;
