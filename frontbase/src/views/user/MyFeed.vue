@@ -67,9 +67,7 @@
             <v-chip color="green" text-color="white">{{
               myFeed.team.sport.name
             }}</v-chip>
-            <v-chip color="green" text-color="white">{{
-              myFeed.teamchallenge.contents
-            }}</v-chip>
+
                 <v-chip color="green" text-color="white">{{
               getFormatDate(myFeed.writeDate)
             }}</v-chip>
