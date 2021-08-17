@@ -8,8 +8,9 @@
         <img
           v-bind:src="memberInfo.photo.filePath"
           style="border-radius: 50%;"
+          width="200"
           height="200"
-        />      &nbsp;&nbsp;&nbsp;&nbsp;
+        />&nbsp;&nbsp;&nbsp;&nbsp;
       <v-card elevation="0">
         <v-chip :color="nameColor" dark
           >{{ memberInfo.name
@@ -17,6 +18,9 @@
             ><v-icon>settings</v-icon></v-btn
           ></v-chip
         >
+        <v-chip :color="nameColor" dark v-if="memberInfo.memberId === managingTeam.member.memberId">
+          <v-btn @click="teamManagement" icon elevation="0">팀 관리</v-btn>
+        </v-chip>
         <br />
         <p id="nameColor">
           <b>&nbsp;&nbsp;
@@ -87,7 +91,8 @@ export default {
       "feeds",
       "myTeamList",
       "team_challenging",
-      "myFeeds"
+      "myFeeds",
+      "managingTeam"
     ])
   },
   created() {
@@ -124,6 +129,9 @@ export default {
     },
     getFormatDate(writeDate) {
       return moment(new Date(writeDate)).format('YYYY년 MM월 DD일 HH:mm');
+    },
+    teamManagement() {
+      this.$router.push("/teamManagement");
     },
   }
 };
