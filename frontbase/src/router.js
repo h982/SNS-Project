@@ -13,6 +13,7 @@ import MyTeam from "@/views/Team/MyTeam.vue";
 import MyPage from "@/views/user/MyPage.vue";
 import MyFeed from "@/views/user/MyFeed.vue";
 import MemberModify from "@/views/user/MemberModify.vue";
+import MemberPasswordModify from "@/views/user/MemberPasswordModify.vue";
 import ChallengeMake from "@/views/Challenge/TeamChallengeMake.vue";
 import TeamManagement from "@/views/user/TeamManagement.vue";
 import TeamModify from "@/views/user/TeamModify.vue";
@@ -82,6 +83,12 @@ export default new Router({
       path: "/membermodify",
       name: "membermodify",
       component: MemberModify,
+      beforeEnter: requireAuth()
+    },
+    {
+      path: "/memberpasswordmodify",
+      name: "memberpasswordmodify",
+      component: MemberPasswordModify,
       beforeEnter: requireAuth()
     },
     {

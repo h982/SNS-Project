@@ -10,9 +10,9 @@
       <br><br><br><br>
       <v-btn @click="check()"></v-btn>
     </v-layout>
-    <v-row>
+   
       <join-request />
-    </v-row>
+    
     <br>
     <v-layout justify-start align-center data-aos="fade-up">
       <v-toolbar-title class="headline">
