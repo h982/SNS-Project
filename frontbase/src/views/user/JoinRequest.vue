@@ -8,15 +8,15 @@
       <br><br><br><br>
     </v-layout>
     
-    <template v-if="waitingReqests.length !== 0">
+    <template>
       <v-container style="padding-bottom: 0px;" fluid grid-list-md>
         <v-data-iterator
           :items="this.waitingReqests"
           :rows-per-page-items="rowsPerPageItems"
           :pagination.sync="pagination"
-          :search="search"
           content-tag="v-layout"
           hide-default-footer
+          no-data-text="가입 요청이 존재하지 않습니다"
           row
           wrap
         >
@@ -26,15 +26,7 @@
               color="green darken-3"
               class="mb-1"
             >
-              <v-text-field
-                v-model="search"
-                clearable
-                flat
-                solo-inverted
-                hide-details
-                prepend-inner-icon="mdi-magnify"
-                label="이름 검색"
-              ></v-text-field>
+              <v-toolbar-title>가입신청 목록</v-toolbar-title>
             </v-toolbar>
           </template>
           <template v-slot:item="props">
@@ -70,12 +62,6 @@
       </v-container>
     </template>
 
-    <template v-else>
-      <b>
-        가입 요청이 존재하지 않습니다...
-      </b>
-    </template>
-
   </div>
 </template>
 
@@ -87,7 +73,6 @@ export default {
   name: "JoinRequest",
   data() {
     return {
-      search: '',
       rowsPerPageItems: [4, 8, 12],
       pagination: {
         rowsPerPage: 4

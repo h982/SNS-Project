@@ -4,6 +4,7 @@
       <img
           v-bind:src="inner.member.photo.filePath"
           style="border-radius: 50%;"
+          width="24"
           height="24"
       />
       
