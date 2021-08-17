@@ -110,15 +110,17 @@
 
           
 
-          <v-btn
-            type="button"
-            color="green" class="white--text"
-            @click="modify"
-          >회원 변경</v-btn>
-          <v-btn @click="clear">초기화</v-btn>
-          <v-btn large flat to="/mypage" class="green--text">
-          <v-icon>arrow_back</v-icon>뒤로가기
-        </v-btn>
+          <div class="buttons">
+            <v-btn
+              type="button"
+              color="green" class="white--text"
+              @click="modify"
+            >회원 변경</v-btn>
+            <v-btn @click="clear">초기화</v-btn>
+            <v-btn large flat to="/mypage" class="green--text">
+              <v-icon>arrow_back</v-icon>뒤로가기
+            </v-btn>
+          </div>
         </form>
         
       </v-flex>
@@ -297,5 +299,9 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+.buttons {
+  position: relative;
+  margin-left: 33%;
+}
 </style>
