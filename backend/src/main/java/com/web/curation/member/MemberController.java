@@ -243,7 +243,7 @@ public class MemberController {
             StringBuilder sb = new StringBuilder();
             sb.append("grant_type=authorization_code");
             sb.append("&client_id=4ae2f007d84e033a263932b5176355f1");
-            sb.append("&redirect_uri=http://localhost:8081/kakaosignup");
+            sb.append("&redirect_uri=http://i5c105.p.ssafy.io/kakaosignup");
             sb.append("&code=" + code);
             bw.write(sb.toString());
             bw.flush();
