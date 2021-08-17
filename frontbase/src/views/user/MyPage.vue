@@ -118,7 +118,7 @@ export default {
   created: function(){
     this.$store.dispatch("getRequests", this.managingTeam.teamId);
     console.log(this.memberInfo.memberId);
-    console.log(this.managingTeam.member.memberId);
+    console.log(this.managingTeam.memberId);
   },
   methods: {
     modify() {

@@ -103,14 +103,11 @@
       <v-toolbar-items class="hidden-sm-and-down" v-else>
         <v-btn flat to="/feed" active-class="green--text headline"><b>Feed</b></v-btn>
 
-        <v-btn flat to="/teamlist" active-class="green--text headline"
-          ><b>Teamlist</b></v-btn
-        >
         <v-btn flat to="/myteam" active-class="green--text headline"
           ><b>MyTeam</b></v-btn
         >
         <v-btn flat to="/challenge" active-class="green--text headline"
-          ><b>Challenges</b></v-btn
+          ><b>Record</b></v-btn
         >
         <v-btn
           v-if="this.waitingReqests && this.waitingReqests != 0"
