@@ -1,8 +1,10 @@
 package com.web.curation.team;
 
+import com.web.curation.member.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface TeamDao extends JpaRepository<Team,Integer> {
 
@@ -14,6 +16,7 @@ public interface TeamDao extends JpaRepository<Team,Integer> {
 
 	Team getOne(int teamId);
 
+	Optional<Team> findTeamByMember(Member member);
     //팀 등록
 //    TeamDto save(TeamDto teamDto);
 }
