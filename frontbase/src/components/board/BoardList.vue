@@ -24,7 +24,7 @@
                 </b-input-group>
             </b-col>
             <b-col class="text-right">
-                <b-button pill class="btn-main" @click="movePage">글쓰기</b-button>
+                <b-button pill class="btn-main" :disabled="this.memberInfo.memberId !== this.selectTeam.member.memberId" @click="movePage">글쓰기</b-button>
             </b-col>
         </b-row>
         <div v-if="noticeItems" class="text-center">
@@ -92,7 +92,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(["noticeItems","selectTeam"]),
+        ...mapGetters(["noticeItems","selectTeam","memberInfo"]),
         filtered: function () {
             var stitle = this.word.trim();
             return this.noticeItems.filter(function (item) {
@@ -106,7 +106,8 @@ export default {
         },
     },
     created() {
-        console.log(this.selectTeam.teamId);
+        console.log(this.selectTeam.member.memberId);
+        console.log(this.memberInfo.memberId);
         this.$store.dispatch("getNoticeItems",this.selectTeam.teamId);
     },
     methods: {
