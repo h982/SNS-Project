@@ -30,14 +30,7 @@
               accept="image/*"
               @change="loadf"
             /> 
-            <div class="oldwrap">
-              <div v-if="this.type === 'update'" class="old">이전이미지</div>
-              <img
-                v-if="this.type === 'update'"
-                v-bind:src="this.memberInfo.photo.filePath"
-                class="oldpre"
-              />
-            </div>
+            
             
           </div>
 
@@ -63,7 +56,7 @@
           ></v-text-field>
 
           <v-text-field
-            :type="'password'"
+            type="password"
             name="member.password"
             color="green"
             background-color="transparent"
@@ -72,7 +65,7 @@
           ></v-text-field>
 
           <v-text-field
-            :type="'password'"
+            type="password"
             name="passwordConfirm"
             color="green"
             background-color="transparent"
@@ -130,7 +123,6 @@
 
 <script>
 import { createInstance } from "@/api/teamindex.js";
-import { mapState } from "vuex";
 import { mapGetters } from "vuex";
 
 export default {
@@ -274,14 +266,7 @@ export default {
       this.isSubmit = isSubmit;
     },
     loadf() {
-      if (this.type === "update") {
-        var oldpre = document.querySelector(".oldpre");
-        oldpre.style.display = "none";
-        var old = document.querySelector(".old");
-        old.style.display = "none";
-      }
       var file = document.getElementById("chooseFile");
-
       var preview = document.querySelector(".preview");
       preview.src = URL.createObjectURL(file.files[0]);
 
@@ -295,7 +280,7 @@ export default {
       console.log(this.memberInfo);
     }
   },
- 
+
 };
 </script>
 

@@ -8,8 +8,9 @@
         <img
           v-bind:src="memberInfo.photo.filePath"
           style="border-radius: 50%;"
+          width="200"
           height="200"
-        />      &nbsp;&nbsp;&nbsp;&nbsp;
+        />&nbsp;&nbsp;&nbsp;&nbsp;
       <v-card elevation="0">
         <v-chip :color="nameColor" dark
           >{{ memberInfo.name
