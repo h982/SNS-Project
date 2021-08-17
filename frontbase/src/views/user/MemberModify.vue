@@ -2,12 +2,46 @@
   <v-container grid-list-xl>
     <v-layout row justify-center align-center wrap class="mt-4 pt-2">
       <v-flex xs12 sm12 md6 lg6 xl6>
-        <h2 class="pb-4 mb-4">
-          <span><b>회원정보</b></span>
-          <span class="green--text"><b>변경</b></span>
-        </h2>
-
+        <v-layout align-center data-aos="fade-right">
+          <v-toolbar-title class="headline">
+              <span><b>회원정보</b></span>
+              <span class="green--text"><b>&nbsp;변경</b></span>
+          </v-toolbar-title>
+          <br><br><br><br>
+        </v-layout>
+        <!-- <v-btn @click="check()"></v-btn> -->
         <form method="POST">
+          
+          <div class="img_wrap">
+            
+            <v-layout align-center data-aos="fade-right">
+              <v-toolbar-title class="headline">
+                  <span><b>프로필 사진</b></span>
+                  <span class="green--text"><b>&nbsp;변경</b></span>
+              </v-toolbar-title>
+              <br><br><br><br>
+            </v-layout>
+              
+            <img src="" class="preview" />
+            <input
+              type="file"
+              id="chooseFile"
+              name="chooseFile"
+              accept="image/*"
+              @change="loadf"
+            /> 
+            <div class="oldwrap">
+              <div v-if="this.type === 'update'" class="old">이전이미지</div>
+              <img
+                v-if="this.type === 'update'"
+                v-bind:src="this.memberInfo.photo.filePath"
+                class="oldpre"
+              />
+            </div>
+            
+          </div>
+
+          
           <v-text-field
             name="member.name"
             color="green"
@@ -93,7 +127,6 @@
 </template>
 
 <script>
-// import { createInstance } from "@/api/index.js";
 import { createInstance } from "@/api/teamindex.js";
 import { mapState } from "vuex";
 import { mapGetters } from "vuex";
@@ -117,6 +150,7 @@ export default {
     this.member.createDate =this.memberInfo.createdate;
     this.member.authenticated =this.memberInfo.authenticated;
     this.member.memberId =this.memberInfo.memberId;
+    this.photo=this.memberInfo.photo.filePath;
   },
   data() {
     return {
@@ -156,6 +190,7 @@ export default {
       error: {
         passwordConfirm: false,
       },
+      photo:null,
     };
   },
   watch: {
@@ -171,16 +206,51 @@ export default {
       this.member.addressDetail = this.memberInfo.addressDetail;
     },
     modify() {
-      const instance = createInstance();
-      console.log(this.member);
-      this.member.mbti = this.mbti.name;
+      const formData = new FormData();
 
-      instance.put("/member", JSON.stringify(this.member))
+      const instance = createInstance();
+      formData.append("memberId", this.member.memberId);
+      formData.append("name", this.member.name);
+      formData.append("email", this.member.email);
+      formData.append("phone", this.member.phone);
+      formData.append("password", this.member.password);
+      formData.append("address", this.member.address);
+      formData.append("addressDetail", this.member.addressDetail);
+      formData.append("zonecode", this.member.zonecode);
+      formData.append("sex", this.member.sex);
+      formData.append("point", this.member.point);
+      formData.append("mbti", this.member.mbti);
+      formData.append("authenticated", this.member.authenticated);
+      const tmp = document.getElementById("chooseFile").files[0];
+      console.log(tmp);
+      if(tmp==null){
+        alert("이미지가 선택되지 않았습니다. 이미지를 선택해주세요.");
+        return;
+      }else{
+        formData.append(
+          "image",
+          document.getElementById("chooseFile").files[0]
+        );
+      }
+      instance.put("/member", 
+      formData,
+      {
+        Headers: {
+          "Content-Type": "multipart/form-data"
+        }
+      })
       .then(
         (response) => {
           if (response.data.message === "success") {
-            alert("회원변경 완료");
+            alert("회원정보가 변경되었습니다. 새로운 정보로 다시 로그인 해주세요.");
             this.$store.commit("setMemberInfo", this.member);
+            this.$store.dispatch("LOGOUT")
+            .then(() => {
+              if (this.$route.path !== "/") this.$router.replace("/");
+            })
+            .catch(() => {
+              console.log("로그아웃 에러입니다.");
+            });
             this.$router.push("/");
           } else {
             alert("회원변경 실패");
@@ -201,6 +271,27 @@ export default {
       });
       this.isSubmit = isSubmit;
     },
+    loadf() {
+      if (this.type === "update") {
+        var oldpre = document.querySelector(".oldpre");
+        oldpre.style.display = "none";
+        var old = document.querySelector(".old");
+        old.style.display = "none";
+      }
+      var file = document.getElementById("chooseFile");
+
+      var preview = document.querySelector(".preview");
+      preview.src = URL.createObjectURL(file.files[0]);
+
+      console.log(file.files[0]);
+
+      preview.style.width = "60%";
+      preview.style.height = "60%";
+      preview.style.maxHeight = "500px";
+    },
+    check(){
+      console.log(this.memberInfo);
+    }
   },
  
 };

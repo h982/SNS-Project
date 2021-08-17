@@ -17,7 +17,7 @@
             </b></p>
 
           <hr class="my-4" />
-
+          
           <v-text-field
             name="member.name"
             color="green"
@@ -130,13 +130,31 @@ export default {
       alert("아직 안만듬");
     },
     check(){
-      console.log(this.managingTeam);
+      alert("관리자에게 삭제요청이 전송되었습니다.");
     },
     teamManagement() {
       this.$router.push("/teamManagement");
     },
     memberModify(){
       this.$router.push("/membermodify");
+    },
+    loadf() {
+      if (this.type === "update") {
+        var oldpre = document.querySelector(".oldpre");
+        oldpre.style.display = "none";
+        var old = document.querySelector(".old");
+        old.style.display = "none";
+      }
+      var file = document.getElementById("chooseFile");
+
+      var preview = document.querySelector(".preview");
+      preview.src = URL.createObjectURL(file.files[0]);
+
+      console.log(file.files[0]);
+
+      preview.style.width = "60%";
+      preview.style.height = "60%";
+      preview.style.maxHeight = "500px";
     },
   },
 };

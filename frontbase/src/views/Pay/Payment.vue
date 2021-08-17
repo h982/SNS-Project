@@ -1,8 +1,12 @@
 <template>
   <div class="imp-container">
-    <br>
-    <h1>프리미엄 결제</h1>
-    <br>
+    <v-layout align-center data-aos="fade-right">
+      <v-toolbar-title class="headline">
+          <span><b>프리미엄</b></span>
+          <span class="green--text"><b>&nbsp;결제</b></span>
+      </v-toolbar-title>
+      <br><br><br><br>
+    </v-layout>
     <a-form
       :form="form"
       :label-col="{ span: 6 }"
@@ -41,9 +45,9 @@
           </a-select-option>
         </a-select>
       </a-form-item>
-      <a-form-item label="에스크로 결제여부" class="imp-payment-escrow">
+      <!-- <a-form-item label="에스크로 결제여부" class="imp-payment-escrow">
         <a-switch v-decorator="['escrow', { valuePropName: 'checked' }]" />
-      </a-form-item>
+      </a-form-item> -->
       <a-form-item label="입금기한" v-if="vbankDueVisible">
         <a-input
           v-decorator="[
@@ -74,6 +78,7 @@
           ]"
           size="large"
           type="number"
+          readonly
         />
       </a-form-item>
       <a-form-item label="할부개월수" v-if="quotaVisible">
@@ -97,12 +102,14 @@
         <a-input
           v-decorator="['merchantUid', { initialValue: initialMerchantUid }]"
           size="large"
+          readonly
         />
       </a-form-item>
       <a-form-item label="주문명">
         <a-input
           v-decorator="['name', { initialValue: '혼자뭐하니 결제' }]"
           size="large"
+          readonly
         />
       </a-form-item>
       <a-form-item label="결제금액">
@@ -110,6 +117,7 @@
           v-decorator="['amount', { initialValue: '100' }]"
           size="large"
           type="number"
+          readonly
         />
       </a-form-item>
       <a-form-item label="이름">

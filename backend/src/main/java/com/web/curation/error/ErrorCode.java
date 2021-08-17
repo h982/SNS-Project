@@ -19,6 +19,7 @@ public enum ErrorCode {
     TEAM_CHALLENGE_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 팀 챌린지 정보를 찾을 수 없습니다."),
     TEAM_CHALLENGER_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 팀 챌린지 참가 정보를 찾을 수 없습니다."),
     REQUEST_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 가입요청를 찾을 수 없습니다."),
+    MBTI_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 mbti 정보를 찾을 수 없습니다."),
 
     /* 409 CONFLICT : Resource 의 현재 상태와 충돌. 중복된 데이터 존재 */
     FEEDLIKE_DUPLICATE_RESOURCE(HttpStatus.CONFLICT, "피드 좋아요가 이미 존재합니다."),

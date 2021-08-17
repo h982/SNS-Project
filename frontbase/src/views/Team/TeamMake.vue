@@ -2,10 +2,13 @@
   <v-container grid-list-xl>
     <v-layout row justify-center align-center wrap class="mt-4 pt-2">
       <v-flex xs12 sm12 md6 lg6 xl6>
-        <h2 class="pb-4 mb-4">
-          <span>Team</span>
-          <span class="green--text">Create</span>
-        </h2>
+        <v-layout align-center data-aos="fade-right">
+          <v-toolbar-title class="headline">
+              <span><b>팀</b></span>
+              <span class="green--text"><b>&nbsp;생성</b></span>
+          </v-toolbar-title>
+          <br><br><br><br>
+        </v-layout>
 
         <form>
           <div class="img_wrap">

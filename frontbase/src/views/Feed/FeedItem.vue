@@ -2,8 +2,16 @@
   <div class="feed-item">
     <div class="feed_t">
       <div class="user_wrap">
-        <div class="profile"></div>
-        <div class="feed_writer">{{ feed.writer }}</div>
+        <div class="profile">
+          <img
+            v-bind:src="feed.member.photo.filePath"
+            style="border-radius: 50%;"
+            height="30"
+          />
+        </div>
+        <div class="feed_writer">
+          <b>{{ feed.writer }}</b>
+        </div>
       </div>
       <div>
         <div class="feed-btns">
@@ -31,12 +39,13 @@
           <img class="likeBtn" v-else src="../../assets/heart_b.png" />
           <div class="likeCnt">좋아요 {{ this.likeCount }}개</div>
         </div>
-
         <div class="desc">
           {{ feed.contents }}
         </div>
         <div class="showComment" @click="mvComment()">댓글보기</div>
-        <div class="feed_date">{{ feed.writeDate }}</div>
+        <div class="feed_date">
+          <b>{{ getFormatDate(feed.writeDate) }}</b>
+        </div>
       </div>
     </div>
   </div>
@@ -47,6 +56,7 @@ import { mapGetters } from "vuex";
 import { createInstance } from "@/api/teamindex.js";
 import defaultImage from "../../assets/images/img-placeholder.png";
 import defaultProfile from "../../assets/images/profile_default.png";
+import moment from "moment";
 
 export default {
   props: ["feed", "index"],
@@ -79,6 +89,7 @@ export default {
       } else {
         this.isLike = false;
       }
+      console.log();
     }
 
     const instance = createInstance();
@@ -90,6 +101,9 @@ export default {
       .catch(() => {});
   },
   methods: {
+    getFormatDate(writeDate) {
+      return moment(new Date(writeDate)).format("YYYY년 MM월 DD일 HH:mm");
+    },
     changeLike() {
       if (!this.isLike) {
         var feedlike = {

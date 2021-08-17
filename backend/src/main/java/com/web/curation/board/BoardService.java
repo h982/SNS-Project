@@ -1,5 +1,7 @@
 package com.web.curation.board;
 
+import com.web.curation.error.CustomException;
+import com.web.curation.error.ErrorCode;
 import com.web.curation.error.NotFoundDataException;
 import com.web.curation.team.Team;
 import com.web.curation.team.TeamDao;
@@ -18,7 +20,8 @@ public class BoardService {
     private final TeamDao teamDao;
 
     public List<Board> getBoardlist(int teamId) {
-        return boardDao.findByTeam(new Team(teamId));
+        Team chkTeam = teamDao.findById(teamId).orElseThrow(()->new CustomException(ErrorCode.TEAM_NOT_FOUND));
+        return boardDao.findByTeam(chkTeam);
     }
 
     public BoardDto getBoardOne(int boardId) {

@@ -4,7 +4,7 @@
       <v-flex xs12 sm12 md6 lg6 xl6>
         <h2 class="pb-4 mb-4">
           <span>Sign</span>
-          <span class="blue--text">Up</span>
+          <span class="green--text">Up</span>
         </h2>
 
         <form>
@@ -14,7 +14,7 @@
             background-color="transparent"
             v-model="member.name"
             :error-messages="nameErrors"
-            label="이름"
+            label="닉네임"
             required
           ></v-text-field>
         

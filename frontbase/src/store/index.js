@@ -46,6 +46,7 @@ export default new Vuex.Store({
     likeList: [], // 내가 좋아요한 피드들
     yourFeeds: [],
     yourInfo: null,
+    myRecomendTeams:[],
   },
 
   getters: {
@@ -134,6 +135,9 @@ export default new Vuex.Store({
     selectTeamMembers(state) {
       return state.selectTeamMembers
     },
+    myRecomendTeams(state) {
+      return state.myRecomendTeams
+    },
   },
   mutations: {
     setIsLogined(state, isLogin) {
@@ -164,6 +168,9 @@ export default new Vuex.Store({
 
     setMyFeeds(state, payload) {
       state.myFeeds = payload;
+    },
+    setRecomendTeams(state, payload) {
+      state.myRecomendTeams = payload;
     },
     setYourFeeds(state, payload) {
       state.yourFeeds.length = 0;
@@ -399,6 +406,19 @@ export default new Vuex.Store({
           //alert("에러발생");
         });
     },
+    GET_RECOMEND_TEAMS({ commit }, payload) {
+      const instance = createInstance();
+      instance
+        .get("/recommend/" + payload)
+        .then(response => {
+          console.log("추천팀");
+          console.log(response);
+          commit("setRecomendTeams", response.data.object);
+        })
+        .catch(() => {
+          //alert("에러발생");
+        });
+    },
     async getYourFeeds({ commit }, payload) {
       const instance = createInstance();
       await instance
@@ -498,9 +518,9 @@ export default new Vuex.Store({
     SET_ONEFEED(context, payload) {
       context.commit("SET_ONEFEED", payload);
     },
-    getTeamMembers({ commit }, teamId) {
+    async getTeamMembers({ commit }, teamId) {
       const instance = createInstance();
-      instance.get("/jointeam/member/" + teamId).then(({ data }) => {
+      await instance.get("/jointeam/member/" + teamId).then(({ data }) => {
         //console.log("getTeamMembers : " + data.message)
         commit("SET_MANAGING_TEAM_MEMBERS", data.data);
       });
