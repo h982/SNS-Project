@@ -18,7 +18,7 @@
             ><v-icon>settings</v-icon></v-btn
           ></v-chip
         >
-        <v-chip :color="nameColor" dark v-if="memberInfo.memberId === managingTeam.member.memberId">
+        <v-chip :color="nameColor" dark v-if="managingTeam && memberInfo.memberId === managingTeam.member.memberId">
           <v-btn @click="teamManagement" icon elevation="0">팀 관리</v-btn>
         </v-chip>
         <br />
@@ -67,7 +67,6 @@
             <v-chip color="green" text-color="white">{{
               myFeed.team.sport.name
             }}</v-chip>
-
                 <v-chip color="green" text-color="white">{{
               getFormatDate(myFeed.writeDate)
             }}</v-chip>

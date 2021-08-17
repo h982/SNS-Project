@@ -16,6 +16,7 @@
     <div class="wrapB">
       <feed-item v-for="(feed, idx) in teamFeeds" :key="idx" :feed="feed" />
         <v-btn
+          v-if="teamcheck === true | this.selectTeam.memberId === this.memberInfo.memberId"
           @click="mvWrite"
           color="secondary"
           elevation="7"
