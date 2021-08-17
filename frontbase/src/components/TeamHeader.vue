@@ -16,8 +16,10 @@
         </b-button>
 
         <b-button variant="warning" class="mr-2" color="warning"  @click="moveChattingRoom">
-            <i class="fas fa-comments fa-2x"></i>
-            <span v-if="this.window.width > 770">&nbsp;&nbsp;&nbsp;채팅</span>
+            <span style="color:white">
+                <i class="fas fa-comments fa-2x"></i>
+                <span v-if="this.window.width > 770">&nbsp;&nbsp;&nbsp;채팅</span>
+            </span>
         </b-button>
 
         <b-button variant="danger" class=" mr-2" color="error" @click="moveTeamChallenge">
