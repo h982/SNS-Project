@@ -62,4 +62,11 @@ public class Team {
     @JoinColumn(name = "photo_id")
     private Photo photo;
 
+    public void updateMemberCount(boolean upOrDown){
+        if(upOrDown){
+            this.memberCount++;
+        }else{
+            this.memberCount--;
+        }
+    }
 }
