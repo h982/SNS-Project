@@ -34,8 +34,8 @@
     </v-layout>
 
     <v-layout row column justify-center class="mt-4 pt-2">
-      
-      
+
+
       <div v-if="selectTeam.photoDto === null">
         <v-img :src="thumbnail1" aspect-ratio="2.75" height="330" contain></v-img>
       </div>
@@ -69,19 +69,19 @@
             >
               <template v-slot:items="props">
                 <tr style="cursor:pointer;" @click="sendMemberId(props.item.member)">
-                
-                
-                
+
+
+
                 <td class="text-xs-right">
-                  
+
                   <img
                     v-bind:src="props.item.member.photo.filePath"
                     style="border-radius: 50%;"
                     width="30"
                     height="30"
-                  /> 
-                  
-                
+                  />
+
+
                 </td>
                 <td class="text-xs-right">
                   <v-chip
@@ -138,7 +138,7 @@
         x-small
         class="join"
       ><i class="fas fa-sign-in-alt fa-2x"></i>
-      </v-btn> 
+      </v-btn>
       <br>
       <br>
       <v-layout>
@@ -146,7 +146,7 @@
           <v-icon>arrow_back</v-icon>Back to Teamlist
         </v-btn>
         <!-- <v-btn @click="check()">
-          
+
         </v-btn> -->
       </v-layout>
     </v-layout>
@@ -175,7 +175,7 @@ export default {
     },
   },
   mounted(){
-    
+
   },
   created() {
     this.$store.dispatch("GET_MY_TEAM_INFO",this.memberInfo.memberId);
@@ -185,7 +185,7 @@ export default {
       memberId: this.memberInfo.memberId,
       teamId:this.selectTeam.teamId
     };
-    this.$store.dispatch("GET_TEAMCHALLENGER_INFO", token); 
+    this.$store.dispatch("GET_TEAMCHALLENGER_INFO", token);
     this.$store.dispatch("getSelectTeamMembers", this.selectTeam.teamId);
   },
   data() {
@@ -196,7 +196,7 @@ export default {
       search: '',
       nameColor: "#8B4513",
       headers: [
-      
+
         { text: '프로필', value: 'member.photo.filePath',  width: '30', sortable: false,},
         { text: '이름', value: 'member.name',  width: '100'},
         { text: '포인트', value: 'member.point',  width: '100'},
@@ -297,7 +297,7 @@ export default {
     check(){
       console.log(this.selectTeam);
     },
-    
+
   },
 }
 </script>
@@ -306,7 +306,7 @@ export default {
 .join {
   position: absolute;
   right: 0px;
-  bottom: 0px;  
+  bottom: 0px;
 }
 .textbox {
   padding: 0px 150px;

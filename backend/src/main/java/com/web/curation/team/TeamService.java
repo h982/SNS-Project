@@ -14,6 +14,7 @@ import com.web.curation.member.MemberDto;
 import com.web.curation.recommendation.Mbti;
 import com.web.curation.recommendation.MbtiDao;
 import com.web.curation.team.join.JoinTeam;
+import com.web.curation.team.join.JoinTeamAdapter;
 import com.web.curation.team.join.JoinTeamDao;
 import com.web.curation.team.join.JoinTeamDto;
 import lombok.RequiredArgsConstructor;
@@ -65,15 +66,15 @@ public class TeamService {
     }
 
 
-    public List<Team> getMyTeamList(int memberId) {
-        List<Team> teamList = new ArrayList<>();
+    public List<TeamDto> getMyTeamList(int memberId) {
+        List<TeamDto> teamList = new ArrayList<>();
         Member member = memberDao.findById(memberId).get();
         List<JoinTeam> joinTeams = joinTeamDao.findJoinTeamByMember(member);
 
         for (JoinTeam joinTeam : joinTeams) {
-            teamList.add(joinTeam.getTeam());
+            JoinTeamDto joinTeamDto = JoinTeamAdapter.entityToDto(joinTeam);
+            teamList.add(joinTeamDto.getTeam());
         }
-
         return teamList;
     }
 
