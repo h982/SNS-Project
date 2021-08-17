@@ -15,9 +15,9 @@
             <div class="text-center mb-3" v-if="boardtype == 'notice'">
                 <b-col class="text-right mt-5">
                     <router-link :to="'/board/modify?boardId=' + boardId"
-                        ><b-button size="sm" class="m-1">수정</b-button></router-link
+                        ><b-button size="sm" class="m-1" :disabled="this.memberInfo.memberId !== this.selectTeam.member.memberId">수정</b-button></router-link
                     >
-                    <b-button variant="outline-danger" size="sm" class="m-1" @click="deleteBoard"
+                    <b-button variant="outline-danger" size="sm" class="m-1" @click="deleteBoard" :disabled="this.memberInfo.memberId !== this.selectTeam.member.memberId"
                         >삭제</b-button
                     >
                 </b-col>
@@ -63,6 +63,9 @@ export default {
   name: "viewdetail",
   components: {
     TeamHeader
+  },
+  computed:{
+    ...mapGetters(["selectTeam","memberInfo"]),
   },
   props: {
         boardtype: { type: String },

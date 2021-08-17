@@ -58,9 +58,11 @@
                             class="mr-2"
                             v-if="type == 'create'"
                             @click="checkHandler"
+                            :disabled="this.memberInfo.memberId !== this.selectTeam.member.memberId"
                             >등록</b-button
                         >
                         <b-button variant="success" class="mr-2" v-else @click="checkHandler"
+                            :disabled="this.memberInfo.memberId !== this.selectTeam.member.memberId"
                             >수정</b-button
                         >
                         <b-button @click="moveList">목록</b-button>
