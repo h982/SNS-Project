@@ -1,15 +1,7 @@
 <template>
   <div class="mini_wrap">
-    <div class="mini_profile">
-      <img
-          v-bind:src="inner.member.photo.filePath"
-          style="border-radius: 50%;"
-          width="24"
-          height="24"
-      />
-      
-    </div>
-    <div>{{ inner.member.name }}</div>
+    <img v-bind:src="inner.member.photo.filePath" class="mini_profile" />
+    <div class="mini_writer">{{ inner.member.name }}</div>
     <div class="mini_contents">{{ inner.contents }}</div>
   </div>
 </template>
@@ -20,7 +12,7 @@ export default {
   data: () => {
     return {};
   },
-  created(){
+  created() {
     console.log(this.inner);
   }
 };

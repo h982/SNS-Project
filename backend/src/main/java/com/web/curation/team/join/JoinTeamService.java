@@ -66,6 +66,9 @@ public class JoinTeamService{
                 .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
         joinTeamDao.deleteByTeamAndMember(team, member);
 
+        team.updateMemberCount(false);
+		teamDao.save(team);
+
 		Request request = requestDao.findRequestByTeamAndMember(team, member)
 				.orElseThrow(() -> new CustomException(REQUEST_NOT_FOUND));
 		requestDao.delete(request);

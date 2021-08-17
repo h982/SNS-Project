@@ -81,20 +81,7 @@ public class RequestService {
     private void increaseMemberCount(int teamId) {
         Team team = teamDao.findById(teamId)
                 .orElseThrow(() -> new CustomException(TEAM_NOT_FOUND));
-
-        team = Team.builder()
-                .teamId(team.getTeamId())
-                .name(team.getName())
-                .member(team.getMember())
-                .sport(team.getSport())
-                .createDate(team.getCreateDate())
-                .introduction(team.getIntroduction())
-                .leader(team.getLeader())
-                .imgPath(team.getImgPath())
-                .memberCount(team.getMemberCount() + 1)     // member 수 증가
-                .photo(team.getPhoto())
-                .build();
-
+        team.updateMemberCount(true);
         teamDao.save(team);
     }
 
