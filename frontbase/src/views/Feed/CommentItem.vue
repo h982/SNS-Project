@@ -1,13 +1,7 @@
 <template>
   <div class="comment">
-    <div class="profile">
-      <img
-        v-bind:src="comment.member.photo.filePath"
-        style="border-radius: 50%;"
-        height="40"
-      />
-    </div>
-    <div>
+    <img v-bind:src="comment.member.photo.filePath" class="profile" />
+    <div class="co_wrap">
       <div class="content">
         <div class="writer">{{ comment.member.name }}</div>
         <div class="content_btn_wrap">
@@ -25,7 +19,7 @@
           class="inputSpace"
           @keyup.enter="writeComment()"
         />
-        <div @click="writeComment">작성</div>
+        <div @click="writeComment" class="write_comment"></div>
       </div>
       <div class="reCom">
         <inner-item

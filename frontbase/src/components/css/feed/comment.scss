@@ -17,7 +17,6 @@ label {
   cursor: pointer;
 }
 .profile {
-  background-image: url("../../../assets/images/profile_default.png");
   background-size: cover;
   border-radius: 50%;
   width: 2.5em;
@@ -66,7 +65,6 @@ label {
   width: 100%;
 }
 .mini_profile {
-  background-image: url("../../../assets/images/profile_default.png");
   background-size: cover;
   border-radius: 50%;
   width: 1.5em;
@@ -93,6 +91,7 @@ label {
 .desc,
 .mini_contents {
   margin-bottom: 0;
+  font-weight: 300;
 }
 .coco_btn {
   display: inline-block;
@@ -106,7 +105,9 @@ label {
 .coco_btn:hover {
   cursor: pointer;
 }
-
+.co_wrap {
+  width: 100%;
+}
 @include mobile {
   .comments {
     width: 98%;

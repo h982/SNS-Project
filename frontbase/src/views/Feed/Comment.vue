@@ -8,14 +8,14 @@
       ></comment-item>
     </div>
     <div class="writeC">
-      <label for="writeC">댓글작성</label>
       <input
         type="text"
         id="writeC"
         v-model="inputC"
+        placeholder="댓글달기..."
         @keyup.enter="writeComment()"
       />
-      <v-btn @click="writeComment">작성</v-btn>
+      <div @click="writeComment" class="writeC_btn">작성</div>
     </div>
   </div>
 </template>

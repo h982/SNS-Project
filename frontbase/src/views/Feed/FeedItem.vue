@@ -2,15 +2,9 @@
   <div class="feed-item">
     <div class="feed_t">
       <div class="user_wrap">
-        <div class="profile">
-          <img
-            v-bind:src="feed.member.photo.filePath"
-            style="border-radius: 50%;"
-            height="30"
-          />
-        </div>
+        <img v-bind:src="feed.member.photo.filePath" class="profile" />
         <div class="feed_writer">
-          <b>{{ feed.writer }}</b>
+          {{ feed.writer }}
         </div>
       </div>
       <div>
