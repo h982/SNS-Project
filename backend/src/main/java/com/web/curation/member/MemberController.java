@@ -162,19 +162,15 @@ public class MemberController {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = HttpStatus.ACCEPTED;
 
-        if (jwtService.isUsable(request.getHeader("access-token"))) {
-            try {
-                memberService.updateMemberAuthenticate(memberEmail);
-                resultMap.put("message", "success");
-                status = HttpStatus.ACCEPTED;
-            } catch (Exception e) {
-                resultMap.put("message", e.getMessage());
-                status = HttpStatus.INTERNAL_SERVER_ERROR;
-            }
-        } else {
-            resultMap.put("message", "fail");
-            status = HttpStatus.CONFLICT;
+        try {
+            memberService.updateMemberAuthenticate(memberEmail);
+            resultMap.put("message", "success");
+            status = HttpStatus.ACCEPTED;
+        } catch (Exception e) {
+            resultMap.put("message", e.getMessage());
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
+
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
 
@@ -196,7 +192,7 @@ public class MemberController {
     @PostMapping("/password")
     public ResponseEntity<Map<String, Object>> updatePassword(@RequestBody MemberDto memberDto) throws IOException {
         Map<String, Object> resultMap = new HashMap<>();
-        memberService.updateMemberPassword(memberDto.getEmail(),memberDto.getPassword());
+        memberService.updateMemberPassword(memberDto.getEmail(), memberDto.getPassword());
         resultMap.put("message", "success");
         return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
     }
@@ -205,7 +201,7 @@ public class MemberController {
     @ApiOperation(value = "이메일로 멤버 받기")
     public ResponseEntity<?> getMemberFeeds(@PathVariable(name = "email") String email) {
         System.out.println(email);
-        System.out.println("이메일로 멤버받기"+email);
+        System.out.println("이메일로 멤버받기" + email);
 
         Optional<MemberDto> member = memberService.getMemberByEmail(email);
         final BasicResponse result = new BasicResponse();
@@ -213,7 +209,7 @@ public class MemberController {
         result.status = true;
         result.data = "success";
         result.object = member;
-        System.out.println("멤버는: "+member.get().getMemberId());
+        System.out.println("멤버는: " + member.get().getMemberId());
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -320,14 +316,14 @@ public class MemberController {
 
         return userInfo;
     }
-	
-	@ApiOperation(value = "구글 로그인 사용자 체크")
+
+    @ApiOperation(value = "구글 로그인 사용자 체크")
     @GetMapping("/google")
-    public ResponseEntity<Map<String, Object>> googleLogin(@RequestParam String email){
+    public ResponseEntity<Map<String, Object>> googleLogin(@RequestParam String email) {
         Map<String, Object> resultMap = new HashMap<>();
-        
+
         Optional<MemberDto> dto = memberService.getMemberByEmail(email);
-        
+
         resultMap.put("message", "카카오 유저 정보");
         resultMap.put("data", dto);
 
@@ -379,7 +375,7 @@ public class MemberController {
     }
 
     @GetMapping("/id/{memberId}")
-    public ResponseEntity<?> getMemberInfo(@PathVariable int memberId){
+    public ResponseEntity<?> getMemberInfo(@PathVariable int memberId) {
         MemberDto memberDto = memberService.getMemberInfo(memberId);
         ResponseEntity response = null;
 

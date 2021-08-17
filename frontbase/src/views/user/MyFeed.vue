@@ -3,7 +3,7 @@
     <v-toolbar-title class="headline">
       <span><b>My</b></span>
       <span class="green--text"><b>Feed</b></span>
-      <v-btn @click="check()"></v-btn>
+      <!-- <v-btn @click="check()"></v-btn> -->
     </v-toolbar-title>
     <v-layout justify-center align-center wrap elevation="0">
         <img
@@ -16,11 +16,11 @@
 
         <v-chip :color="nameColor" dark>
           {{ memberInfo.name}}
-          <v-btn @click="move()" icon elevation="0"><v-icon>settings</v-icon></v-btn>
+          <v-btn @click="move()" icon elevation="0"><v-icon>account_circle</v-icon></v-btn>
 
         </v-chip>
 
-        <div v-if="managingTeam">
+        <div v-if="managingTeam" style="display:inline">
           <v-chip :color="nameColor" dark>
             팀 관리
             <v-btn @click="teamManagement" icon elevation="0"><v-icon>settings</v-icon></v-btn>
@@ -32,7 +32,7 @@
             게시물: {{ myFeeds.length }} &nbsp;&nbsp; 가입된그룹:{{
               myTeamList.length
             }}
-            &nbsp;&nbsp; 포인트: {{ memberInfo.point }} &nbsp;&nbsp; Grade:
+            &nbsp;&nbsp; 포인트: {{ memberInfo.point }} &nbsp;
             {{ grade }}
           </b>
         </p>

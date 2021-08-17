@@ -24,7 +24,7 @@
                 </b-input-group>
             </b-col>
             <b-col class="text-right">
-                <b-button pill class="btn-main" :disabled="this.memberInfo.memberId !== this.selectTeam.memberId" @click="movePage">글쓰기</b-button>
+                <b-button pill class="btn-main" @click="check()">글쓰기</b-button>
             </b-col>
         </b-row>
         <div v-if="noticeItems" class="text-center">
@@ -143,6 +143,13 @@ export default {
         },
         moveTeamFeed(){
           this.$router.push("/teamFeed");
+        },
+        check(){
+            if(this.memberInfo.memberId !== this.selectTeam.memberId){
+                alert("팀 임원이 아닙니다.");
+            }else{
+                this.movePage();
+            }
         }
     },
   // methods: {

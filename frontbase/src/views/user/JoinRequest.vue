@@ -1,12 +1,6 @@
 <template>
   <div>
-    <v-layout justify-start align-center data-aos="fade-up">
-      <v-toolbar-title class="headline">
-          <span><b>팀</b></span>
-          <span class="green--text"><b>&nbsp;가입신청</b></span>
-      </v-toolbar-title>
-      <br><br><br><br>
-    </v-layout>
+    
     
     <template>
       <v-container style="padding-bottom: 0px;" fluid grid-list-md>
