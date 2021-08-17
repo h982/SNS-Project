@@ -114,16 +114,16 @@ export default {
         width: '0'},
       {
         text: '프로필',
-        align: 'start',
+        align: 'center',
         sortable: false,
         value: 'member.memberId',
         width: '0'
       },
-      { text: '이름', value: 'member.name' ,width: '0'},
-      { text: '포인트', value: 'member.point', width: '0'},
-      { text: '이메일', value: 'member.email',width: '-10'},
-      { text: '번호', value: 'member.phone', width: '0'},
-      { text: 'mbti', value: 'member.mbti', width: '0'},
+      { text: '이름', value: 'member.name' ,width: '0', align: 'center'},
+      { text: '포인트', value: 'member.point', width: '0', align: 'center'},
+      { text: '이메일', value: 'member.email',width: '-10', align: 'center'},
+      { text: '번호', value: 'member.phone', width: '0', align: 'center'},
+      { text: 'mbti', value: 'member.mbti', width: '0', align: 'center'},
     ],
   }),
   computed: {

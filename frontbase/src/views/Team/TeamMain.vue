@@ -97,8 +97,6 @@
                   </v-chip>
                 </td>
                 </tr>
-                <!-- <td class="text-xs-right">{{ props.item.member.email }}</td>
-                <td class="text-xs-right">{{ props.item.member.mbti }}</td> -->
               </template>
             </v-data-table>
             <div class="text-xs-center pt-2">
@@ -157,7 +155,6 @@ import TeamHeader from "@/components/TeamHeader.vue"
 import { createInstance } from "@/api/teamindex.js";
 import thumbnail1 from "@/assets/images/thumbnail.jpg";
 import TeamHeader2 from '../../components/TeamHeader2.vue';
-// import { pop, render } from "@/api/event.js";
 
 export default {
   name: "TeamMain",
@@ -172,7 +169,7 @@ export default {
     },
   },
   mounted(){
-
+    
   },
   created() {
     this.$store.dispatch("GET_MY_TEAM_INFO",this.memberInfo.memberId);
@@ -194,11 +191,9 @@ export default {
       nameColor: "#8B4513",
       headers: [
 
-        { text: '프로필', value: 'member.photo.filePath',  width: '30', sortable: false,},
-        { text: '이름', value: 'member.name',  width: '100'},
-        { text: '포인트', value: 'member.point',  width: '100'},
-        // { text: '이메일', value: 'member.email' },
-        // { text: 'mbti', value: 'member.mbti' },
+        { text: '프로필', value: 'member.photo.filePath',  width: '50', sortable: false, align: 'center'},
+        { text: '이름', value: 'member.name',  width: '200', align: 'center'},
+        { text: '포인트', value: 'member.point',  width: '200', align: 'center'},
       ],
     };
   },
@@ -294,8 +289,7 @@ export default {
     check(){
       console.log(this.selectTeam);
     },
-
-  },
+  }
 }
 </script>
 
@@ -311,5 +305,8 @@ export default {
 .birthday {
   position: relative;
   right: 0px;
+}
+.elevation-1 {
+  table-layout : flex;
 }
 </style>
