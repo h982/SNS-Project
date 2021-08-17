@@ -11,30 +11,28 @@
         </v-layout>
         <!-- <v-btn @click="check()"></v-btn> -->
         <form method="POST">
-          
-          <div class="img_wrap">
-            
-            <v-layout align-center data-aos="fade-right">
+          <v-layout align-center data-aos="fade-right">
               <v-toolbar-title class="headline">
                   <span><b>프로필 사진</b></span>
                   <span class="green--text"><b>&nbsp;변경</b></span>
               </v-toolbar-title>
-              <br><br><br><br>
-            </v-layout>
-              
-            <img src="" class="preview" />
-            <input
-              type="file"
-              id="chooseFile"
-              name="chooseFile"
-              accept="image/*"
-              @change="loadf"
-            /> 
-            
-            
-          </div>
+            <br><br><br><br>
+          </v-layout>
 
-          
+          <div class="img_wrap">
+            <img src="" class="preview" />
+              <v-btn color="green" class="white--text"><label for="chooseFile">
+                팀 썸네일 이미지
+              </label></v-btn>
+              <input
+                type="file"
+                id="chooseFile"
+                name="chooseFile"
+                accept="image/*"
+                @change="loadf"
+              />
+            </div>
+
           <v-text-field
             name="member.name"
             color="green"

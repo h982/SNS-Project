@@ -4,6 +4,7 @@
       <img
         v-bind:src="comment.member.photo.filePath"
         style="border-radius: 50%;"
+        width="40"
         height="40"
       />
     </div>

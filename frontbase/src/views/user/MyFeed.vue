@@ -4,7 +4,7 @@
       <span><b>My</b></span>
       <span class="green--text"><b>Feed</b></span>
     </v-toolbar-title>
-    <v-layout justify-center align-center wrap>
+    <v-layout justify-center align-center wrap elevation="0">
         <img
           v-bind:src="memberInfo.photo.filePath"
           style="border-radius: 50%;"

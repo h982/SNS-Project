@@ -77,6 +77,7 @@
                   <img
                     v-bind:src="props.item.member.photo.filePath"
                     style="border-radius: 50%;"
+                    width="30"
                     height="30"
                   /> 
                   
