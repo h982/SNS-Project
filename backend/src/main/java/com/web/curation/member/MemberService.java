@@ -111,4 +111,9 @@ public class MemberService {
 		memberDao.updateAuthentication(email);
 	}
 
+	public MemberDto getMemberInfo(int memberId){
+        Member chkMember = memberDao.findById(memberId).orElseThrow(()->new CustomException(MEMBER_NOT_FOUND));
+        return MemberAdapter.entityToDto(chkMember);
+    }
+
 }

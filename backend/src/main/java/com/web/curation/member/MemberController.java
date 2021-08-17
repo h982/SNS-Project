@@ -368,4 +368,19 @@ public class MemberController {
         System.out.println(resultMap.get("message"));
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
+
+    @GetMapping("/id/{memberId}")
+    public ResponseEntity<?> getMemberInfo(@PathVariable int memberId){
+        MemberDto memberDto = memberService.getMemberInfo(memberId);
+        ResponseEntity response = null;
+
+        final BasicResponse result = new BasicResponse();
+        result.status = true;
+        result.message = "success";
+        result.object = memberDto;
+        response = new ResponseEntity<>(result, HttpStatus.OK);
+
+        return response;
+    }
+
 }
