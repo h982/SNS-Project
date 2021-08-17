@@ -6,7 +6,14 @@
             <span class="green--text"><b>&nbsp;가입한팀</b></span>
         </v-toolbar-title>
       </v-layout>
-      <v-layout justify-center row wrap class="mt-0 pt-2" data-aos="fade-down">
+      <v-layout justify-center align-center data-aos="fade-up">
+        <v-toolbar-title class="headline">
+          <b>팀을 먼저</b><span class="green--text"><b>&nbsp;선택해주세요</b></span>
+        </v-toolbar-title>
+      <br><br><br><br>
+      </v-layout>
+
+      <v-layout justify-center row wrap class="mt-0 pt-2" data-aos="fade-down" v-if="myTeamList">
         <PostPreview
           v-for="post in myTeamList"
           :key="post.text.teamId"
@@ -18,6 +25,16 @@
           :leader="post.text.leader"
         />
 
+      </v-layout>
+
+      <v-layout justify-center align-center data-aos="fade-top" v-else>
+        <h1><b>가입된</b><span class="green--text"><b>&nbsp;팀이 없습니다.</b></span></h1>
+      </v-layout>
+
+      <v-layout justify-center align-center data-aos="fade-top" >
+        <v-btn @click="mvTeamList" large color="primary">
+          팀리스트
+        </v-btn>
       </v-layout>
   </v-container>
   
@@ -64,6 +81,10 @@ export default {
       alert(this.myTeamList[0].text.imgPath);
       console.log(this.myTeamList);
     },
+    mvTeamList() {
+      this.$router.push("/teamlist");
+    },
+    
   },
 };
 </script>

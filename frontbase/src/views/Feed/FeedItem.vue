@@ -1,7 +1,7 @@
 <template>
-  <div class="feed-item">
+  <div class="feed-item" style="border-color:green">
     <div class="feed_t">
-      <div class="user_wrap">
+      <div class="user_wrap" >
         <img v-bind:src="feed.member.photo.filePath" class="profile" />
         <div class="feed_writer">
           {{ feed.writer }}
@@ -23,7 +23,7 @@
           }"
         ></div>
       </div>
-      <div class="contentsWrap">
+      <div class="contentsWrap" style="border-color:red">
         <div class="like_wrap" @click="changeLike">
           <img
             class="likeBtn"
@@ -64,11 +64,16 @@ export default {
       },
       isLike: null,
       feedlikeId: "",
-      likeCount: ""
+      likeCount: "",
+      nameColor: "#8B4513"
     };
   },
   computed: {
     ...mapGetters(["memberInfo", "myTeamList", "feedLike", "likeList"])
+  },
+  mounted() {
+    
+    
   },
   created() {
     this.likeLists = this.likeList;
@@ -85,7 +90,6 @@ export default {
       }
       console.log();
     }
-
     const instance = createInstance();
     instance
       .get("/feedlike/feed/" + this.feed.feedId)
@@ -120,6 +124,8 @@ export default {
                 })
                 .catch(() => {});
               alert("좋아요!");
+              this.$store.dispatch("GET_MEMBER_INFO", window.localStorage.getItem("access-token"));
+
             } else {
               alert("좋아요실패");
             }

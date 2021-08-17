@@ -3,8 +3,8 @@
    
       <v-layout align-center data-aos="fade-right">
         <v-toolbar-title class="headline">
-            <span><b>공통</b></span>
-            <span class="green--text"><b>&nbsp;챌린지</b></span>
+            <span><b>달성</b></span>
+            <span class="green--text"><b>&nbsp;기록</b></span>
         </v-toolbar-title>
         <br><br><br><br>
       </v-layout>

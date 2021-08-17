@@ -1,14 +1,33 @@
 <template>
   <div class="feed newsfeed">
+    
     <div class="wrapB">
-      <feed-item
+      <v-layout justify-center align-center data-aos="fade-up">
+        <v-toolbar-title class="headline">
+          <v-btn
+            @click="mvMyteam"
+            color="secondary"
+            elevation="7"
+            large
+            class="create"
+            ><i class="fas fa-plus">피드작성</i>
+          </v-btn>
+          <v-btn @click="mvTeamList" large color="primary">
+          다른 팀 찾아보기<v-icon>login</v-icon>
+        </v-btn>
+        </v-toolbar-title>
+        <br><br><br><br>
+      </v-layout>
+
+      <feed-item 
         v-for="(feed, index, idx) in feeds"
         :key="idx"
         :feed="feed"
         :index="index"
       />
-    
+      
     </div>
+    
     <infinite-loading
       @infinite="infiniteHandler"
       spinner="spinner"
@@ -33,7 +52,7 @@ export default {
       page: 0,
       scrollHeight: 0,
       scrollTop: 0,
-      clientHeight: 0
+      clientHeight: 0,
     };
   },
   components: {
@@ -56,7 +75,8 @@ export default {
     this.$store.dispatch("getMyFeeds", this.memberInfo.memberId);
     this.$store.dispatch("GET_RECOMEND_TEAMS", this.memberInfo.memberId);
     this.$store.dispatch("GET_MANAGE_TEAM", this.memberInfo.memberId);
-    },
+  
+  },
   methods: {
     mvWrite() {
       this.$store.dispatch(
@@ -64,6 +84,10 @@ export default {
         this.memberInfo.memberId
       );
       this.$router.push("/writefeed");
+    },
+
+    mvMyteam() {
+      this.$router.push("/myteam");
     },
 
     check() {
@@ -90,7 +114,10 @@ export default {
         .catch(error => {
           console.log(error);
         });
-    }
+    },
+    mvTeamList() {
+      this.$router.push("/teamlist");
+    },
   }
 };
 </script>
@@ -110,8 +137,8 @@ export default {
 }
 
 .create {
-  position: absolute;
+  /* position: fixed;
   right: 120px;
-  top: 150px;
+  top: 150px; */
 }
 </style>
