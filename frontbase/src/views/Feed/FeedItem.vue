@@ -207,3 +207,12 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.feed-item {
+
+}
+.feed_writer {
+
+}
+</style>

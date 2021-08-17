@@ -38,7 +38,12 @@
             >
               <v-card>
                 <v-card-title class="align-center justify-center subheading font-weight-bold" style="padding-bottom: 0px"  @click="sendMemberId(props.item.member)">
-                  {{ props.item.member.name }} 님
+                  <div>
+                    <img v-bind:src="props.item.member.photo.filePath" class="profile"  style="border-radius: 50%;"
+                        width="40"
+                        height="40"/>
+                  </div>
+                  &nbsp;&nbsp;{{ props.item.member.name }} 님
                 </v-card-title>
                 <v-divider></v-divider>
                 <v-list dense>
