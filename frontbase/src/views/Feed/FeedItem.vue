@@ -3,7 +3,7 @@
     <div class="feed_t">
       <div class="user_wrap" >
         <img v-bind:src="feed.member.photo.filePath" class="profile" />
-        <div class="feed_writer">
+        <div id="feed_writer" class="feed_writer">
           {{ feed.writer }}
         </div>
       </div>
@@ -23,7 +23,7 @@
           }"
         ></div>
       </div>
-      <div class="contentsWrap" style="border-color:red">
+      <div id="contentsWrap" class="contentsWrap">
         <div class="like_wrap" @click="changeLike">
           <img
             class="likeBtn"
@@ -97,6 +97,29 @@ export default {
         this.likeCount = data.object.length;
       })
       .catch(() => {});
+  },
+  mounted() {
+    if (this.feed.member.point >= 100) {
+      document.getElementById("feed_writer").style.color = "#9400D3"
+      document.getElementById("feed_writer").style.fontWeight = "bolder"
+      document.getElementById("contentsWrap").style.border = "2px solid #9400D3"
+    } else if (this.feed.member.point >= 75) {
+      document.getElementById("feed_writer").style.color = "#7AD7BE"
+      document.getElementById("feed_writer").style.fontWeight = "bolder"
+      document.getElementById("contentsWrap").style.border = "2px solid #7AD7BE"
+    } else if (this.feed.member.point >= 50) {
+      document.getElementById("feed_writer").style.color = "#FFA500"
+      document.getElementById("feed_writer").style.fontWeight = "bolder"
+      document.getElementById("contentsWrap").style.border = "2px solid #FFA500"
+    } else if (this.feed.member.point >= 25) {
+      document.getElementById("feed_writer").style.color = "#52478B"
+      document.getElementById("feed_writer").style.fontWeight = "bolder"
+      document.getElementById("contentsWrap").style.border = "2px solid #52478B"
+    } else {
+      document.getElementById("feed_writer").style.color = "#8B4513"
+      document.getElementById("feed_writer").style.fontWeight = "bolder"
+      document.getElementById("contentsWrap").style.border = "2px solid #8B4513"
+    };
   },
   methods: {
     getFormatDate(writeDate) {
@@ -215,10 +238,4 @@ export default {
 </script>
 
 <style scoped>
-.feed-item {
-
-}
-.feed_writer {
-
-}
 </style>
