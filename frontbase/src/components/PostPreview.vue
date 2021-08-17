@@ -53,7 +53,7 @@ export default {
   },
   methods: {
     enrollCntTeam(){
-      console.log(this.selectMyTeam);
+      console.log(this.selectTeam);
       const body = {
         name: this.name,
         introduction: this.introduction,
@@ -63,7 +63,7 @@ export default {
           filePath : this.imgPath,
         }
       };
-      this.$store.dispatch("SET_SELECT_TEAM", body).then(()=>{
+      this.$store.dispatch("SET_SELECT_TEAM", this.selectMyTeam).then(()=>{
         this.$router.replace("/teammain");
       });
       console.log(this.selectTeam);
