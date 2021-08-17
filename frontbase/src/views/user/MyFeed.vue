@@ -93,6 +93,7 @@ export default {
     ])
   },
   created() {
+    this.$store.dispatch("getMemberByMemberId",this.memberInfo.memberId);
     if (this.memberInfo.authenticated) {
       this.grade = "Premium";
     }

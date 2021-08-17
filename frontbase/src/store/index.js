@@ -150,6 +150,7 @@ export default new Vuex.Store({
       state.isLogin = true;
       state.memberInfo = null;
       state.memberInfo = memberInfo;
+      console.log(memberInfo);
     },
     logout(state) {
       state.isLogin = false;
@@ -566,5 +567,13 @@ export default new Vuex.Store({
         commit("SET_SELECT_TEAM_MEMBERS", data.data);
       });
     },
+    getMemberByMemberId({commit},memberId){
+      const instance = createInstance();
+      instance
+        .get("/member/id/"+memberId)
+        .then(({data}) => {
+          commit("setMemberInfo",data.object);
+        });
+    }
   }
 });
