@@ -60,7 +60,10 @@
               class="white--text"
               >수정하기</v-btn
             >
-            <v-btn @click="clear">clear</v-btn>
+            <v-btn @click="clear">초기화</v-btn>
+            <v-btn large flat to="/teammanagement" class="green--text">
+              <v-icon>arrow_back</v-icon>뒤로가기
+            </v-btn>
           </div>
         </form>
       </v-flex>
@@ -192,6 +195,9 @@ export default {
 .preview {
   display: block;
   margin: 20px 0;
+  width: 60%;
+  height: 60%;
+  max-height: 500px;
 }
 #chooseFile {
   display: none;
