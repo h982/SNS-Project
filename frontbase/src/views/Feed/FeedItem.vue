@@ -53,7 +53,7 @@ import defaultProfile from "../../assets/images/profile_default.png";
 import moment from "moment";
 
 export default {
-  props: ["feed", "index"],
+  props: ["feed", "index", "lists"],
   data: () => {
     return {
       defaultImage,
@@ -68,22 +68,21 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["memberInfo", "myTeamList", "feedLike", "likeList"])
+    ...mapGetters(["memberInfo", "myTeamList", "feedLike"])
   },
   created() {
-    this.likeLists = this.likeList;
-    for (let index = 0; index < this.likeList.length; index++) {
+    console.log(this.lists);
+    for (let index = 0; index < this.lists.length; index++) {
       if (
-        this.feed.feedId == this.likeList[index].feedId &&
-        this.likeList[index].feedLike == 1
+        this.feed.feedId == this.lists[index].feedId &&
+        this.lists[index].feedLike == 1
       ) {
-        this.feedlikeId = this.likeList[index].feedlikeId;
+        this.feedlikeId = this.lists[index].feedlikeId;
         this.isLike = true;
         break;
       } else {
         this.isLike = false;
       }
-      console.log();
     }
 
     const instance = createInstance();
@@ -193,6 +192,7 @@ export default {
               this.feedget.memberId = this.memberInfo.memberId;
               this.feedget.page = 0;
               this.$store.dispatch("getFeeds", this.feedget);
+              this.$router.push("/feed");
             } else {
               alert("피드 삭제 실패");
             }
@@ -210,9 +210,7 @@ export default {
 
 <style scoped>
 .feed-item {
-
 }
 .feed_writer {
-
 }
 </style>

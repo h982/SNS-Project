@@ -1,13 +1,13 @@
 <template>
   <div class="feed newsfeed">
-    <div class="wrapB">
+    <div v-if="lists" class="wrapB">
       <feed-item
         v-for="(feed, index, idx) in feeds"
         :key="idx"
         :feed="feed"
         :index="index"
+        :lists="lists"
       />
-    
     </div>
     <infinite-loading
       @infinite="infiniteHandler"
@@ -33,7 +33,8 @@ export default {
       page: 0,
       scrollHeight: 0,
       scrollTop: 0,
-      clientHeight: 0
+      clientHeight: 0,
+      lists: null
     };
   },
   components: {
@@ -49,13 +50,23 @@ export default {
     this.feedget.page = 0;
     this.page = 0;
     this.$store.dispatch("getFeeds", this.feedget);
-    this.$store.dispatch("GET_LIKELIST", this.memberInfo.memberId);
     this.$store.dispatch("GET_MY_TEAM_INFO", this.memberInfo.memberId);
     this.$store.dispatch("getTeamLists");
     this.$store.dispatch("GET_ENTIRECHALLENGE_INFO", this.memberInfo.memberId);
     this.$store.dispatch("getMyFeeds", this.memberInfo.memberId);
     this.$store.dispatch("GET_RECOMEND_TEAMS", this.memberInfo.memberId);
-    
+
+    const instance = createInstance();
+    instance
+      .get("/feedlike/member/" + this.memberInfo.memberId)
+      .then(({ data }) => {
+        this.lists = data.object;
+        console.log(this.lists);
+        this.$store.dispatch("SET_LIKELIST", data.object);
+      })
+      .catch(() => {
+        console.log("에러발생");
+      });
   },
   methods: {
     mvWrite() {
