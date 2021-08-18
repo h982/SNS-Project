@@ -1,6 +1,23 @@
 <template>
   <div class="feed newsfeed">
     <div v-if="lists" class="wrapB">
+      <v-layout justify-center align-center data-aos="fade-up">
+        <v-toolbar-title class="headline">
+          <v-btn
+            @click="mvMyteam"
+            color="secondary"
+            elevation="7"
+            large
+            class="create"
+            ><i class="fas fa-plus">피드작성</i>
+          </v-btn>
+          <v-btn @click="mvTeamList" large color="primary">
+            다른 팀 찾아보기<v-icon>login</v-icon>
+          </v-btn>
+        </v-toolbar-title>
+        <br /><br /><br /><br />
+      </v-layout>
+
       <feed-item
         v-for="(feed, index, idx) in feeds"
         :key="idx"
@@ -9,6 +26,7 @@
         :lists="lists"
       />
     </div>
+
     <infinite-loading
       @infinite="infiniteHandler"
       spinner="spinner"
@@ -67,6 +85,7 @@ export default {
       .catch(() => {
         console.log("에러발생");
       });
+    this.$store.dispatch("GET_MANAGE_TEAM", this.memberInfo.memberId);
   },
   methods: {
     mvWrite() {
@@ -77,6 +96,10 @@ export default {
       this.$router.push("/writefeed");
     },
 
+    mvMyteam() {
+      this.$router.push("/myteam");
+    },
+
     check() {
       console.log(this.feeds);
       console.log(this.feedsList);
@@ -85,11 +108,9 @@ export default {
     infiniteHandler($state) {
       const instance = createInstance();
       this.page += 1;
-      console.log(this.page);
       instance
         .get("/feed/" + this.memberInfo.memberId + "/" + this.page)
         .then(response => {
-          console.log(response);
           setTimeout(() => {
             if (response.data.object.length) {
               this.$store.commit("setFeeds", response.data.object);
@@ -103,6 +124,9 @@ export default {
         .catch(error => {
           console.log(error);
         });
+    },
+    mvTeamList() {
+      this.$router.push("/teamlist");
     }
   }
 };
@@ -123,8 +147,8 @@ export default {
 }
 
 .create {
-  position: absolute;
+  /* position: fixed;
   right: 120px;
-  top: 150px;
+  top: 150px; */
 }
 </style>

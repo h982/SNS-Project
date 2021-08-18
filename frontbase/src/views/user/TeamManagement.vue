@@ -8,11 +8,10 @@
           <span class="green--text"><b>&nbsp;관리<v-btn @click="move()" icon elevation="0"><v-icon>settings</v-icon></v-btn></b></span>
       </v-toolbar-title>
       <br><br><br><br>
-      <v-btn @click="check()"></v-btn>
     </v-layout>
-    <v-row>
+
       <join-request />
-    </v-row>
+    
     <br>
     <v-layout justify-start align-center data-aos="fade-up">
       <v-toolbar-title class="headline">
@@ -37,9 +36,9 @@
             v-model="selected"
             :headers="headers"
             :items="this.managingTeamMembers"
+            :single-select=true
             item-key="member.memberId"
-            select-all
-            hide-actions
+            show-select
             :pagination.sync="pagination"
             :search="search"
             class="elevation-1"
@@ -51,7 +50,7 @@
                   :input-value = "props.selected"
                   primary
                   hide-details
-                ></v-checkbox>
+                ></v-checkbox> 
               </td>
               <td>
                 <img
@@ -107,18 +106,24 @@ export default {
     selected: [],
     search: '',
     headers: [
-      {
-        text: '프로필',
+      { 
+        text: '선택',
         align: 'start',
         sortable: false,
+        value: '0',
+        width: '0'},
+      {
+        text: '프로필',
+        align: 'center',
+        sortable: false,
         value: 'member.memberId',
-        width: '100'
+        width: '0'
       },
-      { text: '이름', value: 'member.name' ,width: '0'},
-      { text: '포인트', value: 'member.point', width: '0'},
-      { text: '이메일', value: 'member.email',width: '-10'},
-      { text: '번호', value: 'member.phone', width: '0'},
-      { text: 'mbti', value: 'member.mbti', width: '0'},
+      { text: '이름', value: 'member.name' ,width: '0', align: 'center'},
+      { text: '포인트', value: 'member.point', width: '0', align: 'center'},
+      { text: '이메일', value: 'member.email',width: '-10', align: 'center'},
+      { text: '번호', value: 'member.phone', width: '0', align: 'center'},
+      { text: 'mbti', value: 'member.mbti', width: '0', align: 'center'},
     ],
   }),
   computed: {

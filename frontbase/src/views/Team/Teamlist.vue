@@ -66,7 +66,7 @@
           </v-card>
         </v-flex>
       </v-layout>
-      <br>
+      <br><br><br><br><br><br>
       <v-layout column justify-center align-center data-aos="fade-up" v-if="!this.recommendFlag">
         <v-toolbar-title class="headline">
             <span><b>어떤 팀이 나와 맞을지</b></span>
@@ -107,7 +107,7 @@
             <v-card-title primary-title class="justify-center">
               <v-flex text-xs-center subheading font-weight-bold>{{recomendTeam.name.replaceAll("\"", "")}}
                 <br>
-                <div class="txt_line">팀과의 궁합도 {{recomendTeam.score*100/5}}%</div>                
+                <div class="txt_line">팀과의 궁합도<v-icon color="red" small>favorite</v-icon> {{recomendTeam.score*100/5}}%</div>                
               </v-flex>
             </v-card-title> 
           </v-card>

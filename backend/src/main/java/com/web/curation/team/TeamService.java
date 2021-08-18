@@ -154,4 +154,16 @@ public class TeamService {
         
     	return true;
     }
+
+    public TeamDto getMyManagingTeam(int memberId){
+        Member member = memberDao.findById(memberId)
+                .orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
+        Optional<Team> team = teamDao.findTeamByMember(member);
+
+        if(team.isPresent()){
+            return TeamAndDtoAdapter.entityToDto(team.get());
+        }
+
+        return TeamDto.builder().teamId(-1).build();
+    }
 }

@@ -1,9 +1,9 @@
 <template>
-  <div class="feed-item">
+  <div class="feed-item" style="border-color:green">
     <div class="feed_t">
       <div class="user_wrap">
         <img v-bind:src="feed.member.photo.filePath" class="profile" />
-        <div class="feed_writer">
+        <div id="feed_writer" class="feed_writer">
           {{ feed.writer }}
         </div>
       </div>
@@ -23,7 +23,7 @@
           }"
         ></div>
       </div>
-      <div class="contentsWrap">
+      <div id="contentsWrap" class="contentsWrap">
         <div class="like_wrap" @click="changeLike">
           <img
             class="likeBtn"
@@ -64,12 +64,14 @@ export default {
       },
       isLike: null,
       feedlikeId: "",
-      likeCount: ""
+      likeCount: "",
+      nameColor: "#8B4513"
     };
   },
   computed: {
     ...mapGetters(["memberInfo", "myTeamList", "feedLike"])
   },
+  mounted() {},
   created() {
     console.log(this.lists);
     for (let index = 0; index < this.lists.length; index++) {
@@ -84,7 +86,6 @@ export default {
         this.isLike = false;
       }
     }
-
     const instance = createInstance();
     instance
       .get("/feedlike/feed/" + this.feed.feedId)
@@ -92,6 +93,34 @@ export default {
         this.likeCount = data.object.length;
       })
       .catch(() => {});
+  },
+  mounted() {
+    if (this.feed.member.point >= 100) {
+      document.getElementById("feed_writer").style.color = "#9400D3";
+      document.getElementById("feed_writer").style.fontWeight = "bolder";
+      document.getElementById("contentsWrap").style.border =
+        "2px solid #9400D3";
+    } else if (this.feed.member.point >= 75) {
+      document.getElementById("feed_writer").style.color = "#7AD7BE";
+      document.getElementById("feed_writer").style.fontWeight = "bolder";
+      document.getElementById("contentsWrap").style.border =
+        "2px solid #7AD7BE";
+    } else if (this.feed.member.point >= 50) {
+      document.getElementById("feed_writer").style.color = "#FFA500";
+      document.getElementById("feed_writer").style.fontWeight = "bolder";
+      document.getElementById("contentsWrap").style.border =
+        "2px solid #FFA500";
+    } else if (this.feed.member.point >= 25) {
+      document.getElementById("feed_writer").style.color = "#52478B";
+      document.getElementById("feed_writer").style.fontWeight = "bolder";
+      document.getElementById("contentsWrap").style.border =
+        "2px solid #52478B";
+    } else {
+      document.getElementById("feed_writer").style.color = "#8B4513";
+      document.getElementById("feed_writer").style.fontWeight = "bolder";
+      document.getElementById("contentsWrap").style.border =
+        "2px solid #8B4513";
+    }
   },
   methods: {
     getFormatDate(writeDate) {
@@ -119,6 +148,10 @@ export default {
                 })
                 .catch(() => {});
               alert("좋아요!");
+              this.$store.dispatch(
+                "GET_MEMBER_INFO",
+                window.localStorage.getItem("access-token")
+              );
             } else {
               alert("좋아요실패");
             }
@@ -207,10 +240,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-.feed-item {
-}
-.feed_writer {
-}
-</style>

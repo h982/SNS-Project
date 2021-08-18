@@ -100,6 +100,17 @@ public class MemberService {
         return memberDto;
     }
 
+
+    public void updateMemberPassword(String email,String password) throws IOException {
+        log.info(email.toString());
+        Member member = memberDao.getMemberByEmail(email)
+                .orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
+
+        memberDao.updatePassword(email,password);
+        return;
+    }
+
+
     private Photo insertImage(MultipartFile image) throws IOException {
         PhotoDto uploadPhoto = s3Uploader.upload(image, "static");
         Photo photo = PhotoAndDtoAdapter.dtoToEntity(uploadPhoto);

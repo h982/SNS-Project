@@ -157,7 +157,9 @@ export default {
         .then(response => {
           if (response.data.data === "success") {
             alert("팀생성완료 완료");
-            this.$router.push("/teamlist");
+            this.$store.dispatch("GET_MY_TEAM_INFO", this.memberInfo.memberId);
+            this.$store.dispatch("GET_MANAGE_TEAM", this.memberInfo.memberId);
+            this.$router.push("/feed");
           } else {
             alert("팀생성 실패");
           }
