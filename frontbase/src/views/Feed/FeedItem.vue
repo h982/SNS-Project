@@ -3,7 +3,47 @@
     <div class="feed_t">
       <div class="user_wrap">
         <img v-bind:src="feed.member.photo.filePath" class="profile" />
-        <div id="feed_writer" class="feed_writer">
+        <!-- <div id="feed_writer" class="feed_writer">
+          {{ feed.writer }}
+        </div> -->
+        <div
+          v-if="feed.member.point >= 100"
+          id="feed_writer"
+          class="feed_writer"
+          style="color: #9400D3; font-weight: bolder"
+        >
+          {{ feed.writer }}
+        </div>
+        <div
+          v-else-if="feed.member.point >= 75"
+          id="feed_writer"
+          class="feed_writer"
+          style="color: #7AD7BE; font-weight: bolder"
+        >
+          {{ feed.writer }}
+        </div>
+        <div
+          v-else-if="feed.member.point >= 50"
+          id="feed_writer"
+          class="feed_writer"
+          style="color:#FFA500; font-weight: bolder"
+        >
+          {{ feed.writer }}
+        </div>
+        <div
+          v-else-if="feed.member.point >= 25"
+          id="feed_writer"
+          class="feed_writer"
+          style="color: #52478B; font-weight: bolder"
+        >
+          {{ feed.writer }}
+        </div>
+        <div
+          v-else
+          id="feed_writer"
+          class="feed_writer"
+          style="color: #8B4513; font-weight: bolder"
+        >
           {{ feed.writer }}
         </div>
       </div>
@@ -23,7 +63,104 @@
           }"
         ></div>
       </div>
-      <div id="contentsWrap" class="contentsWrap">
+      <div
+        v-if="feed.member.point >= 100"
+        id="contentsWrap"
+        class="contentsWrap"
+        style="border: 2px solid #9400D3"
+      >
+        <div class="like_wrap" @click="changeLike">
+          <img
+            class="likeBtn"
+            v-if="this.isLike == true"
+            src="../../assets/heart.png"
+          />
+          <img class="likeBtn" v-else src="../../assets/heart_b.png" />
+          <div class="likeCnt">좋아요 {{ this.likeCount }}개</div>
+        </div>
+        <div class="desc">
+          {{ feed.contents }}
+        </div>
+        <div class="showComment" @click="mvComment()">댓글보기</div>
+        <div class="feed_date">
+          <b>{{ getFormatDate(feed.writeDate) }}</b>
+        </div>
+      </div>
+      <div
+        v-else-if="feed.member.point >= 75"
+        id="contentsWrap"
+        class="contentsWrap"
+        style="border: 2px solid #7AD7BE"
+      >
+        <div class="like_wrap" @click="changeLike">
+          <img
+            class="likeBtn"
+            v-if="this.isLike == true"
+            src="../../assets/heart.png"
+          />
+          <img class="likeBtn" v-else src="../../assets/heart_b.png" />
+          <div class="likeCnt">좋아요 {{ this.likeCount }}개</div>
+        </div>
+        <div class="desc">
+          {{ feed.contents }}
+        </div>
+        <div class="showComment" @click="mvComment()">댓글보기</div>
+        <div class="feed_date">
+          <b>{{ getFormatDate(feed.writeDate) }}</b>
+        </div>
+      </div>
+      <div
+        v-else-if="feed.member.point >= 50"
+        id="contentsWrap"
+        class="contentsWrap"
+        style="border: 2px solid #FFA500"
+      >
+        <div class="like_wrap" @click="changeLike">
+          <img
+            class="likeBtn"
+            v-if="this.isLike == true"
+            src="../../assets/heart.png"
+          />
+          <img class="likeBtn" v-else src="../../assets/heart_b.png" />
+          <div class="likeCnt">좋아요 {{ this.likeCount }}개</div>
+        </div>
+        <div class="desc">
+          {{ feed.contents }}
+        </div>
+        <div class="showComment" @click="mvComment()">댓글보기</div>
+        <div class="feed_date">
+          <b>{{ getFormatDate(feed.writeDate) }}</b>
+        </div>
+      </div>
+      <div
+        v-else-if="feed.member.point >= 25"
+        id="contentsWrap"
+        class="contentsWrap"
+        style="border: 2px solid #52478B"
+      >
+        <div class="like_wrap" @click="changeLike">
+          <img
+            class="likeBtn"
+            v-if="this.isLike == true"
+            src="../../assets/heart.png"
+          />
+          <img class="likeBtn" v-else src="../../assets/heart_b.png" />
+          <div class="likeCnt">좋아요 {{ this.likeCount }}개</div>
+        </div>
+        <div class="desc">
+          {{ feed.contents }}
+        </div>
+        <div class="showComment" @click="mvComment()">댓글보기</div>
+        <div class="feed_date">
+          <b>{{ getFormatDate(feed.writeDate) }}</b>
+        </div>
+      </div>
+      <div
+        v-else
+        id="contentsWrap"
+        class="contentsWrap"
+        style="border: 2px solid #8B4513"
+      >
         <div class="like_wrap" @click="changeLike">
           <img
             class="likeBtn"
@@ -64,8 +201,7 @@ export default {
       },
       isLike: null,
       feedlikeId: "",
-      likeCount: "",
-      nameColor: "#8B4513"
+      likeCount: ""
     };
   },
   computed: {
@@ -73,7 +209,6 @@ export default {
   },
   mounted() {},
   created() {
-    console.log(this.lists);
     for (let index = 0; index < this.lists.length; index++) {
       if (
         this.feed.feedId == this.lists[index].feedId &&
@@ -93,34 +228,6 @@ export default {
         this.likeCount = data.object.length;
       })
       .catch(() => {});
-  },
-  mounted() {
-    if (this.feed.member.point >= 100) {
-      document.getElementById("feed_writer").style.color = "#9400D3";
-      document.getElementById("feed_writer").style.fontWeight = "bolder";
-      document.getElementById("contentsWrap").style.border =
-        "2px solid #9400D3";
-    } else if (this.feed.member.point >= 75) {
-      document.getElementById("feed_writer").style.color = "#7AD7BE";
-      document.getElementById("feed_writer").style.fontWeight = "bolder";
-      document.getElementById("contentsWrap").style.border =
-        "2px solid #7AD7BE";
-    } else if (this.feed.member.point >= 50) {
-      document.getElementById("feed_writer").style.color = "#FFA500";
-      document.getElementById("feed_writer").style.fontWeight = "bolder";
-      document.getElementById("contentsWrap").style.border =
-        "2px solid #FFA500";
-    } else if (this.feed.member.point >= 25) {
-      document.getElementById("feed_writer").style.color = "#52478B";
-      document.getElementById("feed_writer").style.fontWeight = "bolder";
-      document.getElementById("contentsWrap").style.border =
-        "2px solid #52478B";
-    } else {
-      document.getElementById("feed_writer").style.color = "#8B4513";
-      document.getElementById("feed_writer").style.fontWeight = "bolder";
-      document.getElementById("contentsWrap").style.border =
-        "2px solid #8B4513";
-    }
   },
   methods: {
     getFormatDate(writeDate) {
@@ -180,14 +287,11 @@ export default {
       }
     },
     mvComment() {
-      console.log("피드아이디");
-      console.log(this.feed.feedId);
       this.$store.dispatch("GET_COMMENTS", this.feed.feedId);
       this.$store.dispatch("SET_FEEDID", this.feed.feedId);
       this.$router.replace("/comment");
     },
     modifyFeed(data) {
-      console.log(data);
       if (this.feed.writer.replaceAll('"', "") === this.memberInfo.name) {
         this.$store.dispatch("SET_FEEDID", this.feed.feedId);
         this.$store.dispatch(
@@ -203,7 +307,6 @@ export default {
           image: this.feed.photos[0].filePath,
           photos: this.feed.photos[0]
         };
-        console.log(body);
         this.$store.dispatch("SET_ONEFEED", body);
         this.$router.push("/updateFeed");
       } else {
