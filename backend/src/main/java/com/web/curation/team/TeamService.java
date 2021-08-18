@@ -88,6 +88,7 @@ public class TeamService {
         teamDto.setMemberCount(1);
         if(savedPhoto.getPhotoId() != null){
             teamDto.setPhotoId(savedPhoto.getPhotoId());
+            teamDto.setPhotoDto(savedPhoto);
             team = TeamAndDtoAdapter.dtoToEntityPhoto(teamDto);
         }else{
             teamDto.setPhotoId(TEAM_DEFAULT_IMAGE);
