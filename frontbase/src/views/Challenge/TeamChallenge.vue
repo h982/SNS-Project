@@ -103,7 +103,7 @@
     <br><br>
 
     <v-layout justify-end data-aos="fade-right">
-    <v-btn flat to="/challengemake" active-class="green--text headline"><i class="fas fa-plus"></i>챌린지 만들기</v-btn>
+    <v-btn flat to="/challengemake" :disabled="this.memberInfo.memberId !== this.selectTeam.memberId" active-class="green--text headline"><i class="fas fa-plus"></i>챌린지 만들기</v-btn>
     </v-layout>
   </v-container>
 </template>

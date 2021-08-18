@@ -64,7 +64,7 @@
       </form>
     </v-layout>
     <v-layout justify-center align-center data-aos="fade-top">
-    <v-btn flat large dark color="black" target="_blank" @click="enroll()">
+    <v-btn flat large dark color="black" target="_blank" @click="enroll()" :disabled="this.memberInfo.memberId !== this.selectTeam.memberId">
         등록하기
     </v-btn>
           </v-layout>
