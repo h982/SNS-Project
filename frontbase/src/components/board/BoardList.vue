@@ -39,8 +39,6 @@
                 :sort-by.sync="sortBy"
                 :sort-desc.sync="sortDesc"
                 @row-clicked="moveDetail"
-                thead-class="green-bg bg-dark text-white"
-                tbody-class="green-bg bg-dark text-white"
             >
             </b-table>
             <b-pagination
