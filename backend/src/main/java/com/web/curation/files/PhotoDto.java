@@ -18,4 +18,8 @@ public class PhotoDto {
     private String imageExtension;
 
     private Feed feed;
+
+    public PhotoDto(Integer photoId) {
+        this.photoId = photoId;
+    }
 }
