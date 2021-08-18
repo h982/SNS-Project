@@ -2,9 +2,14 @@
   <div class="feed newsfeed">
     <v-layout>
       <v-bottom-navigation
-        v-if="teamcheck === true | this.selectTeam.memberId === this.memberInfo.memberId"
+        v-if="
+          (teamcheck === true) |
+            (this.selectTeam.memberId === this.memberInfo.memberId)
+        "
         class="mx-auto"
-        shift x-large>
+        shift
+        x-large
+      >
         <team-header />
       </v-bottom-navigation>
 
@@ -13,20 +18,29 @@
       </v-bottom-navigation>
     </v-layout>
 
-    <div class="wrapB">
-      <feed-item v-for="(feed, idx) in teamFeeds" :key="idx" :feed="feed" />
-        <v-btn
-          v-if="teamcheck === true | this.selectTeam.memberId === this.memberInfo.memberId"
-          @click="mvWrite"
-          color="secondary"
-          elevation="7"
-          fab
-          large
-          x-large
-          x-small
-          class="create"
-          ><i class="fas fa-plus"></i>
-        </v-btn>
+    <div v-if="lists" class="wrapB">
+      <feed-item
+        v-for="(feed, index, idx) in teamFeeds"
+        :key="idx"
+        :feed="feed"
+        :index="index"
+        :lists="lists"
+      />
+      <v-btn
+        v-if="
+          (teamcheck === true) |
+            (this.selectTeam.memberId === this.memberInfo.memberId)
+        "
+        @click="mvWrite"
+        color="secondary"
+        elevation="7"
+        fab
+        large
+        x-large
+        x-small
+        class="create"
+        ><i class="fas fa-plus"></i>
+      </v-btn>
     </div>
   </div>
 </template>
@@ -35,22 +49,24 @@ import "@/components/css/feed/feed-item.scss";
 import "@/components/css/feed/newsfeed.scss";
 import FeedItem from "@/views/Feed/FeedItem.vue";
 import TeamHeader from "@/components/TeamHeader.vue";
-import TeamHeader2 from '../../components/TeamHeader2.vue';
+import TeamHeader2 from "../../components/TeamHeader2.vue";
+import { createInstance } from "@/api/teamindex.js";
 import { mapGetters } from "vuex";
 
 export default {
   components: {
     FeedItem,
     TeamHeader,
-    TeamHeader2,
+    TeamHeader2
   },
   data() {
     return {
       teamcheck: false,
-    }
+      lists: null
+    };
   },
   computed: {
-    ...mapGetters(["teamFeeds", "selectTeam", "myTeamList", "memberInfo"]),
+    ...mapGetters(["teamFeeds", "selectTeam", "myTeamList", "memberInfo"])
   },
   created() {
     this.$store.dispatch("getMyTeamFeeds", this.selectTeam.teamId);
@@ -58,10 +74,23 @@ export default {
     console.log(this.selectTeam.memberId);
     console.log(this.memberInfo.memberId);
     console.log(this.teamcheck);
+
+    // this.lists = this.$store.getters["likeList"];
+    const instance = createInstance();
+    instance
+      .get("/feedlike/member/" + this.memberInfo.memberId)
+      .then(({ data }) => {
+        this.lists = data.object;
+        console.log(this.lists);
+        this.$store.dispatch("SET_LIKELIST", data.object);
+      })
+      .catch(() => {
+        console.log("에러발생");
+      });
   },
   methods: {
     teamchecking() {
-      for(let i=0; i<this.myTeamList.length; i++) {
+      for (let i = 0; i < this.myTeamList.length; i++) {
         if (this.myTeamList[i].value.teamId === this.selectTeam.teamId) {
           this.teamcheck = true;
           break;
@@ -70,8 +99,8 @@ export default {
     },
     mvWrite() {
       this.$store.dispatch(
-                "GET_TEAMCHALLENGEING_INFO",
-                this.memberInfo.memberId
+        "GET_TEAMCHALLENGEING_INFO",
+        this.memberInfo.memberId
       );
       this.$router.push("/writefeed");
     }
@@ -97,6 +126,5 @@ export default {
   position: fixed;
   right: 120px;
   bottom: 150px;
-};
-
+}
 </style>

@@ -568,16 +568,8 @@ export default new Vuex.Store({
           console.log("에러발생");
         });
     },
-    GET_LIKELIST(context, memberId) {
-      const instance = createInstance();
-      instance
-        .get("/feedlike/member/" + memberId)
-        .then(({ data }) => {
-          context.commit("SET_LIKELIST", data.object);
-        })
-        .catch(() => {
-          console.log("에러발생");
-        });
+    SET_LIKELIST(context, payload) {
+      context.commit("SET_LIKELIST", payload);
     },
     getSelectTeamMembers({ commit }, teamId) {
       const instance = createInstance();

@@ -1,7 +1,7 @@
 <template>
   <div class="feed-item" style="border-color:green">
     <div class="feed_t">
-      <div class="user_wrap" >
+      <div class="user_wrap">
         <img v-bind:src="feed.member.photo.filePath" class="profile" />
         <div id="feed_writer" class="feed_writer">
           {{ feed.writer }}
@@ -53,7 +53,7 @@ import defaultProfile from "../../assets/images/profile_default.png";
 import moment from "moment";
 
 export default {
-  props: ["feed", "index"],
+  props: ["feed", "index", "lists"],
   data: () => {
     return {
       defaultImage,
@@ -69,26 +69,22 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["memberInfo", "myTeamList", "feedLike", "likeList"])
+    ...mapGetters(["memberInfo", "myTeamList", "feedLike"])
   },
-  mounted() {
-    
-    
-  },
+  mounted() {},
   created() {
-    this.likeLists = this.likeList;
-    for (let index = 0; index < this.likeList.length; index++) {
+    console.log(this.lists);
+    for (let index = 0; index < this.lists.length; index++) {
       if (
-        this.feed.feedId == this.likeList[index].feedId &&
-        this.likeList[index].feedLike == 1
+        this.feed.feedId == this.lists[index].feedId &&
+        this.lists[index].feedLike == 1
       ) {
-        this.feedlikeId = this.likeList[index].feedlikeId;
+        this.feedlikeId = this.lists[index].feedlikeId;
         this.isLike = true;
         break;
       } else {
         this.isLike = false;
       }
-      console.log();
     }
     const instance = createInstance();
     instance
@@ -100,26 +96,31 @@ export default {
   },
   mounted() {
     if (this.feed.member.point >= 100) {
-      document.getElementById("feed_writer").style.color = "#9400D3"
-      document.getElementById("feed_writer").style.fontWeight = "bolder"
-      document.getElementById("contentsWrap").style.border = "2px solid #9400D3"
+      document.getElementById("feed_writer").style.color = "#9400D3";
+      document.getElementById("feed_writer").style.fontWeight = "bolder";
+      document.getElementById("contentsWrap").style.border =
+        "2px solid #9400D3";
     } else if (this.feed.member.point >= 75) {
-      document.getElementById("feed_writer").style.color = "#7AD7BE"
-      document.getElementById("feed_writer").style.fontWeight = "bolder"
-      document.getElementById("contentsWrap").style.border = "2px solid #7AD7BE"
+      document.getElementById("feed_writer").style.color = "#7AD7BE";
+      document.getElementById("feed_writer").style.fontWeight = "bolder";
+      document.getElementById("contentsWrap").style.border =
+        "2px solid #7AD7BE";
     } else if (this.feed.member.point >= 50) {
-      document.getElementById("feed_writer").style.color = "#FFA500"
-      document.getElementById("feed_writer").style.fontWeight = "bolder"
-      document.getElementById("contentsWrap").style.border = "2px solid #FFA500"
+      document.getElementById("feed_writer").style.color = "#FFA500";
+      document.getElementById("feed_writer").style.fontWeight = "bolder";
+      document.getElementById("contentsWrap").style.border =
+        "2px solid #FFA500";
     } else if (this.feed.member.point >= 25) {
-      document.getElementById("feed_writer").style.color = "#52478B"
-      document.getElementById("feed_writer").style.fontWeight = "bolder"
-      document.getElementById("contentsWrap").style.border = "2px solid #52478B"
+      document.getElementById("feed_writer").style.color = "#52478B";
+      document.getElementById("feed_writer").style.fontWeight = "bolder";
+      document.getElementById("contentsWrap").style.border =
+        "2px solid #52478B";
     } else {
-      document.getElementById("feed_writer").style.color = "#8B4513"
-      document.getElementById("feed_writer").style.fontWeight = "bolder"
-      document.getElementById("contentsWrap").style.border = "2px solid #8B4513"
-    };
+      document.getElementById("feed_writer").style.color = "#8B4513";
+      document.getElementById("feed_writer").style.fontWeight = "bolder";
+      document.getElementById("contentsWrap").style.border =
+        "2px solid #8B4513";
+    }
   },
   methods: {
     getFormatDate(writeDate) {
@@ -147,8 +148,10 @@ export default {
                 })
                 .catch(() => {});
               alert("좋아요!");
-              this.$store.dispatch("GET_MEMBER_INFO", window.localStorage.getItem("access-token"));
-
+              this.$store.dispatch(
+                "GET_MEMBER_INFO",
+                window.localStorage.getItem("access-token")
+              );
             } else {
               alert("좋아요실패");
             }
@@ -222,6 +225,7 @@ export default {
               this.feedget.memberId = this.memberInfo.memberId;
               this.feedget.page = 0;
               this.$store.dispatch("getFeeds", this.feedget);
+              this.$router.push("/feed");
             } else {
               alert("피드 삭제 실패");
             }
@@ -236,6 +240,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-</style>
