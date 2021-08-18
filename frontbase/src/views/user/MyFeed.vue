@@ -15,14 +15,14 @@
       <v-card elevation="0">
 
         <v-chip :color="nameColor" dark>
-          <span><b>{{ memberInfo.name}}</b></span>
+          {{ memberInfo.name}}
           <v-btn @click="move()" icon elevation="0"><v-icon>account_circle</v-icon></v-btn>
 
         </v-chip>
 
         <div v-if="managingTeam" style="display:inline">
           <v-chip :color="nameColor" dark>
-            <span><b>팀 관리</b></span>
+            팀 관리
             <v-btn @click="teamManagement" icon elevation="0"><v-icon>settings</v-icon></v-btn>
           </v-chip>
         </div>
