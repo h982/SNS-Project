@@ -5,7 +5,13 @@
     <v-layout align-center data-aos="fade-right">
       <v-toolbar-title class="headline">
           <span><b>{{managingTeam.name.replaceAll("\"", "")}}팀</b></span>
-          <span class="green--text"><b>&nbsp;관리<v-btn @click="move()" icon elevation="0"><v-icon>settings</v-icon></v-btn></b></span>
+          <span class="green--text"><b>&nbsp;관리</b>&nbsp;
+            <v-chip color="green" @click="move()" icon elevation="0">
+              <span style="color: white;"><b>팀정보 수정</b></span>&nbsp;&nbsp;
+              <v-icon color="white">settings
+              </v-icon>
+            </v-chip>
+          </span>
       </v-toolbar-title>
       <br><br><br><br>
     </v-layout>
@@ -169,5 +175,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>
