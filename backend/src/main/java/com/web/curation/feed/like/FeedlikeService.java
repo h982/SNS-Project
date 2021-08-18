@@ -61,9 +61,10 @@ public class FeedlikeService {
         if (teamChallenge != null) {
             if (teamChallenge.getEndDate().isAfter(LocalDateTime.now())) {
                 if(checkTeamChallenge(feed)){
-                    MemberDto memberDto = MemberAdapter.entityToDto(member);
-                    memberDto.setPoint(member.getPoint() + 1);
-                    memberDto.setCreateDate(member.getCreateDate());
+                    Member feedMember = feed.getMember();
+                    MemberDto memberDto = MemberAdapter.entityToDto(feedMember);
+                    memberDto.setPoint(feedMember.getPoint() + 1);
+                    memberDto.setCreateDate(feedMember.getCreateDate());
                     memberDao.save(MemberAdapter.dtoToEntity(memberDto));
                 }
             }
