@@ -107,7 +107,7 @@
             <v-card-title primary-title class="justify-center">
               <v-flex text-xs-center subheading font-weight-bold>{{recomendTeam.name.replaceAll("\"", "")}}
                 <br>
-                <div class="txt_line">팀과의 궁합도<v-icon color="red" small>favorite</v-icon> {{recomendTeam.score*100/5}}%</div>                
+                <div class="txt_line">팀과의 궁합도<v-icon color="red" small>favorite</v-icon> {{Math.round(recomendTeam.score*100/5)}}%</div>                
               </v-flex>
             </v-card-title> 
           </v-card>
