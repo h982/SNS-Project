@@ -12,7 +12,7 @@
           class="feed_writer"
           style="color: #9400D3; font-weight: bolder"
         >
-          {{ feed.writer }}
+          <div @click="check()" style="cursor:pointer">{{ feed.writer }}</div>
         </div>
         <div
           v-else-if="feed.member.point >= 75"
@@ -20,7 +20,7 @@
           class="feed_writer"
           style="color: #7AD7BE; font-weight: bolder"
         >
-          {{ feed.writer }}
+          <div @click="check()" style="cursor:pointer">{{ feed.writer }}</div>
         </div>
         <div
           v-else-if="feed.member.point >= 50"
@@ -28,7 +28,7 @@
           class="feed_writer"
           style="color:#FFA500; font-weight: bolder"
         >
-          {{ feed.writer }}
+          <div @click="check()" style="cursor:pointer">{{ feed.writer }}</div>
         </div>
         <div
           v-else-if="feed.member.point >= 25"
@@ -36,7 +36,7 @@
           class="feed_writer"
           style="color: #52478B; font-weight: bolder"
         >
-          {{ feed.writer }}
+          <div @click="check()" style="cursor:pointer">{{ feed.writer }}</div>
         </div>
         <div
           v-else
@@ -44,7 +44,7 @@
           class="feed_writer"
           style="color: #8B4513; font-weight: bolder"
         >
-          {{ feed.writer }}
+          <div @click="check()" style="cursor:pointer">{{ feed.writer }}</div>
         </div>
       </div>
       <div>
@@ -339,7 +339,13 @@ export default {
       } else {
         alert("본인만 삭제할 수 있습니다");
       }
-    }
+    },
+    check() {
+      console.log(this.feed.member.email);
+      this.$store.dispatch("getMemberByEmail", this.feed.member.email);
+      this.$store.dispatch("getYourFeeds", this.feed.member.memberId);
+      this.$router.push("/memberdetail");
+    },
   }
 };
 </script>

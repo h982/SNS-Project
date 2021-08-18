@@ -4,12 +4,12 @@
       <v-layout justify-center align-center data-aos="fade-up">
         <v-toolbar-title class="headline">
           <v-btn
-            @click="mvMyteam"
+            @click="mvMyteamWrite"
             color="secondary"
             elevation="7"
             large
             class="create"
-            ><i class="fas fa-plus">피드작성</i>
+            >피드작성&nbsp;<i class="fas fa-plus"></i>
           </v-btn>
           <v-btn @click="mvTeamList" large color="primary">
             다른 팀 찾아보기<v-icon>login</v-icon>
@@ -98,6 +98,9 @@ export default {
 
     mvMyteam() {
       this.$router.push("/myteam");
+    },
+    mvMyteamWrite(){
+      this.$router.push("/myteamwrite");
     },
 
     check() {

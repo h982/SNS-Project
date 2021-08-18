@@ -8,16 +8,16 @@
     <v-layout justify-center align-center wrap elevation="0">
         <img
           v-bind:src="memberInfo.photo.filePath"
-          style="border-radius: 50%;"
+          style="border-radius: 50%;display:inline;"
           width="200"
           height="200"
+          object-fit: cover
         />&nbsp;&nbsp;&nbsp;&nbsp;
       <v-card elevation="0">
 
         <v-chip :color="nameColor" dark>
-          {{ memberInfo.name}}
+          개인정보 변경
           <v-btn @click="move()" icon elevation="0"><v-icon>account_circle</v-icon></v-btn>
-
         </v-chip>
 
         <div v-if="managingTeam" style="display:inline">

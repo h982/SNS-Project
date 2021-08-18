@@ -10,6 +10,7 @@ import Board from "@/views/Board.vue";
 import Chatting from "@/views/Team/TeamChattingRoom.vue";
 import TeamFeed from "@/views/Team/TeamFeed.vue";
 import MyTeam from "@/views/Team/MyTeam.vue";
+import MyTeamWrite from "@/views/Team/MyTeamWrite.vue";
 import MyPage from "@/views/user/MyPage.vue";
 import MyFeed from "@/views/user/MyFeed.vue";
 import MemberModify from "@/views/user/MemberModify.vue";
@@ -65,6 +66,12 @@ export default new Router({
       path: "/myteam",
       name: "myteam",
       component: MyTeam,
+      beforeEnter: requireAuth()
+    },
+    {
+      path: "/myteamwrite",
+      name: "myteamwrite",
+      component: MyTeamWrite,
       beforeEnter: requireAuth()
     },
     {
