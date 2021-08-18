@@ -18,7 +18,20 @@
       </v-bottom-navigation>
     </v-layout>
 
+
+    <br>
     <div v-if="lists" class="wrapB">
+      <v-layout justify-center align-center data-aos="fade-down">
+        <v-toolbar-title class="headline">
+          <v-btn
+            @click="mvWrite"
+            color="secondary"
+            small
+            ><v-icon>fas fa-plus</v-icon>
+          </v-btn>
+          
+        </v-toolbar-title>
+      </v-layout>
       <feed-item
         v-for="(feed, index, idx) in teamFeeds"
         :key="idx"
@@ -26,21 +39,7 @@
         :index="index"
         :lists="lists"
       />
-      <v-btn
-        v-if="
-          (teamcheck === true) |
-            (this.selectTeam.memberId === this.memberInfo.memberId)
-        "
-        @click="mvWrite"
-        color="secondary"
-        elevation="7"
-        fab
-        large
-        x-large
-        x-small
-        class="create"
-        ><i class="fas fa-plus"></i>
-      </v-btn>
+      
     </div>
   </div>
 </template>
@@ -122,9 +121,5 @@ export default {
   cursor: pointer;
 }
 
-.create {
-  position: fixed;
-  right: 120px;
-  bottom: 150px;
-}
+
 </style>

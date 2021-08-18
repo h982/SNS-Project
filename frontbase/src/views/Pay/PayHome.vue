@@ -21,7 +21,7 @@
     <br>
     <v-layout align-center column>
       <v-flex  v-for="portfolio in portfolios" :key="portfolio.src"  class="feed-item">
-        <v-img :src="portfolio.src"  width="520" margin auto contain data-aos="fade-right"></v-img>
+        <v-img :src="portfolio.src"  width="440" margin auto contain data-aos="fade-right"></v-img>
         <v-card-title primary-title class="justify-center">
           <h4 data-aos="fade-left"><b>{{portfolio.title}}</b></h4>
         </v-card-title>
@@ -62,7 +62,7 @@ export default {
 	  return {
       portfolios: [
         {
-          src: "https://i.ibb.co/vwW5qHf/fight.jpg",
+          src: "https://i.ibb.co/mv9Szc8/image.jpg",
           title: "성격적으로 안맞아 팀원끼리 싸운 경험 없으신가요?"
         },
         {

@@ -1,17 +1,18 @@
 <template>
   <v-container grid-list-xl>
     <v-toolbar-title class="headline">
-      <span><b>Other</b></span>
+      <span><b>Member</b></span>
       <span class="green--text"><b>Info</b></span>
-      <v-btn @click="check()"></v-btn>
     </v-toolbar-title>
     <v-layout justify-center align-center wrap >
       <img
           v-bind:src="yourInfo.photo.filePath"
-          style="border-radius: 50%;"
+          style="border-radius: 50%;display:inline;"
+          width="200"
           height="200"
-        />      &nbsp;&nbsp;&nbsp;&nbsp;
-      <v-card   elevation="0">
+          object-fit: cover
+        />&nbsp;&nbsp;&nbsp;&nbsp;
+      <v-card elevation="0">
         <v-chip :color="nameColor" dark>{{yourInfo.name}}</v-chip>
         <br>
         <p id ="nameColor"><b>
