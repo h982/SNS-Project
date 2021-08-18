@@ -3,6 +3,7 @@
     <v-toolbar-title class="headline">
       <span><b>Other</b></span>
       <span class="green--text"><b>Info</b></span>
+      <v-btn @click="check()"></v-btn>
     </v-toolbar-title>
     <v-layout justify-center align-center wrap >
       <img
@@ -15,7 +16,6 @@
         <br>
         <p id ="nameColor"><b>
             게시물: {{yourFeeds.length}} &nbsp;&nbsp; 
-            가입된그룹:{{myTeamList.length}} &nbsp;&nbsp; 
             포인트: {{yourInfo.point}} &nbsp;&nbsp;
             Grade: {{grade}}
           </b></p>
@@ -101,7 +101,7 @@ export default {
       this.$router.push("/mypage");
     },
     check(){
-      console.log(this.yourFeeds);
+      console.log(this.yourInfo);
     }
   }
 };
