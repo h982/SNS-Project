@@ -91,6 +91,7 @@ public class TeamService {
             team = TeamAndDtoAdapter.dtoToEntityPhoto(teamDto);
         }else{
             teamDto.setPhotoId(TEAM_DEFAULT_IMAGE);
+            teamDto.setPhotoDto(new PhotoDto(TEAM_DEFAULT_IMAGE));
             team = TeamAndDtoAdapter.dtoToEntityPhoto(teamDto);
         }
         teamDto.setMemberCount(1);
@@ -123,7 +124,7 @@ public class TeamService {
     	teamDto.setMemberId(member.getMemberId());
     	teamDto.setLeader(member.getName());
     	
-    	teamDao.save(TeamAndDtoAdapter.dtoToEntity(teamDto));
+    	teamDao.save(TeamAndDtoAdapter.dtoToEntityPhoto(teamDto));
     	return true;
     }
     
@@ -165,5 +166,13 @@ public class TeamService {
         }
 
         return TeamDto.builder().teamId(-1).build();
+    }
+
+    public boolean checkLeader(int memberId){
+        Member chkMember = memberDao.findById(memberId)
+                .orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
+        Optional<Team> chkTeam = teamDao.findTeamByMember(chkMember);
+        if(chkTeam.isPresent()) return false;
+        return true;
     }
 }

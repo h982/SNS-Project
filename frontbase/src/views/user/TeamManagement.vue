@@ -159,8 +159,12 @@ export default {
       } else {
         const instance = createInstance();
         instance.put("/team/leader/"+this.selected[0].member.memberId+"?teamId="+this.managingTeam.teamId).then(({ data }) => {
-          console.log("changeTeamLeader : " + data.message);
-          alert("리더가 변경되었습니다. 잠시 뒤 다시 로그인해주세요.");
+          if(data.message ==="success"){
+            console.log("changeTeamLeader : " + data.message);
+            alert("리더가 변경되었습니다. 잠시 뒤 다시 로그인해주세요.");
+          }else{
+            alert("해당 멤버는 리더가 될 수 없습니다!");
+          }
         });
       }
     },

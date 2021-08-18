@@ -109,10 +109,12 @@ export default {
       const instance = createInstance();
       instance
         .put("/request/accept/" + requestId)
-        .then(() =>
-          this.$store.dispatch("getRequests", this.managingTeam.teamId)
+        .then(() =>{
+            this.$store.dispatch("getRequests", this.managingTeam.teamId);
+            this.$store.dispatch("getTeamMembers", this.managingTeam.teamId);
+            alert("요청이 승인되었습니다. 잠시 뒤 반영됩니다.");
+          }
         );
-        alert("요청이 승인되었습니다. 잠시 뒤 반영됩니다.");
       let joinTeam = {
         member: {
           memberId: this.memberInfo.memberId

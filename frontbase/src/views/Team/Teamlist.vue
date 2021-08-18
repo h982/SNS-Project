@@ -86,7 +86,7 @@
         </v-toolbar-title>
       </v-layout>
 
-      <v-layout row justify-center align-center wrap class="mt-4 pt-2" data-aos="fade-down">
+      <v-layout row justify-center align-center wrap class="mt-4 pt-2" data-aos="">
           <v-flex
           v-for="(recomendTeam, idx) in this.filteredRecomendTeam"
           :key="idx"

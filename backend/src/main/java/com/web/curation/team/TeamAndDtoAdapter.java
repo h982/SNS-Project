@@ -35,7 +35,7 @@ public class TeamAndDtoAdapter {
                 .memberCount(teamDto.getMemberCount())
                 .member(new Member(teamDto.getMemberId()))
                 .sport(new Sport(teamDto.getSportId()))
-                .photo(new Photo(teamDto.getPhotoId()))
+                .photo(new Photo(teamDto.getPhotoDto().getPhotoId()))
                 .build();
     }
     public static Team dtoToEntity(TeamDto teamDto){
