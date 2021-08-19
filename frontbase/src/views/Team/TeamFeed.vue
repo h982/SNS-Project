@@ -22,7 +22,7 @@
     <br>
     <div v-if="lists" class="wrapB">
       <v-layout justify-center align-center data-aos="fade-down">
-        <v-toolbar-title class="headline">
+        <v-toolbar-title v-if="teamcheck === true" class="headline">
           <v-btn
             @click="mvWrite"
             color="secondary"
@@ -61,7 +61,8 @@ export default {
   data() {
     return {
       teamcheck: false,
-      lists: null
+      lists: null,
+      teamcheck: false,
     };
   },
   computed: {
@@ -102,7 +103,15 @@ export default {
         this.memberInfo.memberId
       );
       this.$router.push("/writefeed");
-    }
+    },
+    teamchecking() {
+      for (let i = 0; i < this.myTeamList.length; i++) {
+        if (this.myTeamList[i].value.teamId === this.selectTeam.teamId) {
+          this.teamcheck = true;
+          break;
+        }
+      }
+    },
   }
 };
 </script>
