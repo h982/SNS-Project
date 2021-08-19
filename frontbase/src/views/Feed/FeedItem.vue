@@ -328,6 +328,7 @@ export default {
               this.feedget.memberId = this.memberInfo.memberId;
               this.feedget.page = 0;
               this.$store.dispatch("getFeeds", this.feedget);
+              this.$store.dispatch("getMyFeeds", this.memberInfo.memberId);
               this.$router.push("/feed");
             } else {
               alert("피드 삭제 실패");
