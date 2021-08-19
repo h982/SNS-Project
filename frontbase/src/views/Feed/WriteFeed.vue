@@ -2,9 +2,14 @@
   <div class="wrap">
     <div class="img_wrap">
       
-      <v-btn color="green" class="white--text"><label for="chooseFile">
-                Upload yor Image
-      </label></v-btn>
+      <v-btn color="green" class="white--text">
+        <label v-if="this.type === 'update'" for="chooseFile" class="fileBtn">
+          MODIFY your IMAGE
+        </label>
+        <label v-else for="chooseFile" class="fileBtn">
+          UPLOAD your IMAGE
+        </label>
+      </v-btn>
       <input
         type="file"
         id="chooseFile"
@@ -12,7 +17,17 @@
         accept="image/*"
         @change="loadf"
       />
-      
+
+
+      <div class="oldwrap">
+        <div v-if="this.type === 'update'" class="old">이전이미지</div>
+        <img
+          v-if="this.type === 'update'"
+          v-bind:src="this.oneFeed.image"
+          class="oldpre"
+        />
+      </div>
+
       <img src="" class="preview" />
     </div>
     <div class="challenge_wrap">
@@ -33,7 +48,11 @@
     <div class="contents_wrap">
       <textarea v-model="contents" class="contents"></textarea>
     </div>
-    <v-btn color="green" class="white--text" @click="write">등록</v-btn>
+
+    <v-btn v-if="this.type === 'update'"  color="green" class="white--text" @click="modify">수정</v-btn>
+    <v-btn v-else color="green" class="white--text" @click="write">등록</v-btn>
+
+    <!-- <v-btn color="green" class="white--text" @click="write">등록</v-btn> -->
     <!-- <v-btn @click="check">확인</v-btn> -->
   </div>
 </template>
@@ -148,6 +167,10 @@ export default {
         formData.append("teamName", this.oneFeed.teamName);
         formData.append("contents", this.contents);
         formData.append("writer", this.oneFeed.writer);
+        formData.append(
+          "image",
+          document.getElementById("chooseFile").files[0]
+        );
 
         const instance = createInstance();
         instance
