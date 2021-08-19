@@ -1,7 +1,6 @@
 <template>
   <div class="wrap">
     <div class="img_wrap">
-      
       <v-btn color="green" class="white--text">
         <label v-if="this.type === 'update'" for="chooseFile" class="fileBtn">
           MODIFY your IMAGE
@@ -18,7 +17,6 @@
         @change="loadf"
       />
 
-
       <div class="oldwrap">
         <div v-if="this.type === 'update'" class="old">이전이미지</div>
         <img
@@ -31,8 +29,10 @@
       <img src="" class="preview" />
     </div>
     <div class="challenge_wrap">
-      <v-btn color="green" class="white--text"><label for="challenge" class="feedType">▼일상글|챌린지▼</label></v-btn>
-      <select id="challenge" v-model="challenge" class="dailyFeed" >
+      <v-btn color="green" class="white--text"
+        ><label for="challenge" class="feedType">▼일상글|챌린지▼</label></v-btn
+      >
+      <select id="challenge" v-model="challenge" class="dailyFeed">
         <option><b>일상글</b></option>
         <option
           v-for="(challenge, idx) in feed_challenging"
@@ -42,14 +42,19 @@
           <b>{{ challenge.text.teamChallenge.title }}</b>
         </option>
       </select>
-
     </div>
-  
+
     <div class="contents_wrap">
       <textarea v-model="contents" class="contents"></textarea>
     </div>
 
-    <v-btn v-if="this.type === 'update'"  color="green" class="white--text" @click="modify">수정</v-btn>
+    <v-btn
+      v-if="this.type === 'update'"
+      color="green"
+      class="white--text"
+      @click="modify"
+      >수정</v-btn
+    >
     <v-btn v-else color="green" class="white--text" @click="write">등록</v-btn>
 
     <!-- <v-btn color="green" class="white--text" @click="write">등록</v-btn> -->
@@ -85,7 +90,7 @@ export default {
       "selectTeam"
     ])
   },
-  
+
   created() {
     console.log(this.oneFeed);
     this.$store.dispatch("GET_MY_TEAM_INFO", this.memberInfo.memberId);
@@ -167,10 +172,12 @@ export default {
         formData.append("teamName", this.oneFeed.teamName);
         formData.append("contents", this.contents);
         formData.append("writer", this.oneFeed.writer);
-        formData.append(
-          "image",
-          document.getElementById("chooseFile").files[0]
-        );
+        if (document.getElementById("chooseFile").files[0] != null) {
+          formData.append(
+            "image",
+            document.getElementById("chooseFile").files[0]
+          );
+        }
 
         const instance = createInstance();
         instance
