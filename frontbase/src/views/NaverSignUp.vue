@@ -162,7 +162,7 @@ export default {
                 localStorage.setItem("access-token", token);
 
                 this.$store.dispatch("GET_MEMBER_INFO", token);
-                this.$router.push("/feed");
+                this.$router.push("/teamlist");
               }else if(response.data.message=="needcreate"){
                 alert("추가정보를 입력하셔야합니다.");
                 this.checkingSocial=true;
@@ -183,7 +183,7 @@ export default {
             this.$store.commit("setIsLogined", true);
             localStorage.setItem("access-token", token);
             this.$store.dispatch("GET_MEMBER_INFO", token);
-            this.$router.push("/feed");
+            this.$router.push("/teamlist");
           } else {
             this.isLoginError = true;
           }
