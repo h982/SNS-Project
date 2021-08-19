@@ -19,11 +19,28 @@
         <hr />
         <div v-for="(m, idx) in msg" :key="idx">
             <div v-bind:class="m.style">
-                <p v-if="m.style == 'otherMsg'" style="margin:3px">
+                <div v-if="m.style == 'otherMsg'" class="entete">
+                    <span style="margin:3px;font-size:15px">
                     {{ m.senderNickname }}
-                </p>
-                {{m.writeDate.slice(5, 10) + " " + m.writeDate.slice(11, 16)}}
-                {{m.content}}
+                    </span>
+                    <br>
+                    <span class="content">
+                        {{m.content}}
+                    </span>
+                    &nbsp;
+                    <span class="date">
+                        {{m.writeDate.slice(11, 16)}}
+                    </span>
+                </div>
+                <div v-else class="entete">
+                    <span class="date">
+                        {{m.writeDate.slice(11, 16)}}
+                    </span>
+                    &nbsp;
+                    <span class="content">
+                        {{m.content}}
+                    </span>
+                </div>
             </div>
         </div>
         <hr />
@@ -68,6 +85,8 @@ export default {
         instance
             .get('/message/'+this.selectTeam.teamId+'?page=0', )
             .then(res=>{
+                console.log(res);
+
                 this.msg = []
                 let resMsg = res.data.data;
                 for(let i=resMsg.length-1; i>-1; i--){
@@ -82,8 +101,6 @@ export default {
                         this.msg.shift();
                     }
                 }
-
-                console.log(this.msg);
             }, err=>{
                 console.log(err)
                 alert("error : 새로고침하세요")
@@ -132,9 +149,26 @@ export default {
 <style scoped>
 .myMsg{
 text-align: right;
-color : #FFA500;
 }
 .otherMsg{
     text-align: left;
+}
+.content{
+    font-size: 15;
+    margin:5px;
+    padding:10px;
+    color:#fff;
+    line-height:25px;
+    max-width:90%;
+    display:inline-block;
+    text-align:left;
+    border-radius:5px;
+    background-color:#58b666;
+}
+.date{
+    font-size: 13px;
+}
+.entete {
+    margin-bottom:5px;
 }
 </style>
