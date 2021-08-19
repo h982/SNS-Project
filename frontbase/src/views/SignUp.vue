@@ -171,6 +171,7 @@ export default {
         { name: "estp", value: "estp" },
         { name: "esfp", value: "esfp" },
         { name: "entp", value: "entp" },
+        { name: "enfp", value: "enfp" },
         { name: "estj", value: "estj" },
         { name: "esfj", value: "esfj" },
         { name: "enfj", value: "enfj" },
