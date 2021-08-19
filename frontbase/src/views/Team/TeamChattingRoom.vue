@@ -19,8 +19,8 @@
         <hr />
         <div v-for="(m, idx) in msg" :key="idx">
             <div v-bind:class="m.style">
-                <p v-if="m.style == otherMsg" style="margin:3px">
-                    {{m.senderNickname}}
+                <p v-if="m.style == 'otherMsg'" style="margin:3px">
+                    {{ m.senderNickname }}
                 </p>
                 {{m.writeDate.slice(5, 10) + " " + m.writeDate.slice(11, 16)}}
                 {{m.content}}
