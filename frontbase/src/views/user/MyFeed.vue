@@ -15,16 +15,21 @@
         />&nbsp;&nbsp;&nbsp;&nbsp;
       <v-card elevation="0">
 
-        <v-chip :color="nameColor" dark>
-          개인정보 변경
-          <v-btn @click="move()" icon elevation="0"><v-icon>account_circle</v-icon></v-btn>
-        </v-chip>
+        
+        <v-btn round :color="nameColor" dark @click="move()" v-b-tooltip.hover title="개인정보 수정하기" >
+          개인정보 변경&nbsp;&nbsp;
+          <!-- <v-btn icon elevation="0"> -->
+            <v-icon>account_circle</v-icon>
+            <!-- </v-btn> -->
+        </v-btn>
 
         <div v-if="managingTeam" style="display:inline">
-          <v-chip :color="nameColor" dark>
-            팀 관리
-            <v-btn @click="teamManagement" icon elevation="0"><v-icon>settings</v-icon></v-btn>
-          </v-chip>
+          <v-btn round :color="nameColor" dark @click="teamManagement" v-b-tooltip.hover title="팀 정보 수정하기">
+            팀 관리&nbsp;&nbsp;
+            <!-- <v-btn icon elevation="0"> -->
+              <v-icon>settings</v-icon>
+              <!-- </v-btn> -->
+          </v-btn>
         </div>
         <br />
         <p id="nameColor">
@@ -137,6 +142,8 @@ export default {
     teamManagement() {
       this.$router.push("/teamManagement");
     },
+    mouseover: function () {
+        }
   }
 };
 </script>
