@@ -198,7 +198,7 @@ export default {
             localStorage.setItem("access-token", token);
             console.log(token);
             this.$store.dispatch("GET_MEMBER_INFO", token);
-            this.$router.push("/feed");
+            this.$router.push("/teamlist");
           } else {
             this.isLoginError = true;
           }
