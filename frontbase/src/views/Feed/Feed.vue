@@ -67,13 +67,7 @@ export default {
     this.feedget.memberId = this.memberInfo.memberId;
     this.feedget.page = 0;
     this.page = 0;
-    this.$store.dispatch("getFeeds", this.feedget);
-    this.$store.dispatch("GET_MY_TEAM_INFO", this.memberInfo.memberId);
-    this.$store.dispatch("getTeamLists");
-    this.$store.dispatch("GET_ENTIRECHALLENGE_INFO", this.memberInfo.memberId);
-    this.$store.dispatch("getMyFeeds", this.memberInfo.memberId);
-    this.$store.dispatch("GET_RECOMEND_TEAMS", this.memberInfo.memberId);
-
+    
     const instance = createInstance();
     instance
       .get("/feedlike/member/" + this.memberInfo.memberId)
@@ -85,7 +79,6 @@ export default {
       .catch(() => {
         console.log("에러발생");
       });
-    this.$store.dispatch("GET_MANAGE_TEAM", this.memberInfo.memberId);
   },
   methods: {
     mvWrite() {
