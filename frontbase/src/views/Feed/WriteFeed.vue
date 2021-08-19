@@ -140,14 +140,19 @@ export default {
                 "GET_TEAMCHALLENGEING_INFO",
                 this.memberInfo.memberId
               );
+              this.$store.dispatch("getMyFeeds", this.memberInfo.memberId);
+              this.$store.dispatch("getMyTeamFeeds", this.selectTeam.teamId);
+
               alert("피드 작성 완료");
-              this.$router.push("/feed");
+              this.$router.push("/teamfeed");
             } else {
               alert("피드 작성 실패");
             }
           })
-          .catch(() => {
-            alert("에러발생!.");
+          .catch((error) => {
+            console.log(error);
+            alert(error);
+            alert("에러발생!!.");
           });
       }
     },
