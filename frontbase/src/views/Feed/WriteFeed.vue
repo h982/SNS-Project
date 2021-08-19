@@ -92,7 +92,6 @@ export default {
   },
 
   created() {
-    console.log(this.oneFeed);
     this.$store.dispatch("GET_MY_TEAM_INFO", this.memberInfo.memberId);
 
     if (this.type === "update") {

@@ -292,6 +292,7 @@ export default {
       this.$router.replace("/comment");
     },
     modifyFeed(data) {
+      console.log(this.feed);
       if (this.feed.writer.replaceAll('"', "") === this.memberInfo.name) {
         this.$store.dispatch("SET_FEEDID", this.feed.feedId);
         this.$store.dispatch(
@@ -300,8 +301,8 @@ export default {
         );
         const body = {
           memberId: this.memberInfo.memberId,
-          teamId: this.myTeamList[0].text.teamId,
-          teamName: this.myTeamList[0].text.name,
+          teamId: this.feed.team.teamId,
+          teamName: this.feed.teamName,
           contents: this.feed.contents,
           writer: this.feed.writer,
           image: this.feed.photos[0].filePath,
@@ -346,7 +347,7 @@ export default {
       this.$store.dispatch("getMemberByEmail", this.feed.member.email);
       this.$store.dispatch("getYourFeeds", this.feed.member.memberId);
       this.$router.push("/memberdetail");
-    },
+    }
   }
 };
 </script>
