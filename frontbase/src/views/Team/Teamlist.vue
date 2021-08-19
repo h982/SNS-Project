@@ -177,6 +177,14 @@ export default {
   created() {
     this.$store.dispatch("getTeamLists");
     this.checkleader();
+
+    this.$store.dispatch("getFeeds", this.feedget);
+    this.$store.dispatch("GET_MY_TEAM_INFO", this.memberInfo.memberId);
+    this.$store.dispatch("getTeamLists");
+    this.$store.dispatch("GET_ENTIRECHALLENGE_INFO", this.memberInfo.memberId);
+    this.$store.dispatch("getMyFeeds", this.memberInfo.memberId);
+    this.$store.dispatch("GET_RECOMEND_TEAMS", this.memberInfo.memberId);
+    this.$store.dispatch("GET_MANAGE_TEAM", this.memberInfo.memberId);
   },
   data() {
     return {
