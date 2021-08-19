@@ -28,7 +28,7 @@ export default new Vuex.Store({
     selectTeam: {},
     feedid: {},
     team_challenging: [], //내가 진행중인 챌린지
-    entire_challenge: [], // 공통 챌린지
+    entire_challenge: {}, // 공통 챌린지
     feed_challenging: [], //feed 입력시 넣는 챌린지 목록
     selectTeamMembers: [], //선택한 팀의 멤버 정보
 
@@ -515,6 +515,7 @@ export default new Vuex.Store({
       instance
         .get("/member/challenge/" + memberId)
         .then(({ data }) => {
+          console.log("공통챌린지", data);
           context.commit("SET_ENTIRECHALLEGE", data);
         })
         .catch(() => {

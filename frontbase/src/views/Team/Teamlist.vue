@@ -178,6 +178,10 @@ export default {
     this.$store.dispatch("getTeamLists");
     this.checkleader();
 
+    this.feedget.memberId = this.memberInfo.memberId;
+    this.feedget.page = 0;
+    this.page = 0;
+
     this.$store.dispatch("getFeeds", this.feedget);
     this.$store.dispatch("GET_MY_TEAM_INFO", this.memberInfo.memberId);
     this.$store.dispatch("getTeamLists");
@@ -193,6 +197,10 @@ export default {
       name: "",
       leadercheck: false,
       recommendFlag: false,
+      feedget: {
+        memberId: "",
+        page: ""
+      },
     };
   },
   methods: {
