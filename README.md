@@ -30,6 +30,8 @@
 
 ### 💻Back-End
 
+- **담당자** : 최준오, 양동현, 이호황
+
   <details>
       <summary>Back 자세히 살펴보기 🔥</summary>
       <ul>
@@ -53,7 +55,10 @@
       </ul>
   </details>
 
-### ✨Front-End
+### ✨Front-End / Android
+
+- **지원 환경** : Web / Mobile 
+- **담당자** : 진해진, 차범희, 이조순
 
 <details>
     <summary>Front 자세히 살펴보기 🌈</summary>
@@ -94,20 +99,6 @@
   </details>
 
 -------------------------------------------------
-
-#### Front-end / Android
-
-- **Framework** : Vue.js 
-- **지원 환경** : Web / Mobile 
-- **담당자** : 진해진, 차범희, 이조순
-  <br>
-
-#### Back-end
-
-- **Framework** : Spring boot 
-- **Database** : MySQL 
-- **담당자** : 최준오, 양동현, 이호황
-  <br>
 
 #### Design
 
