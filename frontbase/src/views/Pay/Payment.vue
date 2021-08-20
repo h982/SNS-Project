@@ -45,9 +45,7 @@
           </a-select-option>
         </a-select>
       </a-form-item>
-      <!-- <a-form-item label="에스크로 결제여부" class="imp-payment-escrow">
-        <a-switch v-decorator="['escrow', { valuePropName: 'checked' }]" />
-      </a-form-item> -->
+      
       <a-form-item label="입금기한" v-if="vbankDueVisible">
         <a-input
           v-decorator="[
@@ -254,21 +252,17 @@ export default {
       this.setVisible(pg, method);
     },
     setVisible(pg, method) {
-      // 가상계좌 입금기한 렌더링 여부
       const vbankDueVisible = method === 'vbank';
       this.vbankDueVisible = vbankDueVisible;
 
-      // 사업자 번호 렌더링 여부
       this.bizNumVisible = pg === 'danal_tpay' && vbankDueVisible;
 
-      // 할부개월수 렌더링 여부
       this.quotaVisible = method === 'card';
     },
     handleGoBack() {
       this.$router.push('/');
     },
     callback(response) {
-      // 본인인증 종료 후 result 페이지로 이동
       const query = {
         ...response,
         type: 'payment',

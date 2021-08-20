@@ -3,7 +3,6 @@
     <v-toolbar-title class="headline">
       <span><b>My</b></span>
       <span class="green--text"><b>Feed</b></span>
-      <!-- <v-btn @click="check()"></v-btn> -->
     </v-toolbar-title>
     <v-layout justify-center align-center wrap elevation="0">
         <img
@@ -18,17 +17,13 @@
         
         <v-btn round :color="nameColor" dark @click="move()" v-b-tooltip.hover title="개인정보 수정하기" >
           개인정보 변경&nbsp;&nbsp;
-          <!-- <v-btn icon elevation="0"> -->
             <v-icon>account_circle</v-icon>
-            <!-- </v-btn> -->
         </v-btn>
 
         <div v-if="managingTeam" style="display:inline">
           <v-btn round :color="nameColor" dark @click="teamManagement" v-b-tooltip.hover title="팀 정보 수정하기">
             팀 관리&nbsp;&nbsp;
-            <!-- <v-btn icon elevation="0"> -->
               <v-icon>settings</v-icon>
-              <!-- </v-btn> -->
           </v-btn>
         </div>
         <br />

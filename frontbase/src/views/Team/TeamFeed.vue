@@ -75,7 +75,6 @@ export default {
     console.log(this.memberInfo.memberId);
     console.log(this.teamcheck);
 
-    // this.lists = this.$store.getters["likeList"];
     const instance = createInstance();
     instance
       .get("/feedlike/member/" + this.memberInfo.memberId)

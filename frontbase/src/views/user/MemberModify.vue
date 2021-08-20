@@ -9,7 +9,6 @@
           </v-toolbar-title>
           <br><br><br><br>
         </v-layout>
-        <!-- <v-btn @click="check()"></v-btn> -->
         <form method="POST">
           <v-layout align-center data-aos="fade-right">
               <v-toolbar-title class="headline">

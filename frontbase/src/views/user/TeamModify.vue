@@ -147,11 +147,8 @@ export default {
         .then(response => {
           if (response.data.message === "success") {
             alert("정보 변경 완료");
-            console.log(response);
-            // this.$router.push("/teamlist");
           } else {
             alert("정보 변경 실패");
-            console.log(response);
           }
         })
         .catch(() => {
@@ -169,7 +166,6 @@ export default {
           alert("이미 사용된 팀명입니다!");
         } else {
           alert("사용가능한 팀명입니다!");
-          // console.log(this.memberInfo)
         }
       });
     },

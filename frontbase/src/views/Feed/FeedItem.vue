@@ -3,9 +3,7 @@
     <div class="feed_t">
       <div class="user_wrap">
         <img v-bind:src="feed.member.photo.filePath" class="profile" />
-        <!-- <div id="feed_writer" class="feed_writer">
-          {{ feed.writer }}
-        </div> -->
+       
         <div
           v-if="feed.member.point >= 100"
           id="feed_writer"

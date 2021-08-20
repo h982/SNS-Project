@@ -99,7 +99,6 @@
 
 <script>
 import { mapGetters } from "vuex";
-// import http from "@/util/http-common";
 import { createInstance } from "@/api/teamindex.js";
 import JoinRequest from "@/views/user/JoinRequest";
 

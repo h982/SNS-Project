@@ -84,7 +84,6 @@ export default {
           if (response.data.data === "success") {
             this.parentId = null;
             this.inputCom = "";
-            //alert("대댓글 등록 완료");
             this.$store.dispatch("GET_COMMENTS", this.feedid);
           } else {
             alert("대댓글 등록 실패");

@@ -108,7 +108,6 @@ export default {
       this.$router.push('/');
     },
     callback(response) {
-      // 본인인증 종료 후 result 페이지로 이동
       const query = {
         ...response,
         type: 'certification',

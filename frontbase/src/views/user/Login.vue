@@ -112,13 +112,6 @@ export default {
 </script>
 
 <style scoped>
-/*#app {
-  width: 400px;
-  padding: 24px;
-  margin: 100px auto 0 auto;
-  text-align: center;
-  border: 1px solid #cccccc;
-}*/
 
 #app img {
   width: 200px;

@@ -55,10 +55,8 @@ export default {
         .then(response => {
           if (response.data.data === "success") {
             this.inputC = "";
-            //alert("댓글 등록 완료");
             this.$store.dispatch("GET_COMMENTS", this.feedid);
           } else {
-            //alert("댓글 등록 실패");
           }
         })
         .catch();

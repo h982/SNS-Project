@@ -55,7 +55,6 @@
 import TeamHeader from '@/components/TeamHeader.vue';
 import Stomp from 'webstomp-client'
 import SockJS from 'sockjs-client'
-// import http from "@/util/http-common";
 import { createInstance, url} from "@/api/teamindex.js";
 import { mapState} from "vuex";
 
@@ -106,7 +105,6 @@ export default {
                 alert("error : 새로고침하세요")
             })
 
-        // socket 연결
         let socket = new SockJS(url+'/ws')
         this.stompClient = Stomp.over(socket)
         this.stompClient.connect({}, frame=>{
