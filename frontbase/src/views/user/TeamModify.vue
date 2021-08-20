@@ -148,6 +148,7 @@ export default {
         .then(response => {
           if (response.data.message === "success") {
             alert("정보 변경 완료");
+            this.$store.dispatch("GET_MANAGE_TEAM", this.memberInfo.memberId);
             this.$router.push("/myteam");
           } else {
             alert("정보 변경 실패");
