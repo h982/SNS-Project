@@ -162,6 +162,7 @@ text-align: right;
     text-align:left;
     border-radius:5px;
     background-color:#58b666;
+    width: auto;
 }
 .date{
     font-size: 13px;
