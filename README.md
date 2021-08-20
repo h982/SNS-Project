@@ -24,6 +24,76 @@
 ## 프로젝트 명세
 
 ### 개발 환경
+
+---
+## :video_game: 기술 스택
+
+### 💻Back-End
+
+  <details>
+      <summary>Back 자세히 살펴보기 🔥</summary>
+      <ul>
+        <li>기술스택 ⚙</li>
+      </ul>
+      <ul>
+          <li>Spring-Boot : 2.3.9</li>
+          <li>Spring-Boot-Data-JPA</li>
+          <li>spring-boot-starter-mail</li>
+          <li>spring-boot-starter-validation</li>
+          <li>spring-boot-starter-jdbc</li>
+          <li>openvidu-java-client : 2.17.0</li>
+          <li>spring-boot-starter-websocket</li>
+          <li>spring-cloud-starter-aws : 2.2.5</li>
+          <li>jjwt : 0.9.1</li>
+          <li>lombok</li>
+          <li>mysql : 8.0.22</li>
+      </ul>
+      <ul>
+        <li>라이브러리 📚</li>
+      </ul>
+  </details>
+
+### ✨Front-End
+
+<details>
+    <summary>Front 자세히 살펴보기 🌈</summary>
+    <ul>
+        <li>기술스택 ⚙</li>
+    </ul>   
+    <ul>
+        <li>JS, HTML, CSS</li>
+        <li>SCSS</li>
+        <li>Vue.js @2.6.11</li>
+    </ul>
+    <li>--------------------------------------------------------------------------------------</li>
+     <ul>
+        <li>라이브러리 📚</li>
+    </ul>   
+    <ul>
+        <li>axios @0.21.1 : Promise 기반 HTTP 클라이언트</li>
+        <li>eslint & prettier @6.7.2 : 협업을 위한 formatter 라이브러리</li>
+        <li>node-sass @5.0.0 : SASS/SCSS 적용을 위한 라이브러리</li>
+        <li>sass-loader @10.1.1 : SASS/SCSS 적용을 위한 라이브러리</li>
+    </ul>
+</details>
+
+
+### 🌏Infra
+
+  <details>
+      <summary>개발, CI/CD 자세히 살펴보기 🔥</summary>
+      <ul>
+          <li>AWS EC2 - Deploy Server</li>
+          <li>AWS S3 - Image(File) Server</li>
+          <li>Docker</li>
+            <li>Mysql - DB Server</li>
+            <li>Jenkins </li>
+          <li>GitLab</li>
+      </ul>
+  </details>
+
+-------------------------------------------------
+
 #### Front-end / Android
 
 - **Framework** : Vue.js 
