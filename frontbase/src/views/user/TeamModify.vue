@@ -77,7 +77,7 @@ import { mapGetters } from "vuex";
 
 export default {
   computed:{
-    ...mapGetters(["managingTeam"]),
+    ...mapGetters(["managingTeam","memberInfo"]),
   },
   data() {
     return {
@@ -97,6 +97,7 @@ export default {
     };
   },
   created(){
+    this.$store.dispatch("GET_MANAGE_TEAM", this.memberInfo.memberId);
     this.thumbnail = this.managingTeam.photoDto.filePath.replaceAll("\"", "");
     this.team.name = this.managingTeam.name.replaceAll("\"", "");
     this.team.introduction = this.managingTeam.introduction.replaceAll("\"", "");
@@ -147,6 +148,7 @@ export default {
         .then(response => {
           if (response.data.message === "success") {
             alert("정보 변경 완료");
+            this.$router.push("/myteam");
           } else {
             alert("정보 변경 실패");
           }
