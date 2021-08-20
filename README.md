@@ -31,36 +31,34 @@
 ### 💻Back-End
 
 - **담당자** : 최준오, 양동현, 이호황
-
-  <details>
-      <summary>Back 자세히 살펴보기 🔥</summary>
-      <ul>
-        <li>기술스택 ⚙</li>
-      </ul>
-      <ul>
-          <li>Spring-Boot : 2.3.9</li>
-          <li>Spring-Boot-Data-JPA</li>
-          <li>spring-boot-starter-mail</li>
-          <li>spring-boot-starter-validation</li>
-          <li>spring-boot-starter-jdbc</li>
-          <li>openvidu-java-client : 2.17.0</li>
-          <li>spring-boot-starter-websocket</li>
-          <li>spring-cloud-starter-aws : 2.2.5</li>
-          <li>jjwt : 0.9.1</li>
-          <li>lombok</li>
-          <li>mysql : 8.0.22</li>
-      </ul>
-      <ul>
-        <li>라이브러리 📚</li>
-        <li>vue-google-login</li>
-      </ul>
-  </details>
+<details>
+    <summary>Back 자세히 살펴보기 🔥</summary>
+    <ul>
+      <li>기술스택 ⚙</li>
+    </ul>
+    <ul>
+        <li>Spring-Boot : 2.3.9</li>
+        <li>Spring-Boot-Data-JPA</li>
+        <li>spring-boot-starter-mail</li>
+        <li>spring-boot-starter-validation</li>
+        <li>spring-boot-starter-jdbc</li>
+        <li>openvidu-java-client : 2.17.0</li>
+        <li>spring-boot-starter-websocket</li>
+        <li>spring-cloud-starter-aws : 2.2.5</li>
+        <li>jjwt : 0.9.1</li>
+        <li>lombok</li>
+        <li>mysql : 8.0.22</li>
+    </ul>
+    <ul>
+      <li>라이브러리 📚</li>
+      <li>vue-google-login</li>
+    </ul>
+</details>
 
 ### ✨Front-End / Android
 
 - **지원 환경** : Web / Mobile 
 - **담당자** : 진해진, 차범희, 이조순
-
 <details>
     <summary>Front 자세히 살펴보기 🌈</summary>
     <ul>
@@ -72,7 +70,7 @@
         <li>Vue.js @2.6.11</li>
     </ul>
     <li>--------------------------------------------------------------------------------------</li>
-     <ul>
+    <ul>
         <li>라이브러리 📚</li>
     </ul>   
     <ul>
