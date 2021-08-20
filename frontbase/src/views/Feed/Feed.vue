@@ -80,11 +80,9 @@ export default {
       .get("/feedlike/member/" + this.memberInfo.memberId)
       .then(({ data }) => {
         this.lists = data.object;
-        console.log(this.lists);
         this.$store.dispatch("SET_LIKELIST", data.object);
       })
       .catch(() => {
-        console.log("에러발생");
       });
   },
   methods: {
@@ -104,8 +102,6 @@ export default {
     },
 
     check() {
-      console.log(this.feeds);
-      console.log(this.feedsList);
     },
 
     infiniteHandler($state) {
@@ -150,8 +146,6 @@ export default {
 }
 
 .create {
-  /* position: fixed;
-  right: 120px;
-  top: 150px; */
+  
 }
 </style>

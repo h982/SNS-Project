@@ -57,8 +57,7 @@
     >
     <v-btn v-else color="green" class="white--text" @click="write">등록</v-btn>
 
-    <!-- <v-btn color="green" class="white--text" @click="write">등록</v-btn> -->
-    <!-- <v-btn @click="check">확인</v-btn> -->
+  
   </div>
 </template>
 

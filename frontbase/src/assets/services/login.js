@@ -2,12 +2,12 @@ const naverService = () => {
     const naverLogin = new window.naver.LoginWithNaverId({
         clientId: "m4EpeiejjWmu7nsAB7C9",
         callbackUrl: "http://localhost:8081/feed",
-        isPopup: false /* 팝업을 통한 연동처리 여부 */,
+        isPopup: false ,
         loginButton: {
             color: "green",
             type: 3,
             height: 60,
-        } /* 로그인 버튼의 타입을 지정 */,
+        },
     });
     const setNaver = () => {
         naverLogin.init();

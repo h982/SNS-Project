@@ -210,12 +210,6 @@ export default {
       );
     },
     onSuccess(googleUser) {
-      console.log("google")
-      console.log(googleUser);
-
-      // This only gets the user information: id, name, imageUrl and email
-      console.log(googleUser.getBasicProfile().Et);
-
       const instance = createInstance();
       instance
         .get("/member/google?email=" + googleUser.getBasicProfile().Et)
@@ -235,13 +229,7 @@ export default {
     onFailure(){
 
     },
-    // onSuccess() {
-    //   this.$store.commit("setMemberInfo", true);
-    //   this.$router.push("/");
-    // },
-    // onFailure() {
-    //   this.$router.push("/");
-    // },
+    
     loginWithKakao(){
       window.location.replace(
         `https://kauth.kakao.com/oauth/authorize?client_id=35246c4d76c9d177b219aeeb8d0f2579&redirect_uri=http://i5c105.p.ssafy.io/kakaosignup&response_type=code`

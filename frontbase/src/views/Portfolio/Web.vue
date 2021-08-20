@@ -12,19 +12,7 @@
         v-for="project in projects"
         :key="project.title"
       >
-        <!-- <template v-slot:activator="{ on }">
-          <v-flex xs12 sm6 md4 lg4 xl4 v-on="on">
-            <v-card hover flat color="transparent">
-              <v-img
-                :src="project.poster"
-                :alt="project.title"
-                height="230"
-                lazy-src="https://cdn.dribbble.com/users/503653/screenshots/3143656/fluid-loader.gif"
-              ></v-img>
-              <v-card-title primary-title class="justify-center">{{project.title}}</v-card-title>
-            </v-card>
-          </v-flex>
-        </template> -->
+        
         <v-card v-if="project.dialog">
           <v-img :src="project.poster"></v-img>
           <v-card-text>

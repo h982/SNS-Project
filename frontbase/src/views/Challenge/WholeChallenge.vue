@@ -41,14 +41,12 @@ import feed from "@/assets/images/feed.png";
 import team from "@/assets/images/team.png";
 import point from "@/assets/images/point.png";
 import security from "@/assets/images/security.png";
-import heart from "@/assets/images/heart.png";
 import attendance_b from "@/assets/images/attendance_b.png";
 import comment_b from "@/assets/images/comment_b.png";
 import feed_b from "@/assets/images/feed_b.png";
 import team_b from "@/assets/images/team_b.png";
 import point_b from "@/assets/images/point_b.png";
 import security_b from "@/assets/images/security_b.png";
-import heart_b from "@/assets/images/heart_b.png";
 
 export default {
   created(){
@@ -128,12 +126,6 @@ export default {
           title: "궁극의 기억력",
           introduction: "비밀번호 10 자리 이상 충족",
         },
-        // {
-        //   src: heart_b,
-        //   src_b: heart,
-        //   title: "하트가 뿜뿜",
-        //   introduction: "하트 50 개 달성",
-        // },
       ]
     };
   },

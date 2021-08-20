@@ -181,8 +181,6 @@ export default {
                     this.checkingSocial = true;
                 }
                 else{
-                    //this.member = response.data.member;
-                    //this.confirm();
                     let token = response.data["access-token"];
                     this.$store.commit("setIsLogined", true);
                     localStorage.setItem("access-token", token);
@@ -272,8 +270,6 @@ export default {
       if (this.member.password !== this.passwordConfirm)
         this.error.passwordConfirm = "비밀번호가 다릅니다.";
       else this.error.passwordConfirm = false;
-
-
       let isSubmit = true;
       Object.values(this.error).map(v => {
         if (v) isSubmit = false;
@@ -300,14 +296,6 @@ export default {
       !this.$v.email.required && errors.push("이메일을 적어주세요");
       return errors;
     },
-    // bodyErrors() {
-    //   const errors = [];
-    //   if (!this.$v.body.$dirty) return errors;
-    //   !this.$v.body.minLength &&
-    //     errors.push("Text must be at least 20 characters long");
-    //   !this.$v.body.required && errors.push("Text is required");
-    //   return errors;
-    // },
   },
 };
 </script>

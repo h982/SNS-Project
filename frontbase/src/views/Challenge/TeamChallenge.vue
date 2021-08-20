@@ -159,8 +159,7 @@ export default {
   
   methods: {
       check(){
-        console.log(this.team_challenges);
-        console.log(this.team_challenging);
+        
       },
     },
       

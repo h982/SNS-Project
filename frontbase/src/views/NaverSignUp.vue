@@ -281,14 +281,7 @@ export default {
       !this.$v.email.required && errors.push("이메일을 적어주세요");
       return errors;
     },
-    // bodyErrors() {
-    //   const errors = [];
-    //   if (!this.$v.body.$dirty) return errors;
-    //   !this.$v.body.minLength &&
-    //     errors.push("Text must be at least 20 characters long");
-    //   !this.$v.body.required && errors.push("Text is required");
-    //   return errors;
-    // },
+    
   },
 };
 </script>

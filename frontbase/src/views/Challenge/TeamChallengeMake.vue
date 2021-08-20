@@ -99,7 +99,6 @@ export default {
   
   methods: {
       check(){
-        console.log(this.team_challenges);
         alert(this.team_challenges);
       },
       enroll() {
@@ -124,7 +123,6 @@ export default {
           "teamId": this.selectTeam.teamId,
           "title": this.challenge.title
         }; 
-        console.log(JSON.stringify(body));
         instance.post("/team_challenge_enroll", JSON.stringify(body))
         .then(
           (response) => {

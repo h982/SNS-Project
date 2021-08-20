@@ -153,9 +153,7 @@
         <v-btn large flat to="/teamlist" class="green--text">
           <v-icon>arrow_back</v-icon>Back to Teamlist
         </v-btn>
-        <!-- <v-btn @click="check()">
-
-        </v-btn> -->
+      
       </v-layout>
     </v-layout>
   </v-container>
@@ -288,7 +286,6 @@ export default {
       console.log(member.email);
       this.$store.dispatch("getMemberByEmail", member.email);
       this.$store.dispatch("getYourFeeds", member.memberId);
-      //console.log(this.yourInfo);
       this.$router.push("/memberdetail");
     },
     getColor(point) {

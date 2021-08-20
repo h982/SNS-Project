@@ -113,16 +113,11 @@ export default {
 
       let preview = document.querySelector(".preview");
       preview.src = URL.createObjectURL(file.files[0]);
-
-      // console.log(file.files[0]);
-
       preview.style.width = "60%";
       preview.style.height = "60%";
       preview.style.maxHeight = "500px";
     },
     submit() {
-      // this.team.sportDto.sportId = this.team.sport.value;
-      // this.team.member.memberId = this.memberInfo.memberId;
       this.team.leader = this.memberInfo.name
       this.team.member.memberId = this.memberInfo.memberId
       this.team.sportDto.sportId = this.team.sport.value
@@ -179,7 +174,6 @@ export default {
           alert("이미 사용된 팀명입니다!");
         } else {
           alert("사용가능한 팀명입니다!");
-          // console.log(this.memberInfo)
         }
       });
     },
