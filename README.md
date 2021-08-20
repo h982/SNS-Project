@@ -138,18 +138,25 @@
   - **사용 기능** : 소켓 연결, 통신
   - **담당자** : 양동현
 
-  **카카오 주소 API**
+- **카카오 주소 API**
 
   - **링크** : https://developers.kakao.com/docs/latest/ko/local/dev-guide
   - **소개** : 카카오에서 제공하는 주소 API
   - **사용 기능** : 주소 검색 API -> 자기 주변 그룹 검색에 이용
   - **담당자** : 이조순
   
-  **카카오 로그인 API**
+- **카카오 로그인 API**
 
   - **링크** : https://developers.kakao.com/docs/latest/ko/kakaologin/rest-api
   - **소개** : 카카오에서 제공하는 로그인 API
   - **사용 기능** : 카카오 로그인 API -> 소셜로그인 이용
+  - **담당자** : 양동현
+
+- **구글 로그인 API**
+
+  - **링크** : https://www.npmjs.com/package/vue-google-login
+  - **소개** : 구글에서 제공하는 로그인 API
+  - **사용 기능** : 구글 로그인 API -> 소셜로그인 이용
   - **담당자** : 양동현
 
 - **네이버 로그인 API**
