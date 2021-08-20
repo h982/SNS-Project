@@ -76,10 +76,34 @@
         <li>라이브러리 📚</li>
     </ul>   
     <ul>
-        <li>axios @0.21.1 : Promise 기반 HTTP 클라이언트</li>
-        <li>eslint & prettier @6.7.2 : 협업을 위한 formatter 라이브러리</li>
-        <li>node-sass @5.0.0 : SASS/SCSS 적용을 위한 라이브러리</li>
-        <li>sass-loader @10.1.1 : SASS/SCSS 적용을 위한 라이브러리</li>
+        <li>axios</li>
+        <li>eslint & prettier</li>
+        <li>node-sass</li>
+        <li>sass-loader</li>
+        <li>@fortawesome/fontawesome-svg-core</li>
+        <li>@fortawesome/free-regular-svg-icons</li>
+        <li>ant-design-vue</li>
+        <li>aos</li>
+        <li>bootstrap</li>
+        <li>bootstrap-vue</li>
+        <li>jwt-decode</li>
+        <li>less-loader</li>
+        <li>v-calendar</li>
+        <li>vue-compare-image</li>
+        <li>vue-easy-range-date-picker</li>
+        <li>vue-google-login</li>
+        <li>vue-infinite-loading</li>   
+        <li>vue-typer</li>
+        <li>vue2-datepicker</li>
+        <li>vue2-daterange-picker</li>
+        <li>vuejs-countdown</li>
+        <li>vuelendar</li>
+        <li>vuelidate</li>
+        <li>vuetify</li>
+        <li>vuetify-image-input</li>
+        <li>vuex</li>
+        <li>vuex-persistedstate</li>
+        <li>webstomp-client</li>
     </ul>
 </details>
 
