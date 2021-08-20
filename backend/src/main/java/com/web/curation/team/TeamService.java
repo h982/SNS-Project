@@ -147,10 +147,11 @@ public class TeamService {
         
         if(savedPhoto.getPhotoId() != null){
             teamDto.setPhotoId(savedPhoto.getPhotoId());
+            teamDto.setPhotoDto(savedPhoto);
             team = TeamAndDtoAdapter.dtoToEntityPhoto(teamDto);
         }else{
             teamDto.setPhotoId(null);
-            teamDto.setPhotoDto(new PhotoDto(TEAM_DEFAULT_IMAGE));
+            teamDto.setPhotoDto(PhotoAndDtoAdapter.entityToDto(team.getPhoto()));
             team = TeamAndDtoAdapter.dtoToEntityPhoto(teamDto);
         }
         teamDao.save(team);
