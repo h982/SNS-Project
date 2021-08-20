@@ -40,8 +40,6 @@ public class S3Uploader {
         try {
             DeleteObjectRequest deleteObjectRequest = new DeleteObjectRequest(this.bucket, "static/" + fileName);
             this.amazonS3Client.deleteObject(deleteObjectRequest);
-        } catch (AmazonS3Exception e) {
-            e.printStackTrace();
         } catch (SdkClientException e) {
             e.printStackTrace();
         }
@@ -82,10 +80,10 @@ public class S3Uploader {
 
     private Optional<File> convert(MultipartFile multipartFile) throws IOException {
         File convertedFile = new File(multipartFile.getOriginalFilename());
-        System.out.println(convertedFile);
+        log.info(convertedFile.toString());
         boolean success = convertedFile.createNewFile();
-        System.out.println(success);
         if (success) {
+            log.info("파일 변환 성공");
             try (FileOutputStream fos = new FileOutputStream(convertedFile)) {
                 fos.write(multipartFile.getBytes());
             }
@@ -96,10 +94,8 @@ public class S3Uploader {
 
     public boolean validateType(MultipartFile file) {
         String mimeType = file.getContentType();
-        if (mimeType.contains("image/")) {
-            return true;
-        }
-        return false;
+        return mimeType != null && mimeType.contains("image/");
     }
+
 }
 

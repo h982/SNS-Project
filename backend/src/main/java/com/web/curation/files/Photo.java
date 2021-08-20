@@ -5,7 +5,6 @@ import com.web.curation.feed.Feed;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -14,7 +13,8 @@ import javax.persistence.*;
 @Entity
 @Table(name = "Photo")
 public class Photo {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer photoId;
 
     @Column(name = "original_filename")
@@ -37,7 +37,7 @@ public class Photo {
 
 
     @Builder
-    public Photo(String originalName, String filePath, Long fileSize,String imageName,String imageExtension, Feed feed) {
+    public Photo(String originalName, String filePath, Long fileSize, String imageName, String imageExtension, Feed feed) {
         this.originalName = originalName;
         this.filePath = filePath;
         this.fileSize = fileSize;
@@ -47,8 +47,7 @@ public class Photo {
     }
 
 
-
-    public Photo(int photoId){
+    public Photo(int photoId) {
         this.photoId = photoId;
     }
 }

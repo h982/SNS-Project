@@ -5,10 +5,9 @@ import com.web.curation.files.PhotoAndDtoAdapter;
 import com.web.curation.member.Member;
 import com.web.curation.sport.Sport;
 import com.web.curation.sport.SportAndDtoAdapter;
-import com.web.curation.sport.SportDto;
 
 public class TeamAndDtoAdapter {
-    public static TeamDto entityToDto(Team team){
+    public static TeamDto entityToDto(Team team) {
         TeamDto teamDto = TeamDto.builder()
                 .teamId(team.getTeamId())
                 .name(team.getName())
@@ -19,16 +18,16 @@ public class TeamAndDtoAdapter {
                 .memberId(team.getMember().getMemberId())
                 .sportDto(SportAndDtoAdapter.entityToDto(team.getSport()))
                 .build();
-        if(team.getPhoto() != null){
+        if (team.getPhoto() != null) {
             teamDto.setPhotoDto(PhotoAndDtoAdapter.entityToDto(team.getPhoto()));
         }
         return teamDto;
     }
 
-    public static Team dtoToEntityPhoto(TeamDto teamDto){
+    public static Team dtoToEntityPhoto(TeamDto teamDto) {
         return Team.builder()
-        		.teamId(teamDto.getTeamId())
-        		.createDate(teamDto.getCreateDate())
+                .teamId(teamDto.getTeamId())
+                .createDate(teamDto.getCreateDate())
                 .name(teamDto.getName())
                 .introduction((teamDto.getIntroduction()))
                 .leader(teamDto.getLeader())
@@ -38,10 +37,11 @@ public class TeamAndDtoAdapter {
                 .photo(new Photo(teamDto.getPhotoDto().getPhotoId()))
                 .build();
     }
-    public static Team dtoToEntity(TeamDto teamDto){
+
+    public static Team dtoToEntity(TeamDto teamDto) {
         return Team.builder()
-        		.teamId(teamDto.getTeamId())
-        		.createDate(teamDto.getCreateDate())
+                .teamId(teamDto.getTeamId())
+                .createDate(teamDto.getCreateDate())
                 .name(teamDto.getName())
                 .introduction((teamDto.getIntroduction()))
                 .leader(teamDto.getLeader())

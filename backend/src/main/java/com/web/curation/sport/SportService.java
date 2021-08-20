@@ -11,17 +11,17 @@ import java.util.List;
 public class SportService {
     private SportDao sportDao;
 
-    public List<SportDto> getSportList(){
+    public List<SportDto> getSportList() {
         List<Sport> sportList = sportDao.findAll();
         List<SportDto> responseSports = new ArrayList<>();
-        for(Sport sport: sportList){
+        for (Sport sport : sportList) {
             SportDto sportDto = SportAndDtoAdapter.entityToDto(sport);
             responseSports.add(sportDto);
         }
         return responseSports;
     }
 
-    public SportDto getSportOne(int sportId){
+    public SportDto getSportOne(int sportId) {
         return SportAndDtoAdapter.entityToDto(sportDao.findById(sportId));
     }
 

@@ -1,4 +1,4 @@
 package com.web.curation.error;
 
-public class NotFoundDataException extends RuntimeException{
+public class NotFoundDataException extends RuntimeException {
 }

@@ -5,13 +5,11 @@ import com.web.curation.member.Member;
 import com.web.curation.member.MemberDao;
 import com.web.curation.team.Team;
 import com.web.curation.team.TeamDao;
-import com.web.curation.team.TeamDto;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import static com.web.curation.error.ErrorCode.MBTI_NOT_FOUND;
@@ -42,37 +40,33 @@ public class RecommendationService {
             {1, 1, 1, 1, 2, 3, 2, 2, 3, 5, 3, 5, 4, 4, 4, 4},   // ISTJ
             {1, 1, 1, 1, 2, 3, 5, 2, 5, 3, 5, 3, 4, 4, 4, 4}   // ESTJ
     };
-    public List<RecommendationDto> getRecommendations(int memberId){
+
+    public List<RecommendationDto> getRecommendations(int memberId) {
         Member member = memberDao.findById(memberId)
                 .orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
         List<Team> teamList = teamDao.findAll();
         List<RecommendationDto> dtos = new ArrayList<>();
-        for(Team team : teamList){
+        for (Team team : teamList) {
             Mbti mbti = mbtiDao.findById(team.getTeamId())
                     .orElseThrow(() -> new CustomException(MBTI_NOT_FOUND));
             int myMbti = mbtiToNum(member.getMbti());
             int leaderMbti = mbtiToNum(team.getMember().getMbti());
-            if(myMbti == -1 || leaderMbti == -1){
+            if (myMbti == -1 || leaderMbti == -1) {
                 throw new CustomException(MBTI_NOT_FOUND);
             }
-            float memberScore = calScore(mbtiToNum(member.getMbti()), mbti) / team.getMemberCount();
+            float memberScore = (float) calScore(mbtiToNum(member.getMbti()), mbti) / team.getMemberCount();
             float leaderScore = mbtiTable[myMbti][leaderMbti];
             float totalScore = (memberScore * 7 + leaderScore * 3) / 10;
             RecommendationDto recommendationDto = RecommendationAdapter.teamToRecommendation(team);
             recommendationDto.setScore(totalScore);
             dtos.add(recommendationDto);
         }
-        Collections.sort(dtos, new Comparator<RecommendationDto>() {
-            @Override
-            public int compare(RecommendationDto o1, RecommendationDto o2) {
-                return Float.compare(o2.getScore(), o1.getScore());
-            }
-        });
+        Collections.sort(dtos, (o1, o2) -> Float.compare(o2.getScore(), o1.getScore()));
         return dtos;
     }
 
-    private int mbtiToNum(String mbti){
-        switch (mbti){
+    private int mbtiToNum(String mbti) {
+        switch (mbti) {
             case "infp":
                 return 0;
             case "enfp":
@@ -105,11 +99,12 @@ public class RecommendationService {
                 return 14;
             case "estj":
                 return 15;
+            default:
+                return -1;
         }
-        return -1;
     }
 
-    private int calScore(int myMbti, Mbti mbti){
+    private int calScore(int myMbti, Mbti mbti) {
 
         int memberScore = 0;
         memberScore += mbtiTable[myMbti][0] * mbti.getInfp();

@@ -1,7 +1,7 @@
 package com.web.curation.team.challenge;
 
 public class TeamChallengeAdaptor {
-    static public TeamChallengeDto entityToDto(TeamChallenge t){
+    public static TeamChallengeDto entityToDto(TeamChallenge t) {
         return TeamChallengeDto.builder()
                 .teamChallengeId(t.getTeamChallengeId())
                 .teamId(t.getTeam().getTeamId())
@@ -12,7 +12,7 @@ public class TeamChallengeAdaptor {
                 .build();
     }
 
-    static public TeamChallenge dtoToEntity(TeamChallengeDto dto){
+    public static TeamChallenge dtoToEntity(TeamChallengeDto dto) {
         return TeamChallenge.builder()
                 .teamChallengeId(dto.getTeamChallengeId())
                 .title(dto.getTitle())

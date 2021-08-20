@@ -1,7 +1,7 @@
 package com.web.curation.files;
 
 public class PhotoAndDtoAdapter {
-    public static PhotoDto entityToDto(Photo photo){
+    public static PhotoDto entityToDto(Photo photo) {
         return PhotoDto.builder()
                 .photoId(photo.getPhotoId())
                 .originalName(photo.getOriginalName())
@@ -12,7 +12,7 @@ public class PhotoAndDtoAdapter {
                 .build();
     }
 
-    public static Photo dtoToEntity(PhotoDto photoDto){
+    public static Photo dtoToEntity(PhotoDto photoDto) {
         return Photo.builder()
                 .feed(photoDto.getFeed())
                 .originalName(photoDto.getOriginalName())

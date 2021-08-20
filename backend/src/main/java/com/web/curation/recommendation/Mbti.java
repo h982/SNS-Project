@@ -2,7 +2,6 @@ package com.web.curation.recommendation;
 
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
-import org.springframework.stereotype.Service;
 
 import javax.persistence.*;
 
@@ -68,9 +67,9 @@ public class Mbti {
     @Column(name = "ESTJ")
     private int estj;
 
-    public Mbti(int teamId, String mbti){
+    public Mbti(int teamId, String mbti) {
         this.teamId = teamId;
-        switch (mbti){
+        switch (mbti) {
             case "infp":
                 this.infp = 1;
                 break;
@@ -118,6 +117,8 @@ public class Mbti {
                 break;
             case "estj":
                 this.estj = 1;
+                break;
+            default:
                 break;
         }
     }

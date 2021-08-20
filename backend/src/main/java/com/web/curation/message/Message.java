@@ -30,25 +30,25 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Message {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int messageId;
-	
-	@OneToOne(fetch = FetchType.LAZY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int messageId;
+
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id")
     private Team team;
-	
-	@OneToOne(fetch = FetchType.LAZY)
+
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
-	
-	@Column(nullable = false, length = 255)
-	private String contents;
-	
-	@CreationTimestamp
+
+    @Column(nullable = false, length = 255)
+    private String contents;
+
+    @CreationTimestamp
     @JsonIgnore
-	private LocalDateTime writeDate;
-	
-	@Column(nullable = false, length = 45)
-	private String writer;
+    private LocalDateTime writeDate;
+
+    @Column(nullable = false, length = 45)
+    private String writer;
 }

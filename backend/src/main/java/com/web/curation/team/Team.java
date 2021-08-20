@@ -23,7 +23,8 @@ import java.time.LocalDateTime;
 @Builder
 public class Team {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "team_id")
     private Integer teamId;
 
@@ -42,7 +43,7 @@ public class Team {
     private String imgPath;
 
     @JsonIgnore
-    @Column(columnDefinition="DATETIME default CURRENT_TIMESTAMP")
+    @Column(columnDefinition = "DATETIME default CURRENT_TIMESTAMP")
     private LocalDateTime createDate;
 
     //참조키
@@ -53,19 +54,19 @@ public class Team {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sport_id")
     private Sport sport;
-    
+
     public Team(int teamId) {
-    	this.teamId = teamId;
+        this.teamId = teamId;
     }
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "photo_id")
     private Photo photo;
 
-    public void updateMemberCount(boolean upOrDown){
-        if(upOrDown){
+    public void updateMemberCount(boolean upOrDown) {
+        if (upOrDown) {
             this.memberCount++;
-        }else{
+        } else {
             this.memberCount--;
         }
     }

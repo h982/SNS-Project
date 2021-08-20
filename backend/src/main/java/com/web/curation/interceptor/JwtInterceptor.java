@@ -1,4 +1,4 @@
-package com.web.curation.Interceptor;
+package com.web.curation.interceptor;
 
 import com.web.curation.member.JwtService;
 import lombok.RequiredArgsConstructor;
@@ -29,10 +29,10 @@ public class JwtInterceptor implements HandlerInterceptor {
             log.debug("if request options method is options, return true");
             return true;
         }
-        if(token != null && jwtService.isUsable(token)){
+        if (token != null && jwtService.isUsable(token)) {
             log.info("Token Authorization Success");
             return true;
-        }else {
+        } else {
             log.warn("Token Not Found");
             return false;
         }

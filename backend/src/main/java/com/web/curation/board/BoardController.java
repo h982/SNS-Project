@@ -24,16 +24,17 @@ import java.util.List;
 public class BoardController {
 
     private final BoardService boardService;
+    private static final String SUCCESS = "success";
 
     @GetMapping("/board/list/{teamId}")
     @ApiOperation(value = "팀 게시글 조회")
-    public ResponseEntity<?> getBoardlist(@PathVariable int teamId) {
+    public ResponseEntity getBoardlist(@PathVariable int teamId) {
         List<Board> boardList = boardService.getBoardlist(teamId);
         ResponseEntity response = null;
-        if (boardList.size() > 0) {
+        if (!boardList.isEmpty()) {
             final BasicResponse result = new BasicResponse();
             result.status = true;
-            result.data = "success";
+            result.data = SUCCESS;
             result.object = boardList;
             response = new ResponseEntity(result, HttpStatus.OK);
         } else {
@@ -44,42 +45,42 @@ public class BoardController {
 
     @GetMapping("/board/{boardId}")
     @ApiOperation(value = "선택 게시글 보기")
-    public ResponseEntity<?> getBoardOne(@PathVariable int boardId) {
+    public ResponseEntity getBoardOne(@PathVariable int boardId) {
         BoardDto board = boardService.getBoardOne(boardId);
         final BasicResponse result = new BasicResponse();
         result.status = true;
-        result.data = "success";
+        result.data = SUCCESS;
         result.object = board;
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @PostMapping("/board")
     @ApiOperation(value = "게시글 작성")
-    public ResponseEntity<?> writeBoard(@Valid @RequestBody BoardDto boardDto) {
+    public ResponseEntity writeBoard(@Valid @RequestBody BoardDto boardDto) {
         BoardDto writeBoard = boardService.writeBoard(boardDto);
         final BasicResponse result = new BasicResponse();
         result.status = true;
-        result.data = "success";
+        result.data = SUCCESS;
         result.object = writeBoard;
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @DeleteMapping("/board/{boardId}")
     @ApiOperation(value = "게시글 삭제")
-    public ResponseEntity<?> deleteBoard(@PathVariable int boardId) {
+    public ResponseEntity deleteBoard(@PathVariable int boardId) {
         final BasicResponse result = new BasicResponse();
         result.status = boardService.deleteBoard(boardId);
-        result.data = "success";
+        result.data = SUCCESS;
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @PutMapping("/board")
     @ApiOperation(value = "게시글 수정")
-    public ResponseEntity<?> modifyBoard(@RequestBody BoardDto boardDto) {
+    public ResponseEntity modifyBoard(@RequestBody BoardDto boardDto) {
         BoardDto modifyBoard = boardService.modifyBoard(boardDto);
         final BasicResponse result = new BasicResponse();
         result.status = true;
-        result.data = "success";
+        result.data = SUCCESS;
         result.object = modifyBoard;
         return new ResponseEntity<>(result, HttpStatus.OK);
     }

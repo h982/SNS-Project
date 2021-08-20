@@ -3,7 +3,6 @@ package com.web.curation.board;
 import com.web.curation.team.Team;
 import lombok.*;
 
-import javax.persistence.Column;
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 
@@ -23,7 +22,7 @@ public class BoardDto {
     private int teamId;
     private Team team;
 
-    public Board toEntity(){
+    public Board toEntity() {
         return Board.builder()
                 .title(this.title)
                 .contents(this.contents)

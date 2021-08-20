@@ -28,29 +28,27 @@ public class MemberService {
 
     public boolean hasSameEmail(String email) {
         Optional<Member> member = memberDao.getMemberByEmail(email);
-
-        if (member.isPresent()) return true;
-        return false;
+        return member.isPresent();
     }
 
-    public MemberDto registerMember(MemberDto memberDto) throws IOException {
+    public MemberDto registerMember(MemberDto memberDto) {
         memberDto.setPhoto(photoDao.findById(1)
-            .orElseThrow(() -> new CustomException(PHOTO_NOT_FOUND))
+                .orElseThrow(() -> new CustomException(PHOTO_NOT_FOUND))
         );
         Member member = memberDao.save(MemberAdapter.dtoToEntity(memberDto));
         return MemberAdapter.entityToDto(member);
     }
 
 
-    public Optional<MemberDto> getUser(String email) {
-        Optional<Member> member = memberDao.getMemberByEmail(email);
-        Optional<MemberDto> memberDto = Optional.ofNullable(null);
-        if (member.isPresent()) {
-            memberDto = Optional.of(MemberAdapter.entityToDto(member.get()));
-            return memberDto;
-        }
-        return memberDto;
-    }
+//    public Optional<MemberDto> getUser(String email) {
+//        Optional<Member> member = memberDao.getMemberByEmail(email);
+//        Optional<MemberDto> memberDto = Optional.ofNullable(null);
+//        if (member.isPresent()) {
+//            memberDto = Optional.of(MemberAdapter.entityToDto(member.get()));
+//            return memberDto;
+//        }
+//        return memberDto;
+//    }
 
     public Optional<MemberDto> getUser(String email, String password) {
         Optional<Member> member = memberDao.getMemberByEmailAndPassword(email, password);
@@ -87,11 +85,11 @@ public class MemberService {
             Photo prevPhoto = member.getPhoto();
             memberDto.setPhoto(insertImage(memberDto.getImage()));
             memberDao.save(MemberAdapter.dtoToEntity(memberDto));
-            if(prevPhoto.getPhotoId() > 2){
+            if (prevPhoto.getPhotoId() > 2) {
                 s3Uploader.deleteFile(prevPhoto.getImageName() + "." + prevPhoto.getImageExtension());
                 photoDao.delete(prevPhoto);
             }
-        }else{
+        } else {
             memberDto.setPhoto(member.getPhoto());
             memberDao.save(MemberAdapter.dtoToEntity(memberDto));
         }
@@ -101,13 +99,12 @@ public class MemberService {
     }
 
 
-    public void updateMemberPassword(String email,String password) throws IOException {
-        log.info(email.toString());
-        Member member = memberDao.getMemberByEmail(email)
+    public void updateMemberPassword(String email, String password) throws IOException {
+        log.info(email);
+        memberDao.getMemberByEmail(email)
                 .orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
 
-        memberDao.updatePassword(email,password);
-        return;
+        memberDao.updatePassword(email, password);
     }
 
 
@@ -118,12 +115,12 @@ public class MemberService {
     }
 
 
-	public void updateMemberAuthenticate(String email) {
-		memberDao.updateAuthentication(email);
-	}
+    public void updateMemberAuthenticate(String email) {
+        memberDao.updateAuthentication(email);
+    }
 
-	public MemberDto getMemberInfo(int memberId){
-        Member chkMember = memberDao.findById(memberId).orElseThrow(()->new CustomException(MEMBER_NOT_FOUND));
+    public MemberDto getMemberInfo(int memberId) {
+        Member chkMember = memberDao.findById(memberId).orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
         return MemberAdapter.entityToDto(chkMember);
     }
 

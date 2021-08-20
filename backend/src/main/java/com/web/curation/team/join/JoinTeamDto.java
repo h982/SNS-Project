@@ -1,6 +1,5 @@
 package com.web.curation.team.join;
 
-import com.web.curation.member.Member;
 import com.web.curation.member.MemberDto;
 import com.web.curation.team.TeamDto;
 
@@ -12,7 +11,7 @@ import lombok.Setter;
 @Setter
 @Builder
 public class JoinTeamDto {
-	private int joinTeamId;
-	private TeamDto team;
-	private MemberDto member;
+    private int joinTeamId;
+    private TeamDto team;
+    private MemberDto member;
 }

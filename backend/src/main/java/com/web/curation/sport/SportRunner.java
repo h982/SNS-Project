@@ -1,5 +1,6 @@
 package com.web.curation.sport;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -9,6 +10,7 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 
 //@Component
+@Slf4j
 public class SportRunner implements ApplicationRunner {
 
     @Autowired
@@ -19,11 +21,8 @@ public class SportRunner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        try(Connection connection = dataSource.getConnection()){
-            System.out.println(connection.getMetaData().getURL());
-//            Statement statement = connection.createStatement();
-//            String sql ="INSERT INTO sport(sport_name) values('헬스')";
-//            statement.executeUpdate(sql);
+        try (Connection connection = dataSource.getConnection()) {
+            log.info(connection.getMetaData().getURL());
         }
         jdbcTemplate.execute("INSERT INTO sport(sport_name) values('조깅')");
 

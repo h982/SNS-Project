@@ -10,9 +10,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface MemberDao extends JpaRepository<Member, Integer> {
-	public Optional<Member> getMemberByEmail(String email);
+    public Optional<Member> getMemberByEmail(String email);
 
-	public Optional<Member> getMemberByEmailAndPassword(String email, String password);
+    public Optional<Member> getMemberByEmailAndPassword(String email, String password);
 
     @Modifying
     @Query(value = "update member set authenticated = 1 where email = :email", nativeQuery = true)

@@ -17,20 +17,20 @@ import lombok.*;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Feedlike {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "FEEDLIKE_ID")
-	private int feedlikeId;
 
-	@ManyToOne
-	@JoinColumn(name = "MEMBER_ID")
-	private Member member;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "FEEDLIKE_ID")
+    private int feedlikeId;
 
-	@ManyToOne
-	@JoinColumn(name = "FEED_ID")
-	private Feed feed;
-	
-	@Column(name = "feed_like")
-	private int feedLike;
+    @ManyToOne
+    @JoinColumn(name = "MEMBER_ID")
+    private Member member;
+
+    @ManyToOne
+    @JoinColumn(name = "FEED_ID")
+    private Feed feed;
+
+    @Column(name = "feed_like")
+    private int feedLike;
 }

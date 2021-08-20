@@ -1,6 +1,5 @@
 package com.web.curation.files;
 
-import com.web.curation.feed.Feed;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +10,7 @@ import java.util.Optional;
 public class PhotoService {
     private PhotoDao photoDao;
 
-    public PhotoDto addPhoto(PhotoDto photoDto){
+    public PhotoDto addPhoto(PhotoDto photoDto) {
         Photo savePhoto = PhotoAndDtoAdapter.dtoToEntity(photoDto);
         return PhotoAndDtoAdapter.entityToDto(photoDao.save(savePhoto));
     }

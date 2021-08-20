@@ -15,7 +15,8 @@ import javax.persistence.*;
 @Builder
 public class Sport {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int sportId;
 
     @Column(name = "sport_name")

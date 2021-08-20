@@ -13,9 +13,9 @@ import lombok.Setter;
 @Setter
 @Builder
 public class RequestDto {
-	private int requestId;
-	private TeamDto team;
-	private MemberDto member;
-	private Status status;
-	private LocalDateTime createDate;
+    private int requestId;
+    private TeamDto team;
+    private MemberDto member;
+    private Status status;
+    private LocalDateTime createDate;
 }

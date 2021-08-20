@@ -1,16 +1,20 @@
 package com.web.curation.feed.comment;
 
+import com.web.curation.error.CustomException;
 import com.web.curation.error.NotFoundDataException;
-import com.web.curation.feed.Feed;
 import com.web.curation.feed.FeedDao;
 import com.web.curation.member.MemberDao;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
+import static com.web.curation.error.ErrorCode.FEED_NOT_FOUND;
+import static com.web.curation.error.ErrorCode.MEMBER_NOT_FOUND;
+
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CommentService {
@@ -19,7 +23,6 @@ public class CommentService {
     private final MemberDao memberDao;
 
     public List<CommentDto> getCommentOfFeed(int feedId) {
-        //모든 댓글 가져오기
         List<Comment> commentList = commentDao.findAllByFeed_Id(feedId);
         List<CommentDto> parentComment = new ArrayList<>();
         List<CommentDto> childComment = new ArrayList<>();
@@ -45,27 +48,25 @@ public class CommentService {
     }
 
     public CommentDto addCommentOfFeed(CommentDto commentDto) {
-        Optional<Feed> chkFeed = Optional.ofNullable(feedDao.findById(commentDto.getFeedId()).orElseThrow(NotFoundDataException::new));
+        feedDao.findById(commentDto.getFeedId()).orElseThrow(NotFoundDataException::new);
 
-        commentDto.setFeed(feedDao.findById(commentDto.getFeedId()).get());
-        commentDto.setMember(memberDao.findById(commentDto.getMemberId()).get());
-        Comment resultComment = new Comment();
-        //댓글인지 대댓글인지 확인
+        commentDto.setFeed(feedDao.findById(commentDto.getFeedId()).orElseThrow(() -> new CustomException(FEED_NOT_FOUND)));
+        commentDto.setMember(memberDao.findById(commentDto.getMemberId()).orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND)));
+
         if (commentDto.getParentId() != 0) {
-            //대댓글이면 댓글이 존재하는지 확인
-            Optional<Comment> chkComment = Optional.ofNullable(commentDao.findById(commentDto.getParentId()).orElseThrow(NotFoundDataException::new));
-            //댓글이 존재하면 추가
-            commentDto.setParent(chkComment.get());
-            resultComment = commentDao.save(CommentAndDtoAdapter.dtoToEntityCoComment(commentDto));
-        }else{
-            System.out.println(CommentAndDtoAdapter.dtoToEntityComment(commentDto).getMember().toString());
-            resultComment = commentDao.save(CommentAndDtoAdapter.dtoToEntityComment(commentDto));
+            Comment comment = commentDao.findById(commentDto.getParentId()).orElseThrow(NotFoundDataException::new);
+            commentDto.setParent(comment);
+            return CommentAndDtoAdapter.entityToDto(
+                    commentDao.save(CommentAndDtoAdapter.dtoToEntityCoComment(commentDto)));
         }
-        return CommentAndDtoAdapter.entityToDto(resultComment);
+
+        log.info(CommentAndDtoAdapter.dtoToEntityComment(commentDto).getMember().toString());
+        return CommentAndDtoAdapter.entityToDto(
+                commentDao.save(CommentAndDtoAdapter.dtoToEntityCoComment(commentDto)));
     }
 
-    public boolean removeComment(int commentId){
-        Optional<Comment> chkComment = Optional.ofNullable(commentDao.findById(commentId).orElseThrow(NotFoundDataException::new));
+    public boolean removeComment(int commentId) {
+        commentDao.findById(commentId).orElseThrow(NotFoundDataException::new);
         commentDao.deleteById(commentId);
         return true;
     }

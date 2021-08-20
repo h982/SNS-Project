@@ -20,12 +20,10 @@ import com.web.curation.member.challenge.ChallengeService;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.http.HttpStatus;
 
 import com.web.curation.model.BasicResponse;
 
@@ -33,7 +31,6 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
-import static java.time.LocalDateTime.now;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -82,7 +79,7 @@ public class MemberController {
             @ApiResponse(code = 409, message = "중복된 값이 있음", response = BasicResponse.class)})
     public ResponseEntity<Map<String, Object>> signup(@RequestBody MemberDto memberDto) throws IOException {
         Map<String, Object> resultMap = new HashMap<>();
-        HttpStatus status = HttpStatus.ACCEPTED;
+        HttpStatus status;
 
         memberDto.setAuthenticated(false);
         if (!memberService.hasSameEmail(memberDto.getEmail())) {
@@ -91,13 +88,13 @@ public class MemberController {
 
             resultMap.put("message", "success");
             status = HttpStatus.CREATED;
-            System.out.println(resultMap.get("message"));
+            log.info(resultMap.get("message").toString());
         } else {
             resultMap.put("message", "fail");
             status = HttpStatus.CONFLICT;
         }
         log.info(resultMap.get("message").toString());
-        return new ResponseEntity<Map<String, Object>>(resultMap, status);
+        return new ResponseEntity<>(resultMap, status);
     }
 
     @ApiOperation(value = "로그인", notes = "Access-token과 로그인 결과 메세지를 반환한다.", response = Map.class)
@@ -123,7 +120,7 @@ public class MemberController {
             resultMap.put("message", e.getMessage());
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
-        return new ResponseEntity<Map<String, Object>>(resultMap, status);
+        return new ResponseEntity<>(resultMap, status);
     }
 
     @ApiOperation(value = "회원인증", notes = "회원 정보를 담은 Token을 반환한다.", response = Map.class)
@@ -131,14 +128,14 @@ public class MemberController {
     public ResponseEntity<Map<String, Object>> getInfo(
             @PathVariable("memberEmail") @ApiParam(value = "인증할 회원의 아이디.", required = true) String memberEmail,
             HttpServletRequest request) {
-        System.out.println("회원인증");
+        log.info("회원인증");
         Map<String, Object> resultMap = new HashMap<>();
-        HttpStatus status = HttpStatus.ACCEPTED;
+        HttpStatus status;
 
         if (jwtService.isUsable(request.getHeader("access-token"))) {
             try {
                 Optional<MemberDto> member = memberService.getMemberByEmail(memberEmail);
-                System.out.println(member);
+                log.info(member.toString());
                 resultMap.put("memberInfo", member);
                 resultMap.put("message", "success");
                 status = HttpStatus.ACCEPTED;
@@ -150,7 +147,7 @@ public class MemberController {
             resultMap.put("message", "fail");
             status = HttpStatus.CONFLICT;
         }
-        return new ResponseEntity<Map<String, Object>>(resultMap, status);
+        return new ResponseEntity<>(resultMap, status);
     }
 
     @ApiOperation(value = "회원결제", notes = "회원 authenticated 변경한다.", response = Map.class)
@@ -158,7 +155,7 @@ public class MemberController {
     public ResponseEntity<Map<String, Object>> updateAuthenticate(
             @PathVariable("email") @ApiParam(value = "인증할 회원의 이메일.", required = true) String memberEmail,
             HttpServletRequest request) {
-        System.out.println("회원결제");
+        log.info("회원결제");
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = HttpStatus.ACCEPTED;
 
@@ -171,7 +168,7 @@ public class MemberController {
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
 
-        return new ResponseEntity<Map<String, Object>>(resultMap, status);
+        return new ResponseEntity<>(resultMap, status);
     }
 
     @ApiOperation(value = "회원정보 수정")
@@ -185,7 +182,7 @@ public class MemberController {
         resultMap.put("data", dataMap);
         resultMap.put("message", "success");
 
-        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+        return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
 
     @ApiOperation(value = "비밀번호 수정")
@@ -194,22 +191,20 @@ public class MemberController {
         Map<String, Object> resultMap = new HashMap<>();
         memberService.updateMemberPassword(memberDto.getEmail(), memberDto.getPassword());
         resultMap.put("message", "success");
-        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+        return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
 
     @GetMapping("/your/{email}")
     @ApiOperation(value = "이메일로 멤버 받기")
-    public ResponseEntity<?> getMemberFeeds(@PathVariable(name = "email") String email) {
-        System.out.println(email);
-        System.out.println("이메일로 멤버받기" + email);
+    public ResponseEntity getMemberFeeds(@PathVariable(name = "email") String email) {
+        log.info("이메일로 멤버받기" + email);
 
         Optional<MemberDto> member = memberService.getMemberByEmail(email);
         final BasicResponse result = new BasicResponse();
-        System.out.println(email);
         result.status = true;
         result.data = "success";
         result.object = member;
-        System.out.println("멤버는: " + member.get().getMemberId());
+        log.info("멤버는: " + member.get().getMemberId());
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -228,12 +223,12 @@ public class MemberController {
         String accessToken = jwtService.create("memberEmail", userInfo.get("email"), "access-token");
         resultMap.put("access-token", accessToken);
 
-        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+        return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
 
     private String getKakaoToken(String code) {
-        String access_Token = "";
-        String refresh_Token = "";
+        String accessToken = "";
+        String refreshToken = "";
         HttpURLConnection conn = null;
 
         try {
@@ -255,17 +250,17 @@ public class MemberController {
 
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String line = "";
-            String result = "";
+            StringBuilder result = new StringBuilder();
 
             while ((line = br.readLine()) != null) {
-                result += line;
+                result.append(line);
             }
 
             JsonParser parser = new JsonParser();
-            JsonElement element = parser.parse(result);
+            JsonElement element = parser.parse(result.toString());
 
-            access_Token = element.getAsJsonObject().get("access_token").getAsString();
-            refresh_Token = element.getAsJsonObject().get("refresh_token").getAsString();
+            accessToken = element.getAsJsonObject().get("access_token").getAsString();
+            refreshToken = element.getAsJsonObject().get("refresh_token").getAsString();
 
             br.close();
             bw.close();
@@ -273,10 +268,10 @@ public class MemberController {
             e.printStackTrace();
         }
 
-        return access_Token;
+        return accessToken;
     }
 
-    public Map<String, String> getKaKaoUserInfo(String access_Token) {
+    public Map<String, String> getKaKaoUserInfo(String accessToken) {
 
         Map<String, String> userInfo = new HashMap<>();
         String reqURL = "https://kapi.kakao.com/v2/user/me";
@@ -286,26 +281,26 @@ public class MemberController {
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
 
-            conn.setRequestProperty("Authorization", "Bearer " + access_Token);
+            conn.setRequestProperty("Authorization", "Bearer " + accessToken);
 
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
             String line = "";
-            String result = "";
+            StringBuilder result = new StringBuilder();
 
             while ((line = br.readLine()) != null) {
-                result += line;
+                result.append(line);
             }
 
             JsonParser parser = new JsonParser();
-            JsonElement element = parser.parse(result);
+            JsonElement element = parser.parse(result.toString());
 
-            JsonObject kakao_account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
+            JsonObject kakaoAccount = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
 
             String id = element.getAsJsonObject().get("id").getAsString();
             String email = null;
-            if (kakao_account.getAsJsonObject().get("email") != null) {
-                email = kakao_account.getAsJsonObject().get("email").getAsString();
+            if (kakaoAccount.getAsJsonObject().get("email") != null) {
+                email = kakaoAccount.getAsJsonObject().get("email").getAsString();
                 userInfo.put("id", id);
                 userInfo.put("email", email);
             }
@@ -327,7 +322,7 @@ public class MemberController {
         resultMap.put("message", "카카오 유저 정보");
         resultMap.put("data", dto);
 
-        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+        return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/naverlogin", method = {RequestMethod.GET, RequestMethod.POST})
@@ -347,9 +342,9 @@ public class MemberController {
         JSONParser parser = new JSONParser();
         Object obj = parser.parse(apiResult);
         JSONObject jsonObj = (JSONObject) obj;
-        JSONObject response_obj = (JSONObject) jsonObj.get("response");
-        String email = (String) response_obj.get("email");
-        String name = (String) response_obj.get("name");
+        JSONObject responseObj = (JSONObject) jsonObj.get("response");
+        String email = (String) responseObj.get("email");
+        String name = (String) responseObj.get("name");
 
         session.setAttribute("sessionId", email);
         model.addAttribute("result", apiResult);
@@ -371,11 +366,11 @@ public class MemberController {
         }
 
         System.out.println(resultMap.get("message"));
-        return new ResponseEntity<Map<String, Object>>(resultMap, status);
+        return new ResponseEntity<>(resultMap, status);
     }
 
     @GetMapping("/id/{memberId}")
-    public ResponseEntity<?> getMemberInfo(@PathVariable int memberId) {
+    public ResponseEntity getMemberInfo(@PathVariable int memberId) {
         MemberDto memberDto = memberService.getMemberInfo(memberId);
         ResponseEntity response = null;
 

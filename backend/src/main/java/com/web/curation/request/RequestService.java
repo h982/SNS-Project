@@ -52,9 +52,9 @@ public class RequestService {
             return Collections.emptyList();
         }
 
-        List<RequestDto> dtoList = new ArrayList<RequestDto>();
+        List<RequestDto> dtoList = new ArrayList<>();
         for (Request request : entityList) {
-            dtoList.add(RequestAdapter.EntityToDto(request));
+            dtoList.add(RequestAdapter.entityToDto(request));
         }
 
         return dtoList;
@@ -68,7 +68,7 @@ public class RequestService {
             throw new CustomException(REQUEST_PROCESSED_RESOURCE);
         }
 
-        RequestDto requestDto = RequestAdapter.EntityToDto(request);
+        RequestDto requestDto = RequestAdapter.entityToDto(request);
         requestDto.setStatus(Status.ACCEPTED);
         requestDao.save(RequestAdapter.updateDtoToEntity(requestDto));
         increaseMemberCount(requestDto.getTeam().getTeamId());
@@ -85,11 +85,11 @@ public class RequestService {
         teamDao.save(team);
     }
 
-    private void increaseTeamMbti(int teamId, String myMbti){
+    private void increaseTeamMbti(int teamId, String myMbti) {
         Mbti mbti = mbtiDao.findById(teamId)
                 .orElseThrow(() -> new CustomException(MBTI_NOT_FOUND));
 
-        switch (myMbti){
+        switch (myMbti) {
             case "infp":
                 mbti.setInfp(mbti.getInfp() + 1);
                 break;
@@ -138,10 +138,12 @@ public class RequestService {
             case "estj":
                 mbti.setEstj(mbti.getEstj() + 1);
                 break;
+            default:
+                break;
         }
     }
 
-    private void makeJoinTeam(RequestDto requestDto){
+    private void makeJoinTeam(RequestDto requestDto) {
         Member member = memberdao.findById(requestDto.getMember().getMemberId())
                 .orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
         Team team = teamDao.findById(requestDto.getTeam().getTeamId())

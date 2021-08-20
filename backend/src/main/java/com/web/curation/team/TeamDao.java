@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.Optional;
 
-public interface TeamDao extends JpaRepository<Team,Integer> {
+public interface TeamDao extends JpaRepository<Team, Integer> {
 
     //모든 팀 조회
     List<Team> findAll();
@@ -14,9 +14,8 @@ public interface TeamDao extends JpaRepository<Team,Integer> {
     //팀 이름 중복검사
     boolean existsByName(String name);
 
-	Team getOne(int teamId);
+    Team getOne(int teamId);
 
-	Optional<Team> findTeamByMember(Member member);
-    //팀 등록
-//    TeamDto save(TeamDto teamDto);
+    Optional<Team> findTeamByMember(Member member);
+
 }

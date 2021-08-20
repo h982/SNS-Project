@@ -15,27 +15,27 @@ public class ApiExceptionHandler {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @ExceptionHandler(value = {NotFoundDataException.class})
-    public ResponseEntity<Object> handleNotFoundDataException(NotFoundDataException e){
+    public ResponseEntity<Object> handleNotFoundDataException(NotFoundDataException e) {
         HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
 
-        ApiException apiException = new ApiException(
+        ApiErrorMessage apiException = new ApiErrorMessage(
                 "ExceptionDetailMessage.DATA_NOT_FOUND_MESSAGE",
                 httpStatus,
                 ZonedDateTime.now(ZoneId.of("Z"))
         );
-        return new ResponseEntity<>(apiException,httpStatus);
+        return new ResponseEntity<>(apiException, httpStatus);
     }
 
     @ExceptionHandler(value = {CustomException.class})
-    public ResponseEntity<Object> handleCustomException(CustomException e){
+    public ResponseEntity<Object> handleCustomException(CustomException e) {
         HttpStatus httpStatus = e.getErrorCode().getHttpStatus();
 
         logger.error(e.getErrorCode().getDetail());
-        ApiException apiException = new ApiException(
+        ApiErrorMessage apiException = new ApiErrorMessage(
                 e.getErrorCode().getDetail(),
                 e.getErrorCode().getHttpStatus(),
                 ZonedDateTime.now(ZoneId.of("Z"))
         );
-        return new ResponseEntity<>(apiException,httpStatus);
+        return new ResponseEntity<>(apiException, httpStatus);
     }
 }

@@ -58,16 +58,16 @@ public class FeedlikeService {
         feedLikeDao.saveAndFlush(feedlike);
 
         TeamChallenge teamChallenge = feed.getTeamchallenge();
-        if (teamChallenge != null) {
-            if (teamChallenge.getEndDate().isAfter(LocalDateTime.now())) {
-                if(checkTeamChallenge(feed)){
-                    Member feedMember = feed.getMember();
-                    MemberDto memberDto = MemberAdapter.entityToDto(feedMember);
-                    memberDto.setPoint(feedMember.getPoint() + 1);
-                    memberDto.setCreateDate(feedMember.getCreateDate());
-                    memberDao.save(MemberAdapter.dtoToEntity(memberDto));
-                }
-            }
+        if (teamChallenge != null &&
+                teamChallenge.getEndDate().isAfter(LocalDateTime.now()) &&
+                checkTeamChallenge(feed)) {
+
+            Member feedMember = feed.getMember();
+            MemberDto memberDto = MemberAdapter.entityToDto(feedMember);
+            memberDto.setPoint(feedMember.getPoint() + 1);
+            memberDto.setCreateDate(feedMember.getCreateDate());
+            memberDao.save(MemberAdapter.dtoToEntity(memberDto));
+
         }
     }
 
@@ -85,9 +85,9 @@ public class FeedlikeService {
 
         List<Feedlike> feedlikes = feedLikeDao.findFeedlikeByFeed(feed);
         Team team = feed.getTeam();
-        int member_count = team.getMemberCount();
-        log.info("멤버수 : " + member_count + ", 피드 좋아요 수 :" + feedlikes.size());
-        if (feedlikes.size() < (float)member_count / 3)
+        int memberCount = team.getMemberCount();
+        log.info("멤버수 : " + memberCount + ", 피드 좋아요 수 :" + feedlikes.size());
+        if (feedlikes.size() < (float) memberCount / 3)
             return false;
         teamChallenger.setDone(true);
         teamChallengerDao.save(teamChallenger);
@@ -148,8 +148,8 @@ public class FeedlikeService {
     }
 
     @Transactional
-    public void deleteFeedlike(int feedlike_id) {
-        Feedlike feedlike = feedLikeDao.findById(feedlike_id)
+    public void deleteFeedlike(int feedlikeId) {
+        Feedlike feedlike = feedLikeDao.findById(feedlikeId)
                 .orElseThrow(() -> new CustomException(FEEDLIKE_NOT_FOUND));
 
         feedLikeDao.delete(feedlike);

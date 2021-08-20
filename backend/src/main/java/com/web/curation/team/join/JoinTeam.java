@@ -26,23 +26,23 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class JoinTeam {
-	@Id
-	@Column(name="JOINTEAM_ID")
-	private int joinTeamId;
-	
-	@ManyToOne
-	@JoinColumn(name = "TEAM_ID")
-	private Team team;
-	
-	@ManyToOne
-	@JoinColumn(name = "MEMBER_ID")
-	private Member member;
-	
-	@Column(name = "join_date", insertable = false, updatable = false)
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
-	LocalDateTime joinDate;
+    @Id
+    @Column(name = "JOINTEAM_ID")
+    private int joinTeamId;
 
-	public JoinTeam(int joinTeamId) {
-		this.joinTeamId = joinTeamId;
-	}
+    @ManyToOne
+    @JoinColumn(name = "TEAM_ID")
+    private Team team;
+
+    @ManyToOne
+    @JoinColumn(name = "MEMBER_ID")
+    private Member member;
+
+    @Column(name = "join_date", insertable = false, updatable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
+    LocalDateTime joinDate;
+
+    public JoinTeam(int joinTeamId) {
+        this.joinTeamId = joinTeamId;
+    }
 }

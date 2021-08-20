@@ -1,11 +1,9 @@
 package com.web.curation.board;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.web.curation.team.Team;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 
 @Entity

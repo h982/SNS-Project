@@ -29,24 +29,24 @@ public class SportController {
 
     @GetMapping("/sport")
     @ApiOperation(value = "운동 목록 조회")
-    public ResponseEntity<?> getSportlist(){
+    public ResponseEntity getSportlist() {
         List<SportDto> sportList = sportService.getSportList();
         ResponseEntity response = null;
-        if(sportList.size()>0){
+        if (!sportList.isEmpty()) {
             final BasicResponse result = new BasicResponse();
             result.status = true;
             result.data = "success";
             result.object = sportList;
             response = new ResponseEntity<>(result, HttpStatus.OK);
-        }else{
-            response = new ResponseEntity(null,HttpStatus.NO_CONTENT);
+        } else {
+            response = new ResponseEntity(null, HttpStatus.NO_CONTENT);
         }
         return response;
     }
 
     @GetMapping("/sport/{sprotId}")
     @ApiOperation(value = "Sport ID로 운동 이름 검색")
-    public ResponseEntity<?> getSportOne(@PathVariable int sportId){
+    public ResponseEntity getSportOne(@PathVariable int sportId) {
         SportDto searchSport = sportService.getSportOne(sportId);
         return new ResponseEntity<>(searchSport, HttpStatus.OK);
     }

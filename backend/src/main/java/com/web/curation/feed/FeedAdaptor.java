@@ -1,7 +1,7 @@
 package com.web.curation.feed;
 
 public class FeedAdaptor {
-    static public FeedDto entityToDto(Feed feed){
+    public static FeedDto entityToDto(Feed feed) {
         return FeedDto.builder()
                 .feedId(feed.getFeedId())
                 .contents(feed.getContents())
@@ -12,7 +12,7 @@ public class FeedAdaptor {
                 .build();
     }
 
-    static public Feed dtoToEntity(FeedDto feedDto){
+    public static Feed dtoToEntity(FeedDto feedDto) {
         return Feed.builder()
                 .feedId(feedDto.getFeedId())
                 .contents(feedDto.getContents())

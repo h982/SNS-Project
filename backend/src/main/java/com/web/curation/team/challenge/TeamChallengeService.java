@@ -6,7 +6,6 @@ import java.util.List;
 import javax.validation.Valid;
 
 import com.web.curation.error.CustomException;
-import com.web.curation.team.Team;
 import com.web.curation.team.challenger.TeamChallengerDto;
 import com.web.curation.team.join.JoinTeam;
 import com.web.curation.team.join.JoinTeamDao;
@@ -51,7 +50,7 @@ public class TeamChallengeService {
         return TeamChallengeAdaptor.entityToDto(teamChallengeDao.save(teamChallenge));
     }
 
-    public void deleteTeamChallenge(TeamChallengeDto teamChallengeDto){
+    public void deleteTeamChallenge(TeamChallengeDto teamChallengeDto) {
         TeamChallenge teamChallenge = teamChallengeDao.findById(teamChallengeDto.getTeamChallengeId())
                 .orElseThrow(() -> new CustomException(TEAM_CHALLENGER_NOT_FOUND));
         teamChallengeDao.delete(teamChallenge);
@@ -104,8 +103,8 @@ public class TeamChallengeService {
     }
 
     public List<TeamChallenger> getTeamChallengingList(int memberId) {
-        Member member = memberDao.findById(memberId).get();
-        List<TeamChallenger> teamChallengers = teamChallengerDao.findTeamChallengerByMember(member);
-        return teamChallengers;
+        Member member = memberDao.findById(memberId)
+                .orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
+        return teamChallengerDao.findTeamChallengerByMember(member);
     }
 }

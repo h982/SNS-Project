@@ -13,22 +13,21 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 @CrossOrigin(origins = {"*"}, maxAge = 6000)
 @RestController
 @AllArgsConstructor
 @RequestMapping("/member/challenge")
 public class ChallengeController {
-	private ChallengeService challengeService;
-	
-	@GetMapping(value = "/{memberId}")
-	@ApiOperation(value = "공통 챌린지 정보 가져오기")
-	public ResponseEntity<Map<String, Object>> getChallenge(@PathVariable int memberId){
-		Map<String, Object> resultMap = new HashMap<>();
-		
-		resultMap.put("data", challengeService.getChallenge(memberId));
-		resultMap.put("message", "success");
-		return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
-	}
+    private ChallengeService challengeService;
+
+    @GetMapping(value = "/{memberId}")
+    @ApiOperation(value = "공통 챌린지 정보 가져오기")
+    public ResponseEntity<Map<String, Object>> getChallenge(@PathVariable int memberId) {
+        Map<String, Object> resultMap = new HashMap<>();
+
+        resultMap.put("data", challengeService.getChallenge(memberId));
+        resultMap.put("message", "success");
+        return new ResponseEntity<>(resultMap, HttpStatus.OK);
+    }
 }

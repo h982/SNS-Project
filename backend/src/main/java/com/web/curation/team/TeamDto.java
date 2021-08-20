@@ -1,9 +1,6 @@
 package com.web.curation.team;
 
-import com.web.curation.files.Photo;
 import com.web.curation.files.PhotoDto;
-import com.web.curation.member.Member;
-import com.web.curation.sport.Sport;
 import com.web.curation.sport.SportDto;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;

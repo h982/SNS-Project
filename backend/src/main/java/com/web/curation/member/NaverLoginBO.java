@@ -1,13 +1,11 @@
 package com.web.curation.member;
 
 import java.io.IOException;
-import java.util.Enumeration;
 import java.util.UUID;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.websocket.Session;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import com.github.scribejava.core.builder.ServiceBuilder;
@@ -17,17 +15,19 @@ import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
 
+@Slf4j
 @Service
 @AllArgsConstructor
 public class NaverLoginBO {
-    private final static String CLIENT_ID = "ZjJmqLmuBHPdziT16aMy";
-    private final static String CLIENT_SECRET = "Rs8Suuq2FP";
-    private final static String REDIRECT_URI = "http://i5c105.p.ssafy.io/naversignup";
-    private final static String SESSION_STATE = "oauth_state";
-    private final static String PROFILE_API_URL = "https://openapi.naver.com/v1/nid/me";
+    private static final String CLIENT_ID = "ZjJmqLmuBHPdziT16aMy";
+    private static final String CLIENT_SECRET = "Rs8Suuq2FP";
+    private static final String REDIRECT_URI = "http://i5c105.p.ssafy.io/naversignup";
+    private static final String SESSION_STATE = "oauth_state";
+    private static final String PROFILE_API_URL = "https://openapi.naver.com/v1/nid/me";
+
     public String getAuthorizationUrl(HttpSession session) {
         String state = generateRandomString();
-        session.setAttribute("oauth_state",state);
+        session.setAttribute(SESSION_STATE, state);
 
         OAuth20Service oauthService = new ServiceBuilder()
                 .apiKey(CLIENT_ID)
@@ -38,9 +38,9 @@ public class NaverLoginBO {
         return oauthService.getAuthorizationUrl();
     }
 
-    public OAuth2AccessToken getAccessToken(HttpSession session, String code, String state) throws IOException{
+    public OAuth2AccessToken getAccessToken(HttpSession session, String code, String state) throws IOException {
         String sessionState = getSession(session);
-        if(StringUtils.pathEquals(sessionState, state)){
+        if (StringUtils.pathEquals(sessionState, state)) {
             OAuth20Service oauthService = new ServiceBuilder()
                     .apiKey(CLIENT_ID)
                     .apiSecret(CLIENT_SECRET)
@@ -48,7 +48,7 @@ public class NaverLoginBO {
                     .state(state)
                     .build(NaverLoginApi.instance());
             OAuth2AccessToken accessToken = oauthService.getAccessToken(code);
-            System.out.println("accessToken = "+ accessToken);
+            log.info("accessToken = " + accessToken);
             return accessToken;
         }
         return null;
@@ -58,12 +58,12 @@ public class NaverLoginBO {
         return UUID.randomUUID().toString();
     }
 
-    private String getSession(HttpSession session){
-        return (String) session.getAttribute("oauth_state");
+    private String getSession(HttpSession session) {
+        return (String) session.getAttribute(SESSION_STATE);
     }
 
-    public String getUserProfile(OAuth2AccessToken oauthToken) throws IOException{
-        OAuth20Service oauthService =new ServiceBuilder()
+    public String getUserProfile(OAuth2AccessToken oauthToken) throws IOException {
+        OAuth20Service oauthService = new ServiceBuilder()
                 .apiKey(CLIENT_ID)
                 .apiSecret(CLIENT_SECRET)
                 .callback(REDIRECT_URI).build(NaverLoginApi.instance());

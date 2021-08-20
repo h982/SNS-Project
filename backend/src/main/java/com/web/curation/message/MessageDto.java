@@ -10,10 +10,10 @@ import lombok.Setter;
 @Setter
 @Builder
 public class MessageDto {
-	private int messageId;
+    private int messageId;
     private int teamId;
-	private int memberId;
-	private String contents;
-	private LocalDateTime writeDate;
-	private String writer;
+    private int memberId;
+    private String contents;
+    private LocalDateTime writeDate;
+    private String writer;
 }

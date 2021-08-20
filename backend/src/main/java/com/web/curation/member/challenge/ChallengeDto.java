@@ -10,11 +10,11 @@ import lombok.Setter;
 @Setter
 @Builder
 public class ChallengeDto {
-	private int challengeId;
+    private int challengeId;
     private int memberId;
-	private int attendance;
-	private int teamCount;
-	private int feedCount;
-	private int commentCount;
-	private LocalDate attendanceDate;
+    private int attendance;
+    private int teamCount;
+    private int feedCount;
+    private int commentCount;
+    private LocalDate attendanceDate;
 }

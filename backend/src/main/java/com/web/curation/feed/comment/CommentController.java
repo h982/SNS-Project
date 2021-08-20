@@ -27,53 +27,45 @@ import java.util.List;
 public class CommentController {
     private final CommentService commentService;
     private final FeedService feedService;
+    private static final String SUCCESS = "success";
 
     @GetMapping("/{feedId}")
     @ApiOperation(value = "피드에 달린 댓글 검색")
-    public ResponseEntity<?> getComments(@PathVariable int feedId){
+    public ResponseEntity getComments(@PathVariable int feedId) {
         log.info("Select Comments of Feed");
         List<CommentDto> commentDtoList = commentService.getCommentOfFeed(feedId);
 
-        ResponseEntity response = null;
-
         final BasicResponse result = new BasicResponse();
         result.status = true;
-        result.data = "success";
+        result.data = SUCCESS;
         result.object = commentDtoList;
-        response = new ResponseEntity<>(result, HttpStatus.OK);
+        return new ResponseEntity<>(result, HttpStatus.OK);
 
-        return response;
     }
 
     @PostMapping("/")
     @ApiOperation(value = "피드에 댓글 달기")
-    public ResponseEntity<?> addComment(@RequestBody CommentDto commentDto){
+    public ResponseEntity addComment(@RequestBody CommentDto commentDto) {
         log.info("Add Comment");
         CommentDto resultComment = commentService.addCommentOfFeed(commentDto);
-        ResponseEntity response = null;
 
         final BasicResponse result = new BasicResponse();
         result.status = true;
-        result.data = "success";
+        result.data = SUCCESS;
         result.object = resultComment;
-        response = new ResponseEntity<>(result, HttpStatus.OK);
-
-        return response;
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @DeleteMapping("/{commentId}")
     @ApiOperation(value = "피드에 댓글 삭제")
-    public ResponseEntity<?> removeComment(@PathVariable int commentId){
+    public ResponseEntity removeComment(@PathVariable int commentId) {
         log.info("Remove Comment");
         commentService.removeComment(commentId);
-        ResponseEntity response = null;
 
         final BasicResponse result = new BasicResponse();
         result.status = true;
-        result.data = "success";
-        response = new ResponseEntity<>(result, HttpStatus.OK);
-
-        return response;
+        result.data = SUCCESS;
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
 }

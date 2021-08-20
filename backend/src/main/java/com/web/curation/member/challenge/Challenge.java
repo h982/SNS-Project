@@ -1,7 +1,6 @@
 package com.web.curation.member.challenge;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -30,27 +29,27 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Challenge {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int ChallengeId;
-	
-	@OneToOne(fetch = FetchType.LAZY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int challengeId;
+
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
-	
-	@Column(nullable = false)
-	private int attendance;
-	
-	@Column(nullable = false)
-	private int teamCount;
-	
-	@Column(nullable = false)
-	private int feedCount;
-	
-	@Column(nullable = false)
-	private int commentCount;
-	
-	@CreationTimestamp
+
+    @Column(nullable = false)
+    private int attendance;
+
+    @Column(nullable = false)
+    private int teamCount;
+
+    @Column(nullable = false)
+    private int feedCount;
+
+    @Column(nullable = false)
+    private int commentCount;
+
+    @CreationTimestamp
     @JsonIgnore
-	private LocalDate attendanceDate;
+    private LocalDate attendanceDate;
 }

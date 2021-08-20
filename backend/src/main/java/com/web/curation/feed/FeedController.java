@@ -24,27 +24,28 @@ import java.util.List;
 @AllArgsConstructor
 public class FeedController {
     private FeedService feedService;
+    private static final String SUCCESS = "success";
 
     @PostMapping("/feed")
     @ApiOperation(value = "피드 생성")
-    public ResponseEntity<?> addFeed(FeedDto feedDto) throws IOException {
+    public ResponseEntity addFeed(FeedDto feedDto) throws IOException {
         log.info("피드 생성 요청");
         feedService.registerFeed(feedDto);
         final BasicResponse result = new BasicResponse();
         result.status = true;
-        result.data = "success";
+        result.data = SUCCESS;
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping("/feed/{memberId}/{page}")
     @ApiOperation(value = "피드 조회")
-    public ResponseEntity<?> getFeedList(@PathVariable int memberId, @PathVariable int page) {
+    public ResponseEntity getFeedList(@PathVariable int memberId, @PathVariable int page) {
         log.info("피드 조회 요청");
         List<Feed> feedList = feedService.getFeedList(memberId, page);
         final BasicResponse result = new BasicResponse();
         result.status = true;
-        result.data = "success";
+        result.data = SUCCESS;
         result.object = feedList;
 
         return new ResponseEntity<>(result, HttpStatus.OK);
@@ -52,7 +53,7 @@ public class FeedController {
 
     @PutMapping("/feed")
     @ApiOperation(value = "피드 수정")
-    public ResponseEntity<?> updateFeed(FeedDto feedDto) throws IOException {
+    public ResponseEntity updateFeed(FeedDto feedDto) throws IOException {
         log.info("피드 수정 요청");
         if (feedDto.getImage() == null) {
             feedService.updateFeedWithNoImg(feedDto);
@@ -62,31 +63,31 @@ public class FeedController {
 
         final BasicResponse result = new BasicResponse();
         result.status = true;
-        result.data = "success";
+        result.data = SUCCESS;
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @DeleteMapping("/feed/{feed_id}")
     @ApiOperation(value = "피드 삭제")
-    public ResponseEntity<?> deleteFeed(@PathVariable(name = "feed_id") int feedId) throws IOException {
+    public ResponseEntity deleteFeed(@PathVariable(name = "feed_id") int feedId) throws IOException {
         log.info("피드 삭제 요청");
         feedService.deleteFeed(feedId);
         final BasicResponse result = new BasicResponse();
         result.status = true;
-        result.data = "success";
+        result.data = SUCCESS;
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping("/feed/team/{team_id}")
     @ApiOperation(value = "팀별 피드 받기")
-    public ResponseEntity<?> getTeamFeeds(@PathVariable(name = "team_id") int teamId) {
+    public ResponseEntity getTeamFeeds(@PathVariable(name = "team_id") int teamId) {
         log.info("팀별 피드 요청");
         List<Feed> feedList = feedService.getTeamFeeds(teamId);
         final BasicResponse result = new BasicResponse();
         result.status = true;
-        result.data = "success";
+        result.data = SUCCESS;
         result.object = feedList;
 
         return new ResponseEntity<>(result, HttpStatus.OK);
@@ -94,12 +95,12 @@ public class FeedController {
 
     @GetMapping("/feed/member/{member_id}")
     @ApiOperation(value = "멤버별 피드 받기")
-    public ResponseEntity<?> getMemberFeeds(@PathVariable(name = "member_id") int memberId) {
+    public ResponseEntity getMemberFeeds(@PathVariable(name = "member_id") int memberId) {
         log.info("멤버별 피드 요청");
         List<Feed> feedList = feedService.getMemberFeeds(memberId);
         final BasicResponse result = new BasicResponse();
         result.status = true;
-        result.data = "success";
+        result.data = SUCCESS;
         result.object = feedList;
 
         return new ResponseEntity<>(result, HttpStatus.OK);

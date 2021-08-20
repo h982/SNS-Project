@@ -1,6 +1,5 @@
 package com.web.curation.feed;
 
-import com.google.common.base.Optional;
 import com.web.curation.amazonS3.S3Uploader;
 import com.web.curation.error.CustomException;
 import com.web.curation.files.Photo;
@@ -58,14 +57,6 @@ public class FeedService {
         }
         Feed resultFeed = feedDao.save(feed);
 
-        //사진 등록
-//		List<Photo> photoList = new ArrayList<>();
-//		for(MultipartFile multipartFile : feedDto.getImages()){
-//			Photo uploadPhoto = s3Uploader.upload(multipartFile,"static");
-//			uploadPhoto.setFeed(resultFeed);
-//			Photo photo = PhotoAndDtoAdapter.dtoToEntity(uploadPhoto);
-//			photoList.add(photoDao.save(photo));
-//		}
         PhotoDto uploadPhoto = s3Uploader.upload(feedDto.getImage(), "static");
         uploadPhoto.setFeed(resultFeed);
         Photo photo = PhotoAndDtoAdapter.dtoToEntity(uploadPhoto);
@@ -98,12 +89,6 @@ public class FeedService {
         }
 
         List<Photo> photoList = new ArrayList<>();
-//      for(MultipartFile multipartFile : feedDto.getImages()){
-//         PhotoDto uploadPhoto = s3Uploader.upload(multipartFile,"static");
-//         Photo photo = PhotoAndDtoAdapter.dtoToEntity(uploadPhoto);
-//         uploadPhoto.setFeed(resultFeed);
-//         photoList.add(photoDao.save(uploadPhoto));
-//      }
 
         Member member = memberDao.findById(feedDto.getMemberId())
                 .orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
@@ -127,7 +112,7 @@ public class FeedService {
     }
 
     @Transactional
-    public void updateFeedWithNoImg(FeedDto feedDto) throws IOException {
+    public void updateFeedWithNoImg(FeedDto feedDto) {
         Feed oldFeed = feedDao.findById(feedDto.getFeedId())
                 .orElseThrow(() -> new CustomException(FEED_NOT_FOUND));
         Member member = memberDao.findById(feedDto.getMemberId())
@@ -162,8 +147,6 @@ public class FeedService {
     public List<Feed> getTeamFeeds(int teamId) {
         Team team = teamDao.findById(teamId)
                 .orElseThrow(() -> new CustomException(TEAM_NOT_FOUND));
-//        List<JoinTeam> joinTeams = joinTeamDao.findJoinTeamsByTeam(team)
-//                .orElseThrow(() -> new CustomException(JOIN_TEAM_NOT_FOUND));
 
         List<Feed> teamFeeds = feedDao.findByTeam(team);
         if (teamFeeds == null) {
@@ -175,7 +158,6 @@ public class FeedService {
     public List<Feed> getMemberFeeds(int memberId) {
         Member member = memberDao.findById(memberId)
                 .orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
-//        List<JoinTeam> joinMembers = joinTeamDao.findJoinTeamByMember(member);
 
         List<Feed> teamFeeds = feedDao.findByMember(member);
         if (teamFeeds == null) {

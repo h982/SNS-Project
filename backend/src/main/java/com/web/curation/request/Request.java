@@ -35,27 +35,27 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Request {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int requestId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int requestId;
 
-	@ManyToOne
-	@JoinColumn(name = "Team_id", nullable = false)
-	private Team team;
+    @ManyToOne
+    @JoinColumn(name = "Team_id", nullable = false)
+    private Team team;
 
-	@ManyToOne
-	@JoinColumn(name = "Member_id", nullable = false)
-	private Member member;
+    @ManyToOne
+    @JoinColumn(name = "Member_id", nullable = false)
+    private Member member;
 
-	@JsonProperty(access = Access.READ_ONLY)
-	@Enumerated(EnumType.ORDINAL)
-	private Status status;
+    @JsonProperty(access = Access.READ_ONLY)
+    @Enumerated(EnumType.ORDINAL)
+    private Status status;
 
-	@CreationTimestamp
-	@JsonIgnore
-	private LocalDateTime createDate;
+    @CreationTimestamp
+    @JsonIgnore
+    private LocalDateTime createDate;
 
-	@UpdateTimestamp
-	@JsonIgnore
-	private LocalDateTime updateDate;
+    @UpdateTimestamp
+    @JsonIgnore
+    private LocalDateTime updateDate;
 }

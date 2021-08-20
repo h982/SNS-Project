@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,18 +39,19 @@ public class TeamController {
     private final TeamService teamService;
     private final S3Uploader s3Uploader;
     private final PhotoService photoService;
+    private static final String SUCCESS = "success";
 
     //그룹 리스트 조회
     @GetMapping("/team")
     @ApiOperation(value = "팀 목록 조회")
-    public ResponseEntity<?> getTeamlist() {
+    public ResponseEntity getTeamlist() {
         List<TeamDto> teamList = teamService.getTeamlist();
         ResponseEntity response = null;
 
-        if (teamList.size() > 0) {
+        if (!teamList.isEmpty()) {
             final BasicResponse result = new BasicResponse();
             result.status = true;
-            result.data = "success";
+            result.data = SUCCESS;
             result.object = teamList;
             response = new ResponseEntity<>(result, HttpStatus.OK);
         } else {
@@ -59,13 +61,13 @@ public class TeamController {
     }
 
     @GetMapping("/team/{member_id}")
-    public ResponseEntity<?> getMyManagingTeam(@PathVariable(name = "member_id") int memberId) {
+    public ResponseEntity getMyManagingTeam(@PathVariable(name = "member_id") int memberId) {
         TeamDto team = teamService.getMyManagingTeam(memberId);
 
         final BasicResponse result = new BasicResponse();
         if (team.getTeamId() != -1) {
             result.status = true;
-            result.data = "success";
+            result.data = SUCCESS;
             result.object = team;
         } else {
             result.status = true;
@@ -77,14 +79,14 @@ public class TeamController {
 
     @PostMapping("/team")
     @ApiOperation(value = "팀 등록")
-    public ResponseEntity<?> addTeam(@Valid TeamDto teamDto) throws Exception {
+    public ResponseEntity addTeam(@Valid TeamDto teamDto) throws IOException {
         TeamDto resultTeam = teamService.registerTeam(teamDto);
 
         ResponseEntity response = null;
 
         final BasicResponse result = new BasicResponse();
         result.status = true;
-        result.data = "success";
+        result.data = SUCCESS;
         result.object = resultTeam;
         response = new ResponseEntity<>(result, HttpStatus.OK);
 
@@ -102,17 +104,17 @@ public class TeamController {
     public ResponseEntity getMyTeamList(@PathVariable(name = "member_id") int memberId) {
 
         ResponseEntity response = null;
-        List<TeamDto> team_list = teamService.getMyTeamList(memberId);
+        List<TeamDto> teamList = teamService.getMyTeamList(memberId);
 
         final BasicResponse result = new BasicResponse();
-        if (team_list.isEmpty()) {
+        if (teamList.isEmpty()) {
             result.status = true;
             result.message = "fail";
             response = new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
         } else {
             result.status = true;
-            result.message = "success";
-            result.object = team_list;
+            result.message = SUCCESS;
+            result.object = teamList;
             response = new ResponseEntity<>(result, HttpStatus.OK);
         }
         return response;
@@ -122,11 +124,11 @@ public class TeamController {
     @ApiOperation(value = "팀 리더 변경")
     public Object changeTeamLeader(@PathVariable int memberId, @RequestParam int teamId) {
         Map<String, Object> resultMap = new HashMap<>();
-        if(!teamService.checkLeader(memberId)){
-            resultMap.put("message","fail");
-        }else{
+        if (!teamService.checkLeader(memberId)) {
+            resultMap.put("message", "fail");
+        } else {
             teamService.changeTeamLeader(teamId, memberId);
-            resultMap.put("message", "success");
+            resultMap.put("message", SUCCESS);
         }
         return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
     }
@@ -137,7 +139,7 @@ public class TeamController {
         Map<String, Object> resultMap = new HashMap<>();
 
         teamService.updateTeam(teamDto);
-        resultMap.put("message", "success");
+        resultMap.put("message", SUCCESS);
         return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
     }
 }
