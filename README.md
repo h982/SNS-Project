@@ -85,9 +85,10 @@
       <ul>
           <li>AWS EC2 - Deploy Server</li>
           <li>AWS S3 - Image(File) Server</li>
-          <li>Docker</li>
-            -Mysql - DB Server
-            -Jenkins 
+          <li>Docker
+            <li>Mysql - DB Server</li>
+            <li>Jenkins</li> 
+          </li>
           <li>GitLab</li>
       </ul>
   </details>
