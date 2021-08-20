@@ -116,6 +116,7 @@ export default {
   },
   
   created: function(){
+    this.$store.dispatch("GET_MANAGE_TEAM", this.memberInfo.memberId);
     this.$store.dispatch("getRequests", this.managingTeam.teamId);
     console.log(this.memberInfo.memberId);
     console.log(this.managingTeam.memberId);
