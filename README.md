@@ -1,5 +1,6 @@
 # SSAFY PJT I 원하는 운동의 그룹을 찾아 인증을 통해 서로 운동자극을 받는 SNS 혼자 뭐하니? 
-(http://i5c105.p.ssafy.io/)
+- URL (http://i5c105.p.ssafy.io/)
+- UCC (https://www.youtube.com/watch?v=8BV69ACBUtc)
 
 ## 목차
 
